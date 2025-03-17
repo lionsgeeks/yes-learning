@@ -1,9 +1,9 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Award, BookOpen, ChevronRight, Clock, Folder, Image, Link } from 'lucide-react';
+import { Award, BookOpen, ChevronRight, Clock, Folder, Image } from 'lucide-react';
 import { Button } from '@headlessui/react';
 
 const breadcrumbs = [
@@ -54,7 +54,7 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
-          <Tabs defaultValue="modules" className="mt-6">
+          <Tabs defaultValue="courses" className="mt-6">
             <TabsList className="grid grid-cols-4 w-full md:w-auto">
               <TabsTrigger value="courses">Courses</TabsTrigger>
               <TabsTrigger value="achievements">Achievements</TabsTrigger>
@@ -87,8 +87,8 @@ export default function Dashboard() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <Button variant="outline" className="w-full" asChild>
-                        <Link >Start Learning</Link>
+                      <Button variant="outline" className="w-full border py-2" asChild>
+                        <Link  href='course/1'>hjg</Link> 
                       </Button>
                     </CardContent>
                   </Card>
