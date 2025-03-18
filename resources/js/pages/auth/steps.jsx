@@ -174,7 +174,7 @@ export default function MultiStepSelector() {
                                         transition={{ delay: 0.2 + index * 0.05, duration: 0.4 }}
                                         onClick={() => toggleModule(module.id)}
                                         className={cn(
-                                            "group flex items-start gap-4 rounded-lg border border-white/20 p-4 text-left transition-all duration-200",
+                                            "group p-6 flex items-start gap-4 rounded-lg border border-white/20  text-left transition-all duration-200",
                                             "hover:border-white/40 hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-black",
                                             selectedModules.includes(module.id) && "border-white/60 bg-white/10",
                                         )}
