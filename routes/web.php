@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AchivementController;
 use App\Http\Controllers\CourseController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,6 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::resource("course" , CourseController::class);
+    Route::resource("achivement" , AchivementController::class);
 });
 
 

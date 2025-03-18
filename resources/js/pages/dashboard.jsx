@@ -17,7 +17,7 @@ export default function Dashboard() {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Dashboard" />
-      <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+      <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-6">
         <div>
           <h1 className='text-3xl font-bold'>Welcome Back, Ayman!</h1>
           <h1 className='text-2xl pt-2'>Continue learning </h1>
@@ -86,11 +86,13 @@ export default function Dashboard() {
                         <span>6 modules</span>
                       </CardDescription>
                     </CardHeader>
-                    <CardContent>
-                      <Button variant="outline" className="w-full border py-2" asChild>
-                        <Link  href='course/1'>hjg</Link> 
+                    <Link href="course/1" className="block">
+                    <CardContent className="cursor-pointer">
+                      <Button variant="outline" className="w-full border py-2">
+                        hjg
                       </Button>
                     </CardContent>
+                  </Link>
                   </Card>
                 ))}
               </div>
