@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AchivementController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LibraryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,6 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource("course" , CourseController::class);
     Route::resource("achivement" , AchivementController::class);
+    Route::resource("library" , LibraryController::class);
 });
 
 
