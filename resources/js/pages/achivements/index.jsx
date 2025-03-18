@@ -1,5 +1,5 @@
 import React from "react";
-import { usePage, Head } from "@inertiajs/react";
+import { usePage, Head , Link } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
@@ -87,7 +87,8 @@ const Achivement = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {Array.from({ length: 12 }).map((_, i) => (
                 <Card key={i} className={i >= 8 ? "opacity-40" : ""}>
-                  <CardContent className="p-6">
+                    <Link href="/achivement/1" >
+                    <CardContent className="p-6">
                     <div className="text-center">
                       <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <Award className={`h-10 w-10 ${i < 8 ? "text-primary" : "text-muted-foreground"}`} />
@@ -119,6 +120,8 @@ const Achivement = () => {
                       </div>
                     </div>
                   </CardContent>
+                    </Link>
+                 
                 </Card>
               ))}
             </div>

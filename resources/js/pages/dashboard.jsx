@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Award, BookOpen, ChevronRight, Clock, Folder, Image } from 'lucide-react';
 import { Button } from '@headlessui/react';
+import { Progress } from '@/components/ui/progress';
 
 const breadcrumbs = [
   {
@@ -28,10 +29,8 @@ export default function Dashboard() {
             <div className='p-2 flex-col gap-y-2'>
               <h1>Web Development Fundamentals</h1>
               <p>Module 3: CSS Layouts</p>
-              <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                <div className="bg-blue-500 h-2 rounded-full w-[65%]" ></div>
-              </div>
-              <div className='flex justify-between pt-2 '>
+              <Progress value={65} className="h-2 mt-2 mb-2" />
+              <div className='flex justify-between '>
                 <p>65% complete</p>
                 <p>35 min left</p>
               </div>
@@ -43,10 +42,8 @@ export default function Dashboard() {
             <div className='p-2 flex-col gap-y-2'>
               <h1>Web Development Fundamentals</h1>
               <p>Module 3: CSS Layouts</p>
-              <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                <div className="bg-blue-500 h-2 rounded-full w-[65%]" ></div>
-              </div>
-              <div className='flex justify-between pt-2 '>
+              <Progress value={65} className="h-2 mt-2 mb-2" />
+              <div className='flex justify-between '>
                 <p>65% complete</p>
                 <p>35 min left</p>
               </div>
