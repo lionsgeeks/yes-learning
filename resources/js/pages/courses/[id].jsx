@@ -65,14 +65,8 @@ const CourseDetails = () => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={course.name} />
-            <div className="mb-6 p-6">
-                <Link
-                    href="/dashboard"
-                    className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                    <ChevronLeft className="mr-1 h-4 w-4" />
-                    Back to Dashboard
-                </Link>
+            {/* <div className="mb-6 p-6">
+
                 <div className="flex flex-wrap items-center justify-between gap-4 mt-2">
                     <h1 className="text-2xl font-bold">Web Development Fundamentals</h1>
                     <div className="flex items-center gap-2">
@@ -90,9 +84,9 @@ const CourseDetails = () => {
                     <span>15% complete</span>
                     <span>3 of 24 lessons completed</span>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
                 {/* Left sidebar - Module navigation */}
                 <div className="lg:col-span-3">
                     <Card>
