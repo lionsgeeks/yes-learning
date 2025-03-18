@@ -65,10 +65,15 @@ const CourseDetails = () => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={course.name} />
-            {/* <div className="mb-6 p-6">
+            <div className="mb-6 p-6">
+
+                <Link href="/course" className="text-muted-foreground hover:text-foreground inline-flex items-center text-sm transition-colors">
+                    <ChevronLeft className="mr- h-4 w-4" />
+                    Back to Courses
+                </Link>
 
                 <div className="flex flex-wrap items-center justify-between gap-4 mt-2">
-                    <h1 className="text-2xl font-bold">Web Development Fundamentals</h1>
+                    <h1 className="text-xl font-bold">Web Development Fundamentals</h1>
                     <div className="flex items-center gap-2">
                         <Badge variant="outline" className="text-xs font-normal px-2 py-0">
                             <Clock className="h-3 w-3 mr-1" />8 hours total
@@ -84,7 +89,7 @@ const CourseDetails = () => {
                     <span>15% complete</span>
                     <span>3 of 24 lessons completed</span>
                 </div>
-            </div> */}
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
                 {/* Left sidebar - Module navigation */}

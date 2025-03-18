@@ -70,7 +70,6 @@ export default function MultiStepSelector() {
         href: '/steps'
     }
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
             <div className="flex min-h-screen flex-col items-center justify-center bg-black text-white">
                 {/* Progress indicator */}
                 <div className="mb-8 flex items-center gap-2">
@@ -110,7 +109,7 @@ export default function MultiStepSelector() {
                                 Select your preferred language
                             </motion.h1>
 
-                            <div className="grid max-w-3xl grid-cols-1 gap-3 px-4 sm:grid-cols-2 md:grid-cols-3">
+                            <div className="grid max-w-3xl grid-cols-1 gap-6 px-4 sm:grid-cols-2 md:grid-cols-3">
                                 {languages.map((language) => (
                                     <motion.button
                                         key={language.code}
@@ -122,7 +121,7 @@ export default function MultiStepSelector() {
                                         }}
                                         onClick={() => setSelectedLanguage(language.code)}
                                         className={cn(
-                                            "group relative flex h-16 items-center justify-center rounded-lg border border-white/20 px-6 py-4 text-lg transition-all duration-300",
+                                            "group relative flex gap-3  h-16 items-center justify-center rounded-lg border border-white/20 px-6 py-4 text-lg transition-all duration-300",
                                             "hover:border-white/40 hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-black",
                                             selectedLanguage === language.code && "border-white/60 bg-white/10",
                                         )}
@@ -130,7 +129,7 @@ export default function MultiStepSelector() {
                                     >
                                         <span className="font-medium">{language.nativeName}</span>
                                         {selectedLanguage === language.code && (
-                                            <div className="absolute right-3 flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
+                                            <div className=" right-3 flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
                                                 <Check className="h-4 w-4 text-white" />
                                             </div>
                                         )}
@@ -237,7 +236,6 @@ export default function MultiStepSelector() {
                     </motion.div>
                 )}
             </div>
-        </AppLayout>
     )
 }
 

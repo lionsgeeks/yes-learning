@@ -156,16 +156,16 @@ const Course = () => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={"Courses"} />
-            <div className="space-y-6 p-6">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="space-y-6 lg:p-6 p-3 ">
+                <div className="flex  flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
                         <h1 className="text-3xl font-bold">Courses</h1>
                         <p className="text-muted-foreground mt-1">Discover and enroll in courses to enhance your skills</p>
                     </div>
                 </div>
 
-                <Tabs defaultValue="all">
-                <div className="flex items-center justify-between">
+                <Tabs className="" defaultValue="all">
+                <div className="flex flex-col  items-center lg:flex-row gap-x-2 justify-between">
 
                     <TabsList className="mb-4">
                         <TabsTrigger value="all">All Courses</TabsTrigger>
@@ -175,13 +175,13 @@ const Course = () => {
                         <TabsTrigger value="new">New</TabsTrigger>
                     </TabsList>
 
-                    <div className="flex sm:flex-row gap-2">
-                        <div className="relative">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input type="search" placeholder="Search courses..." className="pl-8 w-full sm:w-[250px]" />
+                    <div className="flex flex-col sm:flex-row gap-2  lg:w-fit w-full ">
+                        <div className="relative w-full">
+                            <Search className="absolute  left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input type="search" placeholder="Search courses..." className="pl-8  w-full sm:w-[250px]" />
                         </div>
 
-                        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                        <div className="flex w-full flex-col sm:flex-row gap-4 mb-6">
                             <Select defaultValue="all">
                                 <SelectTrigger className="w-full sm:w-[180px]">
                                     <SelectValue placeholder="Category" />
@@ -202,7 +202,7 @@ const Course = () => {
                     </div>
                 </div>
 
-                    <TabsContent value="all" className="mt-0">
+                    <TabsContent value="all" className="mt-0 ">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {courses.map((course) => (
                                 <CourseCard key={course.id} course={course} />
