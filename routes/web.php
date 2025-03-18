@@ -3,6 +3,7 @@
 use App\Http\Controllers\AchivementController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,7 +19,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource("course" , CourseController::class);
     Route::resource("achivement" , AchivementController::class);
     Route::resource("library" , LibraryController::class);
+    Route::resource("quiz" , QuizController::class);
+    Route::get('/steps', function () {
+        return Inertia::render('auth/steps');
+    })->name('auth.steps');
 });
+
 
 
 
