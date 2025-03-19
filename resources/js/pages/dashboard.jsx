@@ -86,7 +86,7 @@ export default function Dashboard() {
                     <Link href="course/1" className="block">
                     <CardContent className="cursor-pointer">
                       <Button variant="outline" className="w-full border py-2">
-                        hjg
+                        Take the course
                       </Button>
                     </CardContent>
                   </Link>
