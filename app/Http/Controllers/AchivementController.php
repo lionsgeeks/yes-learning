@@ -14,7 +14,7 @@ class AchivementController extends Controller
     public function index()
     {
         //
-        return Inertia::render("achivements/index");
+        return Inertia::render("achivements/user/index");
     }
 
     /**
@@ -39,7 +39,7 @@ class AchivementController extends Controller
     public function show(Achivement $achivement)
     {
         //
-        return Inertia::render("achivements/[id]", [
+        return Inertia::render("achivements/user/[id]", [
             "achivement" => $achivement
         ]);
     }

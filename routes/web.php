@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AchivementController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
@@ -12,10 +13,9 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-
+ 
+    Route::get("/dashboard" , [DashboardController::class , "dashboard"]);
+    Route::get("admin/dashboard" , [DashboardController::class , "adminDashboard"]);
     Route::resource("course" , CourseController::class);
     Route::resource("achivement" , AchivementController::class);
     Route::resource("library" , LibraryController::class);
