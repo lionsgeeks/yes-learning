@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,5 +23,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        // dd( Auth::user());
+
+        Inertia::share([
+            "authUser" => fn () =>  Auth::user()
+        ]);
     }
 }

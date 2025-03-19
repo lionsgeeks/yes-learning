@@ -161,6 +161,7 @@ const CourseDetails = () => {
 
                         </div>
 
+
                         <CardContent className="p-6">
                             <Tabs defaultValue="content">
                                 <TabsList className="mb-4">
@@ -199,6 +200,11 @@ const CourseDetails = () => {
                                                 <strong>Server</strong> - Apache, Nginx, etc.
                                             </li>
                                         </ul>
+                                        <div className="relative aspect-video py-5">
+
+                                            <iframe className="w-full h-full" src="https://www.youtube.com/embed/xDAtMVP1v6k" title="React.js with Inertia in Laravel: Practical Example" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+
+                                        </div>
 
                                         <div className="bg-muted p-4 rounded-md my-4">
                                             <h4 className="mt-0">Key Takeaways:</h4>
