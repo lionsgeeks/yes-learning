@@ -160,3 +160,13 @@
         @apply bg-background text-foreground;
     }
 }
+
+
+::-webkit-scrollbar{
+    width: 0.25vw;
+    background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: var(--color-alpha);
+}

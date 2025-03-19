@@ -12,7 +12,6 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-// import { Certificate } from "@/components/certificate"
 import { Link, usePage } from "@inertiajs/react"
 import AppLayout from "@/layouts/app-layout";
 import { Certificate } from "../../components/quizComponents/certificate"
@@ -227,16 +226,10 @@ export default function QuizPage() {
                                             {question.type === "single" ? "Select one answer" : "Select all that apply"}
                                         </CardDescription>
                                     </div>
-                                    <div className="flex items-center text-muted-foreground">
-                                        <Clock className="h-4 w-4 mr-1" />
-                                        <span className="text-sm">
-                                            {Math.floor(timeDisplay / 60)}:{(timeDisplay % 60).toString().padStart(2, "0")} remaining
-                                        </span>
-                                    </div>
                                 </div>
                             </CardHeader>
                             <CardContent className="pt-6">
-                                <div className="text-lg font-medium mb-6">{question.question}</div>
+                                <div className="text-2xl font-medium mb-6">{question.question}</div>
 
                                 {question.type === "single" ? (
                                     <RadioGroup value={(answers[question.id]) || ""} onValueChange={handleSingleAnswer}>
