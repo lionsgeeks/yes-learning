@@ -14,8 +14,8 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
  
-    Route::get("/dashboard" , [DashboardController::class , "dashboard"]);
-    Route::get("admin/dashboard" , [DashboardController::class , "adminDashboard"]);
+    Route::get("/dashboard" , [DashboardController::class , "dashboard"])->name("dashboard");
+    Route::get("admin/dashboard" , [DashboardController::class , "adminDashboard"])->name("adminDashboard");
     Route::resource("course" , CourseController::class);
     Route::resource("achivement" , AchivementController::class);
     Route::resource("library" , LibraryController::class);
