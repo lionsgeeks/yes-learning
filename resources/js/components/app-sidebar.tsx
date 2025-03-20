@@ -46,6 +46,11 @@ const adminItems: NavItem[] = [
         url: '/admin/libraries',
         icon: LibraryBig,
     },
+    {
+        title: 'Workshops',
+        url: '/admin/workshop',
+        icon: LibraryBig,
+    },
 
 ];
 

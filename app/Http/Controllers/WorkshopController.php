@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Workshop;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class WorkshopController extends Controller
 {
@@ -13,6 +14,7 @@ class WorkshopController extends Controller
     public function index()
     {
         //
+        return Inertia::render("workshops/admin/index");
     }
 
     /**

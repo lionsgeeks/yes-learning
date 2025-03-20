@@ -5,6 +5,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -28,19 +29,16 @@ Route::middleware(['auth', 'verified', "role:user"])->group(function () {
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
     Route::get("/dashboard", [DashboardController::class, "adminDashboard"])->name("adminDashboard");
 
-    Route::get('/quiz/', function () {
-        return Inertia::render('quiz/index');
-    })->name('quiz.index');
+    Route::get('/quiz/', function () {return Inertia::render('quiz/index');})->name('quiz.index');
     Route::resource("course" , CourseController::class);
     Route::resource("achivement" , AchivementController::class);
     Route::resource("library" , LibraryController::class);
-    Route::get('/sub_library/{id}',[LibraryController::class, 'showSublibraries'])->name('sublibrary.show');
     Route::get('/libraries',[LibraryController::class, 'adminLibraries'])->name('admin.library');
     Route::get('/create/library',[LibraryController::class, 'createLibrary'])->name('admin.create');
     Route::resource("quiz" , QuizController::class);
-    Route::get('/steps', function () {
-        return Inertia::render('auth/steps');
-    })->name('auth.steps');
+    Route::get('/steps', function () {return Inertia::render('auth/steps');})->name('auth.steps');
+    Route::get('/sub_library/{id}',[LibraryController::class, 'showSublibraries'])->name('sublibrary.show');
+    Route::resource("workshop" , WorkshopController::class);
 });
 
 
