@@ -21,7 +21,7 @@ class QuizController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render("quiz/createQuiz");
     }
 
     /**

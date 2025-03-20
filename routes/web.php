@@ -12,10 +12,12 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-Route::middleware(['auth', 'verified' , "role:user"])->group(function () {
+Route::middleware(['auth', 'verified', "role:user"])->group(function () {
 
     Route::get("/dashboard", [DashboardController::class, "dashboard"])->name("dashboard");
-    Route::get('/steps', function () {return Inertia::render('auth/steps');})->name('auth.steps');
+    Route::get('/steps', function () {
+        return Inertia::render('auth/steps');
+    })->name('auth.steps');
     Route::resource("course", CourseController::class);
     Route::resource("achivement", AchivementController::class);
     Route::resource("library", LibraryController::class);
@@ -25,6 +27,10 @@ Route::middleware(['auth', 'verified' , "role:user"])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
     Route::get("/dashboard", [DashboardController::class, "adminDashboard"])->name("adminDashboard");
+
+    Route::get('/quiz/', function () {
+        return Inertia::render('quiz/index');
+    })->name('quiz.index');
 });
 
 

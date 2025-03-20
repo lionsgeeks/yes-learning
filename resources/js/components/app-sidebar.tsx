@@ -36,6 +36,11 @@ const adminItems: NavItem[] = [
         url: '/admin/dashboard',
         icon: LayoutGrid,
     },
+    {
+        title: 'Quiz Components',
+        url: '/admin/quiz',
+        icon: LayoutGrid
+    }
 
 ];
 
@@ -45,7 +50,6 @@ export function AppSidebar() {
 
     const { auth } = usePage<SharedData>().props;
 
-    console.log();
 
 
     return (
