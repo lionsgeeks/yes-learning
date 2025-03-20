@@ -12,23 +12,22 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function () {
- 
-    Route::get("/dashboard" , [DashboardController::class , "dashboard"])->name("dashboard");
-    Route::get("admin/dashboard" , [DashboardController::class , "adminDashboard"])->name("adminDashboard");
-    Route::resource("course" , CourseController::class);
-    Route::resource("achivement" , AchivementController::class);
-    Route::resource("library" , LibraryController::class);
-    Route::resource("quiz" , QuizController::class);
-    Route::get('/steps', function () {
-        return Inertia::render('auth/steps');
-    })->name('auth.steps');
+Route::middleware(['auth', 'verified' , "role:user"])->group(function () {
+
+    Route::get("/dashboard", [DashboardController::class, "dashboard"])->name("dashboard");
+    Route::get('/steps', function () {return Inertia::render('auth/steps');})->name('auth.steps');
+    Route::resource("course", CourseController::class);
+    Route::resource("achivement", AchivementController::class);
+    Route::resource("library", LibraryController::class);
+    Route::resource("quiz", QuizController::class);
+});
+
+
+Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get("/dashboard", [DashboardController::class, "adminDashboard"])->name("adminDashboard");
 });
 
 
 
-
-
-
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

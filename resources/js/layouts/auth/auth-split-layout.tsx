@@ -13,14 +13,16 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
 
     return (
         <div className="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
-            <div className="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r">
-                <div className="absolute inset-0 bg-zinc-900" />
+            <div className=" relative bg-zinc-900 hidden h-full flex-col gap-y-9 items-center justify-between p-10 text-white lg:flex dark:border-r">
                 <Link href={route('home')} className="relative z-20 flex items-center text-lg font-medium">
                     <AppLogoIcon className="mr-2 size-8 fill-current text-white" />
                     {name}
                 </Link>
+
+                <img className='z-20 w-3/5 ' src="/assets/images/logo.svg" alt="" />
+
                 {quote && (
-                    <div className="relative z-20 mt-auto">
+                    <div className="relative z-20 text-center">
                         <blockquote className="space-y-2">
                             <p className="text-lg">&ldquo;{quote.message}&rdquo;</p>
                             <footer className="text-sm text-neutral-300">{quote.author}</footer>

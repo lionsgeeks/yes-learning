@@ -33,7 +33,7 @@ const userItem: NavItem[] = [
 const adminItems: NavItem[] = [
     {
         title: 'Dashboard',
-        url: '/dashboard',
+        url: '/admin/dashboard',
         icon: LayoutGrid,
     },
 
