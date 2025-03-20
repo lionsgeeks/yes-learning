@@ -5,6 +5,7 @@ import { ArrowUpRight, BookOpen, FileText, TrendingUp, Users } from "lucide-reac
 import { Button } from "@/components/ui/button"
 import { Link } from "@inertiajs/react";
 import AdminUsersTable from "@/components/usersComponents/admin-users-table.jsx"
+import Achievement from "@/components/achievement/achievement.jsx"
 import AdminDiscussionsTable from "@/components/discussions/admin-discussions-table.jsx"
 export default function AdminDashboardPage() {
     const defaultUsers = [
@@ -121,6 +122,58 @@ export default function AdminDashboardPage() {
         },
        
       ];
+
+      const initialAchievements = [
+        {
+          id: 1,
+          name: "First Course",
+          description: "Complete your first course",
+          category: "Course",
+          difficulty: "Easy",
+          points: 50,
+          icon: "🏆",
+          status: "Active",
+          earnedBy: 245,
+          createdAt: "March 15, 2025",
+        },
+        {
+          id: 2,
+          name: "Perfect Score",
+          description: "Score 100% on a module assessment",
+          category: "Assessment",
+          difficulty: "Medium",
+          points: 100,
+          icon: "🎯",
+          status: "Active",
+          earnedBy: 87,
+          createdAt: "March 12, 2025",
+        },
+        {
+          id: 3,
+          name: "Fast Learner",
+          description: "Complete a course in under 3 days",
+          category: "Course",
+          difficulty: "Medium",
+          points: 150,
+          icon: "⚡",
+          status: "Active",
+          earnedBy: 56,
+          createdAt: "March 10, 2025",
+        },
+        {
+          id: 4,
+          name: "Discussion Expert",
+          description: "Post 10 comments in discussions",
+          category: "Social",
+          difficulty: "Easy",
+          points: 75,
+          icon: "💬",
+          status: "Active",
+          earnedBy: 132,
+          createdAt: "March 8, 2025",
+        },
+      ]
+      
   return (
     <AppLayout>
         <div className="p-6">
@@ -411,7 +464,7 @@ export default function AdminDashboardPage() {
         {/* <AdminDiscussionsTable title="Manage Discussions" description="Monitor and moderate discussion forums"  Discussions={defaultDiscussions} /> */}
 
         {/* <AdminUsersTable title="Manage Users" description="Manage students, instructors, and administrators" Users = {defaultUsers}/> */}
-
+{/* <Achievement achievement={initialAchievements }/> */}
     </AppLayout>
   )
 }
