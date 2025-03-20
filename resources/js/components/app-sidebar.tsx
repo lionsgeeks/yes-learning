@@ -40,7 +40,12 @@ const adminItems: NavItem[] = [
         title: 'Quiz Components',
         url: '/admin/quiz',
         icon: LayoutGrid
-    }
+    },
+    {
+        title: 'Libraries',
+        url: '/admin/libraries',
+        icon: LibraryBig,
+    },
 
 ];
 

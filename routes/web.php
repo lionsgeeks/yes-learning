@@ -31,6 +31,16 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::get('/quiz/', function () {
         return Inertia::render('quiz/index');
     })->name('quiz.index');
+    Route::resource("course" , CourseController::class);
+    Route::resource("achivement" , AchivementController::class);
+    Route::resource("library" , LibraryController::class);
+    Route::get('/sub_library/{id}',[LibraryController::class, 'showSublibraries'])->name('sublibrary.show');
+    Route::get('/libraries',[LibraryController::class, 'adminLibraries'])->name('admin.library');
+    Route::get('/create/library',[LibraryController::class, 'createLibrary'])->name('admin.create');
+    Route::resource("quiz" , QuizController::class);
+    Route::get('/steps', function () {
+        return Inertia::render('auth/steps');
+    })->name('auth.steps');
 });
 
 

@@ -128,9 +128,9 @@ const LibraryDetails = () => {
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className="p-6">
                 <div className="mb-6">
-                    <Link href="/library" className="text-muted-foreground hover:text-foreground inline-flex items-center text-sm transition-colors">
+                    <Link href="/sub_library/1" className="text-muted-foreground hover:text-foreground inline-flex items-center text-sm transition-colors">
                         <ChevronLeft className="mr-1 h-4 w-4" />
-                        Back to Libraries
+                        Back to Sub Libraries
                     </Link>
                     <h1 className="mt-2 text-2xl font-bold">{library.title}</h1>
                     <div className="text-muted-foreground mt-1 flex flex-wrap items-center gap-2 text-sm">
@@ -162,12 +162,10 @@ const LibraryDetails = () => {
                         /> */}
                             <iframe
                                 className="h-full w-full"
-                                // width="928"
-                                // height="522"
                                 src="https://www.youtube.com/embed/E1faj4pzePo"
                                 title="Africa - A Journey Through Nature &amp; Tradition | Documentary | Continents of the World Ep. 1"
                                 frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-"
                                 referrerpolicy="strict-origin-when-cross-origin"
                                 allowfullscreen
                             ></iframe>
@@ -201,8 +199,8 @@ const LibraryDetails = () => {
                             <TabsContent value="about" className="mt-4 space-y-4">
                                 <div className="flex items-center gap-3">
                                     <Avatar className="h-10 w-10">
-                                        <AvatarImage src={library.coachAvatar} alt={library.coach} />
-                                        <AvatarFallback>SM</AvatarFallback>
+                                        {/* <AvatarImage src={library.coachAvatar} alt={library.coach} /> */}
+                                        <AvatarFallback> {library.coach.split(" ")[0][0]}{library.coach.split(" ")[1][0]}</AvatarFallback>
                                     </Avatar>
                                     <div>
                                         <div className="font-medium">{library.coach}</div>
@@ -303,8 +301,8 @@ const LibraryDetails = () => {
                             <CardContent>
                                 <div className="flex flex-col items-center text-center">
                                     <Avatar className="mb-3 h-20 w-20">
-                                        <AvatarImage src={library.coachAvatar} alt={library.coach} />
-                                        <AvatarFallback>SM</AvatarFallback>
+                                        {/* <AvatarImage src={library.coachAvatar} alt={library.coach} /> */}
+                                        <AvatarFallback>{library.coach.split(" ")[0][0]}{library.coach.split(" ")[1][0]}</AvatarFallback>
                                     </Avatar>
                                     <h3 className="text-lg font-medium">{library.coach}</h3>
                                     <p className="text-muted-foreground mb-3 text-sm">{library.coachTitle}</p>
