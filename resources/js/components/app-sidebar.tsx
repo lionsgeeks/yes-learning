@@ -36,20 +36,25 @@ const adminItems: NavItem[] = [
         url: '/admin/dashboard',
         icon: LayoutGrid,
     },
+    // {
+    //     title: 'Quiz Components',
+    //     url: '/admin/quiz',
+    //     icon: LayoutGrid
+    // },
     {
-        title: 'Quiz Components',
-        url: '/admin/quiz',
-        icon: LayoutGrid
-    },
-    {
-        title: 'Libraries',
-        url: '/admin/libraries',
-        icon: LibraryBig,
+        title: 'Courses',
+        url: '/admin/courses',
+        icon: BookOpen,
     },
     {
         title: 'Workshops',
         url: '/admin/workshops',
         icon: Workflow,
+    },
+    {
+        title: 'Libraries',
+        url: '/admin/libraries',
+        icon: LibraryBig,
     },
     {
         title: 'Newsletter',

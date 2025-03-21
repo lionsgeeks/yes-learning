@@ -14,7 +14,12 @@ class CourseController extends Controller
     public function index()
     {
         //
-        return Inertia::render("courses/index",);
+        return Inertia::render("courses/student/index",);
+    }
+    public function adminIndex()
+    {
+        return Inertia::render("courses/admin/index",);
+        //
     }
 
     /**
@@ -39,7 +44,7 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         //
-        return Inertia::render("courses/[id]", [
+        return Inertia::render("courses/student/[id]", [
             "course" => $course
         ]);
     }
