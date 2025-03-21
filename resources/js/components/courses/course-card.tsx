@@ -39,7 +39,7 @@ export function CourseCard({ course }: CourseCardProps) {
   return (
     <>
       <Card className="overflow-hidden transition-all hover:shadow-md">
-        <Link href={`/dashboard/courses/${course.id}`}>
+        <Link href={`/admin/courses/${course.id}`}>
           <div className="relative aspect-video overflow-hidden">
             <img
               src={course.image || "/placeholder.svg"}
@@ -55,7 +55,7 @@ export function CourseCard({ course }: CourseCardProps) {
         </Link>
         <CardHeader className="p-4">
           <div className="flex items-start justify-between">
-            <Link href={`/dashboard/courses/${course.id}`} className="hover:underline">
+            <Link href={`/admin/courses/${course.id}`} className="hover:underline">
               <h3 className="font-semibold text-lg line-clamp-1">{course.title}</h3>
             </Link>
             <DropdownMenu>
