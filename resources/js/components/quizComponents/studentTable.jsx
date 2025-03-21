@@ -60,22 +60,22 @@ export default function QuizStudentScore() {
     ]
 
     return (
-        <div className="p-6">
+        <div className="sticky top-0 right-0">
             <Table>
                 <TableHeader>
                     <TableRow>
                         <TableHead>Name</TableHead>
                         <TableHead>Score</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Last Active</TableHead>
-                        <TableHead></TableHead>
+                        <TableHead className="lg:hidden">Status</TableHead>
+                        <TableHead className="lg:hidden">Last Active</TableHead>
+                        {/* <TableHead></TableHead> */}
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {students.map((student) => (
                         <TableRow key={student.id}>
                             <TableCell>
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 cursor-pointer">
                                     <Avatar>
                                         <AvatarImage src="/placeholder.svg" alt={student.name} />
                                         <AvatarFallback>{student.name.substring(0, 2).toUpperCase()}</AvatarFallback>
@@ -86,18 +86,13 @@ export default function QuizStudentScore() {
                                     </div>
                                 </div>
                             </TableCell>
-                            <TableCell>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                                        <div className="bg-alpha h-full" style={{ width: `${student.progress}%` }} />
-                                    </div>
-                                    <span className="text-xs font-medium">{student.progress}%</span>
-                                </div>
+                            <TableCell className="text-center">
+                                <span className=" font-medium">{student.progress}%</span>
                             </TableCell>
-                            <TableCell>
+                            <TableCell className="lg:hidden">
                                 <Badge variant={student.status === "active" ? "default" : "outline"}>{student.status}</Badge>
                             </TableCell>
-                            <TableCell>{student.lastActive}</TableCell>
+                            <TableCell className="lg:hidden">{student.lastActive}</TableCell>
                             {/* <TableCell>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>

@@ -16,7 +16,13 @@ class WorkshopController extends Controller
         //
         return Inertia::render("workshops/admin/index");
     }
-    
+
+
+    public function studentIndex()
+    {
+        return Inertia::render("workshops/student/index");
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -24,7 +30,7 @@ class WorkshopController extends Controller
     {
         //
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -32,7 +38,7 @@ class WorkshopController extends Controller
     {
         //
     }
-    
+
     /**
      * Display the specified resource.
      */
@@ -44,7 +50,7 @@ class WorkshopController extends Controller
         ]);
     }
 
-    
+
 
     /**
      * Show the form for editing the specified resource.
