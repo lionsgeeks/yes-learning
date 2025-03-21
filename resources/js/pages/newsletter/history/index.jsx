@@ -1,26 +1,25 @@
 import { useState } from 'react';
-// import { useRouter } from "next/navigation"
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
-import { Calendar, ChevronLeft, ChevronRight, Copy, Eye, Search } from 'lucide-react';
-
-import { format } from "date-fns"
+import { format } from 'date-fns';
+import { Calendar, ChevronLeft, ChevronRight, Eye, Search } from 'lucide-react';
 
 const NewsletterHistoryPage = () => {
-    // const router = useRouter()
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedNewsletter, setSelectedNewsletter] = useState(null);
-    const breadcrumbs = [{
-        title:'Newsletter History',
-        href:'/admin/news_letter/history'
-    }]
+    const breadcrumbs = [
+        {
+            title: 'Newsletter History',
+            href: '/admin/news_letter/history',
+        },
+    ];
     // Mock data
     const newsletters = [
         {
@@ -91,7 +90,7 @@ const NewsletterHistoryPage = () => {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title='Newsletter History'/>
+            <Head title="Newsletter History" />
             <div className="container mx-auto p-3 lg:p-6">
                 <div className="mb-6">
                     <Link
@@ -105,7 +104,7 @@ const NewsletterHistoryPage = () => {
                     <p className="text-muted-foreground mt-1">View and manage your sent and scheduled newsletters</p>
                 </div>
 
-                <Card className='overflow-x-scroll lg:overflow-x-auto lg:w-full w-[93vw]'>
+                <Card className="w-[93vw] overflow-x-scroll lg:w-full lg:overflow-x-auto">
                     <CardHeader>
                         <div className="flex items-center justify-between">
                             <div>
@@ -124,14 +123,14 @@ const NewsletterHistoryPage = () => {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <Table className=''>
+                        <Table className="">
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Subject</TableHead>
                                     <TableHead>Date</TableHead>
-                                    <TableHead>Recipients</TableHead>
+                                    {/* <TableHead>Recipients</TableHead>
                                     <TableHead>Open Rate</TableHead>
-                                    <TableHead>Click Rate</TableHead>
+                                    <TableHead>Click Rate</TableHead> */}
                                     <TableHead>Status</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
@@ -143,11 +142,12 @@ const NewsletterHistoryPage = () => {
                                         <TableCell>
                                             <div className="flex items-center">
                                                 <Calendar className="text-muted-foreground mr-2 h-4 w-4" />
+                                                <p>{format(newsletter.sentDate, 'PPP')}</p>
                                             </div>
                                         </TableCell>
-                                        <TableCell>{newsletter.recipients.toLocaleString()}</TableCell>
+                                        {/* <TableCell>{newsletter.recipients.toLocaleString()}</TableCell>
                                         <TableCell>{newsletter.status === 'scheduled' ? '-' : `${newsletter.openRate}%`}</TableCell>
-                                        <TableCell>{newsletter.status === 'scheduled' ? '-' : `${newsletter.clickRate}%`}</TableCell>
+                                        <TableCell>{newsletter.status === 'scheduled' ? '-' : `${newsletter.clickRate}%`}</TableCell> */}
                                         <TableCell>
                                             <Badge variant={newsletter.status === 'sent' ? 'default' : 'outline'}>
                                                 {newsletter.status === 'sent' ? 'Sent' : 'Scheduled'}
@@ -158,9 +158,9 @@ const NewsletterHistoryPage = () => {
                                                 <Button variant="ghost" size="icon" onClick={() => handleViewNewsletter(newsletter)}>
                                                     <Eye className="h-4 w-4" />
                                                 </Button>
-                                                <Button variant="ghost" size="icon" onClick={() => handleDuplicateNewsletter(newsletter.id)}>
+                                                {/* <Button variant="ghost" size="icon" onClick={() => handleDuplicateNewsletter(newsletter.id)}>
                                                     <Copy className="h-4 w-4" />
-                                                </Button>
+                                                </Button> */}
                                             </div>
                                         </TableCell>
                                     </TableRow>
@@ -205,48 +205,17 @@ const NewsletterHistoryPage = () => {
 
                 <Dialog open={!!selectedNewsletter} onOpenChange={() => setSelectedNewsletter(null)}>
                     <DialogContent className="max-h-[80vh] max-w-3xl overflow-y-auto">
-                        <DialogHeader>
+                        {/* <DialogHeader>
                             <DialogTitle>Newsletter Details</DialogTitle>
                             <DialogDescription>View the complete newsletter and performance metrics</DialogDescription>
-                        </DialogHeader>
+                        </DialogHeader> */}
 
                         {selectedNewsletter && (
                             <div className="space-y-6">
                                 <div className="space-y-1">
                                     <h3 className="text-lg font-semibold">{selectedNewsletter.subject}</h3>
-                                    <p className="text-muted-foreground text-sm">
-                                        Sent on {format(selectedNewsletter.sentDate, 'MMMM d, yyyy')} to{' '}
-                                        {selectedNewsletter.recipients.toLocaleString()} recipients
-                                    </p>
+                                    <p className="text-muted-foreground text-sm">Sent on {format(selectedNewsletter.sentDate, 'MMMM d, yyyy')}</p>
                                 </div>
-
-                                <div className="grid grid-cols-3 gap-4">
-                                    <Card>
-                                        <CardContent className="pt-6">
-                                            <div className="text-center">
-                                                <p className="text-muted-foreground text-sm">Open Rate</p>
-                                                <p className="text-2xl font-bold">{selectedNewsletter.openRate}%</p>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                    <Card>
-                                        <CardContent className="pt-6">
-                                            <div className="text-center">
-                                                <p className="text-muted-foreground text-sm">Click Rate</p>
-                                                <p className="text-2xl font-bold">{selectedNewsletter.clickRate}%</p>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                    <Card>
-                                        <CardContent className="pt-6">
-                                            <div className="text-center">
-                                                <p className="text-muted-foreground text-sm">Unsubscribes</p>
-                                                <p className="text-2xl font-bold">0.7%</p>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-
                                 <Card>
                                     <CardHeader className="bg-background sticky top-0 z-10">
                                         <CardTitle>Newsletter Content</CardTitle>
@@ -256,7 +225,7 @@ const NewsletterHistoryPage = () => {
                                             <div className="mx-auto max-w-2xl">
                                                 <div className="mb-6">
                                                     <h2 className="mb-1 text-xl font-semibold">{selectedNewsletter.subject}</h2>
-                                                    <p className="text-muted-foreground text-sm">From: LearnHub Admin &lt;admin@learnhub.edu&gt;</p>
+                                                    <p className="text-muted-foreground text-sm">From: Yes Learning &lt;admin@yeslearning.com&gt;</p>
                                                 </div>
                                                 <div className="prose prose-sm max-w-none">
                                                     <p>Dear Students,</p>
@@ -295,7 +264,7 @@ const NewsletterHistoryPage = () => {
                                                         LearnHub Team
                                                     </p>
                                                 </div>
-                                                <div className="text-muted-foreground mt-8 border-t pt-4 text-sm">
+                                                {/* <div className="text-muted-foreground mt-8 border-t pt-4 text-sm">
                                                     <p>LearnHub Education Platform</p>
                                                     <p>© 2025 LearnHub. All rights reserved.</p>
                                                     <p className="mt-2">
@@ -307,18 +276,18 @@ const NewsletterHistoryPage = () => {
                                                             View in browser
                                                         </a>
                                                     </p>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </CardContent>
                                 </Card>
 
-                                <div className="flex justify-end gap-2">
+                                {/* <div className="flex justify-end gap-2">
                                     <Button variant="outline" onClick={() => handleDuplicateNewsletter(selectedNewsletter.id)}>
                                         <Copy className="mr-2 h-4 w-4" />
                                         Duplicate
                                     </Button>
-                                </div>
+                                </div> */}
                             </div>
                         )}
                     </DialogContent>

@@ -27,8 +27,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@inertiajs/react';
 import { Clock, Edit, Eye, Filter, Image, MoreHorizontal, Plus, Search, Trash2 } from 'lucide-react';
-// import Image from 'next/image';
-// import Link from 'next/link';
 import { useState } from 'react';
 
 const initialLibraries = [
@@ -226,7 +224,6 @@ const AdminLibraries = () => {
                                     <TableHead>Category</TableHead>
                                     <TableHead>Coach</TableHead>
                                     <TableHead>Status</TableHead>
-                                    <TableHead>Views</TableHead>
                                     <TableHead>Date</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
@@ -265,7 +262,6 @@ const AdminLibraries = () => {
                                                 {library.status}
                                             </Badge>
                                         </TableCell>
-                                        <TableCell>{library.views}</TableCell>
                                         <TableCell>{library.date}</TableCell>
                                         <TableCell className="text-right">
                                             <DropdownMenu>

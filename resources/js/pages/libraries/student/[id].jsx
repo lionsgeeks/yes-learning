@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
-import { Link, usePage } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { BookmarkPlus, ChevronLeft, Clock, Download, FileText, Share2, ThumbsUp } from 'lucide-react';
 import { useState } from 'react';
 // import Image from 'next/image';
@@ -126,6 +126,7 @@ const LibraryDetails = () => {
     };
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title={library.title}/>
             <div className="p-6">
                 <div className="mb-6">
                     <Link href="/sub_library/1" className="text-muted-foreground hover:text-foreground inline-flex items-center text-sm transition-colors">

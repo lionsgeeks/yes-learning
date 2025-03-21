@@ -5,10 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
 // import DashboardLayout from "@/components/dashboard-layout"
 import { Badge } from '@/components/ui/badge';
-import { Clock, Filter, Play, Search } from 'lucide-react';
+import { Clock, Filter, Image, Play, Search } from 'lucide-react';
 // import Link from "next/link"
 // import Image from "next/image"
-import { Link } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 
 const breadcrumbs = [
     {
@@ -111,6 +111,7 @@ const libraries = [
 export default function LibrariesPage() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Library" />
             <div className="space-y-6 p-3 md:p-6">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
@@ -144,12 +145,7 @@ export default function LibrariesPage() {
                                 <Link key={library.id} href={`/sub_library/${library.id}`} className="group">
                                     <Card className="border-primary/20 from-background to-muted/30 flex h-full flex-col overflow-hidden rounded-xl border-2 bg-gradient-to-br p-0 transition-all hover:shadow-md sm:flex-row">
                                         <div className="relative aspect-video sm:aspect-square sm:w-1/3">
-                                            {/* <Image
-                        src={library.thumbnail || "/placeholder.svg"}
-                        alt={library.title}
-                        fill
-                        className="object-cover"
-                      /> */}
+                                            <Image src={library.thumbnail || '/placeholder.svg'} alt={library.title} fill className="object-cover" />
                                             <div className="from-primary/80 absolute inset-0 flex scale-95 items-center justify-center bg-gradient-to-t to-black/60 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100">
                                                 <Button variant="secondary" size="sm" className="gap-1">
                                                     <Play className="h-4 w-4" />
@@ -189,7 +185,7 @@ export default function LibrariesPage() {
                             {libraries
                                 .filter((lib) => ['Frontend', 'CSS', 'JavaScript'].includes(lib.category))
                                 .map((library) => (
-                                    <Link key={library.id} href={`/libraries/${library.id}`} className="group">
+                                    <Link key={library.id} href={`/library/${library.id}`} className="group">
                                         <Card className="border-primary/20 from-background to-muted/30 flex h-full flex-col overflow-hidden rounded-xl border-2 bg-gradient-to-br transition-all hover:shadow-md sm:flex-row">
                                             <div className="relative aspect-video sm:aspect-square sm:w-1/3">
                                                 <Image

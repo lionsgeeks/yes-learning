@@ -8,7 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
 import { Switch } from "@/components/ui/switch"
-import { Link } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { ChevronLeft, FileUp, Plus, X } from 'lucide-react';
 import { useState } from 'react';
 
@@ -82,6 +82,7 @@ const CreateLibrary = () => {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title='Create Library'/>
             <div className="p-3 lg:p-6">
                 <div className="mb-6">
                     <Link

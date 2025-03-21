@@ -7,10 +7,10 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
-// import { format } from 'date-fns';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@inertiajs/react';
-import { Calendar, Clock, Eye, FileText, Send, Users } from 'lucide-react';
+import { format } from 'date-fns';
+import { Clock, Eye, FileText, Send, Users } from 'lucide-react';
 import { useState } from 'react';
 
 const NewsletterPage = () => {
@@ -64,8 +64,7 @@ const NewsletterPage = () => {
         await new Promise((resolve) => setTimeout(resolve, 1500));
 
         // Show success message and reset form
-        alert(`Newsletter scheduled for ${scheduleDate ? scheduleDate : 'today'}!`);
-        // alert(`Newsletter scheduled for ${scheduleDate ? format(scheduleDate, 'PPP') : 'today'}!`);
+        alert(`Newsletter scheduled for ${scheduleDate ? format(scheduleDate, 'PPP') : 'today'}!`);
         setIsSending(false);
         setSubject('');
         setContent('');
@@ -141,8 +140,16 @@ const NewsletterPage = () => {
                                                 {/* TODO: trigger input date  */}
                                                 <PopoverContent className="w-auto p-4" align="end">
                                                     <div className="space-y-2">
-                                                        <Label htmlFor="date">Date</Label>
-                                                        <Input id="date" type="date"  value={scheduleDate} onChange={setScheduleDate} />
+                                                        {/* <Label htmlFor="date">Date</Label> */}
+                                                        <Input
+                                                            id="date"
+                                                            type="date"
+                                                            value={scheduleDate}
+                                                            onChange={(e) => {
+                                                                setScheduleDate(e.target.value);
+                                                                console.log(e.target.value);
+                                                            }}
+                                                        />
                                                     </div>
                                                     <Button
                                                         className="mt-4 w-full"
@@ -153,7 +160,6 @@ const NewsletterPage = () => {
                                                     </Button>
                                                 </PopoverContent>
                                             </Popover>
-
                                             <Button onClick={handleSendNewsletter} disabled={isSending || !subject || !content}>
                                                 {isSending ? 'Sending...' : 'Send Now'}
                                                 <Send className="ml-2 h-4 w-4" />

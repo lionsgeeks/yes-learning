@@ -5,18 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Link } from '@inertiajs/react';
-import { ChevronLeft, Clock, Filter, Play, Search } from 'lucide-react';
+import { Head, Link } from '@inertiajs/react';
+import { ChevronLeft, Clock, Filter, Image, Play, Search } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
-
-// import Image from 'next/image';
-// import Link from 'next/link';
 import { useState } from 'react';
 
 const breadcrumbs = [
   {
-      title: 'Libraries',
-      href: `/library`,
+      title: 'Sub Libraries',
+      href: `/sub_library`,
   },
 ];
 // Mock data for module libraries
@@ -83,6 +80,8 @@ export default function ModuleLibrariesPage() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
+            {/* // TODO: Add name of the sublibrary */}
+            <Head title='Sub Library'/>
             <div className="space-y-6 p-3 md:p-6">
                 <div>
                     <Link
@@ -133,13 +132,13 @@ export default function ModuleLibrariesPage() {
                                 <Link key={library.id} href={`/library/${library.id}`} className="group">
                                     <Card className="h-full overflow-hidden transition-all hover:shadow-md">
                                         <div className="relative aspect-video">
-                                            {/* <Image
+                                            <Image
                                                 src={library.thumbnail || '/placeholder.svg'}
                                                 alt={library.title}
                                                 width={320}
                                                 height={180}
                                                 className="w-full object-cover"
-                                            /> */}
+                                            />
                                             <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 transition-opacity group-hover:opacity-100">
                                                 <Button variant="secondary" size="sm" className="gap-1">
                                                     <Play className="h-4 w-4" />
