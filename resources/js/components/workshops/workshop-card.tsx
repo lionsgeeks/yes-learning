@@ -36,7 +36,7 @@ export function WorkshopCard({ workshop }: WorkshopCardProps) {
     }
   }
 
-  const isDraft = workshop.status === "draft" || !workshop.status
+  // const isDraft = workshop.status === "draft" || !workshop.status
 
   return (
     <Card className="overflow-hidden pb-0 transition-all hover:shadow-md h-full flex flex-col">
