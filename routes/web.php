@@ -6,10 +6,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\QuizController;
-use App\Http\Controllers\SubWorkshopController;
-use App\Http\Controllers\WorkshopController;
-use App\Http\Controllers\WorkshopSessionController;
-use App\Models\WorkshopSession;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,7 +20,7 @@ Route::middleware(['auth', 'verified', "role:user"])->group(function () {
         return Inertia::render('auth/steps');
     })->name('auth.steps');
     Route::resource("course", CourseController::class);
-    Route::resource("achivement", AchivementController::class);
+    Route::resource("achievement", AchivementController::class);
     Route::resource("library", LibraryController::class);
     Route::resource("quiz", QuizController::class);
 });
@@ -35,13 +31,14 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
 
     Route::get('/quiz/', function () {return Inertia::render('quiz/index');})->name('quiz.index');
     Route::resource("course" , CourseController::class);
-    Route::resource("achivement" , AchivementController::class);
+    Route::resource("achievement" , AchivementController::class);
     Route::resource("library" , LibraryController::class);
     Route::get('/libraries',[LibraryController::class, 'adminLibraries'])->name('admin.library');
     Route::get('/create/library',[LibraryController::class, 'createLibrary'])->name('admin.create');
     Route::resource("quiz" , QuizController::class);
     Route::get('/steps', function () {return Inertia::render('auth/steps');})->name('auth.steps');
     Route::get('/sub_library/{id}',[LibraryController::class, 'showSublibraries'])->name('sublibrary.show');
+<<<<<<< Updated upstream
     Route::resource("workshops" , WorkshopController::class);
     Route::resource("sub-workshop" , SubWorkshopController::class);
     Route::resource("newsletter" , NewsLetterController::class);
@@ -49,9 +46,12 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::get('/steps', function () {
         return Inertia::render('auth/steps');
     })->name('auth.steps');
+=======
+>>>>>>> Stashed changes
 });
 
 
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
+require __DIR__ . '/workshops.php';

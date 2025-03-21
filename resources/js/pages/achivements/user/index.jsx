@@ -5,19 +5,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Award, Badge, BookOpen, Trophy } from "lucide-react"
-const Achivement = () => {
+const Achievement = () => {
 
     const breadcrumbs = [
 
         {
-            title: "Achivements", 
-            href: `/Achivements`, 
+            title: "Achievements",
+            href: `/Achievements`,
         },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={"Achivements"} />
+            <Head title={"Achievements"} />
             <div className="space-y-6 p-6">
         <div>
           <h1 className="text-3xl font-bold">Achievements</h1>
@@ -87,7 +87,7 @@ const Achivement = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {Array.from({ length: 12 }).map((_, i) => (
                 <Card key={i} className={i >= 8 ? "opacity-40" : ""}>
-                    <Link href="/achivement/1" >
+                    <Link href="/achievement/1" >
                     <CardContent className="p-6">
                     <div className="text-center">
                       <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -121,7 +121,7 @@ const Achivement = () => {
                     </div>
                   </CardContent>
                     </Link>
-                 
+
                 </Card>
               ))}
             </div>
@@ -202,4 +202,4 @@ const Achivement = () => {
     );
 };
 
-export default Achivement;
+export default Achievement;

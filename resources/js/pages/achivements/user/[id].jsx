@@ -131,7 +131,7 @@ export default function AchievementDetailPage({ params }) {
     <AppLayout>
       <div className="p-6">
         <Link
-          href="/achivement"
+          href="/achievement"
           className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ChevronLeft className="mr-1 h-4 w-4" />
@@ -166,7 +166,7 @@ export default function AchievementDetailPage({ params }) {
               <Tabs defaultValue="details">
                 <TabsList className="mb-4">
                   <TabsTrigger value="details">Details</TabsTrigger>
-                
+
                 </TabsList>
 
                 <TabsContent value="details" className="space-y-4">
@@ -244,7 +244,7 @@ export default function AchievementDetailPage({ params }) {
                   </div>
                 </TabsContent>
 
-               
+
               </Tabs>
             </CardContent>
           </Card>
@@ -278,7 +278,7 @@ export default function AchievementDetailPage({ params }) {
               </CardContent>
             </Card> */}
 
-         
+
 
             {/* Achievement stats */}
             <Card>

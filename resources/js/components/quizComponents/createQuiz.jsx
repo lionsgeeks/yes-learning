@@ -506,14 +506,14 @@ export default function CreateQuizPage() {
     }
 
     return (
-        <div className="p-6">
+        <div>
             <div className="flex items-center mb-6">
-                <Button variant="ghost" size="icon" asChild className="mr-2">
+                {/* <Button variant="ghost" size="icon" asChild className="mr-2">
                     <Link href="/quizzes">
                         <ArrowLeft className="h-4 w-4" />
                         <span className="sr-only">Back</span>
                     </Link>
-                </Button>
+                </Button> */}
                 <h1 className="text-3xl font-bold tracking-tight">Create Quiz</h1>
             </div>
 

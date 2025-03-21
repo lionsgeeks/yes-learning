@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Link, usePage } from "@inertiajs/react"
+import { Head, Link, usePage } from "@inertiajs/react"
 import AppLayout from "@/layouts/app-layout";
 import { Certificate } from "../../components/quizComponents/certificate"
 
@@ -200,6 +200,7 @@ export default function QuizPage() {
     ];
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
+        <Head title="Quiz Title" />
             <div className="mb-6 p-6">
                 <Link
                     href={"/course/" + quiz.id}
