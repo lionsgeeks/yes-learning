@@ -6,6 +6,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\WorkshopController;
+use App\Http\Controllers\WorkshopSessionController;
+use App\Models\WorkshopSession;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -38,7 +40,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::resource("quiz" , QuizController::class);
     Route::get('/steps', function () {return Inertia::render('auth/steps');})->name('auth.steps');
     Route::get('/sub_library/{id}',[LibraryController::class, 'showSublibraries'])->name('sublibrary.show');
-    Route::resource("workshop" , WorkshopController::class);
+    Route::resource("workshops" , WorkshopController::class);
+    Route::resource("workshops" , WorkshopSessionController::class);
 });
 
 

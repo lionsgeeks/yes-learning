@@ -21,6 +21,7 @@ interface WorkshopCardProps {
     enrolledStudents: number
     maxCapacity: number
     isComplete: boolean
+    status?: "draft" | "published"
   }
 }
 
@@ -35,12 +36,16 @@ export function WorkshopCard({ workshop }: WorkshopCardProps) {
     }
   }
 
+  const isDraft = workshop.status === "draft" || !workshop.status
+
   return (
-    <Card className="overflow-hidden transition-all hover:shadow-md">
+    <Card className="overflow-hidden pb-0 transition-all hover:shadow-md h-full flex flex-col">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div>
-            <CardTitle className="text-lg">{workshop.title}</CardTitle>
+            <div className="flex items-center gap-2">
+              <CardTitle className="text-lg">{workshop.title}</CardTitle>
+            </div>
             <CardDescription className="line-clamp-1 mt-1">{workshop.description}</CardDescription>
           </div>
           <DropdownMenu>
@@ -74,7 +79,7 @@ export function WorkshopCard({ workshop }: WorkshopCardProps) {
           </DropdownMenu>
         </div>
       </CardHeader>
-      <CardContent className="pb-3">
+      <CardContent className="pb-3 flex-grow">
         <div className="flex flex-col gap-2">
           <div className="flex items-center text-sm text-muted-foreground">
             <Badge variant="outline" className="mr-2">
@@ -91,21 +96,19 @@ export function WorkshopCard({ workshop }: WorkshopCardProps) {
               {workshop.enrolledStudents}/{workshop.maxCapacity} Students
             </span>
           </div>
-
         </div>
       </CardContent>
-      <CardFooter className={`border-t ${workshop.isComplete ? "bg-muted/50" : "bg-amber-50 "} px-6 py-3`}>
-        <div className="flex w-full items-center gap-2">
-          {
-            workshop.isComplete ?
-              <span className="text-xs text-muted-foreground">{workshop.subWorkshops} Sub-Workshops</span>
-              :
-              <>
-                <AlertTriangle color="red" className="h-4 w-4" />
-                <span className="text-xs font-medium  text-amber-600">Missing instructor or meet link</span>
 
-              </>
-          }
+      <CardFooter className={`border-t px-6 py-3 ${!workshop.isComplete ? "bg-amber-50" : "bg-muted/50"}`}>
+        <div className="flex w-full items-center justify-between">
+          <span className="text-xs text-muted-foreground">{workshop.subWorkshops} Sub-Workshops</span>
+
+          {!workshop.isComplete && (
+            <div className="flex items-center gap-2 text-amber-600">
+              <AlertTriangle className="h-4 w-4" />
+              <span className="text-xs font-medium">Incomplete</span>
+            </div>
+          )}
         </div>
       </CardFooter>
 

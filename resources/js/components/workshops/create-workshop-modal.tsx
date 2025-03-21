@@ -13,7 +13,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { router } from "@inertiajs/react"
 
 interface CreateWorkshopModalProps {
   open: boolean
@@ -21,7 +20,6 @@ interface CreateWorkshopModalProps {
 }
 
 export function CreateWorkshopModal({ open, onOpenChange }: CreateWorkshopModalProps) {
-  
   const [workshopName, setWorkshopName] = useState("")
   const [selectedCourse, setSelectedCourse] = useState("")
 
@@ -29,7 +27,7 @@ export function CreateWorkshopModal({ open, onOpenChange }: CreateWorkshopModalP
     // In a real app, you would create the workshop here
     // For now, we'll just close the modal and redirect to a mock ID
     onOpenChange(false)
-    // router.push("")
+    // router.push("/workshops/new-workshop")
   }
 
   return (
@@ -39,19 +37,22 @@ export function CreateWorkshopModal({ open, onOpenChange }: CreateWorkshopModalP
           <DialogTitle>Create New Workshop</DialogTitle>
           <DialogDescription>Enter a name and select a course to create a new workshop.</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Workshop Name</Label>
+        <div className="grid gap-6 py-4">
+          <div className="space-y-2 ">
+            <Label className="" htmlFor="name">Workshop Name</Label>
             <Input
               id="name"
               placeholder="Enter workshop name"
               value={workshopName}
               onChange={(e) => setWorkshopName(e.target.value)}
+              className="mt-3"
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="course">Associated Course</Label>
-            <Select value={selectedCourse} onValueChange={setSelectedCourse}>
+            <div className="mt-3">
+
+            <Select  value={selectedCourse} onValueChange={setSelectedCourse}>
               <SelectTrigger id="course">
                 <SelectValue placeholder="Select a course" />
               </SelectTrigger>
@@ -61,6 +62,7 @@ export function CreateWorkshopModal({ open, onOpenChange }: CreateWorkshopModalP
                 <SelectItem value="database">Database Management</SelectItem>
               </SelectContent>
             </Select>
+            </div>
           </div>
         </div>
         <DialogFooter>

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Workshop;
+use App\Models\WorkshopSession;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
-class WorkshopController extends Controller
+class WorkshopSessionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +13,8 @@ class WorkshopController extends Controller
     public function index()
     {
         //
-        return Inertia::render("workshops/admin/index");
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -24,7 +22,7 @@ class WorkshopController extends Controller
     {
         //
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -32,24 +30,19 @@ class WorkshopController extends Controller
     {
         //
     }
-    
+
     /**
      * Display the specified resource.
      */
-    public function show(Workshop $workshop)
+    public function show(WorkshopSession $workshopSession)
     {
         //
-        return Inertia::render("workshops/admin/[id]", [
-            'workshop' => $workshop
-        ]);
     }
-
-    
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Workshop $workshop)
+    public function edit(WorkshopSession $workshopSession)
     {
         //
     }
@@ -57,7 +50,7 @@ class WorkshopController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Workshop $workshop)
+    public function update(Request $request, WorkshopSession $workshopSession)
     {
         //
     }
@@ -65,7 +58,7 @@ class WorkshopController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Workshop $workshop)
+    public function destroy(WorkshopSession $workshopSession)
     {
         //
     }
