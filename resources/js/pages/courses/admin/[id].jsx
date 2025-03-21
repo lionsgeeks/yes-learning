@@ -251,7 +251,7 @@ const AdminCoursesShow = () => {
                         <div className="flex justify-between items-center">
                             <h2 className="text-xl font-semibold">Course Chapters</h2>
                             <Button asChild>
-                                <Link href={`/dashboard/courses/dd/chapters/new`}>
+                                <Link href={`/admin/chapter/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
                                     Add Chapter
                                 </Link>
