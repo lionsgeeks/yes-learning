@@ -51,8 +51,9 @@ export function EditCourseModal({ open, onOpenChange, course }: EditCourseModalP
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+    <Dialog open={open}  onOpenChange={onOpenChange}>
+      <div className="p-5">
+      <DialogContent className="sm:max-w-[600px] h-full">
         <DialogHeader>
           <DialogTitle>Edit Course</DialogTitle>
           <DialogDescription>Update your course details. Click save when you're done.</DialogDescription>
@@ -125,7 +126,9 @@ export function EditCourseModal({ open, onOpenChange, course }: EditCourseModalP
           </DialogFooter>
         </form>
       </DialogContent>
+    </div>
     </Dialog>
+
   )
 }
 
