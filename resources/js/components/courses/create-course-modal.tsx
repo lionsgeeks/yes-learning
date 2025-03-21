@@ -22,7 +22,6 @@ interface CreateCourseModalProps {
 
 export function CreateCourseModal({ open, onOpenChange }: CreateCourseModalProps) {
   const [workshopName, setWorkshopName] = useState("")
-  const [selectedCourse, setSelectedCourse] = useState("")
 
   const handleCreate = () => {
     // In a real app, you would create the workshop here
@@ -67,7 +66,7 @@ export function CreateCourseModal({ open, onOpenChange }: CreateCourseModalProps
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={handleCreate} disabled={!workshopName || !selectedCourse}>
+          <Button onClick={handleCreate} >
             Create Course
           </Button>
         </DialogFooter>

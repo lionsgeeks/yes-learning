@@ -1,4 +1,3 @@
-"use client"
 
 import type React from "react"
 
@@ -16,6 +15,8 @@ export function FileUploader() {
     if (!selectedFile) return
 
     setFile(selectedFile)
+    console.log(file);
+    
 
     // Create a preview URL
     const reader = new FileReader()
