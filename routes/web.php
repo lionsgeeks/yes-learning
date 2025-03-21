@@ -47,6 +47,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::resource("newsletter" , NewsLetterController::class);
     Route::get("/news_letter/history" , [NewsLetterController::class, 'history'])->name('newsletter.history');
     Route::get("/courses" , [CourseController::class, 'adminIndex'])->name('admin.courses');
+    Route::get("/courses/{course}" , [CourseController::class, 'adminShow'])->name('admin.courses');
     Route::get('/steps', function () {
         return Inertia::render('auth/steps');
     })->name('auth.steps');

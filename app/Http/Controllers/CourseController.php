@@ -48,6 +48,13 @@ class CourseController extends Controller
             "course" => $course
         ]);
     }
+    public function adminShow(Course $course)
+    {
+        //
+        return Inertia::render("courses/admin/[id]", [
+            "course" => $course
+        ]);
+    }
 
     /**
      * Show the form for editing the specified resource.

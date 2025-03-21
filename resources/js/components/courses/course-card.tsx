@@ -66,11 +66,11 @@ export function CourseCard({ course }: CourseCardProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => router.visit(`/dashboard/courses/${course.id}`)}>
+                <DropdownMenuItem onClick={() => router.visit(`/admin/courses/${course.id}`)}>
                   <Eye className="mr-2 h-4 w-4" />
                   View
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.visit(`/dashboard/courses/${course.id}/edit`)}>
+                <DropdownMenuItem onClick={() => router.visit(`/admin/courses/${course.id}/edit`)}>
                   <Edit className="mr-2 h-4 w-4" />
                   Edit
                 </DropdownMenuItem>
@@ -94,7 +94,7 @@ export function CourseCard({ course }: CourseCardProps) {
             {course.chaptersCount} {course.chaptersCount === 1 ? "chapter" : "chapters"}
           </div>
           <Button variant="outline" size="sm" asChild>
-            <Link href={`/dashboard/courses/${course.id}`}>Manage</Link>
+            <Link href={`/admin/courses/${course.id}`}>Manage</Link>
           </Button>
         </CardFooter>
       </Card>
