@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -11,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 // import { format } from 'date-fns';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@inertiajs/react';
-import { Clock, Eye, FileText, Send, Users } from 'lucide-react';
+import { Calendar, Clock, Eye, FileText, Send, Users } from 'lucide-react';
 import { useState } from 'react';
 
 const NewsletterPage = () => {
@@ -23,10 +22,12 @@ const NewsletterPage = () => {
     const [scheduleDate, setScheduleDate] = useState(undefined);
     const [isSending, setIsSending] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
-    const breadcrumbs = [{
-        title: 'Newsletter',
-        href: '/admin/newsletter'
-    }]
+    const breadcrumbs = [
+        {
+            title: 'Newsletter',
+            href: '/admin/newsletter',
+        },
+    ];
 
     const courses = [
         { id: 'course1', name: 'Introduction to Web Development' },
@@ -34,7 +35,6 @@ const NewsletterPage = () => {
         { id: 'course3', name: 'UX/UI Design Fundamentals' },
         { id: 'course4', name: 'Data Science Basics' },
     ];
-
 
     const handleCourseToggle = (courseId) => {
         setSelectedCourses((prev) => (prev.includes(courseId) ? prev.filter((id) => id !== courseId) : [...prev, courseId]));
@@ -138,8 +138,12 @@ const NewsletterPage = () => {
                                                         Schedule
                                                     </Button>
                                                 </PopoverTrigger>
+                                                {/* TODO: trigger input date  */}
                                                 <PopoverContent className="w-auto p-4" align="end">
-                                                    <Calendar mode="single" selected={scheduleDate} onSelect={setScheduleDate} initialFocus />
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor="date">Date</Label>
+                                                        <Input id="date" type="date"  value={scheduleDate} onChange={setScheduleDate} />
+                                                    </div>
                                                     <Button
                                                         className="mt-4 w-full"
                                                         onClick={handleScheduleNewsletter}
