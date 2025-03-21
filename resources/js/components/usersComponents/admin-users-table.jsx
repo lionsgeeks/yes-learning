@@ -120,8 +120,8 @@ export default function AdminUsersTable({
 
   return (
     <>
-      <div className="p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div className="lg:p-6 p-3">
+        <div className="flex flex-row items-center justify-between gap-4 mb-6">
           <div>
             <h2 className="text-2xl font-bold">{title}</h2>
             {description && <p className="text-muted-foreground mt-1">{description}</p>}
@@ -142,7 +142,7 @@ export default function AdminUsersTable({
           <CardHeader className="pb-3">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <CardTitle>Users</CardTitle>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center sm:justify-normal justify-evenly gap-2">
                 <div className="relative">
                   <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -160,23 +160,24 @@ export default function AdminUsersTable({
               </div>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent >
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead>User</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Courses</TableHead>
-                  <TableHead>Join Date</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                <TableRow className="lg:flex-row lg:flex hidden w-full">
+                  <TableHead className="w-full ">User</TableHead>
+                  <TableHead className="w-full">Role</TableHead>
+                  <TableHead className="w-full">Status</TableHead>
+                  <TableHead className="w-full">Courses</TableHead>
+                  <TableHead className="w-full">Join Date</TableHead>
+                  <TableHead className="text-right w-full">Actions</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="flex-col flex gap-y-2">
                 {filteredUsers.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell>
-                      <div className="flex items-center gap-3">
+                  <TableRow key={user.id}  className="flex flex-col  p-2 rounded-lg lg:flex-row w-full border-2 lg:border-1">
+                    <TableCell className="w-full">
+                      <div className="flex items-center gap-3 justify-between">
+                        <div className="flex">
                         <Avatar>
                           <AvatarImage src={user.avatar} alt={user.name} />
                           <AvatarFallback>
@@ -188,9 +189,44 @@ export default function AdminUsersTable({
                           <p className="font-medium">{user.name}</p>
                           <p className="text-sm text-muted-foreground">{user.email}</p>
                         </div>
+                        </div>
+                        <div className="lg:hidden">
+
+                        <DropdownMenu >
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreHorizontal className="h-4 w-4" />
+                            <span className="sr-only">Actions</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem onClick={() => handleEditClick(user)}>
+                            <Edit className="h-4 w-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+                          {user.status === "Active" ? (
+                            <DropdownMenuItem onClick={() => handleToggleStatus(user.id)}>
+                              <Lock className="h-4 w-4 mr-2" />
+                              Deactivate
+                            </DropdownMenuItem>
+                          ) : (
+                            <DropdownMenuItem onClick={() => handleToggleStatus(user.id)}>
+                              <Unlock className="h-4 w-4 mr-2" />
+                              Activate
+                            </DropdownMenuItem>
+                          )}
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteClick(user.id)}>
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                        </div>
                       </div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="w-full">
                       <Badge
                         variant={
                           user.role === "Admin"
@@ -203,7 +239,7 @@ export default function AdminUsersTable({
                         {user.role}
                       </Badge>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="w-full">
                       <Badge
                         variant={user.status === "Active" ? "outline" : "secondary"}
                         className={
@@ -215,9 +251,9 @@ export default function AdminUsersTable({
                         {user.status}
                       </Badge>
                     </TableCell>
-                    <TableCell>{user.courses}</TableCell>
-                    <TableCell>{user.joinDate}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="w-full">{user.courses}</TableCell>
+                    <TableCell className="w-full">{user.joinDate}</TableCell>
+                    <TableCell className="text-right w-full lg:flex hidden lg:items-end lg:justify-end">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="icon">
@@ -253,14 +289,16 @@ export default function AdminUsersTable({
                   </TableRow>
                 ))}
                 {filteredUsers.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                  <TableRow className="flex flex-col  p-2 rounded-lg lg:flex-row w-full">
+                    <TableCell colSpan={6} className="text-center py-8 text-muted-foreground w-full">
                       No users found. Try adjusting your search.
                     </TableCell>
                   </TableRow>
                 )}
               </TableBody>
             </Table>
+
+
           </CardContent>
         </Card>
 
@@ -277,7 +315,7 @@ export default function AdminUsersTable({
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleDeleteConfirm}
-                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                className="bg-destructive  text-white hover:bg-destructive/90"
               >
                 Delete
               </AlertDialogAction>

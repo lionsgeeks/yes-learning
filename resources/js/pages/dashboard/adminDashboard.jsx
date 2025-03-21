@@ -176,7 +176,7 @@ export default function AdminDashboardPage() {
       
   return (
     <AppLayout>
-        <div className="p-6">
+        <div className="lg:p-6 p-3">
 
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
