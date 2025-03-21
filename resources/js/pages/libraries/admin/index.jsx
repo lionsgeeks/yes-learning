@@ -25,7 +25,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { Link } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { Clock, Edit, Eye, Filter, Image, MoreHorizontal, Plus, Search, Trash2 } from 'lucide-react';
 // import Image from 'next/image';
 // import Link from 'next/link';
@@ -179,7 +179,8 @@ const AdminLibraries = () => {
     };
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <div className="p-6">
+            <Head title='Libraries'/>
+            <div className="p-3 lg:p-6">
                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="text-3xl font-bold">Manage Libraries</h1>
@@ -195,7 +196,7 @@ const AdminLibraries = () => {
                     </div>
                 </div>
 
-                <Card>
+                <Card className='overflow-x-scroll lg:overflow-x-auto lg:w-full w-[93vw]'>
                     <CardHeader className="pb-3">
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <CardTitle>Libraries</CardTitle>

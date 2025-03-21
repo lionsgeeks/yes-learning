@@ -4,6 +4,7 @@ use App\Http\Controllers\AchivementController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SubWorkshopController;
 use App\Http\Controllers\WorkshopController;
@@ -43,6 +44,11 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::get('/sub_library/{id}',[LibraryController::class, 'showSublibraries'])->name('sublibrary.show');
     Route::resource("workshops" , WorkshopController::class);
     Route::resource("sub-workshop" , SubWorkshopController::class);
+    Route::resource("newsletter" , NewsLetterController::class);
+    Route::get("/news_letter/history" , [NewsLetterController::class, 'history'])->name('newsletter.history');
+    Route::get('/steps', function () {
+        return Inertia::render('auth/steps');
+    })->name('auth.steps');
 });
 
 
