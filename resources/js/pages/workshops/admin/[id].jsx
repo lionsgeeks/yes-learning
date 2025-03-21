@@ -44,7 +44,7 @@ const workshop = {
 // Mock data for sub-workshops
 const subWorkshops = [
     {
-        id: "1-1",
+        id: "1",
         name: "HTML Fundamentals",
         description: "Introduction to HTML tags and document structure",
         subCourse: "HTML Basics",
@@ -274,7 +274,7 @@ const WorkshopDetails = () => {
 
                         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                             {subWorkshops.map((subWorkshop) => (
-                                <Link key={subWorkshop.id} href={`/workshops/${workshop.id}/sub-workshops/${subWorkshop.id}`}>
+                                <Link key={subWorkshop.id} href={`/admin/sub-workshop/${subWorkshop.id}`}>
                                     <SubWorkshopCard subWorkshop={subWorkshop} />
                                 </Link>
                             ))}

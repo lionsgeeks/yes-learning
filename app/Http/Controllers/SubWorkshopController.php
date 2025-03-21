@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\WorkshopSession;
+use App\Models\SubWorkshop;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
-class WorkshopSessionController extends Controller
+class SubWorkshopController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,15 +35,18 @@ class WorkshopSessionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(WorkshopSession $workshopSession)
+    public function show(SubWorkshop $subWorkshop)
     {
         //
+        return Inertia::render("workshops/admin/[subid]", [
+            "subWorkshop" => $subWorkshop
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(WorkshopSession $workshopSession)
+    public function edit(SubWorkshop $subWorkshop)
     {
         //
     }
@@ -50,7 +54,7 @@ class WorkshopSessionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, WorkshopSession $workshopSession)
+    public function update(Request $request, SubWorkshop $subWorkshop)
     {
         //
     }
@@ -58,7 +62,7 @@ class WorkshopSessionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(WorkshopSession $workshopSession)
+    public function destroy(SubWorkshop $subWorkshop)
     {
         //
     }

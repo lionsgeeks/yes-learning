@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class WorkshopSession extends Model
+class SubWorkshop extends Model
 {
     //
 }
