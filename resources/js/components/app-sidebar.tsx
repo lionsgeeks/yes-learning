@@ -19,8 +19,8 @@ const userItem: NavItem[] = [
         icon: BookOpen,
     },
     {
-        title: 'Achivement',
-        url: '/achivement',
+        title: 'Achievement',
+        url: '/achievement',
         icon: Award,
     },
     {

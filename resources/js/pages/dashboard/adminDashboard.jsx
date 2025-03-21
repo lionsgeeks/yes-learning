@@ -3,10 +3,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import AppLayout from '@/layouts/app-layout';
 import { ArrowUpRight, BookOpen, FileText, TrendingUp, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Link } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import AdminUsersTable from "@/components/usersComponents/admin-users-table.jsx"
 import Achievement from "@/components/achievement/achievement.jsx"
 import AdminDiscussionsTable from "@/components/discussions/admin-discussions-table.jsx"
+const breadcrumbs = [
+  {
+    title: 'AdminDashboard',
+    href: '/AdminDashboard',
+  },
+];
 export default function AdminDashboardPage() {
     const defaultUsers = [
         {
@@ -173,10 +179,11 @@ export default function AdminDashboardPage() {
           createdAt: "March 8, 2025",
         },
       ]
-      
+
   return (
-    <AppLayout>
-        <div className="p-6">
+    <AppLayout breadcrumbs={breadcrumbs} >
+      <Head title="AdminDashboard" />
+        <div className="lg:p-6 p-3">
 
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
