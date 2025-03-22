@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-// import { DragDropContext, Droppable, Draggable } from "@/components/drag-drop"
+import { DragDropContext, Droppable, Draggable } from "@/components/drag-drop"
 import {
   AlignLeft,
   BarChart,
@@ -47,6 +47,8 @@ export function ContentBlockEditor({ subcourseId, blocks, onBlocksChange }: Cont
 
   const updateBlock = (id: string, content: any) => {
     onBlocksChange(blocks.map((block) => (block.id === id ? { ...block, content } : block)))
+    console.log(blocks);
+    
   }
 
   const removeBlock = (id: string) => {
@@ -80,8 +82,6 @@ export function ContentBlockEditor({ subcourseId, blocks, onBlocksChange }: Cont
         return { title: "New Table", rows: 3, cols: 3, data: Array(3).fill(Array(3).fill("")) }
       case "chart":
         return { title: "New Chart", type: "bar", data: [] }
-      case "presentation":
-        return { title: "New Presentation", slides: [] }
       default:
         return {}
     }
@@ -114,8 +114,8 @@ export function ContentBlockEditor({ subcourseId, blocks, onBlocksChange }: Cont
     <div className="space-y-4">
       <div className="flex flex-col space-y-4">
         <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId={`subcourse-${subcourseId}`}>
-            {(provided) => (
+          <Droppable isDropDisabled={false} droppableId={`subcourse-${subcourseId}`}>
+            {(provided:any) => (
               <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-4">
                 {blocks.length === 0 ? (
                   <div className="text-center py-8 border-2 border-dashed rounded-md">
@@ -127,7 +127,7 @@ export function ContentBlockEditor({ subcourseId, blocks, onBlocksChange }: Cont
                 ) : (
                   blocks.map((block, index) => (
                     <Draggable key={block.id} draggableId={block.id} index={index}>
-                      {(provided) => (
+                      {(provided:any) => (
                         <Card
                           ref={provided.innerRef}
                           {...provided.draggableProps}
@@ -186,7 +186,7 @@ export function ContentBlockEditor({ subcourseId, blocks, onBlocksChange }: Cont
             <TabsTrigger value="media">Media</TabsTrigger>
             <TabsTrigger value="advanced">Advanced</TabsTrigger>
           </TabsList>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
             <Button variant="outline" className="justify-start" onClick={() => addBlock("text")}>
               <AlignLeft className="h-4 w-4 mr-2" />
               Text
@@ -210,14 +210,6 @@ export function ContentBlockEditor({ subcourseId, blocks, onBlocksChange }: Cont
             <Button variant="outline" className="justify-start" onClick={() => addBlock("chart")}>
               <BarChart className="h-4 w-4 mr-2" />
               Chart
-            </Button>
-            <Button variant="outline" className="justify-start" onClick={() => addBlock("presentation")}>
-              <Presentation className="h-4 w-4 mr-2" />
-              Slides
-            </Button>
-            <Button variant="outline" className="justify-start">
-              <Plus className="h-4 w-4 mr-2" />
-              More
             </Button>
           </div>
         </Tabs>

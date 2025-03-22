@@ -5,7 +5,7 @@ import AppLayout from "@/layouts/app-layout";
 
 import { Button } from "@/components/ui/button"
 import { CourseCard } from "@/components/courses/course-card"
-import { CreateCourseModal } from "@/components/courses/create-course-modal"
+import { CreateCourseModal } from "@/components/courses/create/create-course-modal"
 
 
 // Sample data - in a real app, this would come from a database

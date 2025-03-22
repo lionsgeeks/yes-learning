@@ -91,11 +91,11 @@ export function ListBlockEditor({ content, onChange }: ListBlockEditorProps) {
         <Label>List Items</Label>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="list-items">
-            {(provided) => (
+            {(provided:any) => (
               <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-2">
                 {content.items.map((item, index) => (
                   <Draggable key={index} draggableId={`item-${index}`} index={index}>
-                    {(provided) => (
+                    {(provided:any) => (
                       <div ref={provided.innerRef} {...provided.draggableProps} className="flex items-center space-x-2">
                         <div {...provided.dragHandleProps} className="cursor-move">
                           <GripVertical className="h-5 w-5 text-muted-foreground" />

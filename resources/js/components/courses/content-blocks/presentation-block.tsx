@@ -107,7 +107,7 @@ export function PresentationBlockEditor({ content, onChange }: PresentationBlock
         
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="slides">
-            {(provided) => (
+            {(provided:any) => (
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
@@ -115,7 +115,7 @@ export function PresentationBlockEditor({ content, onChange }: PresentationBlock
               >
                 {content.slides.map((slide, index) => (
                   <Draggable key={slide.id} draggableId={slide.id} index={index}>
-                    {(provided) => (
+                    {(provided:any) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
@@ -209,4 +209,4 @@ export function PresentationBlockEditor({ content, onChange }: PresentationBlock
     </div>
   )
 }
-
+}

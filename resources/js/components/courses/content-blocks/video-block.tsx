@@ -38,7 +38,7 @@ export function VideoBlockEditor({ content, onChange }: VideoBlockEditorProps) {
 
       {content.url ? (
         <div className="aspect-video bg-muted rounded-md flex items-center justify-center">
-          <div className="text-muted-foreground">Video Preview</div>
+          <iframe width="866" height="487" src={content.url} title="Présentation des nouvelles formation LionsGeek" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
         </div>
       ) : (
         <div className="border-2 border-dashed rounded-md p-6 flex flex-col items-center justify-center aspect-video">
