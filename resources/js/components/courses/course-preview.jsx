@@ -80,19 +80,19 @@ export function CoursePreview({ course }) {
                                 <div>
                                   {block.content.type === "bullet" ? (
                                     <ul className="list-disc pl-5 space-y-1">
-                                      {(block.content.items || ["Sample item"]).map((item, i: ) => (
+                                      {(block.content.items || ["Sample item"]).map((item, i ) => (
                                         <li key={i}>{item}</li>
                                       ))}
                                     </ul>
                                   ) : block.content.type === "numbered" ? (
                                     <ol className="list-decimal pl-5 space-y-1">
-                                      {(block.content.items || ["Sample item"]).map((item, i: ) => (
+                                      {(block.content.items || ["Sample item"]).map((item, i ) => (
                                         <li key={i}>{item}</li>
                                       ))}
                                     </ol>
                                   ) : (
                                     <div className="space-y-2">
-                                      {(block.content.items || ["Sample item"]).map((item, i: ) => (
+                                      {(block.content.items || ["Sample item"]).map((item, i ) => (
                                         <div key={i} className="flex items-center">
                                           <CheckCircle className="h-4 w-4 mr-2 text-primary" />
                                           <span>{item}</span>
