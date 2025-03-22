@@ -2,12 +2,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent } from "@/components/ui/tabs"
 import { BookOpen, CheckCircle } from "lucide-react"
 
-
+// Function to extract YouTube video ID
+function extractVideoId(url) {
+  const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=))([^"&?/]+)/;
+  const match = url.match(regex);
+  return match && match[1];
+}
 
 export function CoursePreview({ course }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-  
+
       <Card className="lg:col-span-3">
         <CardHeader className="pb-0">
           <div className="flex items-center justify-between">
@@ -43,7 +48,7 @@ export function CoursePreview({ course }) {
                       </div>
 
                       {subcourse.blocks.length > 0 ? (
-                        <div className="space-y-6 pl-11">
+                        <div className=" pl-11">
                           {subcourse.blocks.map((block) => (
                             <div key={block.id} className=" rounded-md p-4">
                               <h3 className="font-medium mb-2">{block.content.title}</h3>
@@ -68,7 +73,29 @@ export function CoursePreview({ course }) {
                               {block.type === "video" && (
                                 <div className="space-y-2">
                                   <div className="bg-muted aspect-video flex items-center justify-center rounded-md">
-                                    <div className="text-muted-foreground">Video Preview</div>
+
+                                    {block.type === "video" && (
+                                      <div className="space-y-2">
+                                        <div className="bg-muted aspect-video flex items-center justify-center rounded-md">
+                                          {/* Extract video ID and embed */}
+                                          <iframe
+                                            width="866"
+                                            height="487"
+                                            src={`https://www.youtube.com/embed/${extractVideoId(block.content.url)}`}  // Call a function to extract the video ID
+                                            title="Video"
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerPolicy="strict-origin-when-cross-origin"
+                                            allowFullScreen
+                                          ></iframe>
+                                        </div>
+                                        {block.content.caption && (
+                                          <p className="text-sm text-center text-muted-foreground">{block.content.caption}</p>
+                                        )}
+                                      </div>
+                                    )}
+
+
                                   </div>
                                   {block.content.caption && (
                                     <p className="text-sm text-center text-muted-foreground">{block.content.caption}</p>
@@ -80,19 +107,19 @@ export function CoursePreview({ course }) {
                                 <div>
                                   {block.content.type === "bullet" ? (
                                     <ul className="list-disc pl-5 space-y-1">
-                                      {(block.content.items || ["Sample item"]).map((item, i ) => (
+                                      {(block.content.items || ["Sample item"]).map((item, i) => (
                                         <li key={i}>{item}</li>
                                       ))}
                                     </ul>
                                   ) : block.content.type === "numbered" ? (
                                     <ol className="list-decimal pl-5 space-y-1">
-                                      {(block.content.items || ["Sample item"]).map((item, i ) => (
+                                      {(block.content.items || ["Sample item"]).map((item, i) => (
                                         <li key={i}>{item}</li>
                                       ))}
                                     </ol>
                                   ) : (
                                     <div className="space-y-2">
-                                      {(block.content.items || ["Sample item"]).map((item, i ) => (
+                                      {(block.content.items || ["Sample item"]).map((item, i) => (
                                         <div key={i} className="flex items-center">
                                           <CheckCircle className="h-4 w-4 mr-2 text-primary" />
                                           <span>{item}</span>

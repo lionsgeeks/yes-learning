@@ -4,16 +4,24 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Video } from "lucide-react"
 
-interface VideoBlockEditorProps {
-  content: {
-    title: string
-    url: string
-    caption: string
-  }
-  onChange: (content: VideoBlockEditorProps["content"]) => void
-}
 
-export function VideoBlockEditor({ content, onChange }: VideoBlockEditorProps) {
+
+export function VideoBlockEditor({ content, onChange }) {
+  const handleUrlChange = (e) => {
+    const newUrl = e.target.value
+    // Update the URL only if it's valid (basic validation for YouTube URLs)
+    onChange({
+      ...content,
+      url: newUrl,
+    })
+  }
+
+  function extractVideoId(url) {
+    const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=))([^"&?/]+)/;
+    const match = url.match(regex);
+    return match && match[1];
+  }
+
   return (
     <div className="space-y-4">
       <div className="space-y-2">
@@ -31,14 +39,28 @@ export function VideoBlockEditor({ content, onChange }: VideoBlockEditorProps) {
         <Input
           id="url"
           value={content.url}
-          onChange={(e) => onChange({ ...content, url: e.target.value })}
+          onChange={handleUrlChange} // This handles URL changes
           placeholder="Enter YouTube, Vimeo, or other video URL"
         />
       </div>
 
       {content.url ? (
         <div className="aspect-video bg-muted rounded-md flex items-center justify-center">
-          <iframe width="866" height="487" src={content.url} title="Présentation des nouvelles formation LionsGeek" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+          {/* Check if the URL is valid and embed */}
+          {content.url.includes("youtube.com") || content.url.includes("vimeo.com") ? (
+            <iframe
+              width="866"
+              height="487"
+              src={`https://www.youtube.com/embed/${extractVideoId(content.url)}`}  // Call a function to extract the video ID
+              title="Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>
+          ) : (
+            <p className="text-sm text-muted-foreground">Invalid video URL</p>
+          )}
         </div>
       ) : (
         <div className="border-2 border-dashed rounded-md p-6 flex flex-col items-center justify-center aspect-video">
@@ -46,16 +68,9 @@ export function VideoBlockEditor({ content, onChange }: VideoBlockEditorProps) {
             <Video className="h-12 w-12" />
           </div>
           <div className="flex text-sm text-muted-foreground">
-            <label
-              htmlFor="video-upload"
-              className="relative cursor-pointer rounded-md font-medium text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary"
-            >
-              <span>Upload a video</span>
-              <input id="video-upload" name="video-upload" type="file" className="sr-only" />
-            </label>
-            <p className="pl-1">or enter URL</p>
+            <p className="pl-1">Only YouTube or Vimeo videos are allowed</p>
           </div>
-          <p className="text-xs text-muted-foreground mt-2">MP4, WebM up to 100MB</p>
+          <p className="text-xs text-muted-foreground mt-2">Please insert a valid link</p>
         </div>
       )}
 
@@ -72,4 +87,3 @@ export function VideoBlockEditor({ content, onChange }: VideoBlockEditorProps) {
     </div>
   )
 }
-

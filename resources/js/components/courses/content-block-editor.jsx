@@ -7,7 +7,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import {
   DndContext,
-  DragEndEvent,
   closestCenter,
   useDraggable,
   useDroppable,
@@ -27,11 +26,12 @@ import { VideoBlockEditor } from "./content-blocks/video-block"
 import { ListBlockEditor } from "./content-blocks/list-block"
 import { TableBlockEditor } from "./content-blocks/table-block"
 import { ChartBlockEditor } from "./content-blocks/chart-block"
+import { TabsContent } from "@radix-ui/react-tabs"
 
 
 
 export function ContentBlockEditor({  blocks, onBlocksChange }) {
-  const [activeBlockId, setActiveBlockId] = useState<string | null>(null)
+  const [activeBlockId, setActiveBlockId] = useState(null)
 
   const addBlock = (type) => {
     const newBlock = {
@@ -45,6 +45,8 @@ export function ContentBlockEditor({  blocks, onBlocksChange }) {
   }
 
   const updateBlock = (id, content) => {
+    console.log(content);
+    
     onBlocksChange(blocks.map((block) => (block.id === id ? { ...block, content } : block)))
     console.log(blocks);
     
@@ -131,13 +133,12 @@ const onDragEnd = (event) => {
       </div>
 
       <div className="border rounded-md p-4">
-        <h3 className="text-sm font-medium mb-3">Add Content Block</h3>
+        <h3 className="text-sm font-medium mb-3 p-3">Add Content Block</h3>
         <Tabs defaultValue="basic" className="w-full">
           <TabsList className="w-full">
-            <TabsTrigger value="basic">Basic</TabsTrigger>
-            <TabsTrigger value="media">Media</TabsTrigger>
-            <TabsTrigger value="advanced">Advanced</TabsTrigger>
+            <TabsTrigger value="basic">Add Chapter Content</TabsTrigger>
           </TabsList>
+          <TabsContent value="basic">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
             <Button variant="outline" className="justify-start" onClick={() => addBlock("text")}>
               <AlignLeft className="h-4 w-4 mr-2" />
@@ -164,6 +165,7 @@ const onDragEnd = (event) => {
               Chart
             </Button>
           </div>
+          </TabsContent>
         </Tabs>
       </div>
     </div>
@@ -183,7 +185,7 @@ function SortableBlock({ block, activeBlockId, setActiveBlockId, removeBlock, re
     <Card
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
-      className={`${activeBlockId === block.id ? "ring-2 ring-primary" : ""}`}
+      className={`${activeBlockId === block.id ? "ring-2 ring-primary" : ""} p-2`}
     >
       <div className="flex items-center p-3 border-b bg-muted/50">
         <div {...listeners} {...attributes} className="mr-2 cursor-move">
