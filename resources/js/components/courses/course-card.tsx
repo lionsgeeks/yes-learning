@@ -23,10 +23,9 @@ import { Link, router } from "@inertiajs/react"
 interface CourseCardProps {
   course: {
     id: string
-    title: string
+    name: string
     description: string
     image: string
-    tagline: string
     chaptersCount: number
     published: boolean
   }
@@ -38,25 +37,25 @@ export function CourseCard({ course }: CourseCardProps) {
 
   return (
     <>
-      <Card className="overflow-hidden transition-all hover:shadow-md">
+      <Card className="overflow-hidden transition-all hover:shadow-md gap-3 pb-0">
         <Link href={`/admin/courses/${course.id}`}>
           <div className="relative aspect-video overflow-hidden">
             <img
-              src={course.image || "/placeholder.svg"}
-              alt={course.title}
+              src={course.image}
+              alt={course.name}
               className="object-cover transition-transform hover:scale-105"
             />
-            {!course.published && (
+            {/* {!course.published && (
               <Badge variant="secondary" className="absolute right-2 top-2">
                 Draft
               </Badge>
-            )}
+            )} */}
           </div>
         </Link>
-        <CardHeader className="p-4">
+        <CardHeader className="px-4">
           <div className="flex items-start justify-between">
             <Link href={`/admin/courses/${course.id}`} className="hover:underline">
-              <h3 className="font-semibold text-lg line-clamp-1">{course.title}</h3>
+              <h3 className="font-semibold text-lg line-clamp-1">{course.name}</h3>
             </Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -84,10 +83,9 @@ export function CourseCard({ course }: CourseCardProps) {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <p className="text-sm text-muted-foreground">{course.tagline}</p>
         </CardHeader>
-        <CardContent className="p-4 pt-0">
-          <p className="text-sm line-clamp-2">{course.description}</p>
+        <CardContent className="px-4 pt-0">
+          <p className=" line-clamp-2 text-sm text-muted-foreground">{course.description}</p>
         </CardContent>
         <CardFooter className="p-4 pt-0 flex justify-between">
           <div className="text-sm text-muted-foreground">

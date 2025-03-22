@@ -17,9 +17,16 @@ class CourseController extends Controller
         return Inertia::render("courses/student/index",);
     }
     public function adminIndex()
-    {
-        return Inertia::render("courses/admin/index",);
+    {        
         //
+        $courses = Course::all()->map(function($course) {
+            $course->image = asset('storage/'.$course->image); // Using asset() to generate the full URL
+            return $course;
+        });
+    
+        return Inertia::render('courses/admin/index', [
+            'courses' => $courses,
+        ]);
     }
 
     /**
@@ -36,6 +43,24 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3072',
+        ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('image/courses', 'public');
+        }
+
+        $course = Course::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'image' => $imagePath,
+        ]);
+        // Return a response
+        return redirect()->route('admin.courses.index')->with('success', 'Course created successfully!');
     }
 
     /**
