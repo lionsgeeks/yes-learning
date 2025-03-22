@@ -1,6 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent } from "@/components/ui/tabs"
 import { BookOpen, CheckCircle } from "lucide-react"
+import { Bar, Line, Pie } from "react-chartjs-2"; // Importing Chart.js components
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from "chart.js";
+
+// Registering chart components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  PointElement,
+  LineElement
+);
 
 // Function to extract YouTube video ID
 function extractVideoId(url) {
@@ -10,6 +25,58 @@ function extractVideoId(url) {
 }
 
 export function CoursePreview({ course }) {
+
+// Separate function to render chart
+function renderChart(block) {
+  const content = block.content; // Get the block's content
+  const chartData = {
+    labels: content.data.map((point) => point.name),
+    datasets: [
+      {
+        label: 'Dataset',
+        data: content.data.map((point) => point.value),
+        backgroundColor: content.type === "pie" ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: content.title || 'Chart Preview',
+      },
+    },
+  };
+
+  
+
+  return (
+    <div className="bg-muted  flex items-center justify-center rounded-md">
+      <div className="w-full h-full">
+        <div className="h-full flex items-center justify-center">
+          <div className="w-full">
+            {block.content.type === "bar" && (
+              <Bar data={chartData} options={chartOptions} />
+            )}
+            {block.content.type === "line" && (
+              <Line data={chartData} options={chartOptions} />
+            )}
+            {block.content.type === "pie" && (
+              <Pie data={chartData} options={chartOptions} />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+  
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
@@ -157,11 +224,9 @@ export function CoursePreview({ course }) {
                                 </div>
                               )}
 
-                              {block.type === "chart" && (
-                                <div className="bg-muted h-64 flex items-center justify-center rounded-md">
-                                  <div className="text-muted-foreground">Chart Preview</div>
-                                </div>
-                              )}
+                              
+                              {block.type === "chart" && renderChart(block)}
+
 
 
                             </div>

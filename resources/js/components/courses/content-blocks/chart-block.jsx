@@ -1,56 +1,92 @@
-"use client"
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { BarChart, LineChart, PieChart, Plus, Trash2 } from "lucide-react";
+import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from 'chart.js';
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { BarChart, LineChart, PieChart, Plus, Trash2 } from "lucide-react"
-
-
+// Register the required elements for chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  PointElement,
+  LineElement
+);
 
 export function ChartBlockEditor({ content, onChange }) {
-  // Initialize with sample data if empty
-  if (!content.data || !content.data.length) {
-    const sampleData = [
-      { name: "Category A", value: 40 },
-      { name: "Category B", value: 30 },
-      { name: "Category C", value: 20 },
-      { name: "Category D", value: 10 },
-    ]
-
-    onChange({
-      ...content,
-      type: content.type || "bar",
-      data: sampleData,
-    })
-  }
+  // Initialize data only when the content data is empty (useEffect to handle this)
+  useEffect(() => {
+    if (!content.data || content.data.length === 0) {
+      const sampleData = [
+        { name: "Category A", value: 40 },
+        { name: "Category B", value: 30 },
+        { name: "Category C", value: 20 },
+        { name: "Category D", value: 10 },
+      ];
+      onChange({
+        ...content,
+        type: content.type || "bar",
+        data: sampleData,
+      });
+    }
+  }, [content, onChange]);
 
   const addDataPoint = () => {
     onChange({
       ...content,
       data: [...content.data, { name: `Category ${content.data.length + 1}`, value: 0 }],
-    })
-  }
+    });
+  };
 
   const removeDataPoint = (index) => {
     onChange({
       ...content,
       data: content.data.filter((_, i) => i !== index),
-    })
-  }
+    });
+  };
 
   const updateDataPoint = (index, field, value) => {
-    const newData = [...content.data]
+    const newData = [...content.data];
     newData[index] = {
       ...newData[index],
       [field]: field === "value" ? Number(value) : value,
-    }
-
+    };
     onChange({
       ...content,
       data: newData,
-    })
-  }
+    });
+  };
+
+  // Prepare the data for the chart preview
+  const chartData = {
+    labels: content.data.map((point) => point.name),
+    datasets: [
+      {
+        label: 'Dataset',
+        data: content.data.map((point) => point.value),
+        backgroundColor: content.type === "pie" ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: content.title || 'Chart Preview',
+      },
+    },
+  };
 
   return (
     <div className="space-y-4">
@@ -133,15 +169,14 @@ export function ChartBlockEditor({ content, onChange }) {
 
       <div className="border rounded-md p-4 bg-muted/30">
         <div className="text-sm font-medium mb-2">Chart Preview</div>
-        <div className="h-48 flex items-center justify-center">
+        <div className=" flex items-center justify-center">
           <div className="text-muted-foreground">
-            {content.type === "bar" && <BarChart className="h-12 w-12" />}
-            {content.type === "line" && <LineChart className="h-12 w-12" />}
-            {content.type === "pie" && <PieChart className="h-12 w-12" />}
+            {content.type === "bar" && <Bar data={chartData} options={chartOptions} />}
+            {content.type === "line" && <Line data={chartData} options={chartOptions} />}
+            {content.type === "pie" && <Pie data={chartData} options={chartOptions} />}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
-
