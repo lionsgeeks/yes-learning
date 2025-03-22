@@ -4,19 +4,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { GripVertical, Plus, Trash2 } from "lucide-react"
+import {  Plus } from "lucide-react"
 // import { DragDropContext, Droppable, Draggable } from "@/components/drag-drop"
 
-interface ListBlockEditorProps {
-  content: {
-    title: string
-    items: string[]
-    type: "bullet" | "numbered" | "checklist"
-  }
-  onChange: (content: ListBlockEditorProps["content"]) => void
-}
 
-export function ListBlockEditor({ content, onChange }: ListBlockEditorProps) {
+
+export function ListBlockEditor({ content, onChange }) {
   const addItem = () => {
     onChange({
       ...content,
@@ -24,34 +17,34 @@ export function ListBlockEditor({ content, onChange }: ListBlockEditorProps) {
     })
   }
 
-  const updateItem = (index: number, value: string) => {
-    const newItems = [...content.items]
-    newItems[index] = value
-    onChange({
-      ...content,
-      items: newItems,
-    })
-  }
+  // const updateItem = (index: number, value: string) => {
+  //   const newItems = [...content.items]
+  //   newItems[index] = value
+  //   onChange({
+  //     ...content,
+  //     items: newItems,
+  //   })
+  // }
 
-  const removeItem = (index: number) => {
-    onChange({
-      ...content,
-      items: content.items.filter((_, i) => i !== index),
-    })
-  }
+  // const removeItem = (index: number) => {
+  //   onChange({
+  //     ...content,
+  //     items: content.items.filter((_, i) => i !== index),
+  //   })
+  // }
 
-  const onDragEnd = (result: any) => {
-    if (!result.destination) return
+  // const onDragEnd = (result: any) => {
+  //   if (!result.destination) return
 
-    const items = Array.from(content.items)
-    const [reorderedItem] = items.splice(result.source.index, 1)
-    items.splice(result.destination.index, 0, reorderedItem)
+  //   const items = Array.from(content.items)
+  //   const [reorderedItem] = items.splice(result.source.index, 1)
+  //   items.splice(result.destination.index, 0, reorderedItem)
 
-    onChange({
-      ...content,
-      items,
-    })
-  }
+  //   onChange({
+  //     ...content,
+  //     items,
+  //   })
+  // }
 
   return (
     <div className="space-y-4">
@@ -69,7 +62,7 @@ export function ListBlockEditor({ content, onChange }: ListBlockEditorProps) {
         <Label>List Type</Label>
         <RadioGroup
           value={content.type}
-          onValueChange={(value) => onChange({ ...content, type: value as any })}
+          onValueChange={(value) => onChange({ ...content })}
           className="flex space-x-4"
         >
           <div className="flex items-center space-x-2">

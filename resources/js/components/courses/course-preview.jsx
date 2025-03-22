@@ -1,23 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Separator } from "@/components/ui/separator"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { Tabs, TabsContent } from "@/components/ui/tabs"
 import { BookOpen, CheckCircle } from "lucide-react"
 
-interface CoursePreviewProps {
-  course: {
-    title: string
-    description: string
-    subcourses: {
-      id: string
-      title: string
-      description: string
-      blocks: any[]
-    }[]
-  }
-}
 
-export function CoursePreview({ course }: CoursePreviewProps) {
+
+export function CoursePreview({ course }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
   
@@ -93,19 +80,19 @@ export function CoursePreview({ course }: CoursePreviewProps) {
                                 <div>
                                   {block.content.type === "bullet" ? (
                                     <ul className="list-disc pl-5 space-y-1">
-                                      {(block.content.items || ["Sample item"]).map((item: string, i: number) => (
+                                      {(block.content.items || ["Sample item"]).map((item, i: ) => (
                                         <li key={i}>{item}</li>
                                       ))}
                                     </ul>
                                   ) : block.content.type === "numbered" ? (
                                     <ol className="list-decimal pl-5 space-y-1">
-                                      {(block.content.items || ["Sample item"]).map((item: string, i: number) => (
+                                      {(block.content.items || ["Sample item"]).map((item, i: ) => (
                                         <li key={i}>{item}</li>
                                       ))}
                                     </ol>
                                   ) : (
                                     <div className="space-y-2">
-                                      {(block.content.items || ["Sample item"]).map((item: string, i: number) => (
+                                      {(block.content.items || ["Sample item"]).map((item, i: ) => (
                                         <div key={i} className="flex items-center">
                                           <CheckCircle className="h-4 w-4 mr-2 text-primary" />
                                           <span>{item}</span>
@@ -149,11 +136,7 @@ export function CoursePreview({ course }: CoursePreviewProps) {
                                 </div>
                               )}
 
-                              {block.type === "presentation" && (
-                                <div className="bg-muted aspect-[4/3] flex items-center justify-center rounded-md">
-                                  <div className="text-muted-foreground">Presentation Preview</div>
-                                </div>
-                              )}
+
                             </div>
                           ))}
                         </div>

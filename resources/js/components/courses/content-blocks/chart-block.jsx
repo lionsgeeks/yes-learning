@@ -6,16 +6,9 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { BarChart, LineChart, PieChart, Plus, Trash2 } from "lucide-react"
 
-interface ChartBlockEditorProps {
-  content: {
-    title: string
-    type: string
-    data: any[]
-  }
-  onChange: (content: ChartBlockEditorProps["content"]) => void
-}
 
-export function ChartBlockEditor({ content, onChange }: ChartBlockEditorProps) {
+
+export function ChartBlockEditor({ content, onChange }) {
   // Initialize with sample data if empty
   if (!content.data || !content.data.length) {
     const sampleData = [
@@ -39,14 +32,14 @@ export function ChartBlockEditor({ content, onChange }: ChartBlockEditorProps) {
     })
   }
 
-  const removeDataPoint = (index: number) => {
+  const removeDataPoint = (index) => {
     onChange({
       ...content,
       data: content.data.filter((_, i) => i !== index),
     })
   }
 
-  const updateDataPoint = (index: number, field: string, value: any) => {
+  const updateDataPoint = (index, field, value) => {
     const newData = [...content.data]
     newData[index] = {
       ...newData[index],

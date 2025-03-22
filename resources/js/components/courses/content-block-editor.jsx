@@ -27,18 +27,13 @@ import { VideoBlockEditor } from "./content-blocks/video-block"
 import { ListBlockEditor } from "./content-blocks/list-block"
 import { TableBlockEditor } from "./content-blocks/table-block"
 import { ChartBlockEditor } from "./content-blocks/chart-block"
-import { PresentationBlockEditor } from "./content-blocks/presentation-block"
 
-interface ContentBlockEditorProps {
-  subcourseId: string
-  blocks: any[]
-  onBlocksChange: (blocks: any[]) => void
-}
 
-export function ContentBlockEditor({ subcourseId, blocks, onBlocksChange }: ContentBlockEditorProps) {
+
+export function ContentBlockEditor({  blocks, onBlocksChange }) {
   const [activeBlockId, setActiveBlockId] = useState<string | null>(null)
 
-  const addBlock = (type: string) => {
+  const addBlock = (type) => {
     const newBlock = {
       id: `block-${Date.now()}`,
       type,
@@ -49,20 +44,20 @@ export function ContentBlockEditor({ subcourseId, blocks, onBlocksChange }: Cont
     setActiveBlockId(newBlock.id)
   }
 
-  const updateBlock = (id: string, content: any) => {
+  const updateBlock = (id, content) => {
     onBlocksChange(blocks.map((block) => (block.id === id ? { ...block, content } : block)))
     console.log(blocks);
     
   }
 
-  const removeBlock = (id: string) => {
+  const removeBlock = (id) => {
     onBlocksChange(blocks.filter((block) => block.id !== id))
     if (activeBlockId === id) {
       setActiveBlockId(null)
     }
   }
 
-const onDragEnd = (event: DragEndEvent) => {
+const onDragEnd = (event) => {
   const { active, over } = event;
   if (!over || active.id === over.id) return;
 
@@ -75,7 +70,7 @@ const onDragEnd = (event: DragEndEvent) => {
   }
 };
 
-  const getDefaultContentForType = (type: string) => {
+  const getDefaultContentForType = (type) => {
     switch (type) {
       case "text":
         return { title: "New Text Section", body: "" }
@@ -94,7 +89,7 @@ const onDragEnd = (event: DragEndEvent) => {
     }
   }
 
-  const renderBlockEditor = (block: any) => {
+  const renderBlockEditor = (block) => {
     switch (block.type) {
       case "text":
         return <TextBlockEditor content={block.content} onChange={(content) => updateBlock(block.id, content)} />
@@ -108,10 +103,6 @@ const onDragEnd = (event: DragEndEvent) => {
         return <TableBlockEditor content={block.content} onChange={(content) => updateBlock(block.id, content)} />
       case "chart":
         return <ChartBlockEditor content={block.content} onChange={(content) => updateBlock(block.id, content)} />
-      case "presentation":
-        return (
-          <PresentationBlockEditor content={block.content} onChange={(content) => updateBlock(block.id, content)} />
-        )
       default:
         return <div>Unknown block type</div>
     }
@@ -185,7 +176,7 @@ const onDragEnd = (event: DragEndEvent) => {
 
 
 
-function SortableBlock({ block, activeBlockId, setActiveBlockId, removeBlock, renderBlockEditor }: any) {
+function SortableBlock({ block, activeBlockId, setActiveBlockId, removeBlock, renderBlockEditor }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: block.id })
 
   return (

@@ -5,20 +5,9 @@ import { Input } from "@/components/ui/input"
 import { GripVertical, Pencil, Trash } from "lucide-react"
 import { useState } from "react"
 
-interface SubcourseItemProps {
-  subcourse: {
-    id: string
-    title: string
-    description: string
-    blocks?: any[]
-  }
-  isActive: boolean
-  onClick: () => void
-  onUpdate: (data: Partial<SubcourseItemProps["subcourse"]>) => void
-  deleteItem: () => void
-}
 
-export function SubcourseItem({ subcourse, isActive, onClick, onUpdate , deleteItem }: SubcourseItemProps) {
+
+export function SubcourseItem({ subcourse, isActive, onClick, onUpdate , deleteItem }) {
   const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState(subcourse.title)
 
