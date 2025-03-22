@@ -20,7 +20,7 @@ import {
     verticalListSortingStrategy
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import SortableItem from "@/components/courses/content-blocks/SortableItem";
+import SortableItem from "@/components/courses/content-blocks/sortableItem";
 
 const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveSubcourse, addSubcourse  , updateSubcourse , deleteSubcourse}) => {
     // Sensors for drag events
