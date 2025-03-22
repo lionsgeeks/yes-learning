@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { GripVertical, Plus, Trash2 } from "lucide-react"
-import { DragDropContext, Droppable, Draggable } from "@/components/drag-drop"
+// import { DragDropContext, Droppable, Draggable } from "@/components/drag-drop"
 
 interface ListBlockEditorProps {
   content: {
@@ -89,7 +89,7 @@ export function ListBlockEditor({ content, onChange }: ListBlockEditorProps) {
 
       <div className="space-y-2">
         <Label>List Items</Label>
-        <DragDropContext onDragEnd={onDragEnd}>
+        {/* <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="list-items">
             {(provided:any) => (
               <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-2">
@@ -121,7 +121,7 @@ export function ListBlockEditor({ content, onChange }: ListBlockEditorProps) {
               </div>
             )}
           </Droppable>
-        </DragDropContext>
+        </DragDropContext> */}
 
         <Button variant="outline" size="sm" onClick={addItem} className="mt-2">
           <Plus className="h-4 w-4 mr-2" />

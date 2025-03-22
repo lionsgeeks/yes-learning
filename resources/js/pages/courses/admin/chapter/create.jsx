@@ -102,7 +102,7 @@ const AdminCoursesCreate = () => {
                         </TabsContent>
 
                         <TabsContent value="content" className="space-y-4">
-                            <ChapterContent onDragEnd={onDragEnd} addSubcourse={addSubcourse} subcourses={subcourses} activeSubcourse={activeSubcourse} />
+                            <ChapterContent deleteSubcourse={deleteSubcourse} updateSubcourse={updateSubcourse} onDragEnd={onDragEnd} addSubcourse={addSubcourse} subcourses={subcourses} activeSubcourse={activeSubcourse} setSubcourses={setSubcourses} />
                         </TabsContent>
 
                         <TabsContent value="preview">

@@ -1,12 +1,48 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { ContentBlockEditor } from "@/components/courses/content-block-editor"
-import { SubcourseItem } from "@/components/courses/subcourse-item"
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { Button } from "@/components/ui/button"
+import React from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ContentBlockEditor } from "@/components/courses/content-block-editor";
+// import { SubcourseItem } from "@/components/courses/subcourse-item";
+import { Button } from "@/components/ui/button";
 
-const ChapterContent = ({onDragEnd , addSubcourse , subcourses , activeSubcourse}) => {
+import {
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors
+} from "@dnd-kit/core";
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy
+} from "@dnd-kit/sortable";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import SortableItem from "@/components/courses/content-blocks/SortableItem";
+
+const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveSubcourse, addSubcourse  , updateSubcourse , deleteSubcourse}) => {
+    // Sensors for drag events
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates
+        })
+    );
+
+    // Handles drag end event
+    const onDragEnd = (event) => {
+        const { active, over } = event;
+        if (!over || active.id === over.id) return;
+
+        const oldIndex = subcourses.findIndex((s) => s.id === active.id);
+        const newIndex = subcourses.findIndex((s) => s.id === over.id);
+        const newOrder = arrayMove(subcourses, oldIndex, newIndex);
+
+        setSubcourses(newOrder);
+    };
+
     return (
         <>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -17,30 +53,23 @@ const ChapterContent = ({onDragEnd , addSubcourse , subcourses , activeSubcourse
                     </CardHeader>
                     <CardContent className="p-0">
                         <ScrollArea className="h-[calc(100vh-350px)]">
-                            <DragDropContext onDragEnd={onDragEnd}>
-                                <Droppable droppableId="subcourses">
-                                    {(provided) => (
-                                        <div {...provided.droppableProps} ref={provided.innerRef} className="p-4 space-y-2">
-                                            {subcourses.map((subcourse, index) => (
-                                                <Draggable key={subcourse.id} draggableId={subcourse.id} index={index}>
-                                                    {(provided) => (
-                                                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                            <SubcourseItem
-                                                                deleteItem={() => deleteSubcourse(subcourse.id)}
-                                                                subcourse={subcourse}
-                                                                isActive={activeSubcourse === subcourse.id}
-                                                                onClick={() => setActiveSubcourse(subcourse.id)}
-                                                                onUpdate={(data) => updateSubcourse(subcourse.id, data)}
-                                                            />
-                                                        </div>
-                                                    )}
-                                                </Draggable>
-                                            ))}
-                                            {provided.placeholder}
-                                        </div>
-                                    )}
-                                </Droppable>
-                            </DragDropContext>
+                            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd} modifiers={[restrictToVerticalAxis]}>
+                                <SortableContext items={subcourses} strategy={verticalListSortingStrategy}>
+                                    <div className="p-4 space-y-2">
+                                        {subcourses.map((subcourse) => (
+                                            <SortableItem
+                                                key={subcourse.id}
+                                                id={subcourse.id}
+                                                subcourse={subcourse}
+                                                deleteItem={() => deleteSubcourse(subcourse.id)}
+                                                isActive={activeSubcourse === subcourse.id}
+                                                onClick={() => setActiveSubcourse(subcourse.id)}
+                                                onUpdate={(data) => updateSubcourse(subcourse.id, data)}
+                                            />
+                                        ))}
+                                    </div>
+                                </SortableContext>
+                            </DndContext>
                         </ScrollArea>
                         <div className="p-4 border-t">
                             <Button variant="outline" className="w-full" onClick={addSubcourse}>
@@ -60,7 +89,7 @@ const ChapterContent = ({onDragEnd , addSubcourse , subcourses , activeSubcourse
                             subcourseId={activeSubcourse}
                             blocks={subcourses.find((s) => s.id === activeSubcourse)?.blocks || []}
                             onBlocksChange={(blocks) => {
-                                updateSubcourse(activeSubcourse, { blocks })
+                                updateSubcourse(activeSubcourse, { blocks });
                             }}
                         />
                     </CardContent>

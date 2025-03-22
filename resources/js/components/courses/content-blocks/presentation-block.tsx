@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { GripVertical, ImageIcon, Plus, Presentation, Trash2 } from "lucide-react"
-import { DragDropContext, Droppable, Draggable } from "@/components/drag-drop"
+// import { DragDropContext, Droppable, Draggable } from "@/components/drag-drop"
 
 interface PresentationBlockEditorProps {
   content: {
@@ -105,7 +105,7 @@ export function PresentationBlockEditor({ content, onChange }: PresentationBlock
           </Button>
         </div>
         
-        <DragDropContext onDragEnd={onDragEnd}>
+        {/* <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="slides">
             {(provided:any) => (
               <div
@@ -197,7 +197,7 @@ export function PresentationBlockEditor({ content, onChange }: PresentationBlock
               </div>
             )}
           </Droppable>
-        </DragDropContext>
+        </DragDropContext> */}
       </div>
       
       <div className="border rounded-md p-4 bg-muted/30">
