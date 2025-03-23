@@ -13,13 +13,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@headlessui/react"
-import { ImageIcon } from "lucide-react" 
+import { ImageIcon } from "lucide-react"
 import { useForm } from "@inertiajs/react"
 
 export function CreateCourseModal({ open, onOpenChange }) {
   const { data, setData, post, processing, errors } = useForm({
     name: '',
     description: '',
+    label: '',
     image: null,
   });
 
@@ -32,7 +33,7 @@ export function CreateCourseModal({ open, onOpenChange }) {
   const handleImageChange = (e) => {
     const file = e.target.files?.[0]
     if (file) {
-      setData('image', file); 
+      setData('image', file);
       const reader = new FileReader()
       reader.onloadend = () => {
         if (reader.result) {
@@ -45,9 +46,10 @@ export function CreateCourseModal({ open, onOpenChange }) {
 
   const handleCreate = (e) => {
     e.preventDefault();
-    
+
     const formData = new FormData();
     formData.append('name', data.name);
+    formData.append('label', data.label);
     formData.append('description', data.description);
     formData.append('image', data.image);
 
@@ -58,6 +60,7 @@ export function CreateCourseModal({ open, onOpenChange }) {
           name: '',
           tagline: '',
           description: '',
+          desclaelription: '',
           image: null,
         });
         onOpenChange(false)
@@ -86,8 +89,21 @@ export function CreateCourseModal({ open, onOpenChange }) {
             />
           </div>
 
+          <div className="space-y-2">
+            <Label htmlFor="tagline">Label</Label>
+            <Input
+              id="label"
+              name="label"
+              placeholder="Enter Course Label"
+              value={data.label}
+              onChange={handleInputChange}
+              className="mt-3"
+            />
+          </div>
 
-          
+
+
+
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Textarea

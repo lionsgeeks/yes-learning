@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Plus } from "lucide-react"
-import { usePage, Head, Link } from "@inertiajs/react";
+import { usePage, Head, Link, useForm } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -19,25 +19,53 @@ const AdminCoursesCreate = () => {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [activeTab, setActiveTab] = useState("details")
     const [subcourses, setSubcourses] = useState([
-        { id: "subcourse-1", title: "Introduction", description: "", blocks: [] },
-        { id: "subcourse-2", title: "Core Concepts", description: "", blocks: [] },
+        { id: 'subcourse-1', title: 'Chapter 1', description: '', block: [] }
     ])
     const [activeSubcourse, setActiveSubcourse] = useState("subcourse-1")
+    const courseId = new URLSearchParams(window.location.search).get("course");
+
+
+
+    const { data, setData, post, processing } = useForm({
+        title: "",
+        description: "",
+        estimated_duration: "",
+        published: false,
+        enable_certificate: false,
+        enable_discussion: false,
+        content: [],
+        course_id: courseId,
+    });
+    useEffect(() => {
+        setData("content", subcourses)
+    }, [subcourses])
+
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        setIsSubmitting(true)
+        e.preventDefault();
 
-        // Simulate form submission
-        setTimeout(() => {
-            setIsSubmitting(false)
-            // router.push("/admin/courses")
-        }, 1500)
-    }
+        console.log("Submitting:", data);
+
+        post(route('chapter.store'), {
+            data: data,
+            onFinish: () => {
+                setData({
+                    title: "",
+                    description: "",
+                    estimated_duration: "",
+                    published: false,
+                    enable_certificate: false,
+                    enable_discussion: false,
+                    content: [],
+                    course_id: courseId,
+                });
+            },
+        });
+    };
 
     const addSubcourse = () => {
         const newId = `subcourse-${subcourses.length + 1}`
-        setSubcourses([...subcourses, { id: newId, title: `Module ${subcourses.length + 1}`, description: "", blocks: [] }])
+        setSubcourses([...subcourses, { id: newId, title: `Chapter ${subcourses.length + 1}`, description: "", blocks: [] }])
         setActiveSubcourse(newId)
     }
 
@@ -49,13 +77,10 @@ const AdminCoursesCreate = () => {
     };
 
     const onDragEnd = (result) => {
-        // Implement drag and drop reordering logic
         if (!result.destination) return
-
         const items = Array.from(subcourses)
         const [reorderedItem] = items.splice(result.source.index, 1)
         items.splice(result.destination.index, 0, reorderedItem)
-
         setSubcourses(items)
     }
 
@@ -98,11 +123,21 @@ const AdminCoursesCreate = () => {
                         </TabsList>
 
                         <TabsContent value="details" className="space-y-4 grid grid-cols-5 gap-4">
-                            <ChapterDetails setActiveTab={setActiveTab} />
+                            <ChapterDetails data={data} setData={setData} setActiveTab={setActiveTab} />
                         </TabsContent>
 
                         <TabsContent value="content" className="space-y-4">
-                            <ChapterContent deleteSubcourse={deleteSubcourse} updateSubcourse={updateSubcourse} onDragEnd={onDragEnd} addSubcourse={addSubcourse} subcourses={subcourses} activeSubcourse={activeSubcourse} setSubcourses={setSubcourses} />
+                            <ChapterContent
+                                data={data}
+                                setData={setData}
+                                deleteSubcourse={deleteSubcourse}
+                                updateSubcourse={updateSubcourse}
+                                onDragEnd={onDragEnd}
+                                addSubcourse={addSubcourse}
+                                subcourses={subcourses}
+                                activeSubcourse={activeSubcourse}
+                                setActiveSubcourse={setActiveSubcourse}
+                                setSubcourses={setSubcourses} />
                         </TabsContent>
 
                         <TabsContent value="preview">

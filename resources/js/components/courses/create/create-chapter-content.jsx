@@ -4,25 +4,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ContentBlockEditor } from "@/components/courses/content-block-editor";
 // import { SubcourseItem } from "@/components/courses/subcourse-item";
 import { Button } from "@/components/ui/button";
+import { CoursePreview } from "@/components/courses/course-preview"
 
-import {
-    DndContext,
-    closestCenter,
-    KeyboardSensor,
-    PointerSensor,
-    useSensor,
-    useSensors
-} from "@dnd-kit/core";
-import {
-    arrayMove,
-    SortableContext,
-    sortableKeyboardCoordinates,
-    verticalListSortingStrategy
-} from "@dnd-kit/sortable";
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import SortableItem from "@/components/courses/content-blocks/sortableItem";
 
-const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveSubcourse, addSubcourse  , updateSubcourse , deleteSubcourse}) => {
+const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveSubcourse, addSubcourse, updateSubcourse, deleteSubcourse, data, setData }) => {
     // Sensors for drag events
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -43,10 +32,12 @@ const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveS
         setSubcourses(newOrder);
     };
 
+
+
     return (
         <>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                <Card className="lg:col-span-1">
+                {/* <Card className="lg:col-span-1">
                     <CardHeader>
                         <CardTitle>Modules</CardTitle>
                         <CardDescription>Organize your course into modules</CardDescription>
@@ -63,7 +54,7 @@ const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveS
                                                 subcourse={subcourse}
                                                 deleteItem={() => deleteSubcourse(subcourse.id)}
                                                 isActive={activeSubcourse === subcourse.id}
-                                                onClick={() => setActiveSubcourse(subcourse.id)}
+                                                onClick={() => { setActiveSubcourse(subcourse.id) }}
                                                 onUpdate={(data) => updateSubcourse(subcourse.id, data)}
                                             />
                                         ))}
@@ -77,9 +68,9 @@ const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveS
                             </Button>
                         </div>
                     </CardContent>
-                </Card>
+                </Card> */}
 
-                <Card className="lg:col-span-3">
+                <Card className="lg:col-span-2">
                     <CardHeader>
                         <CardTitle>{subcourses.find((s) => s.id === activeSubcourse)?.title || "Module Content"}</CardTitle>
                         <CardDescription>Add and arrange content blocks for this module</CardDescription>
@@ -94,6 +85,11 @@ const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveS
                         />
                     </CardContent>
                 </Card>
+                <div className="col-span-2">
+
+                    <CoursePreview course={{ title: "Course Title", description: "Course description will appear here.", subcourses: subcourses, }} />
+                </div>
+
             </div>
 
             <div className="flex justify-between">

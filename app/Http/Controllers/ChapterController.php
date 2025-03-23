@@ -31,6 +31,30 @@ class ChapterController extends Controller
     public function store(Request $request)
     {
         //
+     
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'estimated_duration' => 'required|integer|min:1',
+            'published' => 'boolean',
+            'enable_certificate' => 'boolean',
+            'discussion' => 'boolean',
+            'content' => 'required|array', 
+            'course_id' => 'nullable|exists:quizzes,id',
+        ]);
+
+        $chapter = Chapter::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'estimated_duration' => $request->estimated_duration,
+            'published' => $request->published ?? false,
+            'enable_certificate' => $request->enable_certificate ?? true,
+            'enable_discussion' => $request->discussion ?? false,
+            'content' => json_encode($request->content), 
+            'course_id' => $request->course_id,
+        ]);
+        return redirect()->route('admin.courses.index')->with('success', 'Course created successfully!');
+
     }
 
     /**

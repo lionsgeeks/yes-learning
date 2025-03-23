@@ -29,7 +29,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 
 const CourseDetails = () => {
-    const { course } = usePage().props;
+    const { course, chapters } = usePage().props;
 
     const breadcrumbs = [
 
@@ -62,6 +62,9 @@ const CourseDetails = () => {
 
     const currentSubModule = modules[0].subModules[2]
 
+    console.log(chapters[0].content);
+
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={course.name} />
@@ -73,14 +76,14 @@ const CourseDetails = () => {
                 </Link>
 
                 <div className="flex flex-wrap items-center justify-between gap-4 mt-2">
-                    <h1 className="text-xl font-bold">Web Development Fundamentals</h1>
+                    <h1 className="text-xl font-bold">{course.name}</h1>
                     <div className="flex items-center gap-2">
                         <Badge variant="outline" className="text-xs font-normal px-2 py-0">
-                            <Clock className="h-3 w-3 mr-1" />8 hours total
+                            <Clock className="h-3 w-3 mr-1" />{chapters.reduce((sum, chapter) => sum + chapter.estimated_duration, 0)} Minutes total
                         </Badge>
                         <Badge variant="outline" className="text-xs font-normal px-2 py-0">
                             <BookOpen className="h-3 w-3 mr-1" />
-                            24 lessons
+                            {chapters.length} lessons
                         </Badge>
                     </div>
                 </div>
@@ -101,51 +104,49 @@ const CourseDetails = () => {
                         <CardContent className="p-0">
                             <ScrollArea className="h-[calc(100vh-300px)]">
                                 <Accordion type="multiple" defaultValue={["module-1"]} className="px-4 pb-4">
-                                    {modules.map((module) => (
-                                        <AccordionItem key={module.id} value={`module-${module.id}`}>
-                                            <AccordionTrigger className="py-3 text-sm hover:no-underline">
-                                                <div className="flex items-start text-left">
-                                                    <span>{module.title}</span>
-                                                </div>
-                                            </AccordionTrigger>
-                                            <AccordionContent>
-                                                <div className="space-y-1 pl-2">
-                                                    {module.subModules.map((subModule) => (
-                                                        <Link
-                                                            key={subModule.id}
-                                                            href={`/module/${subModule.id}`}
-                                                            className={`flex items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors
-                                ${subModule.id === currentSubModule.id
-                                                                    ? "bg-primary text-primary-foreground"
-                                                                    : "hover:bg-muted"
-                                                                }`}
-                                                        >
-                                                            <div className="flex items-center">
-                                                                {subModule.isCompleted ? (
-                                                                    <div className="mr-2 h-4 w-4 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[10px]">
-                                                                        ✓
-                                                                    </div>
-                                                                ) : (
-                                                                    <div className="mr-2 h-4 w-4 rounded-full border border-input flex items-center justify-center text-[10px]"></div>
-                                                                )}
-                                                                <span className={subModule.id === currentSubModule.id ? "" : "text-muted-foreground"}>
-                                                                    {subModule.title}
-                                                                </span>
-                                                            </div>
-                                                            <div className="flex items-center gap-2">
-                                                                {subModule.hasQuiz && (
-                                                                    <Badge variant="outline" className="h-5 px-1 text-[10px]">
-                                                                        Quiz
-                                                                    </Badge>
-                                                                )}
-                                                                <span className="text-xs text-muted-foreground">{subModule.duration}</span>
-                                                            </div>
-                                                        </Link>
-                                                    ))}
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    ))}
+                                    <AccordionItem key={course.id} value={`module-${course.id}`}>
+                                        <AccordionTrigger className="py-3 text-sm hover:no-underline">
+                                            <div className="flex items-start text-left">
+                                                <span>{course.name}</span>
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent>
+                                            <div className="space-y-1 pl-2">
+                                                {chapters.map((subModule) => (
+                                                    <Link
+                                                        key={subModule.id}
+                                                        href={`/module/${subModule.id}`}
+                                                        className={`flex items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors
+                                                                    ${subModule.id === currentSubModule.id
+                                                                ? "bg-primary text-primary-foreground"
+                                                                : "hover:bg-muted"
+                                                            }`}
+                                                    >
+                                                        <div className="flex items-center">
+                                                            {subModule.published ? (
+                                                                <div className="mr-2 h-4 w-4 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[10px]">
+                                                                    ✓
+                                                                </div>
+                                                            ) : (
+                                                                <div className="mr-2 h-4 w-4 rounded-full border border-input flex items-center justify-center text-[10px]"></div>
+                                                            )}
+                                                            <span className={subModule.id === currentSubModule.id ? "" : "text-muted-foreground"}>
+                                                                {subModule.title}
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            {subModule.hasQuiz && (
+                                                                <Badge variant="outline" className="h-5 px-1 text-[10px]">
+                                                                    Quiz
+                                                                </Badge>
+                                                            )}
+                                                            <span className="text-xs text-muted-foreground">{subModule.estimated_duration}</span>
+                                                        </div>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
                                 </Accordion>
                             </ScrollArea>
                         </CardContent>
@@ -155,12 +156,6 @@ const CourseDetails = () => {
                 {/* Middle - Course content */}
                 <div className="lg:col-span-6">
                     <Card className="overflow-hidden">
-                        <div className="relative aspect-video">
-
-                            <iframe className="w-full h-full" src="https://www.youtube.com/embed/xDAtMVP1v6k" title="React.js with Inertia in Laravel: Practical Example" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-
-                        </div>
-
 
                         <CardContent className="p-6">
                             <Tabs defaultValue="content">
@@ -172,7 +167,7 @@ const CourseDetails = () => {
 
                                 <TabsContent value="content" className="space-y-4">
                                     <div className="flex justify-between items-center">
-                                        <h2 className="text-xl font-medium">Web Development Basics</h2>
+                                        <h2 className="text-xl font-medium">{chapters[0].title}</h2>
                                         <Button variant="outline" size="sm">
                                             <PlusCircle className="h-4 w-4 mr-1" />
                                             Save to Bookmarks
@@ -180,42 +175,114 @@ const CourseDetails = () => {
                                     </div>
 
                                     <div className="prose max-w-none">
-                                        <p>
-                                            Web development is the work involved in developing a website for the Internet or an intranet. Web
-                                            development can range from developing a simple single static page of plain text to complex web
-                                            applications, electronic businesses, and social network services.
-                                        </p>
+                                        {chapters.flatMap((chapter, chapterIndex) =>
+                                            chapter.content.flatMap((content, contentIndex) =>
+                                                content.blocks.map((block, blockIndex) => (
+                                                    <div key={`${chapterIndex}-${contentIndex}-${blockIndex}`} className="rounded-md p-4">
+                                                        {/* Block Title */}
+                                                        {block.content.title && <h3 className="font-medium mb-2">{block.content.title}</h3>}
 
+                                                        {/* Text Block */}
+                                                        {block.type === "text" && block.content.body && (
+                                                            <div className="prose max-w-none">
+                                                                <p>{block.content.body}</p>
+                                                            </div>
+                                                        )}
 
+                                                        {/* Image Block */}
+                                                        {block.type === "image" && (
+                                                            <div className="space-y-2">
+                                                                <div className="bg-muted aspect-video flex items-center justify-center rounded-md">
+                                                                    <div className="text-muted-foreground">Image Preview</div>
+                                                                </div>
+                                                                {block.content.caption && (
+                                                                    <p className="text-sm text-center text-muted-foreground">{block.content.caption}</p>
+                                                                )}
+                                                            </div>
+                                                        )}
 
-                                        <h4>Back-end Technologies</h4>
-                                        <ul>
-                                            <li>
-                                                <strong>Server-side languages</strong> - PHP, Python, Ruby, Node.js, etc.
-                                            </li>
-                                            <li>
-                                                <strong>Databases</strong> - MySQL, MongoDB, PostgreSQL, etc.
-                                            </li>
-                                            <li>
-                                                <strong>Server</strong> - Apache, Nginx, etc.
-                                            </li>
-                                        </ul>
-                                        <div className="relative aspect-video py-5">
+                                                        {/* Video Block */}
+                                                        {block.type === "video" && block.content.url && (
+                                                            <div className="space-y-2">
+                                                                <div className="bg-muted aspect-video flex items-center justify-center rounded-md">
+                                                                    <iframe
+                                                                        width="866"
+                                                                        height="487"
+                                                                        src={`https://www.youtube.com/embed/${extractVideoId(block.content.url)}`} // Extract video ID function
+                                                                        title="Video"
+                                                                        frameBorder="0"
+                                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                        referrerPolicy="strict-origin-when-cross-origin"
+                                                                        allowFullScreen
+                                                                    ></iframe>
+                                                                </div>
+                                                                {block.content.caption && (
+                                                                    <p className="text-sm text-center text-muted-foreground">{block.content.caption}</p>
+                                                                )}
+                                                            </div>
+                                                        )}
 
-                                            <iframe className="w-full h-full" src="https://www.youtube.com/embed/xDAtMVP1v6k" title="React.js with Inertia in Laravel: Practical Example" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                                                        {/* List Block */}
+                                                        {block.type === "list" && (
+                                                            <div>
+                                                                {block.content.type === "bullet" ? (
+                                                                    <ul className="list-disc pl-5 space-y-1">
+                                                                        {(block.content.items || ["Sample item"]).map((item, i) => (
+                                                                            <li key={i}>{item}</li>
+                                                                        ))}
+                                                                    </ul>
+                                                                ) : block.content.type === "numbered" ? (
+                                                                    <ol className="list-decimal pl-5 space-y-1">
+                                                                        {(block.content.items || ["Sample item"]).map((item, i) => (
+                                                                            <li key={i}>{item}</li>
+                                                                        ))}
+                                                                    </ol>
+                                                                ) : (
+                                                                    <div className="space-y-2">
+                                                                        {(block.content.items || ["Sample item"]).map((item, i) => (
+                                                                            <div key={i} className="flex items-center">
+                                                                                <CheckCircle className="h-4 w-4 mr-2 text-primary" />
+                                                                                <span>{item}</span>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        )}
 
-                                        </div>
+                                                        {/* Table Block */}
+                                                        {block.type === "table" && (
+                                                            <div className="overflow-x-auto">
+                                                                <table className="w-full border-collapse">
+                                                                    <thead>
+                                                                        <tr className="bg-muted">
+                                                                            {Array.from({ length: block.content.cols || 3 }).map((_, i) => (
+                                                                                <th key={i} className="border p-2 text-left">Header {i + 1}</th>
+                                                                            ))}
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {Array.from({ length: block.content.rows || 3 }).map((_, rowIndex) => (
+                                                                            <tr key={rowIndex}>
+                                                                                {Array.from({ length: block.content.cols || 3 }).map((_, colIndex) => (
+                                                                                    <td key={colIndex} className="border p-2">Cell {rowIndex + 1},{colIndex + 1}</td>
+                                                                                ))}
+                                                                            </tr>
+                                                                        ))}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        )}
 
-                                        <div className="bg-muted p-4 rounded-md my-4">
-                                            <h4 className="mt-0">Key Takeaways:</h4>
-                                            <ul className="mb-0">
-                                                <li>Web development involves both client-side and server-side programming</li>
-                                                <li>HTML, CSS, and JavaScript are the core technologies for front-end development</li>
-                                                <li>Back-end development involves server-side languages and databases</li>
-                                                <li>Full-stack developers work on both front-end and back-end</li>
-                                            </ul>
-                                        </div>
+                                                        {/* Chart Block */}
+                                                        {block.type === "chart" && renderChart(block)}
+                                                    </div>
+                                                ))
+                                            )
+                                        )}
                                     </div>
+
+
                                 </TabsContent>
 
                                 <TabsContent value="discussion">

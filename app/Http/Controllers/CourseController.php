@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chapter;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,8 +15,12 @@ class CourseController extends Controller
     public function index()
     {
         //
-        return Inertia::render("courses/student/index",);
+        return Inertia::render("courses/student/index",[
+            'courses' => Course::all(),
+        ]);
     }
+
+
     public function adminIndex()
     {        
         //
@@ -46,6 +51,7 @@ class CourseController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
+            'label' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3072',
         ]);
 
@@ -57,6 +63,7 @@ class CourseController extends Controller
         $course = Course::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
+            'label' => $validated['label'],
             'image' => $imagePath,
         ]);
         // Return a response
@@ -70,14 +77,26 @@ class CourseController extends Controller
     {
         //
         return Inertia::render("courses/student/[id]", [
-            "course" => $course
+            "course" => $course,
+            "chapters" => Chapter::where("course_id", $course->id)
+                ->get()
+                ->map(function ($chapter) {
+                    $chapter->content = json_decode($chapter->content, true); 
+                    return $chapter;
+                }),
         ]);
     }
     public function adminShow(Course $course)
     {
         //
+        
+        $course->image = asset('storage/'.$course->image); 
+        
+        
         return Inertia::render("courses/admin/[id]", [
-            "course" => $course
+            "course" => $course,
+            "modules"=> Chapter::where("course_id" , $course->id)->get(),
+            // dd($chapters)
         ]);
     }
 

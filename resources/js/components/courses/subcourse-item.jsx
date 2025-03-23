@@ -17,7 +17,7 @@ export function SubcourseItem({ subcourse, isActive, onClick, onUpdate , deleteI
   }
 
   return (
-    <div className={`rounded-md border p-3 mb-2 ${isActive ? "border-primary bg-primary/5" : "bg-card"}`}>
+    <div  onClick={onClick} className={`rounded-md cursor-pointer border p-3 mb-2 ${isActive ? "border-primary bg-primary/5" : "bg-card"}`}>
       <div className="flex items-center gap-2">
         <GripVertical className="h-5 w-5 text-muted-foreground cursor-move" />
 
@@ -33,15 +33,15 @@ export function SubcourseItem({ subcourse, isActive, onClick, onUpdate , deleteI
             />
           </div>
         ) : (
-          <div className="flex-1 font-medium cursor-pointer truncate" onClick={onClick}>
+          <div className="flex-1 font-medium  truncate" >
             {subcourse.title}
           </div>
         )}
 
         <div className="flex">
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setIsEditing(!isEditing)}>
+          {/* <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setIsEditing(!isEditing)}>
             <Pencil className="h-4 w-4" />
-          </Button>
+          </Button> */}
           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => deleteItem()}>
             <Trash className="h-4 w-4" />
           </Button>

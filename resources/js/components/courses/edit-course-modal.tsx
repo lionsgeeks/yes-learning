@@ -24,16 +24,14 @@ interface EditCourseModalProps {
   onOpenChange: (open: boolean) => void
   course: {
     id: string
-    title: string
+    name: string
     description: string
     image: string
-    tagline: string
   }
 }
 
 export function EditCourseModal({ open, onOpenChange, course }: EditCourseModalProps) {
-  const [title, setTitle] = useState(course.title)
-  const [tagline, setTagline] = useState(course.tagline)
+  const [name, setName] = useState(course.name)
   const [description, setDescription] = useState(course.description)
   const [image, setImage] = useState(course.image)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -51,9 +49,9 @@ export function EditCourseModal({ open, onOpenChange, course }: EditCourseModalP
   }
 
   return (
-    <Dialog open={open}  onOpenChange={onOpenChange}>
+    <Dialog open={open}   onOpenChange={onOpenChange}>
       <div className="p-5">
-      <DialogContent className="sm:max-w-[600px] h-full">
+      <DialogContent className="sm:max-w-[500px] h-[90%] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Course</DialogTitle>
           <DialogDescription>Update your course details. Click save when you're done.</DialogDescription>
@@ -64,23 +62,14 @@ export function EditCourseModal({ open, onOpenChange, course }: EditCourseModalP
             <Label htmlFor="title">Course Title</Label>
             <Input
               id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Enter course title"
               required
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="tagline">Tagline</Label>
-            <Input
-              id="tagline"
-              value={tagline}
-              onChange={(e) => setTagline(e.target.value)}
-              placeholder="A short, catchy tagline"
-              required
-            />
-          </div>
+
 
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>

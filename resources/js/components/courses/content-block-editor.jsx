@@ -45,10 +45,8 @@ export function ContentBlockEditor({  blocks, onBlocksChange }) {
   }
 
   const updateBlock = (id, content) => {
-    console.log(content);
     
     onBlocksChange(blocks.map((block) => (block.id === id ? { ...block, content } : block)))
-    console.log(blocks);
     
   }
 

@@ -107,7 +107,6 @@ export function CreateSubWorkshopModal({ open, onOpenChange }: CreateSubWorkshop
 
     const handleSubmit = () => {
         // In a real app, you would submit the form data here
-        console.log(formData)
         onOpenChange(false)
         setStep(1)
     }

@@ -4,97 +4,82 @@ import { BookOpen, CheckCircle } from "lucide-react"
 import { Bar, Line, Pie } from "react-chartjs-2"; // Importing Chart.js components
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from "chart.js";
 
-// Registering chart components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  PointElement,
-  LineElement
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
-// Function to extract YouTube video ID
-function extractVideoId(url) {
-  const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=))([^"&?/]+)/;
-  const match = url.match(regex);
-  return match && match[1];
-}
+
 
 export function CoursePreview({ course }) {
 
-// Separate function to render chart
-function renderChart(block) {
-  const content = block.content; // Get the block's content
-  const chartData = {
-    labels: content.data.map((point) => point.name),
-    datasets: [
-      {
-        label: 'Dataset',
-        data: content.data.map((point) => point.value),
-        backgroundColor: content.type === "pie" ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
+  // Separate function to render chart
+  function renderChart(block) {
+    const content = block.content; // Get the block's content
+    const chartData = {
+      labels: content.data.map((point) => point.name),
+      datasets: [
+        {
+          label: 'Dataset',
+          data: content.data.map((point) => point.value),
+          backgroundColor: content.type === "pie" ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    const chartOptions = {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: content.title || 'Chart Preview',
+        },
       },
-    ],
-  };
+    };
 
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      title: {
-        display: true,
-        text: content.title || 'Chart Preview',
-      },
-    },
-  };
 
-  
 
-  return (
-    <div className="bg-muted  flex items-center justify-center rounded-md">
-      <div className="w-full h-full">
-        <div className="h-full flex items-center justify-center">
-          <div className="w-full">
-            {block.content.type === "bar" && (
-              <Bar data={chartData} options={chartOptions} />
-            )}
-            {block.content.type === "line" && (
-              <Line data={chartData} options={chartOptions} />
-            )}
-            {block.content.type === "pie" && (
-              <Pie data={chartData} options={chartOptions} />
-            )}
+    return (
+      <div className="bg-   rounded-md">
+        <div className="w-full h-full">
+          <div className="h-full flex items-center justify-center">
+            <div className="">
+              {block.content.type === "bar" && (
+                <Bar data={chartData} options={chartOptions} />
+              )}
+              {block.content.type === "line" && (
+                <Line data={chartData} options={chartOptions} />
+              )}
+              {block.content.type === "pie" && (
+                <Pie data={chartData} options={chartOptions} />
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
+  // Function to extract YouTube video ID
+  function extractVideoId(url) {
+    const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=))([^"&?/]+)/;
+    const match = url.match(regex);
+    return match && match[1];
+  }
 
-  
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-      <Card className="lg:col-span-3">
+      <Card className="lg:col-span-4">
         <CardHeader className="pb-0">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">PREVIEW MODE</p>
-              <CardTitle className="text-2xl mt-1">{course.title || "Course Title"}</CardTitle>
-            </div>
+
             <div className="flex items-center gap-2">
-              <div className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">Student View</div>
+              <div className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">NGO View</div>
             </div>
           </div>
-          <p className="text-muted-foreground mt-2">{course.description || "Course description will appear here."}</p>
         </CardHeader>
 
-        <CardContent className="pt-6">
+        <CardContent className="">
           <Tabs defaultValue="content">
             {/* <TabsList>
               <TabsTrigger value="content">Content</TabsTrigger>
@@ -102,20 +87,14 @@ function renderChart(block) {
               <TabsTrigger value="discussions">Discussions</TabsTrigger>
             </TabsList> */}
 
-            <TabsContent value="content" className="mt-6">
+            <TabsContent value="content" className="mt-3">
               {course.subcourses.length > 0 ? (
                 <div className="space-y-8">
                   {course.subcourses.map((subcourse, index) => (
                     <div key={subcourse.id}>
-                      <div className="flex items-center mb-4">
-                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-sm font-medium">
-                          {index + 1}
-                        </div>
-                        <h2 className="text-xl font-semibold">{subcourse.title}</h2>
-                      </div>
 
-                      {subcourse.blocks.length > 0 ? (
-                        <div className=" pl-11">
+                      {subcourse.blocks?.length > 0 ? (
+                        <div className="">
                           {subcourse.blocks.map((block) => (
                             <div key={block.id} className=" rounded-md p-4">
                               <h3 className="font-medium mb-2">{block.content.title}</h3>
@@ -139,15 +118,14 @@ function renderChart(block) {
 
                               {block.type === "video" && (
                                 <div className="space-y-2">
-                                  <div className="bg-muted aspect-video flex items-center justify-center rounded-md">
+                                  <div className="bg-muted aspect-video flex  rounded-md">
 
                                     {block.type === "video" && (
-                                      <div className="space-y-2">
-                                        <div className="bg-muted aspect-video flex items-center justify-center rounded-md">
+                                      <div className="space-y-2 w-full">
+                                        <div className="bg-muted aspect-video  rounded-md">
                                           {/* Extract video ID and embed */}
                                           <iframe
-                                            width="866"
-                                            height="487"
+                                            className="w-full h-full"
                                             src={`https://www.youtube.com/embed/${extractVideoId(block.content.url)}`}  // Call a function to extract the video ID
                                             title="Video"
                                             frameBorder="0"
@@ -156,16 +134,19 @@ function renderChart(block) {
                                             allowFullScreen
                                           ></iframe>
                                         </div>
+                                        {/* TODO : fix width */}
+
                                         {block.content.caption && (
-                                          <p className="text-sm text-center text-muted-foreground">{block.content.caption}</p>
+                                          <p className="text-sm text-center w-full  text-muted-foreground">{block.content.caption}</p>
                                         )}
                                       </div>
                                     )}
 
 
                                   </div>
+                                  {/* TODO : fix width */}
                                   {block.content.caption && (
-                                    <p className="text-sm text-center text-muted-foreground">{block.content.caption}</p>
+                                    <p className="text-sm text-center w-full  text-muted-foreground">{block.content.caption}</p>
                                   )}
                                 </div>
                               )}
@@ -224,7 +205,7 @@ function renderChart(block) {
                                 </div>
                               )}
 
-                              
+
                               {block.type === "chart" && renderChart(block)}
 
 

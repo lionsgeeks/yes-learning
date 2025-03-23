@@ -24,6 +24,7 @@ interface CourseCardProps {
   course: {
     id: string
     name: string
+    label: string
     description: string
     image: string
     chaptersCount: number
@@ -37,7 +38,7 @@ export function CourseCard({ course }: CourseCardProps) {
 
   return (
     <>
-      <Card className="overflow-hidden transition-all hover:shadow-md gap-3 pb-0">
+      <Card className="overflow-hidden transition-all hover:shadow-md gap-3">
         <Link href={`/admin/courses/${course.id}`}>
           <div className="relative aspect-video overflow-hidden">
             <img
@@ -45,11 +46,16 @@ export function CourseCard({ course }: CourseCardProps) {
               alt={course.name}
               className="object-cover transition-transform hover:scale-105"
             />
-            {/* {!course.published && (
+            {!course.published && (
               <Badge variant="secondary" className="absolute right-2 top-2">
                 Draft
               </Badge>
-            )} */}
+            )}
+            {!course.published && (
+              <Badge  className="absolute  left-2 top-2">
+                {course.label}
+              </Badge>
+            )}
           </div>
         </Link>
         <CardHeader className="px-4">
