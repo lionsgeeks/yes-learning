@@ -9,6 +9,7 @@ Route::middleware(['auth', 'verified', "role:user"])->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
+    Route::post('/workshop/store', [WorkshopController::class, 'store'])->name('workshop.store');
     Route::resource("workshops" , WorkshopController::class);
     Route::resource("sub-workshop" , SubWorkshopController::class);
 });

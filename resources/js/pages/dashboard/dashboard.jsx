@@ -14,7 +14,9 @@ const breadcrumbs = [
   },
 ];
 
-export default function Dashboard() {
+export default function Dashboard(e) {
+  const courses=e.courses
+  // console.log(courses);
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Dashboard" />
@@ -62,19 +64,19 @@ export default function Dashboard() {
 
             <TabsContent value="courses" className="mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {[1, 2, 3, 4, 5, 6].map((course) => (
+                {courses.map((course) => (
                   <Card key={course} className="overflow-hidden">
                     <div className="relative h-40">
                       <Image
-                        src={`/placeholder.svg?height=160&width=400&text=Course ${course}`}
-                        alt={`Course ${course}`}
+                        src={course.image}
+                        alt={`Course 1`}
                         width={400}
                         height={160}
                         className="object-cover w-full h-full"
                       />
                     </div>
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">Course Title {course}</CardTitle>
+                      <CardTitle className="text-lg"> {course.name}</CardTitle>
                       <CardDescription className="flex items-center">
                         <Clock className="h-4 w-4 mr-1" />
                         <span>8 hours</span>

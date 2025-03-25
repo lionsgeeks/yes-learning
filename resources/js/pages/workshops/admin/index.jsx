@@ -18,46 +18,12 @@ const breadcrumbs = [
 ];
 
 
-const AdminWorkshops = () => {
+const AdminWorkshops = ({ workshops , courses }) => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
 
 
     // Mock data for workshops
-    const workshops = [
-        {
-            id: "1",
-            title: "Introduction to Web Development",
-            description: "Learn the basics of HTML, CSS, and JavaScript",
-            course: "Web Development Fundamentals",
-            date: "2023-05-15",
-            subWorkshops: 3,
-            enrolledStudents: 24,
-            maxCapacity: 30,
-            isComplete: true,
-        },
-        {
-            id: "2",
-            title: "Advanced React Patterns",
-            description: "Master advanced React concepts and patterns",
-            course: "Frontend Development",
-            date: "2023-06-10",
-            subWorkshops: 5,
-            enrolledStudents: 18,
-            maxCapacity: 25,
-            isComplete: true,
-        },
-        {
-            id: "3",
-            title: "Database Design Principles",
-            description: "Learn how to design efficient and scalable databases",
-            course: "Database Management",
-            date: "2023-07-05",
-            subWorkshops: 2,
-            enrolledStudents: 15,
-            maxCapacity: 20,
-            isComplete: false,
-        },
-    ]
+   
 
 
     return (
@@ -101,7 +67,7 @@ const AdminWorkshops = () => {
         </div>
       </div>
 
-      <CreateWorkshopModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
+      <CreateWorkshopModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} courses={courses}  />
     </div>
 
         </AppLayout>

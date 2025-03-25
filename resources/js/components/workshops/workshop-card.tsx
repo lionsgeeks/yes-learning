@@ -1,8 +1,5 @@
-"use client"
-
 import type React from "react"
-
-import { MoreHorizontal, Calendar, Users, AlertTriangle } from "lucide-react"
+import { MoreHorizontal, Calendar, Users, AlertTriangle, Trophy } from "lucide-react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -15,7 +12,7 @@ interface WorkshopCardProps {
     id: string
     title: string
     description: string
-    course: string
+    course: { id: string; name: string } | null
     date: string
     subWorkshops: number
     enrolledStudents: number
@@ -36,6 +33,7 @@ export function WorkshopCard({ workshop }: WorkshopCardProps) {
     }
   }
 
+  
   // const isDraft = workshop.status === "draft" || !workshop.status
 
   return (
@@ -44,7 +42,7 @@ export function WorkshopCard({ workshop }: WorkshopCardProps) {
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <CardTitle className="text-lg">{workshop.title}</CardTitle>
+              <CardTitle className="text-lg">{workshop.name}</CardTitle>
             </div>
             <CardDescription className="line-clamp-1 mt-1">{workshop.description}</CardDescription>
           </div>
@@ -83,12 +81,12 @@ export function WorkshopCard({ workshop }: WorkshopCardProps) {
         <div className="flex flex-col gap-2">
           <div className="flex items-center text-sm text-muted-foreground">
             <Badge variant="outline" className="mr-2">
-              {workshop.course}
+            {workshop.course.name}
             </Badge>
           </div>
           <div className="flex items-center text-sm text-muted-foreground">
             <Calendar className="mr-1 h-4 w-4" />
-            <span>{new Date(workshop.date).toLocaleDateString()}</span>
+            <span>{new Date(workshop.created_at).toLocaleDateString()}</span>
           </div>
           <div className="flex items-center text-sm text-muted-foreground">
             <Users className="mr-1 h-4 w-4" />
@@ -103,10 +101,15 @@ export function WorkshopCard({ workshop }: WorkshopCardProps) {
         <div className="flex w-full items-center justify-between">
           <span className="text-xs text-muted-foreground">{workshop.subWorkshops} Sub-Workshops</span>
 
-          {!workshop.isComplete && (
+          {!workshop.isComplete ? (
             <div className="flex items-center gap-2 text-amber-600">
               <AlertTriangle className="h-4 w-4" />
               <span className="text-xs font-medium">Incomplete</span>
+            </div>
+          ):(
+            <div className="flex items-center gap-2 text-green-600">
+              <Trophy className="h-4 w-4" />
+              <span className="text-xs font-medium">complete</span>
             </div>
           )}
         </div>
@@ -115,7 +118,7 @@ export function WorkshopCard({ workshop }: WorkshopCardProps) {
       <DeleteWorkshopDialog
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
-        workshopTitle={workshop.title}
+        workshopTitle={workshop.name}
       />
     </Card>
   )

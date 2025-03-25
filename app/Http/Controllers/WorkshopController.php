@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\SubWorkshop;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,7 +16,10 @@ class WorkshopController extends Controller
     public function index()
     {
         //
-        return Inertia::render("workshops/admin/index");
+        return Inertia::render("workshops/admin/index" , [
+            "workshops" => Workshop::with('course')->get(),
+            'courses' => Course::all(),
+        ]);
     }
 
 
@@ -37,6 +42,21 @@ class WorkshopController extends Controller
     public function store(Request $request)
     {
         //
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:400',
+            "course_id"=>"required"
+        ]);
+        Workshop::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'course_id' => $validated['course_id'],
+            'isComplete' => 0,
+        ]);
+
+        return back()->with('success', 'workshop created successfully!');
+
     }
 
     /**
@@ -45,8 +65,11 @@ class WorkshopController extends Controller
     public function show(Workshop $workshop)
     {
         //
+
+        
         return Inertia::render("workshops/admin/[id]", [
-            'workshop' => $workshop
+            'workshop' => $workshop->load('course'),
+            'subWorkshops'=>SubWorkshop::all()
         ]);
     }
 
