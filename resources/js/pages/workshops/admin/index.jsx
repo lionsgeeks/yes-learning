@@ -50,11 +50,13 @@ const AdminWorkshops = ({ workshops , courses }) => {
               <SelectValue placeholder="Filter by course" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Courses</SelectItem>
-              <SelectItem value="web-dev">Web Development</SelectItem>
-              <SelectItem value="frontend">Frontend Development</SelectItem>
-              <SelectItem value="database">Database Management</SelectItem>
-            </SelectContent>
+            <SelectItem value="all">All Courses</SelectItem>
+                  {courses.map((course) => (
+                    <SelectItem key={course.name} value={course.name}>
+                      {course.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
           </Select>
         </div>
 

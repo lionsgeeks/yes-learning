@@ -1,55 +1,17 @@
-  import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+"use client"
+
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Users, AlertTriangle, CheckCircle2 } from "lucide-react"
 import { format, isPast } from "date-fns"
 
-interface SubWorkshopCardProps {
-  subWorkshop: {
-    id: string
-    name: string
-    description: string
-    subCourse: string
-    date: string
-    time: string
-    language: string
-    instructors: {
-      english: string
-      french: string
-      arabic: string
-    }
-    meetLinks: {
-      english: string
-      french: string
-      arabic: string
-    }
-    enrolledStudents: number
-    maxCapacity: number
-    isComplete: boolean
-  }
-}
-
-export function SubWorkshopCard({ subWorkshop }: SubWorkshopCardProps) {
+export function SubWorkshopCard({ subWorkshop }) {
   // Check for missing information
   const missingInfo = []
   if (!subWorkshop.date) missingInfo.push("date")
   if (!subWorkshop.time) missingInfo.push("time")
-
-  // Check if any language is missing instructor or meet link
-  const languages = ["english", "french", "arabic"]
-  const missingInstructors = languages.filter(
-    (lang) => !subWorkshop.instructors[lang as keyof typeof subWorkshop.instructors],
-  )
-  const missingMeetLinks = languages.filter(
-    (lang) => !subWorkshop.meetLinks[lang as keyof typeof subWorkshop.meetLinks],
-  )
-
-  if (missingInstructors.length > 0) {
-    missingInfo.push(`instructor (${missingInstructors.map((l) => l.substring(0, 2).toUpperCase()).join(", ")})`)
-  }
-
-  if (missingMeetLinks.length > 0) {
-    missingInfo.push(`meet link (${missingMeetLinks.map((l) => l.substring(0, 2).toUpperCase()).join(", ")})`)
-  }
+  if (!subWorkshop.instructor) missingInfo.push("instructor")
+  if (!subWorkshop.meetLink) missingInfo.push("meet link")
 
   // Check if the sub-workshop has already passed
   const isPastWorkshop = subWorkshop.date && isPast(new Date(`${subWorkshop.date} ${subWorkshop.time}`))
@@ -64,23 +26,21 @@ export function SubWorkshopCard({ subWorkshop }: SubWorkshopCardProps) {
               <Badge variant="outline" className="text-xs">
                 {subWorkshop.subCourse}
               </Badge>
-              <div className="flex gap-1">
-                <Badge variant="secondary" className="text-xs">
-                  EN
-                </Badge>
-                <Badge variant="secondary" className="text-xs">
-                  FR
-                </Badge>
-                <Badge variant="secondary" className="text-xs">
-                  AR
-                </Badge>
-              </div>
+              <Badge variant="secondary" className="text-xs uppercase">
+                {subWorkshop.language}
+              </Badge>
             </div>
           </div>
         </div>
       </CardHeader>
       <CardContent className="pb-2 flex-grow">
         <div className="flex flex-col gap-2">
+          {subWorkshop.description && (
+            <p className="text-sm text-muted-foreground line-clamp-2">
+              {subWorkshop.description}
+            </p>
+          )}
+
           {subWorkshop.date && (
             <div className="flex items-center text-sm text-muted-foreground">
               <Calendar className="mr-1 h-4 w-4" />
@@ -101,29 +61,14 @@ export function SubWorkshopCard({ subWorkshop }: SubWorkshopCardProps) {
             </span>
           </div>
 
-          <div className="mt-1 space-y-1">
-            <div className="text-xs font-medium text-muted-foreground">Instructors:</div>
-            <div className="grid grid-cols-3 gap-1 text-xs">
-              <div className="flex items-center gap-1">
-                <div className="h-4 px-1 bg-primary rounded-l">
-                  EN
-                </div>
-                <span className="truncate">{subWorkshop.instructors.english || "—"}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="h-4 px-1 bg-primary rounded-l">
-                  FR
-                </div>
-                <span className="truncate">{subWorkshop.instructors.french || "—"}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="h-4 px-1 bg-primary rounded-l">
-                  AR
-                </div>
-                <span className="truncate">{subWorkshop.instructors.arabic || "—"}</span>
+          {subWorkshop.instructor && (
+            <div className="mt-1">
+              <div className="text-xs font-medium text-muted-foreground mb-1">Instructor:</div>
+              <div className="flex items-center gap-2 text-sm">
+                <span>{subWorkshop.instructor}</span>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </CardContent>
 
@@ -147,4 +92,3 @@ export function SubWorkshopCard({ subWorkshop }: SubWorkshopCardProps) {
     </Card>
   )
 }
-

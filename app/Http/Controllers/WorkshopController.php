@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\SubWorkshop;
 use App\Models\Workshop;
@@ -69,7 +70,8 @@ class WorkshopController extends Controller
         
         return Inertia::render("workshops/admin/[id]", [
             'workshop' => $workshop->load('course'),
-            'subWorkshops'=>SubWorkshop::all()
+            'subWorkshops'=>SubWorkshop::all(),
+            'chapters' => Chapter::all(),
         ]);
     }
 

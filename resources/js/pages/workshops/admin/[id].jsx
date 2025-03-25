@@ -11,7 +11,7 @@ import { ArrowLeft, Calendar, MoreHorizontal, Plus, Users, Globe } from "lucide-
 import { CreateSubWorkshopModal } from "@/components/workshops/create-sub-workshop-modal"
 import { Switch } from "@/components/ui/switch"
 import { SubWorkshopCard } from "@/components/workshops/sub-workshop-card"
-// import { format } from "date-fns"
+import { format } from "date-fns"
 
 const breadcrumbs = [
 
@@ -29,7 +29,7 @@ const breadcrumbs = [
 // Mock data for sub-workshops
 
 
-const WorkshopDetails = ({workshop , subWorkshops}) => {
+const WorkshopDetails = ({workshop , subWorkshops , chapters}) => {
 // console.log(workshop);
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
@@ -201,7 +201,7 @@ const WorkshopDetails = ({workshop , subWorkshops}) => {
                     </div>
                 </div>
 
-                <CreateSubWorkshopModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
+                <CreateSubWorkshopModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} chapters={chapters} />
             </div>
 
         </AppLayout>

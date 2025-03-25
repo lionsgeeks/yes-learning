@@ -1,4 +1,3 @@
-import type React from "react"
 import { MoreHorizontal, Calendar, Users, AlertTriangle, Trophy } from "lucide-react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -7,27 +6,14 @@ import { Badge } from "@/components/ui/badge"
 import { DeleteWorkshopDialog } from "@/components/workshops/delete-workshop-dialog"
 import { useState } from "react"
 
-interface WorkshopCardProps {
-  workshop: {
-    id: string
-    title: string
-    description: string
-    course: { id: string; name: string } | null
-    date: string
-    subWorkshops: number
-    enrolledStudents: number
-    maxCapacity: number
-    isComplete: boolean
-    status?: "draft" | "published"
-  }
-}
 
-export function WorkshopCard({ workshop }: WorkshopCardProps) {
+
+export function WorkshopCard({ workshop }) {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e) => {
     // Prevent navigation when clicking on the dropdown menu
-    if ((e.target as HTMLElement).closest("[data-dropdown-trigger]")) {
+    if ((e.target).closest("[data-dropdown-trigger]")) {
       e.preventDefault()
       e.stopPropagation()
     }
@@ -44,7 +30,7 @@ export function WorkshopCard({ workshop }: WorkshopCardProps) {
             <div className="flex items-center gap-2">
               <CardTitle className="text-lg">{workshop.name}</CardTitle>
             </div>
-            <CardDescription className="line-clamp-1 mt-1">{workshop.description}</CardDescription>
+            <CardDescription className="line-clamp-1 mt-1">{workshop.description}</CardDescription> 
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild data-dropdown-trigger onClick={handleClick}>
