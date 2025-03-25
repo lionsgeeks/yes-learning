@@ -14,4 +14,9 @@ class Course extends Model
         "image",
         "label",
     ];
+
+
+    public function workshops(){
+        $this->hasMany(Workshop::class);
+    }
 }
