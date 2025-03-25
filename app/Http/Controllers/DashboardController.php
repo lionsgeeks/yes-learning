@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -12,7 +11,7 @@ class DashboardController extends Controller
     public function dashboard()
     {
         //
-        $courses= Course::all();
+        $courses= DB::table('courses')->get();
         return Inertia::render("dashboard/dashboard", compact("courses"));
     }
 
