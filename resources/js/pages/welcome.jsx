@@ -7,7 +7,7 @@ export default function Welcome() {
 
     return (
         <div className="flex flex-col min-h-screen bg-white lg:p-6">
-            <header className=" backdrop-blur-md bg-white/30 sticky top-0 z-10 /80 backdrop-blur-md">
+            <header className="  bg-white/30 sticky top-0 z-10 /80 backdrop-blur-md">
                 <div className="container flex h-20 items-center justify-between px-6 md:px-8">
                     <div className="flex items-center gap-3">
                         <img width={100} src="https://youthempowermentsummit.africa/assets/yeslogo-CWn7tdd7.png" alt="" />
@@ -29,7 +29,7 @@ export default function Welcome() {
                     <div className="flex items-center gap-4">
                         <Link
                             href="/login"
-                            className="inline-flex h-10 items-center justify-center rounded-md bg-[#295da6] hover:bg-beta px-5 py-2 text-sm font-medium text-white shadow-md transition-colors hover:bg-[#295da6]/90 focus-visible:outline-none focus-visible:ring-1"
+                            className="inline-flex h-10 items-center justify-center rounded-md bg-[#295da6]  px-5 py-2 text-sm font-medium text-white shadow-md transition-colors hover:bg-[#295da6]/90 focus-visible:outline-none focus-visible:ring-1"
                         >
                             Login
                         </Link>
