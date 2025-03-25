@@ -30,8 +30,7 @@ class ChapterController extends Controller
      */
     public function store(Request $request)
     {
-        //
-     
+        // dd($request);
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -40,9 +39,10 @@ class ChapterController extends Controller
             'enable_certificate' => 'boolean',
             'discussion' => 'boolean',
             'content' => 'required|array', 
-            'course_id' => 'nullable|exists:quizzes,id',
+            'course_id' => 'nullable',
+            // 'course_id' => 'nullable|exists:quizzes,id',
         ]);
-
+        
         $chapter = Chapter::create([
             'title' => $request->title,
             'description' => $request->description,

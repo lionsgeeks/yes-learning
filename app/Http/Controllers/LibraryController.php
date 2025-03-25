@@ -33,4 +33,7 @@ class LibraryController extends Controller
     public function createLibrary(){
         return Inertia::render('libraries/admin/createLibrary');
     }
+    public function createSubLibrary(){
+        return Inertia::render('libraries/admin/subLibrary');
+    }
 }

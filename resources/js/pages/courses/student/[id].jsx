@@ -1,100 +1,80 @@
-import React from "react";
-import { usePage, Head, Link } from "@inertiajs/react";
-import AppLayout from "@/layouts/app-layout";
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-    BookOpen,
-    ChevronLeft,
-    ChevronRight,
-    Clock,
-    Download,
-    FileText,
-    FolderOpen,
-    Image,
-    MessageSquare,
-    Play,
-    PlusCircle,
-} from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-
-
-
-
-
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import AppLayout from '@/layouts/app-layout';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { BookOpen, CheckCircle, ChevronLeft, ChevronRight, Clock, Download, FileText, Image, PlusCircle } from 'lucide-react';
 
 const CourseDetails = () => {
     const { course, chapters } = usePage().props;
 
     const breadcrumbs = [
-
         {
             title: course.name,
             href: `/course/${course.id}`,
         },
     ];
 
-
-
     const modules = [
         {
             id: 1,
-            title: "Introduction to Web Development",
+            title: 'Introduction to Web Development',
             isExpanded: true,
             subModules: [
-                { id: 101, title: "Course Overview", duration: "10 min", isCompleted: true, hasQuiz: false },
-                { id: 102, title: "Setting Up Your Environment", duration: "15 min", isCompleted: true, hasQuiz: false },
-                { id: 103, title: "Web Development Basics", duration: "20 min", isCompleted: false, hasQuiz: false },
+                { id: 101, title: 'Course Overview', duration: '10 min', isCompleted: true, hasQuiz: false },
+                { id: 102, title: 'Setting Up Your Environment', duration: '15 min', isCompleted: true, hasQuiz: false },
+                { id: 103, title: 'Web Development Basics', duration: '20 min', isCompleted: false, hasQuiz: false },
             ],
         },
+    ];
 
-    ]
+    const attachments = [{ id: 1, name: 'HTML Cheat Sheet.pdf', type: 'PDF', size: '1.2 MB', icon: FileText }];
 
-    const attachments = [
-        { id: 1, name: "HTML Cheat Sheet.pdf", type: "PDF", size: "1.2 MB", icon: FileText },
-
-    ]
-
-    const currentSubModule = modules[0].subModules[2]
+    const currentSubModule = modules[0].subModules[2];
 
     console.log(chapters[0].content);
 
-
+    function extractVideoId(url) {
+        const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=))([^"&?/]+)/;
+        const match = url.match(regex);
+        console.log('insdide component : ', match);
+        return match && match[1];
+    }
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={course.name} />
             <div className="mb-6 p-6">
-
                 <Link href="/course" className="text-muted-foreground hover:text-foreground inline-flex items-center text-sm transition-colors">
                     <ChevronLeft className="mr- h-4 w-4" />
                     Back to Courses
                 </Link>
 
-                <div className="flex flex-wrap items-center justify-between gap-4 mt-2">
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-4">
                     <h1 className="text-xl font-bold">{course.name}</h1>
                     <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="text-xs font-normal px-2 py-0">
-                            <Clock className="h-3 w-3 mr-1" />{chapters.reduce((sum, chapter) => sum + chapter.estimated_duration, 0)} Minutes total
+                        <Badge variant="outline" className="px-2 py-0 text-xs font-normal">
+                            <Clock className="mr-1 h-3 w-3" />
+                            {chapters.reduce((sum, chapter) => sum + chapter.estimated_duration, 0)} Minutes total
                         </Badge>
-                        <Badge variant="outline" className="text-xs font-normal px-2 py-0">
-                            <BookOpen className="h-3 w-3 mr-1" />
+                        <Badge variant="outline" className="px-2 py-0 text-xs font-normal">
+                            <BookOpen className="mr-1 h-3 w-3" />
                             {chapters.length} lessons
                         </Badge>
                     </div>
                 </div>
-                <Progress value={15} className="h-2 mt-4" />
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                <Progress value={15} className="mt-4 h-2" />
+                <div className="text-muted-foreground mt-1 flex justify-between text-xs">
                     <span>15% complete</span>
                     <span>3 of 24 lessons completed</span>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
+            <div className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-12">
                 {/* Left sidebar - Module navigation */}
                 <div className="lg:col-span-3">
                     <Card>
@@ -103,7 +83,7 @@ const CourseDetails = () => {
                         </CardHeader>
                         <CardContent className="p-0">
                             <ScrollArea className="h-[calc(100vh-300px)]">
-                                <Accordion type="multiple" defaultValue={["module-1"]} className="px-4 pb-4">
+                                <Accordion type="multiple" defaultValue={['module-1']} className="px-4 pb-4">
                                     <AccordionItem key={course.id} value={`module-${course.id}`}>
                                         <AccordionTrigger className="py-3 text-sm hover:no-underline">
                                             <div className="flex items-start text-left">
@@ -116,21 +96,21 @@ const CourseDetails = () => {
                                                     <Link
                                                         key={subModule.id}
                                                         href={`/module/${subModule.id}`}
-                                                        className={`flex items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors
-                                                                    ${subModule.id === currentSubModule.id
-                                                                ? "bg-primary text-primary-foreground"
-                                                                : "hover:bg-muted"
-                                                            }`}
+                                                        className={`flex items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors ${
+                                                            subModule.id === currentSubModule.id
+                                                                ? 'bg-primary text-primary-foreground'
+                                                                : 'hover:bg-muted'
+                                                        }`}
                                                     >
                                                         <div className="flex items-center">
                                                             {subModule.published ? (
-                                                                <div className="mr-2 h-4 w-4 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[10px]">
+                                                                <div className="bg-primary/20 text-primary mr-2 flex h-4 w-4 items-center justify-center rounded-full text-[10px]">
                                                                     ✓
                                                                 </div>
                                                             ) : (
-                                                                <div className="mr-2 h-4 w-4 rounded-full border border-input flex items-center justify-center text-[10px]"></div>
+                                                                <div className="border-input mr-2 flex h-4 w-4 items-center justify-center rounded-full border text-[10px]"></div>
                                                             )}
-                                                            <span className={subModule.id === currentSubModule.id ? "" : "text-muted-foreground"}>
+                                                            <span className={subModule.id === currentSubModule.id ? '' : 'text-muted-foreground'}>
                                                                 {subModule.title}
                                                             </span>
                                                         </div>
@@ -140,7 +120,7 @@ const CourseDetails = () => {
                                                                     Quiz
                                                                 </Badge>
                                                             )}
-                                                            <span className="text-xs text-muted-foreground">{subModule.estimated_duration}</span>
+                                                            <span className="text-muted-foreground text-xs">{subModule.estimated_duration}</span>
                                                         </div>
                                                     </Link>
                                                 ))}
@@ -156,7 +136,6 @@ const CourseDetails = () => {
                 {/* Middle - Course content */}
                 <div className="lg:col-span-6">
                     <Card className="overflow-hidden">
-
                         <CardContent className="p-6">
                             <Tabs defaultValue="content">
                                 <TabsList className="mb-4">
@@ -166,10 +145,10 @@ const CourseDetails = () => {
                                 </TabsList>
 
                                 <TabsContent value="content" className="space-y-4">
-                                    <div className="flex justify-between items-center">
+                                    <div className="flex items-center justify-between">
                                         <h2 className="text-xl font-medium">{chapters[0].title}</h2>
                                         <Button variant="outline" size="sm">
-                                            <PlusCircle className="h-4 w-4 mr-1" />
+                                            <PlusCircle className="mr-1 h-4 w-4" />
                                             Save to Bookmarks
                                         </Button>
                                     </div>
@@ -180,31 +159,33 @@ const CourseDetails = () => {
                                                 content.blocks.map((block, blockIndex) => (
                                                     <div key={`${chapterIndex}-${contentIndex}-${blockIndex}`} className="rounded-md p-4">
                                                         {/* Block Title */}
-                                                        {block.content.title && <h3 className="font-medium mb-2">{block.content.title}</h3>}
+                                                        {block.content.title && <h3 className="mb-2 font-medium">{block.content.title}</h3>}
 
                                                         {/* Text Block */}
-                                                        {block.type === "text" && block.content.body && (
+                                                        {block.type === 'text' && block.content.body && (
                                                             <div className="prose max-w-none">
                                                                 <p>{block.content.body}</p>
                                                             </div>
                                                         )}
 
                                                         {/* Image Block */}
-                                                        {block.type === "image" && (
+                                                        {block.type === 'image' && (
                                                             <div className="space-y-2">
-                                                                <div className="bg-muted aspect-video flex items-center justify-center rounded-md">
+                                                                <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
                                                                     <div className="text-muted-foreground">Image Preview</div>
                                                                 </div>
                                                                 {block.content.caption && (
-                                                                    <p className="text-sm text-center text-muted-foreground">{block.content.caption}</p>
+                                                                    <p className="text-muted-foreground text-center text-sm">
+                                                                        {block.content.caption}
+                                                                    </p>
                                                                 )}
                                                             </div>
                                                         )}
 
                                                         {/* Video Block */}
-                                                        {block.type === "video" && block.content.url && (
+                                                        {block.type === 'video' && block.content.url && (
                                                             <div className="space-y-2">
-                                                                <div className="bg-muted aspect-video flex items-center justify-center rounded-md">
+                                                                <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
                                                                     <iframe
                                                                         width="866"
                                                                         height="487"
@@ -217,31 +198,33 @@ const CourseDetails = () => {
                                                                     ></iframe>
                                                                 </div>
                                                                 {block.content.caption && (
-                                                                    <p className="text-sm text-center text-muted-foreground">{block.content.caption}</p>
+                                                                    <p className="text-muted-foreground text-center text-sm">
+                                                                        {block.content.caption}
+                                                                    </p>
                                                                 )}
                                                             </div>
                                                         )}
 
                                                         {/* List Block */}
-                                                        {block.type === "list" && (
+                                                        {block.type === 'list' && (
                                                             <div>
-                                                                {block.content.type === "bullet" ? (
-                                                                    <ul className="list-disc pl-5 space-y-1">
-                                                                        {(block.content.items || ["Sample item"]).map((item, i) => (
+                                                                {block.content.type === 'bullet' ? (
+                                                                    <ul className="list-disc space-y-1 pl-5">
+                                                                        {(block.content.items || ['Sample item']).map((item, i) => (
                                                                             <li key={i}>{item}</li>
                                                                         ))}
                                                                     </ul>
-                                                                ) : block.content.type === "numbered" ? (
-                                                                    <ol className="list-decimal pl-5 space-y-1">
-                                                                        {(block.content.items || ["Sample item"]).map((item, i) => (
+                                                                ) : block.content.type === 'numbered' ? (
+                                                                    <ol className="list-decimal space-y-1 pl-5">
+                                                                        {(block.content.items || ['Sample item']).map((item, i) => (
                                                                             <li key={i}>{item}</li>
                                                                         ))}
                                                                     </ol>
                                                                 ) : (
                                                                     <div className="space-y-2">
-                                                                        {(block.content.items || ["Sample item"]).map((item, i) => (
+                                                                        {(block.content.items || ['Sample item']).map((item, i) => (
                                                                             <div key={i} className="flex items-center">
-                                                                                <CheckCircle className="h-4 w-4 mr-2 text-primary" />
+                                                                                <CheckCircle className="text-primary mr-2 h-4 w-4" />
                                                                                 <span>{item}</span>
                                                                             </div>
                                                                         ))}
@@ -251,22 +234,28 @@ const CourseDetails = () => {
                                                         )}
 
                                                         {/* Table Block */}
-                                                        {block.type === "table" && (
+                                                        {block.type === 'table' && (
                                                             <div className="overflow-x-auto">
                                                                 <table className="w-full border-collapse">
                                                                     <thead>
                                                                         <tr className="bg-muted">
                                                                             {Array.from({ length: block.content.cols || 3 }).map((_, i) => (
-                                                                                <th key={i} className="border p-2 text-left">Header {i + 1}</th>
+                                                                                <th key={i} className="border p-2 text-left">
+                                                                                    Header {i + 1}
+                                                                                </th>
                                                                             ))}
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         {Array.from({ length: block.content.rows || 3 }).map((_, rowIndex) => (
                                                                             <tr key={rowIndex}>
-                                                                                {Array.from({ length: block.content.cols || 3 }).map((_, colIndex) => (
-                                                                                    <td key={colIndex} className="border p-2">Cell {rowIndex + 1},{colIndex + 1}</td>
-                                                                                ))}
+                                                                                {Array.from({ length: block.content.cols || 3 }).map(
+                                                                                    (_, colIndex) => (
+                                                                                        <td key={colIndex} className="border p-2">
+                                                                                            Cell {rowIndex + 1},{colIndex + 1}
+                                                                                        </td>
+                                                                                    ),
+                                                                                )}
                                                                             </tr>
                                                                         ))}
                                                                     </tbody>
@@ -275,14 +264,12 @@ const CourseDetails = () => {
                                                         )}
 
                                                         {/* Chart Block */}
-                                                        {block.type === "chart" && renderChart(block)}
+                                                        {block.type === 'chart' && renderChart(block)}
                                                     </div>
-                                                ))
-                                            )
+                                                )),
+                                            ),
                                         )}
                                     </div>
-
-
                                 </TabsContent>
 
                                 <TabsContent value="discussion">
@@ -297,11 +284,11 @@ const CourseDetails = () => {
                                             />
                                             <div className="flex-1">
                                                 <textarea
-                                                    className="w-full border rounded-md p-2 text-sm"
+                                                    className="w-full rounded-md border p-2 text-sm"
                                                     rows={3}
                                                     placeholder="Add to the discussion..."
                                                 ></textarea>
-                                                <div className="flex justify-end mt-2">
+                                                <div className="mt-2 flex justify-end">
                                                     <Button size="sm">Post Comment</Button>
                                                 </div>
                                             </div>
@@ -321,15 +308,15 @@ const CourseDetails = () => {
                                                 <div className="flex-1">
                                                     <div className="flex items-center gap-2">
                                                         <span className="font-medium">Alex Johnson</span>
-                                                        <span className="text-xs text-muted-foreground">2 days ago</span>
+                                                        <span className="text-muted-foreground text-xs">2 days ago</span>
                                                     </div>
-                                                    <p className="text-sm mt-1">
+                                                    <p className="mt-1 text-sm">
                                                         I'm finding the distinction between front-end and back-end really helpful. Are there any
                                                         recommended resources for learning more about back-end development?
                                                     </p>
-                                                    <div className="flex gap-4 mt-2">
+                                                    <div className="mt-2 flex gap-4">
                                                         <Button variant="ghost" size="sm" className="h-8 px-2">
-                                                            <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <svg className="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path
                                                                     strokeLinecap="round"
                                                                     strokeLinejoin="round"
@@ -339,11 +326,9 @@ const CourseDetails = () => {
                                                             </svg>
                                                             Like (12)
                                                         </Button>
-
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </TabsContent>
@@ -353,20 +338,19 @@ const CourseDetails = () => {
                                         <div className="flex items-center justify-between">
                                             <h3 className="font-medium">My Notes for This Lesson</h3>
                                             <Button variant="outline" size="sm">
-                                                <PlusCircle className="h-4 w-4 mr-1" />
+                                                <PlusCircle className="mr-1 h-4 w-4" />
                                                 Add Note
                                             </Button>
                                         </div>
 
-                                        <div className="bg-muted/50 border rounded-md p-4">
-                                            <div className="flex justify-between items-start">
+                                        <div className="bg-muted/50 rounded-md border p-4">
+                                            <div className="flex items-start justify-between">
                                                 <div className="font-medium">Front-end vs Back-end</div>
-                                                <div className="text-xs text-muted-foreground">Added 2 days ago</div>
+                                                <div className="text-muted-foreground text-xs">Added 2 days ago</div>
                                             </div>
-                                            <p className="text-sm mt-2">
-                                                Front-end: HTML, CSS, JavaScript - what users see and interact with. Back-end: Server-side
-                                                languages, databases - powers the front-end. Remember to look into Node.js for JavaScript
-                                                back-end development.
+                                            <p className="mt-2 text-sm">
+                                                Front-end: HTML, CSS, JavaScript - what users see and interact with. Back-end: Server-side languages,
+                                                databases - powers the front-end. Remember to look into Node.js for JavaScript back-end development.
                                             </p>
                                         </div>
                                     </div>
@@ -375,7 +359,7 @@ const CourseDetails = () => {
                         </CardContent>
                     </Card>
 
-                    <div className="flex justify-between mt-6">
+                    <div className="mt-6 flex justify-between">
                         <Button variant="outline">
                             <ChevronLeft className="mr-2 h-4 w-4" />
                             Previous Lesson
@@ -400,15 +384,15 @@ const CourseDetails = () => {
                                 {attachments.map((attachment) => (
                                     <div
                                         key={attachment.id}
-                                        className="flex items-center justify-between p-2 border rounded-md hover:bg-muted/50 transition-colors"
+                                        className="hover:bg-muted/50 flex items-center justify-between rounded-md border p-2 transition-colors"
                                     >
                                         <div className="flex items-center">
-                                            <div className="bg-primary/10 w-8 h-8 rounded flex items-center justify-center mr-3">
-                                                <attachment.icon className="h-4 w-4 text-primary" />
+                                            <div className="bg-primary/10 mr-3 flex h-8 w-8 items-center justify-center rounded">
+                                                <attachment.icon className="text-primary h-4 w-4" />
                                             </div>
                                             <div>
                                                 <div className="text-sm font-medium">{attachment.name}</div>
-                                                <div className="text-xs text-muted-foreground">
+                                                <div className="text-muted-foreground text-xs">
                                                     {attachment.type} • {attachment.size}
                                                 </div>
                                             </div>
