@@ -10,7 +10,7 @@ export function SubWorkshopCard({ subWorkshop }) {
   const missingInfo = []
   if (!subWorkshop.date) missingInfo.push("date")
   if (!subWorkshop.time) missingInfo.push("time")
-  if (!subWorkshop.instructor) missingInfo.push("instructor")
+  if (!JSON.parse(subWorkshop.instructor).instructoren) missingInfo.push("instructor")
   if (!subWorkshop.meetLink) missingInfo.push("meet link")
 
   // Check if the sub-workshop has already passed
@@ -61,11 +61,11 @@ export function SubWorkshopCard({ subWorkshop }) {
             </span>
           </div>
 
-          {subWorkshop.instructor && (
+          {JSON.parse(subWorkshop.instructor).instructoren && (
             <div className="mt-1">
               <div className="text-xs font-medium text-muted-foreground mb-1">Instructor:</div>
               <div className="flex items-center gap-2 text-sm">
-                <span>{subWorkshop.instructor}</span>
+                <span>{JSON.parse(subWorkshop.instructor).instructoren}</span>
               </div>
             </div>
           )}

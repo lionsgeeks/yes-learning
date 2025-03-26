@@ -20,8 +20,8 @@ return new class extends Migration
             $table->date("date");
             $table->time("time");
             $table->integer("duration");
-            $table->string("instructor");
-            $table->string("meetLink");
+            $table->json("instructor");
+            $table->json("meetLink");
             $table->boolean("allowQuestions");
             $table->boolean("requireRegistration");
             $table->boolean("sendNotifications");

@@ -16,6 +16,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 import { useForm } from "@inertiajs/react"
 
 export function CreateSubWorkshopModal({ open, onOpenChange, chapters }) {
@@ -29,8 +31,16 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters }) {
         date: '',
         time: '',
         duration: '90',
-        instructor: '',
-        meetLink: '',
+        instructor: {
+            instructoren:"",
+            instructorfr:"",
+            instructorar:"",
+        },
+        meetLink:{
+            meetlinken:"",
+            meetlinkfr:"",
+            meetlinkar:"",
+        },
         recordSession: false,
         allowQuestions: true,
         requireRegistration: true,
@@ -38,6 +48,7 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters }) {
         notificationTime: '24h',
         published: false,
     })
+console.log(data);
 
     const nextStep = () => {
         setStep((prev) => Math.min(prev + 1, 3))
@@ -184,32 +195,59 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters }) {
                     </div>
                 )}
 
+
+
                 {step === 2 && (
                     <div className="space-y-4 py-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="instructor">Instructor</Label>
-                            <Input
-                                id="instructor"
-                                placeholder="instructor"
-                                value={data.instructor}
-                                onChange={e => setData('instructor', e.target.value)}
-                                error={errors.instructor}
-                            />
-                            {errors.instructor && <p className="text-sm text-red-500">{errors.instructor}</p>}
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="meetLink">Google Meet Link</Label>
-                            <Input
-                                id="meetLink"
-                                placeholder="https://meet.google.com/..."
-                                value={data.meetLink}
-                                onChange={e => setData('meetLink', e.target.value)}
-                                error={errors.meetLink}
-                            />
-                            {errors.meetLink && <p className="text-sm text-red-500">{errors.meetLink}</p>}
-                        </div>
+                        <Tabs defaultValue="en">
+                            <TabsList className="grid w-full grid-cols-3">
+                                <TabsTrigger value="en">English</TabsTrigger>
+                                <TabsTrigger value="fr">French</TabsTrigger>
+                                <TabsTrigger value="ar">Arabic</TabsTrigger>
+                            </TabsList>
+
+                            {["en", "fr", "ar"].map((lang) => (
+                                <TabsContent key={lang} value={lang}>
+                                    <div className="space-y-4">
+                                        {/* Instructor Input */}
+                                        <div className="space-y-2">
+                                            <Label htmlFor={`instructor-${lang}`}>Instructor ({lang.toUpperCase()})</Label>
+                                            <Input
+                                                id={`instructor-${lang}`}
+                                                placeholder={`Instructor (${lang.toUpperCase()})`}
+                                                value={data.instructor[`instructor${lang}`]}
+                                                onChange={(e) =>
+                                                    setData("instructor", {
+                                                        ...data.instructor,
+                                                        [`instructor${lang}`]: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                        </div>
+
+                                        {/* Meet Link Input */}
+                                        <div className="space-y-2">
+                                            <Label htmlFor={`meetLink-${lang}`}>Google Meet Link ({lang.toUpperCase()})</Label>
+                                            <Input
+                                                id={`meetLink-${lang}`}
+                                                placeholder="https://meet.google.com/..."
+                                                value={data.meetLink[`meetlink${lang}`]}
+                                                onChange={(e) =>
+                                                    setData("meetLink", {
+                                                        ...data.meetLink,
+                                                        [`meetlink${lang}`]: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                </TabsContent>
+                            ))}
+                        </Tabs>
                     </div>
                 )}
+
+
 
                 {step === 3 && (
                     <div className="space-y-4 py-4">

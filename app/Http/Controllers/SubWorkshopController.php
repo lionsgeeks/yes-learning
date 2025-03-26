@@ -39,14 +39,20 @@ class SubWorkshopController extends Controller
             "date"=>"required",
             "time"=>"required",
             "duration"=>"required",
-            "instructor"=>"required",
-            "meetLink"=>"required",
+            "instructor"=>"required|array",
+            "instructor.instructoren"=>"required|string",
+            "instructor.instructorfr"=>"required|string",
+            "instructor.instructorar"=>"required|string",
+            'meetLink' => 'required|array',
+            'meetLink.meetlinken' => 'required|string',
+            'meetLink.meetlinkfr' => 'required|string',
+            'meetLink.meetlinkar' => 'required|string',
             "allowQuestions"=>"required",
             "requireRegistration"=>"required",
             "sendNotifications"=>"required",
             "published"=>"required"
         ]);
-
+        // dd($request->all());
         SubWorkshop::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
@@ -55,8 +61,8 @@ class SubWorkshopController extends Controller
             "date"=>$validated['date'],
             "time"=>$validated['time'],
             "duration"=>$validated['duration'],
-            "instructor"=>$validated['instructor'],
-            "meetLink"=>$validated['meetLink'],
+            "instructor"=>json_encode($validated['instructor']),
+            "meetLink" => json_encode($validated['meetLink']),
             "allowQuestions"=>$validated['allowQuestions'],
             "requireRegistration"=>$validated['requireRegistration'],
             "sendNotifications"=>$validated['sendNotifications'],

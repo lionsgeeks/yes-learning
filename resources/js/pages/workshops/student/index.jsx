@@ -180,6 +180,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                             </div>
                                         </CardContent>
                                         <CardFooter className="flex gap-2 pt-0">
+                                            {/* {console.log(JSON.parse(workshop.meetLink).meetlinkar)} */}
                                             {!workshop.enrolled && workshop.requireRegistration ? (
                                                 <>
                                                     <Button
@@ -193,7 +194,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                             ) : (
                                                 <>
                                                     <Button variant="outline" className="flex-1" asChild>
-                                                        <a href={workshop.meetLink} target="_blank" rel="noopener noreferrer">
+                                                        <a href={JSON.parse(workshop.meetLink).meetlinken} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             Join
                                                         </a>
