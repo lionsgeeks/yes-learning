@@ -15,12 +15,15 @@ import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import { EditCourseModal } from "@/components/courses/edit-course-modal"
 
+import AdminUsersTable from "@/components/usersComponents/admin-users-table.jsx"
+
+
 // Sample data - in a real app, this would come from a database
 
 
 
 
-function SortableChapter({ chapter, onTogglePublish, onEdit  , idx}) {
+function SortableChapter({ chapter, onTogglePublish, onEdit, idx }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: chapter.id })
 
     const style = {
@@ -62,16 +65,12 @@ function SortableChapter({ chapter, onTogglePublish, onEdit  , idx}) {
 
 
 const AdminCoursesShow = () => {
-    const {course , modules} = usePage().props
+    const { course, modules } = usePage().props
 
-    const breadcrumbs = [
-        {
-          title: "course - "+course.name,
-        },
-      ];
-    
+    const breadcrumbs = [{ title: "course - " + course.name, },];
 
-    
+
+
 
     const [chapters, setChapters] = useState(modules)
     const [editModalOpen, setEditModalOpen] = useState(false)
@@ -115,9 +114,11 @@ const AdminCoursesShow = () => {
         router.push(`/dashboard/courses/jhg/chapters/${chapter.id}`)
     }
 
+    
+
 
     return (
-        <AppLayout  breadcrumbs={breadcrumbs} >
+        <AppLayout breadcrumbs={breadcrumbs} >
             <Head title={"Courses"} />
             <div className="space-y-6 lg:p-6 p-3 ">
 
@@ -149,7 +150,7 @@ const AdminCoursesShow = () => {
                 <div className="grid gap-6 lg:grid-cols-2">
                     <Card>
                         <CardHeader className="relative p-0 overflow-hidden aspect-video">
-                            <img src={course.image } alt={course.title} fill className="object-cover" />
+                            <img src={course.image} alt={course.title} fill className="object-cover" />
                             {!course.published && (
                                 <Badge variant="secondary" className="absolute right-2 top-2">
                                     Draft
@@ -200,7 +201,7 @@ const AdminCoursesShow = () => {
                         <CardContent className="p-0">
                             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                                 <SortableContext items={chapters.map((chapter) => chapter.id)} strategy={verticalListSortingStrategy}>
-                                    {chapters.map((chapter,idx) => (
+                                    {chapters.map((chapter, idx) => (
                                         <>
                                             <SortableChapter
                                                 key={chapter.id}
@@ -220,10 +221,15 @@ const AdminCoursesShow = () => {
                     </Card>
                 </div>
 
+                <div className="">
+                    <AdminUsersTable role  title="Enrolled users" description="Manage NGOs enrolled in this course" Users = {course.users}/>
+                    {/* <Achievement achievement={initialAchievements }/> */}
+                </div>
+
 
             </div>
 
-            <EditCourseModal course={course} open={editModalOpen} onOpenChange={setEditModalOpen} />
+            <EditCourseModal  course={course} open={editModalOpen} onOpenChange={setEditModalOpen} />
 
         </AppLayout>
     )

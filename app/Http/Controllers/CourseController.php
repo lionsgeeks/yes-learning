@@ -103,7 +103,7 @@ class CourseController extends Controller
 
 
         return Inertia::render("courses/admin/[id]", [
-            "course" => $course,
+            "course" => $course->load("users"),
             "modules" => Chapter::where("course_id", $course->id)->get(),
             // dd($chapters)
         ]);

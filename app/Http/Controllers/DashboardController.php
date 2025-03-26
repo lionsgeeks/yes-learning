@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chapter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -16,7 +17,10 @@ class DashboardController extends Controller
             "courses" => DB::table('courses')->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
                 ->where('user_courses.user_id', Auth::id())
                 ->select('courses.*')
-                ->get(),
+                ->get()->map(function ($course) {
+                    $course->chapterCount = Chapter::where("course_id", $course->id)->count();
+                    return $course;
+                })
         ]);
     }
 

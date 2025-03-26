@@ -68,8 +68,8 @@ export default function Dashboard() {
                   <Card key={course} className="overflow-hidden">
                     <div className="relative h-40">
                       <img
-                        src={`/placeholder.svg?height=160&width=400&text=Course ${course}`}
-                        alt={`Course ${course}`}
+                        src={`storage/${course.image}`}
+                        alt={`Course ${course.image}`}
                         width={400}
                         height={160}
                         className="object-cover w-full h-full"
@@ -78,14 +78,14 @@ export default function Dashboard() {
                     <CardHeader className="pb-2">
                       <CardTitle className="text-lg">Course Title {course.name}</CardTitle>
                       <CardDescription className="flex items-center">
-                        <Clock className="h-4 w-4 mr-1" />
-                        <span>{course.estimated_duration}</span>
-                        <span className="mx-2">•</span>
+                        {/* <Clock className="h-4 w-4 mr-1" /> */}
+                        {/* <span>{course.estimated_duration}</span> */}
+                        {/* <span className="mx-2">•</span> */}
                         <Folder className="h-4 w-4 mr-1" />
-                        <span>6 modules</span>
+                        <span>{course.chapterCount} modules</span>
                       </CardDescription>
                     </CardHeader>
-                    <Link href="course/1" className="block">
+                    <Link href={`course/`+course.id} className="block">
                       <CardContent className="cursor-pointer">
                         <Button variant="outline" className="w-full border py-2">
                           Take the course
