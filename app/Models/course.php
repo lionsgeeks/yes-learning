@@ -16,7 +16,13 @@ class Course extends Model
     ];
 
 
-    public function workshops(){
+    public function workshops()
+    {
         $this->hasMany(Workshop::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_courses');
     }
 }
