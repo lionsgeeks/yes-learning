@@ -194,7 +194,7 @@ function CourseCard({ course }) {
                     </Button>
                 ) : (
                     <div className="w-full flex items-center justify-between gap-2">
-                        <button onClick={enroll} className="flex-1 bg-alpha py-2 rounded-lg">Enroll Now</button>
+                        <button onClick={enroll} className="flex-1 bg-alpha py-2 text-white rounded-lg">Enroll Now</button>
                     </div>
                 )}
             </CardFooter>

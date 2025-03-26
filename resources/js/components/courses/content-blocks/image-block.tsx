@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ImageIcon } from 'lucide-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 interface ImageBlockEditorProps {
     content: {
         title: string;
@@ -17,7 +17,7 @@ interface ImageBlockEditorProps {
 }
 
 export function ImageBlockEditor({ content, onChange }: ImageBlockEditorProps) {
-    async function generateHashedFileName(element: any) {
+    async function generateHashedFileName(element: File): Promise<string> {
         const encoder = new TextEncoder();
         const data = encoder.encode(element.name + Date.now()); // Unique input
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
@@ -26,8 +26,8 @@ export function ImageBlockEditor({ content, onChange }: ImageBlockEditorProps) {
         const extension = element.name.split('.').pop();
         return `${hashHex}.${extension}`;
     }
-    const handleImage = async (e: any) => {
-        const file = e.target.files[0];
+    const handleImage = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+        const file = e.target.files? e.target.files[0] : null
         if (!file) return;
         const hashedFileName = await generateHashedFileName(file);
         const renamedFile = new File([file], hashedFileName, { type: file.type });

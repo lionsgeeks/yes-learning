@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified', "role:user"])->group(function () {
     Route::get('/workshop', [WorkshopController::class, 'studentIndex'])->name('student.workshops');
-    Route::put("enroll/{subWorkshop}" , [SubWorkshopController::class , "enroll"])->name("subWorkshop.enroll");
+    Route::put("participate/{subWorkshop}" , [SubWorkshopController::class , "enroll"])->name("subWorkshop.enroll");
 
 });
 
