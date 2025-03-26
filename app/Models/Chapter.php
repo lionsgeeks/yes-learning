@@ -24,4 +24,11 @@ class Chapter extends Model
         'enable_certificate' => 'boolean',
         'content' => 'array', 
     ];
+
+
+    
+    public function workshops()
+    {
+        $this->hasMany(Workshop::class);
+    }
 }

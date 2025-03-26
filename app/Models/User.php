@@ -50,4 +50,8 @@ class User extends Authenticatable
     public function courses() {
         $this->belongsToMany(Course::class);
     }
+
+    public function subworkshops() {
+        $this->belongsToMany(SubWorkshop::class);
+    }
 }

@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\SubWorkshop;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class WorkshopController extends Controller
@@ -17,6 +18,7 @@ class WorkshopController extends Controller
     public function index()
     {
         //
+        
         return Inertia::render("workshops/admin/index" , [
             "workshops" => Workshop::with('course')->get(),
             'courses' => Course::all(),
@@ -26,9 +28,18 @@ class WorkshopController extends Controller
 
     public function studentIndex()
     {
-        return Inertia::render("workshops/student/index");
+        $userId = Auth::id();
+        return Inertia::render("workshops/student/index",[
+            "workshops" => SubWorkshop::with('chapter')->with("users:id")->get()->map(function($subworkshop) use ($userId) {
+                $subworkshop->enrolled = $subworkshop->users->contains("id", $userId); // zdt value jdid fl subw$subworkshops  li howa  enrolled  bach n3rf wh l user  m enrolli ola la 
+                $subworkshop->enrolledCount = $subworkshop->users()->count();
+                unset($subworkshop->users);
+                return $subworkshop;
+            }),
+            'chapters' => Chapter::all(),
+        ]);
     }
-
+  
     /**
      * Show the form for creating a new resource.
      */

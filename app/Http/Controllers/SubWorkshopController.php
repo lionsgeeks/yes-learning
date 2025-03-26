@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SubWorkshop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class SubWorkshopController extends Controller
@@ -75,6 +76,14 @@ class SubWorkshopController extends Controller
         return Inertia::render("workshops/admin/[subid]", [
             "subWorkshop" => $subWorkshop
         ]);
+    }
+
+    public function enroll(SubWorkshop $subWorkshop)
+    {
+        
+        $subWorkshop->users()->toggle(Auth::id()); //  b7al toggle ta3 javascript  
+
+        return redirect("/workshop");
     }
 
     /**
