@@ -41,7 +41,9 @@ export function TableBlockEditor({ content, onChange }: TableBlockEditorProps) {
   }
 
   const updateCell = (rowIndex: number, colIndex: number, value: string) => {
+
     const newData = [...content.data]
+    console.table(newData);
     if (!newData[rowIndex]) {
       newData[rowIndex] = []
     }

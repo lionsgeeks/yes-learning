@@ -9,10 +9,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { BookOpen, CheckCircle, ChevronLeft, ChevronRight, Clock, Download, FileText, Image, PlusCircle } from 'lucide-react';
+import { useState } from 'react';
 
 const CourseDetails = () => {
-    const { course, chapters } = usePage().props;
-
+    const { course, chapters, image_url } = usePage().props;
+    // console.log('course ', course);
+    console.log('image', image_url)
+    console.log('chapters', chapters);
     const breadcrumbs = [
         {
             title: course.name,
@@ -20,29 +23,17 @@ const CourseDetails = () => {
         },
     ];
 
-    const modules = [
-        {
-            id: 1,
-            title: 'Introduction to Web Development',
-            isExpanded: true,
-            subModules: [
-                { id: 101, title: 'Course Overview', duration: '10 min', isCompleted: true, hasQuiz: false },
-                { id: 102, title: 'Setting Up Your Environment', duration: '15 min', isCompleted: true, hasQuiz: false },
-                { id: 103, title: 'Web Development Basics', duration: '20 min', isCompleted: false, hasQuiz: false },
-            ],
-        },
-    ];
 
     const attachments = [{ id: 1, name: 'HTML Cheat Sheet.pdf', type: 'PDF', size: '1.2 MB', icon: FileText }];
-
-    const currentSubModule = modules[0].subModules[2];
-
-    console.log(chapters[0].content);
+    const [currentSubModuleId, setCurrentSubModuleId] = useState(1);
+    const [coursePercentage, setCoursePercentage] = useState(0);
+    const calculPercentage = (param) => {
+        setCoursePercentage((param / chapters.length) * 100);
+    };
 
     function extractVideoId(url) {
         const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=))([^"&?/]+)/;
         const match = url.match(regex);
-        console.log('insdide component : ', match);
         return match && match[1];
     }
     return (
@@ -67,10 +58,12 @@ const CourseDetails = () => {
                         </Badge>
                     </div>
                 </div>
-                <Progress value={15} className="mt-4 h-2" />
+                <Progress value={coursePercentage} className="mt-4 h-2" />
                 <div className="text-muted-foreground mt-1 flex justify-between text-xs">
-                    <span>15% complete</span>
-                    <span>3 of 24 lessons completed</span>
+                    <span>{Math.round(coursePercentage)}% completed</span>
+                    <span>
+                        {currentSubModuleId} of {chapters.length} lessons completed
+                    </span>
                 </div>
             </div>
 
@@ -92,16 +85,20 @@ const CourseDetails = () => {
                                         </AccordionTrigger>
                                         <AccordionContent>
                                             <div className="space-y-1 pl-2">
-                                                {chapters.map((subModule) => (
-                                                    <Link
-                                                        key={subModule.id}
-                                                        href={`/module/${subModule.id}`}
-                                                        className={`flex items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors ${
-                                                            subModule.id === currentSubModule.id
-                                                                ? 'bg-primary text-primary-foreground'
-                                                                : 'hover:bg-muted'
+                                                {chapters.map((subModule, index) => (
+                                                    <div
+                                                        key={index}
+                                                        onClick={() => {
+                                                            setCurrentSubModuleId(index + 1);
+                                                            calculPercentage(index + 1);
+                                                        }}
+                                                        // href={`/module/${subModule.id}`}
+                                                        className={`flex cursor-pointer items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors ${
+                                                            index + 1 === currentSubModuleId ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
                                                         }`}
                                                     >
+                                                        {/* </Card> */}
+
                                                         <div className="flex items-center">
                                                             {subModule.published ? (
                                                                 <div className="bg-primary/20 text-primary mr-2 flex h-4 w-4 items-center justify-center rounded-full text-[10px]">
@@ -110,7 +107,7 @@ const CourseDetails = () => {
                                                             ) : (
                                                                 <div className="border-input mr-2 flex h-4 w-4 items-center justify-center rounded-full border text-[10px]"></div>
                                                             )}
-                                                            <span className={subModule.id === currentSubModule.id ? '' : 'text-muted-foreground'}>
+                                                            <span className={index + 1 === currentSubModuleId ? '' : 'text-muted-foreground'}>
                                                                 {subModule.title}
                                                             </span>
                                                         </div>
@@ -120,9 +117,11 @@ const CourseDetails = () => {
                                                                     Quiz
                                                                 </Badge>
                                                             )}
-                                                            <span className="text-muted-foreground text-xs">{subModule.estimated_duration}</span>
+                                                            <span className={index + 1 === currentSubModuleId ? '' : 'text-muted-foreground text-xs'}>
+                                                                {subModule.estimated_duration}
+                                                            </span>
                                                         </div>
-                                                    </Link>
+                                                    </div>
                                                 ))}
                                             </div>
                                         </AccordionContent>
@@ -156,117 +155,127 @@ const CourseDetails = () => {
                                     <div className="prose max-w-none">
                                         {chapters.flatMap((chapter, chapterIndex) =>
                                             chapter.content.flatMap((content, contentIndex) =>
-                                                content.blocks.map((block, blockIndex) => (
-                                                    <div key={`${chapterIndex}-${contentIndex}-${blockIndex}`} className="rounded-md p-4">
-                                                        {/* Block Title */}
-                                                        {block.content.title && <h3 className="mb-2 font-medium">{block.content.title}</h3>}
+                                                content.blocks.map(
+                                                    (block, blockIndex) =>
+                                                        chapterIndex + 1 === currentSubModuleId && (
+                                                            <div key={`${chapterIndex}-${contentIndex}-${blockIndex}`} className="rounded-md p-4">
+                                                                {/* Block Title */}
+                                                                {block.content.title && <h3 className="mb-2 font-medium">{block.content.title}</h3>}
 
-                                                        {/* Text Block */}
-                                                        {block.type === 'text' && block.content.body && (
-                                                            <div className="prose max-w-none">
-                                                                <p>{block.content.body}</p>
-                                                            </div>
-                                                        )}
-
-                                                        {/* Image Block */}
-                                                        {block.type === 'image' && (
-                                                            <div className="space-y-2">
-                                                                <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
-                                                                    <div className="text-muted-foreground">Image Preview</div>
-                                                                </div>
-                                                                {block.content.caption && (
-                                                                    <p className="text-muted-foreground text-center text-sm">
-                                                                        {block.content.caption}
-                                                                    </p>
-                                                                )}
-                                                            </div>
-                                                        )}
-
-                                                        {/* Video Block */}
-                                                        {block.type === 'video' && block.content.url && (
-                                                            <div className="space-y-2">
-                                                                <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
-                                                                    <iframe
-                                                                        width="866"
-                                                                        height="487"
-                                                                        src={`https://www.youtube.com/embed/${extractVideoId(block.content.url)}`} // Extract video ID function
-                                                                        title="Video"
-                                                                        frameBorder="0"
-                                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                                        referrerPolicy="strict-origin-when-cross-origin"
-                                                                        allowFullScreen
-                                                                    ></iframe>
-                                                                </div>
-                                                                {block.content.caption && (
-                                                                    <p className="text-muted-foreground text-center text-sm">
-                                                                        {block.content.caption}
-                                                                    </p>
-                                                                )}
-                                                            </div>
-                                                        )}
-
-                                                        {/* List Block */}
-                                                        {block.type === 'list' && (
-                                                            <div>
-                                                                {block.content.type === 'bullet' ? (
-                                                                    <ul className="list-disc space-y-1 pl-5">
-                                                                        {(block.content.items || ['Sample item']).map((item, i) => (
-                                                                            <li key={i}>{item}</li>
-                                                                        ))}
-                                                                    </ul>
-                                                                ) : block.content.type === 'numbered' ? (
-                                                                    <ol className="list-decimal space-y-1 pl-5">
-                                                                        {(block.content.items || ['Sample item']).map((item, i) => (
-                                                                            <li key={i}>{item}</li>
-                                                                        ))}
-                                                                    </ol>
-                                                                ) : (
-                                                                    <div className="space-y-2">
-                                                                        {(block.content.items || ['Sample item']).map((item, i) => (
-                                                                            <div key={i} className="flex items-center">
-                                                                                <CheckCircle className="text-primary mr-2 h-4 w-4" />
-                                                                                <span>{item}</span>
-                                                                            </div>
-                                                                        ))}
+                                                                {/* Text Block */}
+                                                                {block.type === 'text' && block.content.body && (
+                                                                    <div className="prose max-w-none">
+                                                                        <p>{block.content.body}</p>
                                                                     </div>
                                                                 )}
-                                                            </div>
-                                                        )}
 
-                                                        {/* Table Block */}
-                                                        {block.type === 'table' && (
-                                                            <div className="overflow-x-auto">
-                                                                <table className="w-full border-collapse">
-                                                                    <thead>
-                                                                        <tr className="bg-muted">
-                                                                            {Array.from({ length: block.content.cols || 3 }).map((_, i) => (
-                                                                                <th key={i} className="border p-2 text-left">
-                                                                                    Header {i + 1}
-                                                                                </th>
-                                                                            ))}
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        {Array.from({ length: block.content.rows || 3 }).map((_, rowIndex) => (
-                                                                            <tr key={rowIndex}>
-                                                                                {Array.from({ length: block.content.cols || 3 }).map(
-                                                                                    (_, colIndex) => (
-                                                                                        <td key={colIndex} className="border p-2">
-                                                                                            Cell {rowIndex + 1},{colIndex + 1}
-                                                                                        </td>
+                                                                {/* Image Block */}
+                                                                {block.type === 'image' && (
+                                                                    <div className="space-y-2">
+                                                                        <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
+                                                                            {/* <div className="text-muted-foreground">Image Preview</div> */}
+                                                                            <img
+                                                                                src={`${image_url}/${block.content.url}`}
+                                                                                alt="Course cover preview"
+                                                                                className="h-auto w-full rounded-md object-cover"
+                                                                            />
+                                                                        </div>
+                                                                        {block.content.caption && (
+                                                                            <p className="text-muted-foreground text-center text-sm">
+                                                                                {block.content.caption}
+                                                                            </p>
+                                                                        )}
+                                                                    </div>
+                                                                )}
+
+                                                                {/* Video Block */}
+                                                                {block.type === 'video' && block.content.url && (
+                                                                    <div className="space-y-2">
+                                                                        <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
+                                                                            <iframe
+                                                                                width="866"
+                                                                                height="487"
+                                                                                src={`https://www.youtube.com/embed/${extractVideoId(block.content.url)}`} // Extract video ID function
+                                                                                title="Video"
+                                                                                frameBorder="0"
+                                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                                referrerPolicy="strict-origin-when-cross-origin"
+                                                                                allowFullScreen
+                                                                            ></iframe>
+                                                                        </div>
+                                                                        {block.content.caption && (
+                                                                            <p className="text-muted-foreground text-center text-sm">
+                                                                                {block.content.caption}
+                                                                            </p>
+                                                                        )}
+                                                                    </div>
+                                                                )}
+
+                                                                {/* List Block */}
+                                                                {block.type === 'list' && (
+                                                                    <div>
+                                                                        {block.content.type === 'bullet' ? (
+                                                                            <ul className="list-disc space-y-1 pl-5">
+                                                                                {(block.content.items || ['Sample item']).map((item, i) => (
+                                                                                    <li key={i}>{item}</li>
+                                                                                ))}
+                                                                            </ul>
+                                                                        ) : block.content.type === 'numbered' ? (
+                                                                            <ol className="list-decimal space-y-1 pl-5">
+                                                                                {(block.content.items || ['Sample item']).map((item, i) => (
+                                                                                    <li key={i}>{item}</li>
+                                                                                ))}
+                                                                            </ol>
+                                                                        ) : (
+                                                                            <div className="space-y-2">
+                                                                                {(block.content.items || ['Sample item']).map((item, i) => (
+                                                                                    <div key={i} className="flex items-center">
+                                                                                        <CheckCircle className="text-primary mr-2 h-4 w-4" />
+                                                                                        <span>{item}</span>
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                )}
+
+                                                                {/* Table Block */}
+                                                                {block.type === 'table' && (
+                                                                    <div className="overflow-x-auto">
+                                                                        <table className="w-full border-collapse">
+                                                                            <thead>
+                                                                                <tr className="bg-muted">
+                                                                                    {Array.from({ length: block.content.cols || 3 }).map((_, i) => (
+                                                                                        <th key={i} className="border p-2 text-left">
+                                                                                            Header {i + 1}
+                                                                                        </th>
+                                                                                    ))}
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {Array.from({ length: block.content.rows || 3 }).map(
+                                                                                    (_, rowIndex) => (
+                                                                                        <tr key={rowIndex}>
+                                                                                            {Array.from({ length: block.content.cols || 3 }).map(
+                                                                                                (_, colIndex) => (
+                                                                                                    <td key={colIndex} className="border p-2">
+                                                                                                        Cell {rowIndex + 1},{colIndex + 1}
+                                                                                                    </td>
+                                                                                                ),
+                                                                                            )}
+                                                                                        </tr>
                                                                                     ),
                                                                                 )}
-                                                                            </tr>
-                                                                        ))}
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        )}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                )}
 
-                                                        {/* Chart Block */}
-                                                        {block.type === 'chart' && renderChart(block)}
-                                                    </div>
-                                                )),
+                                                                {/* Chart Block */}
+                                                                {block.type === 'chart' && renderChart(block)}
+                                                            </div>
+                                                        ),
+                                                ),
                                             ),
                                         )}
                                     </div>
@@ -360,16 +369,30 @@ const CourseDetails = () => {
                     </Card>
 
                     <div className="mt-6 flex justify-between">
-                        <Button variant="outline">
-                            <ChevronLeft className="mr-2 h-4 w-4" />
-                            Previous Lesson
-                        </Button>
-                        <Link href="/quiz/1">
-                            <Button>
-                                Take Quiz
+                        {currentSubModuleId > 1 && (
+                            <Button variant="outline" onClick={() => setCurrentSubModuleId(currentSubModuleId - 1)}>
+                                <ChevronLeft className="mr-2 h-4 w-4" />
+                                Previous Lesson
+                            </Button>
+                        )}
+                        {currentSubModuleId === chapters.length ? (
+                            <Link href="/quiz/1">
+                                <Button>
+                                    Take Quiz
+                                    <ChevronRight className="ml-2 h-4 w-4" />
+                                </Button>
+                            </Link>
+                        ) : (
+                            <Button
+                                onClick={() => {
+                                    setCurrentSubModuleId(currentSubModuleId + 1);
+                                    calculPercentage(currentSubModuleId);
+                                }}
+                            >
+                                Next
                                 <ChevronRight className="ml-2 h-4 w-4" />
                             </Button>
-                        </Link>
+                        )}
                     </div>
                 </div>
 

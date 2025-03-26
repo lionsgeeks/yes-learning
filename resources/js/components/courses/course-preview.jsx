@@ -1,245 +1,257 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent } from "@/components/ui/tabs"
-import { BookOpen, CheckCircle } from "lucide-react"
-import { Bar, Line, Pie } from "react-chartjs-2"; // Importing Chart.js components
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from "chart.js";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
+import { BookOpen, CheckCircle } from 'lucide-react';
+import { useState } from 'react';
+import { Bar, Line, Pie } from 'react-chartjs-2'; // Importing Chart.js components
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
-
-
 export function CoursePreview({ course }) {
+    console.log('inside the course preview : ', course?.subcourses[0]?.blocks);
+    // Separate function to render chart
+    function renderChart(block) {
+        const content = block.content; // Get the block's content
+        const chartData = {
+            labels: content.data.map((point) => point.name),
+            datasets: [
+                {
+                    label: 'Dataset',
+                    data: content.data.map((point) => point.value),
+                    backgroundColor: content.type === 'pie' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                },
+            ],
+        };
 
-  // Separate function to render chart
-  function renderChart(block) {
-    const content = block.content; // Get the block's content
-    const chartData = {
-      labels: content.data.map((point) => point.name),
-      datasets: [
-        {
-          label: 'Dataset',
-          data: content.data.map((point) => point.value),
-          backgroundColor: content.type === "pie" ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1,
-        },
-      ],
-    };
+        const chartOptions = {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: content.title || 'Chart Preview',
+                },
+            },
+        };
 
-    const chartOptions = {
-      responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: content.title || 'Chart Preview',
-        },
-      },
-    };
+        return (
+            <div className="bg- rounded-md">
+                <div className="h-full w-full">
+                    <div className="flex h-full items-center justify-center">
+                        <div className="">
+                            {block.content.type === 'bar' && <Bar data={chartData} options={chartOptions} />}
+                            {block.content.type === 'line' && <Line data={chartData} options={chartOptions} />}
+                            {block.content.type === 'pie' && <Pie data={chartData} options={chartOptions} />}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
+    // Function to extract YouTube video ID
+    function extractVideoId(url) {
+        const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=))([^"&?/]+)/;
+        const match = url.match(regex);
+        return match && match[1];
+    }
 
-
+    // !!view image
+    const [imagePreview, setImagePreview] = useState(null);
+    const blocks = course?.subcourses[0]?.blocks;
+    if (blocks && blocks[0]?.type === 'image') {
+        const file = blocks[0]?.content?.file;
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                if (reader.result) {
+                    setImagePreview(reader.result); // dyal l preview
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    }
     return (
-      <div className="bg-   rounded-md">
-        <div className="w-full h-full">
-          <div className="h-full flex items-center justify-center">
-            <div className="">
-              {block.content.type === "bar" && (
-                <Bar data={chartData} options={chartOptions} />
-              )}
-              {block.content.type === "line" && (
-                <Line data={chartData} options={chartOptions} />
-              )}
-              {block.content.type === "pie" && (
-                <Pie data={chartData} options={chartOptions} />
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+            <Card className="lg:col-span-4">
+                <CardHeader className="pb-0">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <div className="bg-primary/10 text-primary rounded-full px-2 py-1 text-xs">NGO View</div>
+                        </div>
+                    </div>
+                </CardHeader>
 
-  // Function to extract YouTube video ID
-  function extractVideoId(url) {
-    const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=))([^"&?/]+)/;
-    const match = url.match(regex);
-    return match && match[1];
-  }
-
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-
-      <Card className="lg:col-span-4">
-        <CardHeader className="pb-0">
-          <div className="flex items-center justify-between">
-
-            <div className="flex items-center gap-2">
-              <div className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">NGO View</div>
-            </div>
-          </div>
-        </CardHeader>
-
-        <CardContent className="">
-          <Tabs defaultValue="content">
-            {/* <TabsList>
+                <CardContent className="">
+                    <Tabs defaultValue="content">
+                        {/* <TabsList>
               <TabsTrigger value="content">Content</TabsTrigger>
               <TabsTrigger value="resources">Resources</TabsTrigger>
               <TabsTrigger value="discussions">Discussions</TabsTrigger>
             </TabsList> */}
 
-            <TabsContent value="content" className="mt-3">
-              {course.subcourses.length > 0 ? (
-                <div className="space-y-8">
-                  {course.subcourses.map((subcourse, index) => (
-                    <div key={subcourse.id}>
+                        <TabsContent value="content" className="mt-3">
+                            {course.subcourses.length > 0 ? (
+                                <div className="space-y-8">
+                                    {course.subcourses.map((subcourse, index) => (
+                                        <div key={subcourse.id}>
+                                            {subcourse.blocks?.length > 0 ? (
+                                                <div className="">
+                                                    {subcourse.blocks.map((block) => (
+                                                        <div key={block.id} className="rounded-md p-4">
+                                                            <h3 className="mb-2 font-medium">{block.content.title}</h3>
 
-                      {subcourse.blocks?.length > 0 ? (
-                        <div className="">
-                          {subcourse.blocks.map((block) => (
-                            <div key={block.id} className=" rounded-md p-4">
-                              <h3 className="font-medium mb-2">{block.content.title}</h3>
+                                                            {block.type === 'text' && (
+                                                                <div className="prose max-w-none">
+                                                                    <p>{block.content.body || 'Text content will appear here.'}</p>
+                                                                </div>
+                                                            )}
 
-                              {block.type === "text" && (
-                                <div className="prose max-w-none">
-                                  <p>{block.content.body || "Text content will appear here."}</p>
-                                </div>
-                              )}
+                                                            {block.type === 'image' && (
+                                                                <div className="space-y-2">
+                                                                    <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
+                                                                        {imagePreview ? (
+                                                                            <div className="mt-4">
+                                                                                <img
+                                                                                    src={imagePreview}
+                                                                                    alt="Course cover preview"
+                                                                                    className="h-auto w-full rounded-md object-cover"
+                                                                                />
+                                                                            </div>
+                                                                        ) : (
+                                                                            <div className="text-muted-foreground">Image Preview</div>
+                                                                        )}
+                                                                    </div>
+                                                                    {block.content.caption && (
+                                                                        <p className="text-muted-foreground text-center text-sm">
+                                                                            {block.content.caption}
+                                                                        </p>
+                                                                    )}
+                                                                </div>
+                                                            )}
 
-                              {block.type === "image" && (
-                                <div className="space-y-2">
-                                  <div className="bg-muted aspect-video flex items-center justify-center rounded-md">
-                                    <div className="text-muted-foreground">Image Preview</div>
-                                  </div>
-                                  {block.content.caption && (
-                                    <p className="text-sm text-center text-muted-foreground">{block.content.caption}</p>
-                                  )}
-                                </div>
-                              )}
+                                                            {block.type === 'video' && (
+                                                                <div className="space-y-2">
+                                                                    <div className="bg-muted flex aspect-video rounded-md">
+                                                                        {block.type === 'video' && (
+                                                                            <div className="w-full space-y-2">
+                                                                                <div className="bg-muted aspect-video rounded-md">
+                                                                                    {/* Extract video ID and embed */}
+                                                                                    <iframe
+                                                                                        className="h-full w-full"
+                                                                                        src={`https://www.youtube.com/embed/${extractVideoId(block.content.url)}`} // Call a function to extract the video ID
+                                                                                        title="Video"
+                                                                                        frameBorder="0"
+                                                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                                        referrerPolicy="strict-origin-when-cross-origin"
+                                                                                        allowFullScreen
+                                                                                    ></iframe>
+                                                                                </div>
+                                                                                {/* TODO : fix width */}
 
-                              {block.type === "video" && (
-                                <div className="space-y-2">
-                                  <div className="bg-muted aspect-video flex  rounded-md">
+                                                                                {block.content.caption && (
+                                                                                    <p className="text-muted-foreground w-full text-center text-sm">
+                                                                                        {block.content.caption}
+                                                                                    </p>
+                                                                                )}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                    {/* TODO : fix width */}
+                                                                    {block.content.caption && (
+                                                                        <p className="text-muted-foreground w-full text-center text-sm">
+                                                                            {block.content.caption}
+                                                                        </p>
+                                                                    )}
+                                                                </div>
+                                                            )}
 
-                                    {block.type === "video" && (
-                                      <div className="space-y-2 w-full">
-                                        <div className="bg-muted aspect-video  rounded-md">
-                                          {/* Extract video ID and embed */}
-                                          <iframe
-                                            className="w-full h-full"
-                                            src={`https://www.youtube.com/embed/${extractVideoId(block.content.url)}`}  // Call a function to extract the video ID
-                                            title="Video"
-                                            frameBorder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                            referrerPolicy="strict-origin-when-cross-origin"
-                                            allowFullScreen
-                                          ></iframe>
+                                                            {block.type === 'list' && (
+                                                                <div>
+                                                                    {block.content.type === 'bullet' ? (
+                                                                        <ul className="list-disc space-y-1 pl-5">
+                                                                            {(block.content.items || ['Sample item']).map((item, i) => (
+                                                                                <li key={i}>{item}</li>
+                                                                            ))}
+                                                                        </ul>
+                                                                    ) : block.content.type === 'numbered' ? (
+                                                                        <ol className="list-decimal space-y-1 pl-5">
+                                                                            {(block.content.items || ['Sample item']).map((item, i) => (
+                                                                                <li key={i}>{item}</li>
+                                                                            ))}
+                                                                        </ol>
+                                                                    ) : (
+                                                                        <div className="space-y-2">
+                                                                            {(block.content.items || ['Sample item']).map((item, i) => (
+                                                                                <div key={i} className="flex items-center">
+                                                                                    <CheckCircle className="text-primary mr-2 h-4 w-4" />
+                                                                                    <span>{item}</span>
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            )}
+
+                                                            {block.type === 'table' && (
+                                                                <div className="overflow-x-auto">
+                                                                    <table className="w-full border-collapse">
+                                                                        <thead>
+                                                                            <tr className="bg-muted">
+                                                                                {Array.from({ length: block.content.cols || 3 }).map((_, i) => (
+                                                                                    <th key={i} className="border p-2 text-left">
+                                                                                        Header {i + 1}
+                                                                                    </th>
+                                                                                ))}
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {Array.from({ length: block.content.rows || 3 }).map((_, rowIndex) => (
+                                                                                <tr key={rowIndex}>
+                                                                                    {Array.from({ length: block.content.cols || 3 }).map(
+                                                                                        (_, colIndex) => (
+                                                                                            <td key={colIndex} className="border p-2">
+                                                                                                Cell {rowIndex + 1},{colIndex + 1}
+                                                                                            </td>
+                                                                                        ),
+                                                                                    )}
+                                                                                </tr>
+                                                                            ))}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            )}
+
+                                                            {block.type === 'chart' && renderChart(block)}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="text-muted-foreground pl-11">No content blocks in this module</div>
+                                            )}
                                         </div>
-                                        {/* TODO : fix width */}
-
-                                        {block.content.caption && (
-                                          <p className="text-sm text-center w-full  text-muted-foreground">{block.content.caption}</p>
-                                        )}
-                                      </div>
-                                    )}
-
-
-                                  </div>
-                                  {/* TODO : fix width */}
-                                  {block.content.caption && (
-                                    <p className="text-sm text-center w-full  text-muted-foreground">{block.content.caption}</p>
-                                  )}
+                                    ))}
                                 </div>
-                              )}
-
-                              {block.type === "list" && (
-                                <div>
-                                  {block.content.type === "bullet" ? (
-                                    <ul className="list-disc pl-5 space-y-1">
-                                      {(block.content.items || ["Sample item"]).map((item, i) => (
-                                        <li key={i}>{item}</li>
-                                      ))}
-                                    </ul>
-                                  ) : block.content.type === "numbered" ? (
-                                    <ol className="list-decimal pl-5 space-y-1">
-                                      {(block.content.items || ["Sample item"]).map((item, i) => (
-                                        <li key={i}>{item}</li>
-                                      ))}
-                                    </ol>
-                                  ) : (
-                                    <div className="space-y-2">
-                                      {(block.content.items || ["Sample item"]).map((item, i) => (
-                                        <div key={i} className="flex items-center">
-                                          <CheckCircle className="h-4 w-4 mr-2 text-primary" />
-                                          <span>{item}</span>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  )}
+                            ) : (
+                                <div className="py-12 text-center">
+                                    <BookOpen className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+                                    <h3 className="text-lg font-medium">No modules yet</h3>
+                                    <p className="text-muted-foreground mt-1">Add modules to your course to see a preview</p>
                                 </div>
-                              )}
+                            )}
+                        </TabsContent>
 
-                              {block.type === "table" && (
-                                <div className="overflow-x-auto">
-                                  <table className="w-full border-collapse">
-                                    <thead>
-                                      <tr className="bg-muted">
-                                        {Array.from({ length: block.content.cols || 3 }).map((_, i) => (
-                                          <th key={i} className="border p-2 text-left">
-                                            Header {i + 1}
-                                          </th>
-                                        ))}
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {Array.from({ length: block.content.rows || 3 }).map((_, rowIndex) => (
-                                        <tr key={rowIndex}>
-                                          {Array.from({ length: block.content.cols || 3 }).map((_, colIndex) => (
-                                            <td key={colIndex} className="border p-2">
-                                              Cell {rowIndex + 1},{colIndex + 1}
-                                            </td>
-                                          ))}
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </table>
-                                </div>
-                              )}
+                        <TabsContent value="resources">
+                            <div className="text-muted-foreground py-8 text-center">Resources section preview</div>
+                        </TabsContent>
 
-
-                              {block.type === "chart" && renderChart(block)}
-
-
-
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="pl-11 text-muted-foreground">No content blocks in this module</div>
-                      )}
-
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium">No modules yet</h3>
-                  <p className="text-muted-foreground mt-1">Add modules to your course to see a preview</p>
-                </div>
-              )}
-            </TabsContent>
-
-            <TabsContent value="resources">
-              <div className="py-8 text-center text-muted-foreground">Resources section preview</div>
-            </TabsContent>
-
-            <TabsContent value="discussions">
-              <div className="py-8 text-center text-muted-foreground">Discussions section preview</div>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
-    </div>
-  )
+                        <TabsContent value="discussions">
+                            <div className="text-muted-foreground py-8 text-center">Discussions section preview</div>
+                        </TabsContent>
+                    </Tabs>
+                </CardContent>
+            </Card>
+        </div>
+    );
 }
-

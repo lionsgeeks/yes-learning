@@ -38,23 +38,29 @@ class ChapterController extends Controller
             'published' => 'boolean',
             'enable_certificate' => 'boolean',
             'discussion' => 'boolean',
-            'content' => 'required|array', 
+            'content' => 'required|array',
             'course_id' => 'nullable',
             // 'course_id' => 'nullable|exists:quizzes,id',
         ]);
         
-        $chapter = Chapter::create([
+        // $block = $reaquest
+        Chapter::create([
             'title' => $request->title,
             'description' => $request->description,
             'estimated_duration' => $request->estimated_duration,
             'published' => $request->published ?? false,
             'enable_certificate' => $request->enable_certificate ?? true,
             'enable_discussion' => $request->discussion ?? false,
-            'content' => json_encode($request->content), 
+            'content' => json_encode($request->content),
             'course_id' => $request->course_id,
         ]);
+        if ($request->file()) {
+            $file = $request->file('content.0.blocks.0.content.file');
+            $fileName = $file->getClientOriginalName();
+            $file->storeAs('image/chapters', $fileName, 'public');
+            // dd($fileName);
+        }
         return redirect()->route('admin.courses.index')->with('success', 'Course created successfully!');
-
     }
 
     /**

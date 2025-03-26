@@ -45,7 +45,7 @@ const AdminCoursesCreate = () => {
         e.preventDefault();
 
         console.log("Submitting:", data);
-
+        
         post(route('chapter.store'), {
             data: data,
             onFinish: () => {

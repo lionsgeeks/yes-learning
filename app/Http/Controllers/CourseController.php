@@ -78,6 +78,7 @@ class CourseController extends Controller
         //
         return Inertia::render("courses/student/[id]", [
             "course" => $course,
+            "image_url" => asset('storage/'),
             "chapters" => Chapter::where("course_id", $course->id)
                 ->get()
                 ->map(function ($chapter) {
