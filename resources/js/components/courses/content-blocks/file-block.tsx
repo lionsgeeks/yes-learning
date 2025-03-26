@@ -16,7 +16,7 @@ interface ImageBlockEditorProps {
     onChange: (content: ImageBlockEditorProps['content']) => void;
 }
 
-export function FileBlockEditor({ content, onChange }: ImageBlockEditorProps) {
+export function FileBlockEditor() {
   
     return (
         <div>Lionsgeek</div>
