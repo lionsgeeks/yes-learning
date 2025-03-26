@@ -13,6 +13,19 @@ return new class extends Migration
     {
         Schema::create('sub_workshops', function (Blueprint $table) {
             $table->id();
+            $table->string("name");
+            $table->string("description");
+            $table->string("prerequisite");
+            $table->foreignId("chapter_id")->constrained()->cascadeOnDelete();
+            $table->date("date");
+            $table->time("time");
+            $table->integer("duration");
+            $table->string("instructor");
+            $table->string("meetLink");
+            $table->boolean("allowQuestions");
+            $table->boolean("requireRegistration");
+            $table->boolean("sendNotifications");
+            $table->boolean("published");
             $table->timestamps();
         });
     }

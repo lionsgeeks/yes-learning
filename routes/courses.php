@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified', "role:user"])->group(function () {
     Route::resource("course", CourseController::class);
+    Route::put("enroll/{course}" , [CourseController::class , "enroll"])->name("course.enroll");
 
 
     

@@ -11,7 +11,7 @@ import { ArrowLeft, Calendar, MoreHorizontal, Plus, Users, Globe } from "lucide-
 import { CreateSubWorkshopModal } from "@/components/workshops/create-sub-workshop-modal"
 import { Switch } from "@/components/ui/switch"
 import { SubWorkshopCard } from "@/components/workshops/sub-workshop-card"
-// import { format } from "date-fns"
+import { format } from "date-fns"
 
 const breadcrumbs = [
 
@@ -23,98 +23,17 @@ const breadcrumbs = [
 
 
 // Mock data for the workshop
-const workshop = {
-    id: "1",
-    title: "Introduction to Web Development",
-    description:
-      "Learn the basics of HTML, CSS, and JavaScript in this comprehensive workshop series. Perfect for beginners who want to start their journey in web development.",
-    course: "Web Development Fundamentals",
-    enrolledStudents: 24,
-    maxCapacity: 30,
-    status: "draft", // or "published"
-    settings: {
-      recordSession: true,
-      allowQuestions: true,
-      requireRegistration: true,
-      visibility: "Course Enrolled Students Only",
-    },
-  }
+
 
 
 // Mock data for sub-workshops
-const subWorkshops = [
-    {
-        id: "1",
-        name: "HTML Fundamentals",
-        description: "Introduction to HTML tags and document structure",
-        subCourse: "HTML Basics",
-        date: "2023-05-15",
-        time: "10:00 AM",
-        language: "English",
-        instructors: {
-            english: "John Smith",
-            french: "Marie Dubois",
-            arabic: "Ahmed Hassan",
-        },
-        meetLinks: {
-            english: "https://meet.google.com/abc-defg-hij",
-            french: "https://meet.google.com/klm-nopq-rst",
-            arabic: "https://meet.google.com/uvw-xyz-123",
-        },
-        enrolledStudents: 24,
-        maxCapacity: 30,
-        isComplete: true,
-    },
-    {
-        id: "1-2",
-        name: "CSS Styling",
-        description: "Learn how to style web pages with CSS",
-        subCourse: "CSS Basics",
-        date: "2023-05-22",
-        time: "10:00 AM",
-        language: "French",
-        instructors: {
-            english: "Sarah Johnson",
-            french: "Pierre Laurent",
-            arabic: "Fatima Khalid",
-        },
-        meetLinks: {
-            english: "",
-            french: "https://meet.google.com/def-ghij-klm",
-            arabic: "",
-        },
-        enrolledStudents: 18,
-        maxCapacity: 30,
-        isComplete: false,
-    },
-    {
-        id: "1-3",
-        name: "JavaScript Basics",
-        description: "Introduction to JavaScript programming",
-        subCourse: "JS Fundamentals",
-        date: "2023-06-29",
-        time: "10:00 AM",
-        language: "Arabic",
-        instructors: {
-            english: "Michael Brown",
-            french: "Sophie Martin",
-            arabic: "Omar Farooq",
-        },
-        meetLinks: {
-            english: "https://meet.google.com/nop-qrst-uvw",
-            french: "https://meet.google.com/xyz-123-456",
-            arabic: "https://meet.google.com/789-abc-def",
-        },
-        enrolledStudents: 15,
-        maxCapacity: 30,
-        isComplete: false,
-    },
-]
 
-const WorkshopDetails = () => {
+
+const WorkshopDetails = ({workshop , subWorkshops , chapters}) => {
+// console.log(workshop);
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-    const [isPublished, setIsPublished] = useState(workshop.status === "published")
+    // const [isPublished, setIsPublished] = useState(workshop.status === "published")
 
     // Find the next upcoming sub-workshop
     const now = new Date()
@@ -140,7 +59,7 @@ const WorkshopDetails = () => {
                     </Button>
                     <div className="flex-1">
                         <div className="flex items-center gap-2">
-                            <h1 className="text-2xl font-bold">{workshop.title}</h1>
+                            <h1 className="text-2xl font-bold">{workshop.name}</h1>
                             {/* {isPublished ? (
                                 <Badge className="bg-green-500">Published</Badge>
                             ) : (
@@ -149,7 +68,7 @@ const WorkshopDetails = () => {
                                 </Badge>
                             )} */}
                         </div>
-                        <p className="text-sm text-muted-foreground">{workshop.course}</p>
+                        <p className="text-sm text-muted-foreground">{workshop.course.name}</p>
                     </div>
                     <div className="flex items-center gap-4">
                         {/* <div className="flex items-center gap-2">
@@ -187,7 +106,7 @@ const WorkshopDetails = () => {
                                 <div>
                                     <h3 className="text-sm font-medium text-muted-foreground">Course</h3>
                                     <Badge variant="outline" className="mt-1">
-                                        {workshop.course}
+                                        {workshop.course.name}
                                     </Badge>
                                 </div>
 
@@ -196,7 +115,7 @@ const WorkshopDetails = () => {
                                     <div className="mt-1 flex items-center gap-2">
                                         <Users className="h-4 w-4 text-muted-foreground" />
                                         <span>
-                                            {workshop.enrolledStudents}/{workshop.maxCapacity} Students
+                                            Students
                                         </span>
                                     </div>
                                 </div>
@@ -242,19 +161,19 @@ const WorkshopDetails = () => {
                         <CardContent className="space-y-4">
                             <div className="flex items-center justify-between">
                                 <span className="text-sm">Record Session</span>
-                                <span className="text-sm font-medium">{workshop.settings.recordSession ? "Yes" : "No"}</span>
+                                {/* <span className="text-sm font-medium">{workshop.settings.recordSession ? "Yes" : "No"}</span> */}
                             </div>
                             <div className="flex items-center justify-between">
                                 <span className="text-sm">Allow Questions</span>
-                                <span className="text-sm font-medium">{workshop.settings.allowQuestions ? "Yes" : "No"}</span>
+                                {/* <span className="text-sm font-medium">{workshop.settings.allowQuestions ? "Yes" : "No"}</span> */}
                             </div>
                             <div className="flex items-center justify-between">
                                 <span className="text-sm">Require Registration</span>
-                                <span className="text-sm font-medium">{workshop.settings.requireRegistration ? "Yes" : "No"}</span>
+                                {/* <span className="text-sm font-medium">{workshop.settings.requireRegistration ? "Yes" : "No"}</span> */}
                             </div>
                             <div className="flex items-center justify-between">
                                 <span className="text-sm">Visibility</span>
-                                <span className="text-sm font-medium">{workshop.settings.visibility}</span>
+                                {/* <span className="text-sm font-medium">{workshop.settings.visibility}</span> */}
                             </div>
                             <Button variant="outline" size="sm" className="w-full" asChild>
                                 <Link href={`/workshops/${workshop.id}/settings`}>Edit Settings</Link>
@@ -282,7 +201,7 @@ const WorkshopDetails = () => {
                     </div>
                 </div>
 
-                <CreateSubWorkshopModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
+                <CreateSubWorkshopModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} chapters={chapters} />
             </div>
 
         </AppLayout>

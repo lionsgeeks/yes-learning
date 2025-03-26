@@ -1,5 +1,5 @@
 import React from "react";
-import { usePage, Head, Link } from "@inertiajs/react";
+import { usePage, Head, Link, useForm } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,19 +10,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CheckCircle, Clock, Filter, Image, Search, Star, Tag, Users } from "lucide-react"
 
 const Course = () => {
-
     const { courses } = usePage().props
 
-    const breadcrumbs = [
-
-        {
-            title: "Courses",
-            href: `/courses`,
-        },
-    ];
-
-
-
+    const breadcrumbs = [{ title: "Courses", href: `/courses`, },];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -62,7 +52,7 @@ const Course = () => {
                                         {
                                             courses.map((e, i) =>
                                                 <>
-                                                    <SelectItem value={e.label}>{e.label}</SelectItem>
+                                                    <SelectItem key={i} value={e.label}>{e.label}</SelectItem>
 
                                                 </>
                                             )
@@ -131,6 +121,21 @@ const Course = () => {
 export default Course;
 
 function CourseCard({ course }) {
+
+    const { data, setDate, put, proccessing, erro } = useForm({
+        "course": course.id
+    })
+
+    const enroll = () => {
+        let formdata = new FormData()
+        formdata.append("course", course.id)
+        put(route("course.enroll", course.id), {
+            onSuccess: () => { alert("good") },
+            onError: (e) => { },
+        })
+    }
+
+
     return (
         <Card className={`overflow-hidden ${course.enrolled ? "border-primary/50 bg-primary/5" : ""}`}>
             <div className="relative">
@@ -141,22 +146,22 @@ function CourseCard({ course }) {
                     height={200}
                     className="w-full h-48 object-cover"
                 />
-                {/* {course.enrolled && (
+                {course.enrolled && (
                     <div className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs font-medium px-2 py-1 rounded-md flex items-center">
                         <CheckCircle className="h-3 w-3 mr-1" />
                         Enrolled
                     </div>
-                )} */}
+                )}
 
-                {/* <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
                     <div className="flex items-center text-white">
 
-                        <div className="flex items-center">
+                        <div className="flex items-center bg-black/50 px-2 py-1  rounded-full">
                             <Users className="h-4 w-4 mr-1" />
-                            <span className="text-sm">{course.enrolledCount.toLocaleString()}</span>
+                            <span className="text-sm ">{course.enrolledCount} Participant</span>
                         </div>
                     </div>
-                </div> */}
+                </div>
             </div>
 
             <CardHeader className="pb-2">
@@ -180,28 +185,18 @@ function CourseCard({ course }) {
                     </Badge>
                 </div>
 
-                {/* <div className="flex items-center text-sm">
-                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center mr-2">
-                        <span className="text-xs font-medium">{course.instructor.charAt(0)}</span>
-                    </div>
-                    <span className="text-muted-foreground">{course.instructor}</span>
-                </div> */}
             </CardContent>
 
             <CardFooter>
-                {/* {course.enrolled ? (
+                {course.enrolled ? (
                     <Button asChild className="w-full">
                         <Link href={`/course/${course.id}`}>Continue Learning</Link>
                     </Button>
                 ) : (
                     <div className="w-full flex items-center justify-between gap-2">
-                        <Button className="flex-1">Enroll Now</Button>
+                        <button onClick={enroll} className="flex-1 bg-alpha py-2 rounded-lg">Enroll Now</button>
                     </div>
-                )} */}
-
-                <Button asChild className="w-full">
-                    <Link href={`/course/${course.id}`}>Continue Learning</Link>
-                </Button>
+                )}
             </CardFooter>
         </Card>
     )

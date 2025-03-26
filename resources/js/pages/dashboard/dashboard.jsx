@@ -1,6 +1,6 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Award, BookOpen, ChevronRight, Clock, Folder, Image } from 'lucide-react';
@@ -15,6 +15,8 @@ const breadcrumbs = [
 ];
 
 export default function Dashboard() {
+
+  const { courses } = usePage().props
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Dashboard" />
@@ -62,34 +64,34 @@ export default function Dashboard() {
 
             <TabsContent value="courses" className="mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {[1, 2, 3, 4, 5, 6].map((course) => (
+                {courses.map((course) => (
                   <Card key={course} className="overflow-hidden">
                     <div className="relative h-40">
-                      <Image
-                        src={`/placeholder.svg?height=160&width=400&text=Course ${course}`}
-                        alt={`Course ${course}`}
+                      <img
+                        src={`storage/${course.image}`}
+                        alt={`Course ${course.image}`}
                         width={400}
                         height={160}
                         className="object-cover w-full h-full"
                       />
                     </div>
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">Course Title {course}</CardTitle>
+                      <CardTitle className="text-lg">Course Title {course.name}</CardTitle>
                       <CardDescription className="flex items-center">
-                        <Clock className="h-4 w-4 mr-1" />
-                        <span>8 hours</span>
-                        <span className="mx-2">•</span>
+                        {/* <Clock className="h-4 w-4 mr-1" /> */}
+                        {/* <span>{course.estimated_duration}</span> */}
+                        {/* <span className="mx-2">•</span> */}
                         <Folder className="h-4 w-4 mr-1" />
-                        <span>6 modules</span>
+                        <span>{course.chapterCount} modules</span>
                       </CardDescription>
                     </CardHeader>
-                    <Link href="course/1" className="block">
-                    <CardContent className="cursor-pointer">
-                      <Button variant="outline" className="w-full border py-2">
-                        Take the course
-                      </Button>
-                    </CardContent>
-                  </Link>
+                    <Link href={`course/`+course.id} className="block">
+                      <CardContent className="cursor-pointer">
+                        <Button variant="outline" className="w-full border py-2">
+                          Take the course
+                        </Button>
+                      </CardContent>
+                    </Link>
                   </Card>
                 ))}
               </div>
@@ -113,7 +115,7 @@ export default function Dashboard() {
               </div>
             </TabsContent>
 
-            
+
             <TabsContent value="library" className="mt-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[1, 2, 3, 4, 5, 6].map((module) => (

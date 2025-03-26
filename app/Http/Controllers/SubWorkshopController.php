@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SubWorkshop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class SubWorkshopController extends Controller
@@ -30,6 +31,40 @@ class SubWorkshopController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:400',
+            "chapter_id"=>"required",
+            "prerequisite"=>"required",
+            "date"=>"required",
+            "time"=>"required",
+            "duration"=>"required",
+            "instructor"=>"required",
+            "meetLink"=>"required",
+            "allowQuestions"=>"required",
+            "requireRegistration"=>"required",
+            "sendNotifications"=>"required",
+            "published"=>"required"
+        ]);
+
+        SubWorkshop::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'chapter_id' => $validated['chapter_id'],
+            "prerequisite"=>$validated['prerequisite'],
+            "date"=>$validated['date'],
+            "time"=>$validated['time'],
+            "duration"=>$validated['duration'],
+            "instructor"=>$validated['instructor'],
+            "meetLink"=>$validated['meetLink'],
+            "allowQuestions"=>$validated['allowQuestions'],
+            "requireRegistration"=>$validated['requireRegistration'],
+            "sendNotifications"=>$validated['sendNotifications'],
+            "published"=>$validated['published']
+        ]);
+
+        return back();
+
     }
 
     /**
@@ -41,6 +76,14 @@ class SubWorkshopController extends Controller
         return Inertia::render("workshops/admin/[subid]", [
             "subWorkshop" => $subWorkshop
         ]);
+    }
+
+    public function enroll(SubWorkshop $subWorkshop)
+    {
+        
+        $subWorkshop->users()->toggle(Auth::id()); //  b7al toggle ta3 javascript  
+
+        return redirect("/workshop");
     }
 
     /**

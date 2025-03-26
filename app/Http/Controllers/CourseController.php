@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Chapter;
 use App\Models\Course;
+use App\Models\UserCourse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CourseController extends Controller
@@ -15,20 +17,27 @@ class CourseController extends Controller
     public function index()
     {
         //
-        return Inertia::render("courses/student/index",[
-            'courses' => Course::all(),
+        $userId = Auth::id(); // hna khdit l id  ta3 l auth user
+        return Inertia::render("courses/student/index", [
+            "courses" => Course::with("users:id")->get()->map(function ($course) use ($userId) { // mappit 3la ga3 l courses  o 3ayat m3ahom 3la l users  o 3ayat ghi 3la l id dyal l user  li 
+                //an7tajo bach n9arn  wach m enrolli fl course to avoid loading data li mam7tajhach
+                $course->enrolled = $course->users->contains("id", $userId); // zdt value jdid fl courses  li howa  enrolled  bach n3rf wh l user  m enrolli ola la 
+                $course->enrolledCount = $course->users()->count();
+                unset($course->users); // hna 9bel mansift data  unlinkit l relation bach matmchich l  front  ( makayn lach  tmchi 7it lgharad  howa  n9ad kolchi  fl backend)
+                return $course; //  akhiran  had l3ayba o l3ziz 3la amimto 3mro maytkhas
+            })
         ]);
     }
 
 
     public function adminIndex()
-    {        
+    {
         //
-        $courses = Course::all()->map(function($course) {
-            $course->image = asset('storage/'.$course->image); // Using asset() to generate the full URL
+        $courses = Course::all()->map(function ($course) {
+            $course->image = asset('storage/' . $course->image); // Using asset() to generate the full URL
             return $course;
         });
-    
+
         return Inertia::render('courses/admin/index', [
             'courses' => $courses,
         ]);
@@ -82,7 +91,7 @@ class CourseController extends Controller
             "chapters" => Chapter::where("course_id", $course->id)
                 ->get()
                 ->map(function ($chapter) {
-                    $chapter->content = json_decode($chapter->content, true); 
+                    $chapter->content = json_decode($chapter->content, true);
                     return $chapter;
                 }),
         ]);
@@ -90,13 +99,13 @@ class CourseController extends Controller
     public function adminShow(Course $course)
     {
         //
-        
-        $course->image = asset('storage/'.$course->image); 
-        
-        
+
+        $course->image = asset('storage/' . $course->image);
+
+
         return Inertia::render("courses/admin/[id]", [
-            "course" => $course,
-            "modules"=> Chapter::where("course_id" , $course->id)->get(),
+            "course" => $course->load("users"),
+            "modules" => Chapter::where("course_id", $course->id)->get(),
             // dd($chapters)
         ]);
     }
@@ -123,5 +132,14 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         //
+    }
+
+
+    public function enroll(Course $course)
+    {
+        
+        $course->users()->toggle(Auth::id()); //  b7al toggle ta3 javascript  
+
+        return redirect("/course");
     }
 }

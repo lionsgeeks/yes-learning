@@ -14,4 +14,15 @@ class Course extends Model
         "image",
         "label",
     ];
+
+
+    public function workshops()
+    {
+        $this->hasMany(Workshop::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_courses');
+    }
 }
