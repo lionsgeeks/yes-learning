@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Plus } from "lucide-react"
 import { usePage, Head, Link, useForm } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
-
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { CoursePreview } from "@/components/courses/course-preview"

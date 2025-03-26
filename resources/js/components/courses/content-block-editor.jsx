@@ -19,7 +19,7 @@ import {
 } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 
-import { AlignLeft, BarChart, GripVertical, ImageIcon, List, Plus, Presentation, Table, Trash2, Video,} from "lucide-react"
+import { AlignLeft, BarChart, File, GripVertical, ImageIcon, List, Plus, Presentation, Table, Trash2, Video,} from "lucide-react"
 import { TextBlockEditor } from "./content-blocks/text-block"
 import { ImageBlockEditor } from "./content-blocks/image-block"
 import { VideoBlockEditor } from "./content-blocks/video-block"
@@ -76,6 +76,8 @@ const onDragEnd = (event) => {
         return { title: "New Text Section", body: "" }
       case "image":
         return { title: "New Image", url: "", caption: "", altText: "" }
+      case "file":
+        return { title: "New File", url: "", caption: "" }
       case "video":
         return { title: "New Video", url: "", caption: "" }
       case "list":
@@ -161,6 +163,10 @@ const onDragEnd = (event) => {
             <Button variant="outline" className="justify-start" onClick={() => addBlock("chart")}>
               <BarChart className="h-4 w-4 mr-2" />
               Chart
+            </Button>
+            <Button variant="outline" className="justify-start" onClick={() => addBlock("file")}>
+              <File className="h-4 w-4 mr-2" />
+              File
             </Button>
           </div>
           </TabsContent>

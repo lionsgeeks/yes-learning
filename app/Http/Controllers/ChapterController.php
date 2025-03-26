@@ -42,7 +42,7 @@ class ChapterController extends Controller
             'course_id' => 'nullable',
             // 'course_id' => 'nullable|exists:quizzes,id',
         ]);
-        
+
         // $block = $reaquest
         Chapter::create([
             'title' => $request->title,
@@ -55,11 +55,18 @@ class ChapterController extends Controller
             'course_id' => $request->course_id,
         ]);
         if ($request->file()) {
-            $file = $request->file('content.0.blocks.0.content.file');
-            $fileName = $file->getClientOriginalName();
-            $file->storeAs('image/chapters', $fileName, 'public');
+            $blocks = $request->file('content.0.blocks');
+            foreach ($blocks as $block) {
+                if (isset($block['content']['file'])) {
+                    $file = $block['content']['file'];
+                    $fileName = $file->getClientOriginalName();
+                    $file->storeAs('image/chapters', $fileName, 'public');
+                }
+            }
             // dd($fileName);
         }
+        //* if ($request->hasFile('content.0.blocks')) {}
+
         return redirect()->route('admin.courses.index')->with('success', 'Course created successfully!');
     }
 

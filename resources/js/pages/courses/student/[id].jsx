@@ -14,7 +14,6 @@ import { useState } from 'react';
 const CourseDetails = () => {
     const { course, chapters, image_url } = usePage().props;
     // console.log('course ', course);
-    console.log('image', image_url)
     console.log('chapters', chapters);
     const breadcrumbs = [
         {
