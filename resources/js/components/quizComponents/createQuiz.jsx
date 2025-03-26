@@ -8,17 +8,18 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, Plus, Save, Trash2, MoveDown, MoveUp, Copy } from "lucide-react"
-import AppLayout from '@/layouts/app-layout';
-import { Link } from "@inertiajs/react"
+import { Link, useForm } from "@inertiajs/react"
 
 export default function CreateQuizPage() {
-    const [quizTitle, setQuizTitle] = useState("")
-    const [quizDescription, setQuizDescription] = useState("")
-    const [category, setCategory] = useState("")
-    const [difficulty, setDifficulty] = useState("")
-    const [timeLimit, setTimeLimit] = useState("")
-    const [publishImmediately, setPublishImmediately] = useState(false)
-
+    // TODO: Take data and setData from create.jsx
+    const { data, setData, post } = useForm({
+        title: '',
+        description: '',
+        timelimit: '',
+        published: 0,
+        chapter_id: 1,
+        questions: [],
+    });
     const [questions, setQuestions] = useState([
         {
             id: 1,
@@ -35,7 +36,7 @@ export default function CreateQuizPage() {
     ])
 
     const addQuestion = (type) => {
-        const newId = questions.length > 0 ? Math.max(...questions.map((q) => q.id)) + 1 : 1
+        const newId = data.questions.length > 0 ? Math.max(...data.questions.map((q) => q.id)) + 1 : 1
 
         let newQuestion;
 
@@ -46,8 +47,10 @@ export default function CreateQuizPage() {
                     type: "multiple-choice",
                     text: "",
                     options: [
-                        { id: 1, text: "", isCorrect: false },
+                        { id: 1, text: "", isCorrect: true },
                         { id: 2, text: "", isCorrect: false },
+                        { id: 3, text: "", isCorrect: false },
+                        { id: 4, text: "", isCorrect: false },
                     ],
                     allowMultiple: false,
                 }
@@ -74,6 +77,8 @@ export default function CreateQuizPage() {
                     type: "multiple-choice",
                     text: "",
                     options: [
+                        { id: 1, text: "", isCorrect: true },
+                        { id: 2, text: "", isCorrect: false },
                         { id: 1, text: "", isCorrect: false },
                         { id: 2, text: "", isCorrect: false },
                     ],
@@ -81,22 +86,25 @@ export default function CreateQuizPage() {
                 }
         }
 
-        setQuestions([...questions, newQuestion])
+        const newQuestions = [...data.questions, newQuestion];
+        setData('questions', newQuestions);
     }
 
     const removeQuestion = (id) => {
-        setQuestions(questions.filter((q) => q.id !== id))
+        const newQuestions = data.questions.filter((q) => q.id !== id);
+        setData('questions', newQuestions);
     }
 
     const duplicateQuestion = (id) => {
-        const questionToDuplicate = questions.find((q) => q.id === id)
+        const questionToDuplicate = data.questions.find((q) => q.id === id)
         if (!questionToDuplicate) return
 
-        const newId = Math.max(...questions.map((q) => q.id)) + 1
+        const newId = Math.max(...data.questions.map((q) => q.id)) + 1
         const duplicatedQuestion = JSON.parse(JSON.stringify(questionToDuplicate))
         duplicatedQuestion.id = newId
 
-        setQuestions([...questions, duplicatedQuestion])
+        const newQuestions = [...questions, duplicatedQuestion];
+        setData('questions', newQuestions);
     }
 
     const moveQuestionUp = (index) => {
@@ -158,18 +166,19 @@ export default function CreateQuizPage() {
     }
 
     const updateQuestionText = (questionId, text) => {
-        setQuestions(
-            questions.map((q) => {
+        setData({
+            ...data,
+            questions: data.questions.map((q) => {
                 if (q.id === questionId) {
                     return {
                         ...q,
-                        text,
-                    }
+                        text,  // Update question text
+                    };
                 }
-                return q
+                return q;
             }),
-        )
-    }
+        });
+    };
 
     // Multiple choice specific functions
     const addOption = (questionId) => {
@@ -205,8 +214,9 @@ export default function CreateQuizPage() {
     }
 
     const setCorrectOption = (questionId, optionId) => {
-        setQuestions(
-            questions.map((q) => {
+        setData({
+            ...data,
+            questions: data.questions.map((q) => {
                 if (q.id === questionId && q.type === "multiple-choice") {
                     const mcQuestion = q;
 
@@ -218,7 +228,7 @@ export default function CreateQuizPage() {
                                 ...o,
                                 isCorrect: o.id === optionId ? !o.isCorrect : o.isCorrect,
                             })),
-                        }
+                        };
                     } else {
                         // Single selection - only one can be correct
                         return {
@@ -227,40 +237,42 @@ export default function CreateQuizPage() {
                                 ...o,
                                 isCorrect: o.id === optionId,
                             })),
-                        }
+                        };
                     }
                 }
-                return q
+                return q;
             }),
-        )
-    }
+        });
+    };
+
 
     const updateOptionText = (questionId, optionId, text) => {
-        setQuestions(
-            questions.map((q) => {
+        setData({
+            ...data,
+            questions: data.questions.map((q) => {
                 if (q.id === questionId && q.type === "multiple-choice") {
-                    const mcQuestion = q;
                     return {
-                        ...mcQuestion,
-                        options: mcQuestion.options.map((o) => {
+                        ...q,
+                        options: q.options.map((o) => {
                             if (o.id === optionId) {
                                 return {
                                     ...o,
-                                    text,
-                                }
+                                    text,  // Update option text
+                                };
                             }
-                            return o
+                            return o;
                         }),
-                    }
+                    };
                 }
-                return q
+                return q;
             }),
-        )
-    }
+        });
+    };
 
     const toggleAllowMultiple = (questionId) => {
-        setQuestions(
-            questions.map((q) => {
+        setData({
+            ...data,
+            questions: data.questions.map((q) => {
                 if (q.id === questionId && q.type === "multiple-choice") {
                     const mcQuestion = q;
                     return {
@@ -270,13 +282,14 @@ export default function CreateQuizPage() {
                 }
                 return q
             }),
-        )
+        })
     }
 
     // True/False specific functions
     const setTrueFalseAnswer = (questionId, value) => {
-        setQuestions(
-            questions.map((q) => {
+        setData({
+            ...data,
+            questions: data.questions.map((q) => {
                 if (q.id === questionId && q.type === "true-false") {
                     return {
                         ...q,
@@ -285,13 +298,14 @@ export default function CreateQuizPage() {
                 }
                 return q
             }),
-        )
+        })
     }
 
     // Short answer specific functions
     const updateShortAnswer = (questionId, answer) => {
-        setQuestions(
-            questions.map((q) => {
+        setData({
+            ...data,
+            questions: data.questions.map((q) => {
                 if (q.id === questionId && q.type === "short-answer") {
                     return {
                         ...q,
@@ -300,7 +314,7 @@ export default function CreateQuizPage() {
                 }
                 return q
             }),
-        )
+        })
     }
 
     const renderQuestionEditor = (question, index) => {
@@ -310,7 +324,7 @@ export default function CreateQuizPage() {
                     <div>
                         <CardTitle className="text-base flex items-center gap-2">
                             Question {index + 1}
-                            <Select value={question.type} onValueChange={(value) => changeQuestionType(question.id, value)}>
+                            {/* <Select value={question.type} onValueChange={(value) => changeQuestionType(question.id, value)}>
                                 <SelectTrigger className="w-[180px] h-8">
                                     <SelectValue placeholder="Question Type" />
                                 </SelectTrigger>
@@ -319,12 +333,12 @@ export default function CreateQuizPage() {
                                     <SelectItem value="true-false">True/False</SelectItem>
                                     <SelectItem value="short-answer">Short Answer</SelectItem>
                                 </SelectContent>
-                            </Select>
+                            </Select> */}
                         </CardTitle>
                         <CardDescription>{getQuestionTypeLabel(question.type)}</CardDescription>
                     </div>
                     <div className="flex gap-1">
-                        <Button
+                        {/* <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => moveQuestionUp(index)}
@@ -343,7 +357,7 @@ export default function CreateQuizPage() {
                         >
                             <MoveDown className="h-4 w-4" />
                             <span className="sr-only">Move down</span>
-                        </Button>
+                        </Button> */}
                         <Button variant="ghost" size="icon" onClick={() => duplicateQuestion(question.id)} className="h-8 w-8">
                             <Copy className="h-4 w-4" />
                             <span className="sr-only">Duplicate</span>
@@ -401,7 +415,7 @@ export default function CreateQuizPage() {
                                                 placeholder={`Option ${option.id}`}
                                                 className="flex-1"
                                             />
-                                            <Button
+                                            {/* <Button
                                                 variant="ghost"
                                                 size="icon"
                                                 onClick={() => removeOption(question.id, option.id)}
@@ -410,7 +424,7 @@ export default function CreateQuizPage() {
                                             >
                                                 <Trash2 className="h-4 w-4" />
                                                 <span className="sr-only">Remove option</span>
-                                            </Button>
+                                            </Button> */}
                                         </div>
                                     ))}
                                 </div>
@@ -430,7 +444,7 @@ export default function CreateQuizPage() {
                                                 placeholder={`Option ${option.id}`}
                                                 className="flex-1"
                                             />
-                                            <Button
+                                            {/* <Button
                                                 variant="ghost"
                                                 size="icon"
                                                 onClick={() => removeOption(question.id, option.id)}
@@ -439,16 +453,16 @@ export default function CreateQuizPage() {
                                             >
                                                 <Trash2 className="h-4 w-4" />
                                                 <span className="sr-only">Remove option</span>
-                                            </Button>
+                                            </Button> */}
                                         </div>
                                     ))}
                                 </RadioGroup>
                             )}
 
-                            <Button variant="outline" size="sm" onClick={() => addOption(question.id)} className="mt-2">
+                            {/* <Button variant="outline" size="sm" onClick={() => addOption(question.id)} className="mt-2">
                                 <Plus className="mr-2 h-4 w-4" />
                                 Add Option
-                            </Button>
+                            </Button> */}
                         </div>
                     )}
 
@@ -505,15 +519,24 @@ export default function CreateQuizPage() {
         }
     }
 
+    const handleSubmit = () => {
+        post(route('quiz.store'), {
+            onFinish: () => {
+                setData({
+                    title: '',
+                    description: '',
+                    timelimit: '',
+                    published: 0,
+                    chapter_id: 1,
+                    questions: [],
+                })
+            }
+        });
+
+    }
     return (
         <div>
-            <div className="flex items-center mb-6">
-                {/* <Button variant="ghost" size="icon" asChild className="mr-2">
-                    <Link href="/quizzes">
-                        <ArrowLeft className="h-4 w-4" />
-                        <span className="sr-only">Back</span>
-                    </Link>
-                </Button> */}
+            <div className="flex items-center mb-6 gap-3">
                 <h1 className="text-3xl font-bold tracking-tight">Create Quiz</h1>
             </div>
 
@@ -531,8 +554,8 @@ export default function CreateQuizPage() {
                             <Label htmlFor="title">Quiz Title</Label>
                             <Input
                                 id="title"
-                                value={quizTitle}
-                                onChange={(e) => setQuizTitle(e.target.value)}
+                                value={data.title}
+                                onChange={(e) => setData('title', e.target.value)}
                                 placeholder="Enter quiz title"
                             />
                         </div>
@@ -540,67 +563,34 @@ export default function CreateQuizPage() {
                             <Label htmlFor="description">Description</Label>
                             <Textarea
                                 id="description"
-                                value={quizDescription}
-                                onChange={(e) => setQuizDescription(e.target.value)}
+                                value={data.description}
+                                onChange={(e) => setData('description', e.target.value)}
                                 placeholder="Enter quiz description"
                             />
                         </div>
-                        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="grid gap-2">
-                                    <Label htmlFor="category">Category</Label>
-                                    <Select value={category} onValueChange={setCategory}>
-                                        <SelectTrigger id="category">
-                                            <SelectValue placeholder="Select category" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="science">Science</SelectItem>
-                                            <SelectItem value="history">History</SelectItem>
-                                            <SelectItem value="mathematics">Mathematics</SelectItem>
-                                            <SelectItem value="literature">Literature</SelectItem>
-                                            <SelectItem value="geography">Geography</SelectItem>
-                                            <SelectItem value="technology">Technology</SelectItem>
-                                            <SelectItem value="arts">Arts</SelectItem>
-                                            <SelectItem value="music">Music</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="difficulty">Difficulty</Label>
-                                    <Select value={difficulty} onValueChange={setDifficulty}>
-                                        <SelectTrigger id="difficulty">
-                                            <SelectValue placeholder="Select difficulty" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="easy">Easy</SelectItem>
-                                            <SelectItem value="medium">Medium</SelectItem>
-                                            <SelectItem value="hard">Hard</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                            </div> */}
                         <div className="grid gap-2">
                             <Label htmlFor="time-limit">Time Limit (minutes)</Label>
                             <Input
                                 id="time-limit"
                                 type="number"
                                 min="1"
-                                value={timeLimit}
-                                onChange={(e) => setTimeLimit(e.target.value)}
+                                value={data.timelimit}
+                                onChange={(e) => setData('timelimit', e.target.value)}
                                 placeholder="Enter time limit"
                             />
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox
                                 id="publish"
-                                checked={publishImmediately}
-                                onCheckedChange={(checked) => setPublishImmediately(checked)}
+                                checked={data.published}
+                                onCheckedChange={(checked) => setData('published', checked)}
                             />
                             <Label htmlFor="publish">Publish immediately</Label>
                         </div>
                     </CardContent>
                 </Card>
 
-                {questions.length === 0 ? (
+                {data.questions.length === 0 ? (
                     <div className="text-center py-12 border rounded-lg">
                         <h3 className="text-lg font-medium mb-2">No Questions Added</h3>
                         <p className="text-muted-foreground mb-4">Add your first question to get started</p>
@@ -621,7 +611,7 @@ export default function CreateQuizPage() {
                     </div>
                 ) : (
                     <>
-                        {questions.map((question, index) => renderQuestionEditor(question, index))}
+                        {data.questions.map((question, index) => renderQuestionEditor(question, index))}
 
                         <div className="flex flex-wrap gap-2 mt-6">
                             <Button onClick={() => addQuestion("multiple-choice")}>
@@ -645,7 +635,7 @@ export default function CreateQuizPage() {
                 <Button variant="outline" asChild>
                     <Link href="/quizzes">Cancel</Link>
                 </Button>
-                <Button>
+                <Button onClick={handleSubmit}>
                     <Save className="mr-2 h-4 w-4" />
                     Save Quiz
                 </Button>

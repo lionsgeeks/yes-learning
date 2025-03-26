@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Question;
 use App\Models\Quiz;
+use App\Models\QuizUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class QuizController extends Controller
@@ -29,7 +32,34 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $quiz = Quiz::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'time_limit' => $request->timelimit,
+            'published' => $request->published,
+            'chapter_id' => $request->chapter_id,
+        ]);
+
+        foreach ($request->questions as $quest) {
+            $answers = null;
+            if (array_key_exists('options', $quest)) {
+                $filteredData = array_map(function ($item) {
+                    unset($item['id']);
+                    return $item;
+                }, $quest['options']);
+
+                $answers = json_encode($filteredData);
+            }
+
+            Question::create([
+                'quiz_id' => $quiz->id,
+                'type' => $quest['type'],
+                'question' => $quest['text'],
+                'answers' => $answers ?? null,
+                'allow_multiple' => $quest['allowMultiple'] ?? null,
+                'correct_answer' => $quest['correctAnswer'] ?? null
+            ]);
+        }
     }
 
     /**
@@ -37,8 +67,32 @@ class QuizController extends Controller
      */
     public function show(Quiz $quiz)
     {
+        $user = Auth::user();
+        $quizData = [
+            'id' => $quiz->id,
+            'title' => $quiz->title,
+            'description' => $quiz->description,
+            'timeLimit' => $quiz->time_limit,
+            'passingScore' => 70,
+            'chapter_id' => $quiz->chapter_id,
+            'questions' => $quiz->questions()->get()->map(function ($question) {
+                return [
+                    'id' => $question->id,
+                    'type' => $question->type,
+                    'question' => $question->question,
+                    'options' => json_decode($question->answers, true) ?? [],
+                    'allow_multiple' => $question->allow_multiple,
+                    'correct_answer' => $question->correct_answer,
+                    'quiz_id' => $question->quiz_id,
+                    'created_at' => $question->created_at,
+                    'updated_at' => $question->updated_at,
+                ];
+            }),
+        ];
+
         return Inertia::render("quiz/[id]", [
-            "quiz" => $quiz
+            "quiz" => $quizData,
+            "user" => $user,
         ]);
     }
 
@@ -64,5 +118,25 @@ class QuizController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function storeScore(Request $request)
+    {
+        $data = $request->query('data');
+
+        $score = $data['score'];
+        $time = $data['time'];
+        $answers = $data['answers'];
+        $quiz_id = $data['quiz_id'];
+        $user = Auth::user();
+
+        QuizUser::create([
+            'user_id' => $user->id,
+            'quiz_id' => $quiz_id,
+            'score' => $score,
+            'time' => $time,
+            'answers' => json_encode($answers),
+        ]);
     }
 }

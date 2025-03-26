@@ -54,4 +54,8 @@ class User extends Authenticatable
     public function subworkshops() {
         $this->belongsToMany(SubWorkshop::class);
     }
+    public function quizzes()
+    {
+        return $this->belongsToMany(Quiz::class, 'quiz_users');
+    }
 }

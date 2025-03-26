@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\NewsLetterController;
-use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -10,19 +9,14 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified', "role:user"])->group(function () {
-
     Route::get('/steps', function () {
         return Inertia::render('auth/steps');
     })->name('auth.steps');
-    Route::resource("quiz", QuizController::class);
 });
 
 
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
 
-   
-    Route::resource("quiz", QuizController::class);
-    Route::get('/quiz', function () {return Inertia::render('quiz/index');})->name('quiz.index');
     Route::resource("newsletter" , NewsLetterController::class);
     Route::get("/news_letter/history" , [NewsLetterController::class, 'history'])->name('newsletter.history');
 
@@ -37,3 +31,4 @@ require __DIR__ . '/auth.php';
 require __DIR__ . '/workshops.php';
 require __DIR__ . '/courses.php';
 require __DIR__ . '/library.php';
+require __DIR__ . '/quiz.php';

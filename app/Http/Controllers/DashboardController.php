@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chapter;
+use App\Models\Course;
+use App\Models\Library;
+use App\Models\QuizUser;
+use App\Models\User;
+use App\Models\UserCourse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -26,7 +31,23 @@ class DashboardController extends Controller
 
     public function adminDashboard()
     {
-        //
-        return Inertia::render("dashboard/adminDashboard",);
+        // Counts
+        $userCount = User::count();
+        $courseCount = Course::count();
+        $libraryCount = Library::count();
+        $completionCount = QuizUser::count();
+
+        $users = User::latest()->take(4)->get();
+        $quizzes = QuizUser::with('user', 'quiz')->get();
+
+
+        return Inertia::render("dashboard/adminDashboard", [
+            'userCount' => $userCount,
+            'courseCount' => $courseCount,
+            'libraryCount' => $libraryCount,
+            'completionCount' => $completionCount,
+            'users' => $users,
+            'quizzes' => $quizzes,
+        ]);
     }
 }
