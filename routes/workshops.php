@@ -12,6 +12,8 @@ Route::middleware(['auth', 'verified', "role:user"])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
     Route::post('/workshop/store', [WorkshopController::class, 'store'])->name('workshop.store');
+    Route::put('/workshop/update/{workshop}', [WorkshopController::class, 'update'])->name('workshop.update');
+    Route::delete('/workshop/destroy/{workshop}', [WorkshopController::class, 'destroy'])->name('workshop.destroy');
     Route::resource("workshops" , WorkshopController::class);
     Route::resource("sub-workshop" , SubWorkshopController::class);
 });

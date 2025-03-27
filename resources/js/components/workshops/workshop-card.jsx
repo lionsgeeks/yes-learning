@@ -1,26 +1,23 @@
-import { MoreHorizontal, Calendar, Users, AlertTriangle, Trophy } from "lucide-react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { DeleteWorkshopDialog } from "@/components/workshops/delete-workshop-dialog"
-import { useState } from "react"
+import { MoreHorizontal, Calendar, Users, AlertTriangle, Trophy } from "lucide-react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { DeleteWorkshopDialog } from "@/components/workshops/delete-workshop-dialog";
+import { CreateWorkshopModal } from "@/components/workshops/create-workshop-modal"
+import { useState } from "react";
 
-
-
-export function WorkshopCard({ workshop }) {
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+export function WorkshopCard({ workshop , courses}) {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const handleClick = (e) => {
     // Prevent navigation when clicking on the dropdown menu
     if ((e.target).closest("[data-dropdown-trigger]")) {
-      e.preventDefault()
-      e.stopPropagation()
+      e.preventDefault();
+      e.stopPropagation();
     }
-  }
-
-  
-  // const isDraft = workshop.status === "draft" || !workshop.status
+  };
 
   return (
     <Card className="overflow-hidden pb-0 transition-all hover:shadow-md h-full flex flex-col">
@@ -42,9 +39,9 @@ export function WorkshopCard({ workshop }) {
             <DropdownMenuContent align="end">
               <DropdownMenuItem
                 onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  // Handle edit action
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsEditModalOpen(true);
                 }}
               >
                 Edit Workshop
@@ -52,9 +49,9 @@ export function WorkshopCard({ workshop }) {
               <DropdownMenuItem
                 className="text-destructive"
                 onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  setIsDeleteDialogOpen(true)
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsDeleteDialogOpen(true);
                 }}
               >
                 Delete Workshop
@@ -67,7 +64,7 @@ export function WorkshopCard({ workshop }) {
         <div className="flex flex-col gap-2">
           <div className="flex items-center text-sm text-muted-foreground">
             <Badge variant="outline" className="mr-2">
-            {workshop.course.name}
+              {workshop.course.name}
             </Badge>
           </div>
           <div className="flex items-center text-sm text-muted-foreground">
@@ -82,20 +79,18 @@ export function WorkshopCard({ workshop }) {
           </div>
         </div>
       </CardContent>
-
       <CardFooter className={`border-t px-6 py-3 ${!workshop.isComplete ? "bg-amber-50" : "bg-muted/50"}`}>
         <div className="flex w-full items-center justify-between">
           <span className="text-xs text-muted-foreground">{workshop.subWorkshops} Sub-Workshops</span>
-
           {!workshop.isComplete ? (
             <div className="flex items-center gap-2 text-amber-600">
               <AlertTriangle className="h-4 w-4" />
               <span className="text-xs font-medium">Incomplete</span>
             </div>
-          ):(
+          ) : (
             <div className="flex items-center gap-2 text-green-600">
               <Trophy className="h-4 w-4" />
-              <span className="text-xs font-medium">complete</span>
+              <span className="text-xs font-medium">Complete</span>
             </div>
           )}
         </div>
@@ -105,8 +100,15 @@ export function WorkshopCard({ workshop }) {
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
         workshopTitle={workshop.name}
+        workshopId={workshop.id}
+      />
+
+      <CreateWorkshopModal 
+        open={isEditModalOpen} 
+        onOpenChange={setIsEditModalOpen} 
+        workshop={workshop} 
+        courses={courses}
       />
     </Card>
-  )
+  );
 }
-

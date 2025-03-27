@@ -101,8 +101,21 @@ class WorkshopController extends Controller
      */
     public function update(Request $request, Workshop $workshop)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'course_id' => 'required|exists:courses,id',
+        ]);
+        $workshop->update([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'course_id' => $validated['course_id'],
+            'isComplete' => false, 
+        ]);
+    
+        return back()->with('success', 'Workshop updated successfully!');
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -110,5 +123,7 @@ class WorkshopController extends Controller
     public function destroy(Workshop $workshop)
     {
         //
+        $workshop->delete();
+        return back();
     }
 }
