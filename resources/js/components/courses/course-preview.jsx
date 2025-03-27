@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
-import { BookOpen, CheckCircle } from 'lucide-react';
-import { useState } from 'react';
+import { BookOpen, CheckCircle, Download, FileText } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Bar, Line, Pie } from 'react-chartjs-2'; // Importing Chart.js components
+import { Button } from '../ui/button';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
@@ -58,20 +59,35 @@ export function CoursePreview({ course }) {
     }
 
     // !!view image
-    const [imagePreview, setImagePreview] = useState(null);
-    const blocks = course?.subcourses[0]?.blocks;
-    if (blocks && blocks[0]?.type === 'image') {
-        const file = blocks[0]?.content?.file;
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                if (reader.result) {
-                    setImagePreview(reader.result); // dyal l preview
-                }
-            };
-            reader.readAsDataURL(file);
-        }
+    function ImagePreview({ block }) {
+        const [imagePreview, setImagePreview] = useState(null);
+    
+        useEffect(() => {
+            const file = block.content?.file;
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    if (reader.result) {
+                        setImagePreview(reader.result);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }, [block]);
+    
+        return imagePreview ? (
+            <img
+                src={imagePreview}
+                alt="Course cover preview"
+                className="h-auto w-full rounded-md object-cover"
+            />
+        ) : (
+            <div className="text-muted-foreground">Image Preview</div>
+        );
     }
+    const previewImageSrc = (block) => {
+        return ImagePreview(block={block});
+    };
     return (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
             <Card className="lg:col-span-4">
@@ -111,17 +127,11 @@ export function CoursePreview({ course }) {
                                                             {block.type === 'image' && (
                                                                 <div className="space-y-2">
                                                                     <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
-                                                                        {imagePreview ? (
-                                                                            <div className="mt-4">
-                                                                                <img
-                                                                                    src={imagePreview}
-                                                                                    alt="Course cover preview"
-                                                                                    className="h-auto w-full rounded-md object-cover"
-                                                                                />
-                                                                            </div>
-                                                                        ) : (
+                                                                        {/* {imagePreview ? ( */}
+                                                                            <ImagePreview block={block} />
+                                                                        {/* ) : (
                                                                             <div className="text-muted-foreground">Image Preview</div>
-                                                                        )}
+                                                                        )} */}
                                                                     </div>
                                                                     {block.content.caption && (
                                                                         <p className="text-muted-foreground text-center text-sm">
@@ -224,6 +234,27 @@ export function CoursePreview({ course }) {
                                                             )}
 
                                                             {block.type === 'chart' && renderChart(block)}
+                                                            {block.type === 'document' && (
+                                                                <div className="space-y-2">
+                                                                    <div className="overflow-hidden rounded-md border">
+                                                                        <div className="bg-muted/30 flex items-center justify-between border-b p-3">
+                                                                            <div className="flex items-center">
+                                                                                <FileText className="text-primary mr-2 h-5 w-5" />
+                                                                                <div className="font-medium">
+                                                                                    {block.content.title || 'PDF Document'}
+                                                                                </div>
+                                                                            </div>
+                                                                            <Button variant="outline" size="sm" className="h-8">
+                                                                                <Download className="mr-2 h-4 w-4" />
+                                                                                Download
+                                                                            </Button>
+                                                                        </div>
+                                                                    </div>
+                                                                    {block.content.description && (
+                                                                        <p className="text-muted-foreground text-sm">{block.content.description}</p>
+                                                                    )}
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     ))}
                                                 </div>

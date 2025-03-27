@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Chapter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ChapterController extends Controller
@@ -31,6 +32,7 @@ class ChapterController extends Controller
     public function store(Request $request)
     {
         // dd($request);
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -40,7 +42,6 @@ class ChapterController extends Controller
             'discussion' => 'boolean',
             'content' => 'required|array',
             'course_id' => 'nullable',
-
             'quizTitle' => 'required',
             'quizDescription' => 'required',
             'quizTime' => 'required',
@@ -58,13 +59,20 @@ class ChapterController extends Controller
             'content' => json_encode($request->content),
             'course_id' => $request->course_id,
         ]);
+
         if ($request->file()) {
             $blocks = $request->file('content.0.blocks');
             foreach ($blocks as $block) {
                 if (isset($block['content']['file'])) {
                     $file = $block['content']['file'];
+                    // dd($file->getMimeType());
                     $fileName = $file->getClientOriginalName();
-                    $file->storeAs('image/chapters', $fileName, 'public');
+                    if (Str::contains($file->getMimeType(), 'application')) {
+                        // dd("its pdf ");
+                        $file->storeAs('documents/chapters', $fileName, 'public');
+                    } else {
+                        $file->storeAs('image/chapters', $fileName, 'public');
+                    }
                 }
             }
             // dd($fileName);

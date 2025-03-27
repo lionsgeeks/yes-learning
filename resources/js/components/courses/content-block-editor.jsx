@@ -27,6 +27,7 @@ import { ListBlockEditor } from "./content-blocks/list-block"
 import { TableBlockEditor } from "./content-blocks/table-block"
 import { ChartBlockEditor } from "./content-blocks/chart-block"
 import { TabsContent } from "@radix-ui/react-tabs"
+import { FileBlockEditor } from "./content-blocks/file-block"
 
 
 
@@ -76,7 +77,7 @@ const onDragEnd = (event) => {
         return { title: "New Text Section", body: "" }
       case "image":
         return { title: "New Image", url: "", caption: "", altText: "" }
-      case "file":
+      case "document":
         return { title: "New File", url: "", caption: "" }
       case "video":
         return { title: "New Video", url: "", caption: "" }
@@ -105,6 +106,8 @@ const onDragEnd = (event) => {
         return <TableBlockEditor content={block.content} onChange={(content) => updateBlock(block.id, content)} />
       case "chart":
         return <ChartBlockEditor content={block.content} onChange={(content) => updateBlock(block.id, content)} />
+      case "document":
+        return <FileBlockEditor content={block.content} onChange={(content) => updateBlock(block.id, content)} />
       default:
         return <div>Unknown block type</div>
     }
@@ -164,9 +167,9 @@ const onDragEnd = (event) => {
               <BarChart className="h-4 w-4 mr-2" />
               Chart
             </Button>
-            <Button variant="outline" className="justify-start" onClick={() => addBlock("file")}>
+            <Button variant="outline" className="justify-start" onClick={() => addBlock("document")}>
               <File className="h-4 w-4 mr-2" />
-              File
+              Document
             </Button>
           </div>
           </TabsContent>
@@ -206,6 +209,7 @@ function SortableBlock({ block, activeBlockId, setActiveBlockId, removeBlock, re
           {block.type === "table" && <Table className="h-4 w-4" />}
           {block.type === "chart" && <BarChart className="h-4 w-4" />}
           {block.type === "presentation" && <Presentation className="h-4 w-4" />}
+          {block.type === "document" && <File className="h-4 w-4" />}
         </Button>
         <Button variant="ghost" size="icon" onClick={() => removeBlock(block.id)} className="text-destructive">
           <Trash2 className="h-4 w-4" />

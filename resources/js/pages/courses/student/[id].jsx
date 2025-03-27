@@ -22,7 +22,6 @@ const CourseDetails = () => {
         },
     ];
 
-
     const attachments = [{ id: 1, name: 'HTML Cheat Sheet.pdf', type: 'PDF', size: '1.2 MB', icon: FileText }];
     const [currentSubModuleId, setCurrentSubModuleId] = useState(1);
     const [coursePercentage, setCoursePercentage] = useState(0);
@@ -272,6 +271,37 @@ const CourseDetails = () => {
 
                                                                 {/* Chart Block */}
                                                                 {block.type === 'chart' && renderChart(block)}
+
+                                                                {/* document block */}
+                                                                {block.type === 'document' && (
+                                                                    <div className="space-y-2">
+                                                                        <div className="overflow-hidden rounded-md border">
+                                                                            <div className="bg-muted/30 flex items-center justify-between border-b p-3">
+                                                                                <div className="flex items-center">
+                                                                                    <FileText className="text-primary mr-2 h-5 w-5" />
+                                                                                    <div className="font-medium">
+                                                                                        <span>{block.content.title || 'PDF Document'}</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <a
+                                                                                    href={`${image_url}/${block.content.url}`}
+                                                                                    target="_blank"
+                                                                                    download
+                                                                                >
+                                                                                    <Button variant="outline" size="sm" className="h-8">
+                                                                                        <Download className="mr-2 h-4 w-4" />
+                                                                                        Download
+                                                                                    </Button>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                        {block.content.description && (
+                                                                            <p className="text-muted-foreground text-sm">
+                                                                                {block.content.description}
+                                                                            </p>
+                                                                        )}
+                                                                    </div>
+                                                                )}
                                                             </div>
                                                         ),
                                                 ),

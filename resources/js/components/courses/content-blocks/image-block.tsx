@@ -3,8 +3,8 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ImageIcon } from 'lucide-react';
-import React, { useState } from 'react';
+import { Image, ImageIcon } from 'lucide-react';
+import React from 'react';
 interface ImageBlockEditorProps {
     content: {
         title: string;
@@ -27,7 +27,7 @@ export function ImageBlockEditor({ content, onChange }: ImageBlockEditorProps) {
         return `${hashHex}.${extension}`;
     }
     const handleImage = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-        const file = e.target.files? e.target.files[0] : null
+        const file = e.target.files ? e.target.files[0] : null;
         if (!file) return;
         const hashedFileName = await generateHashedFileName(file);
         const renamedFile = new File([file], hashedFileName, { type: file.type });
@@ -40,6 +40,7 @@ export function ImageBlockEditor({ content, onChange }: ImageBlockEditorProps) {
             <div className="space-y-2">
                 <Label htmlFor="title">Image Title</Label>
                 <Input
+                    accept="image/png, image/jpeg, image/jpeg"
                     id="title"
                     value={content.title}
                     onChange={(e) => onChange({ ...content, title: e.target.value })}
@@ -50,11 +51,10 @@ export function ImageBlockEditor({ content, onChange }: ImageBlockEditorProps) {
             <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed p-6">
                 {content.url ? (
                     <div className="w-full">
-                        <img
-                            src={content.url || '/placeholder.svg'}
-                            alt={content.altText || 'Preview'}
-                            className="mx-auto max-h-64 rounded-md object-contain"
-                        />
+                        <div className='flex gap-3'>
+                        <Image/>
+                        <span>{content.title}</span>
+                        </div>
                         <Button variant="outline" size="sm" className="mt-4" onClick={() => onChange({ ...content, url: '' })}>
                             Remove Image
                         </Button>
