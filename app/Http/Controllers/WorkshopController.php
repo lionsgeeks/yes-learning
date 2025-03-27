@@ -124,6 +124,6 @@ class WorkshopController extends Controller
     {
         //
         $workshop->delete();
-        return back();
+        return redirect("/admin/workshops");
     }
 }

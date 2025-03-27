@@ -16,4 +16,5 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::delete('/workshop/destroy/{workshop}', [WorkshopController::class, 'destroy'])->name('workshop.destroy');
     Route::resource("workshops" , WorkshopController::class);
     Route::resource("sub-workshop" , SubWorkshopController::class);
+    Route::delete('/subworkshop/destroy/{subWorkshop}', [SubWorkshopController::class, 'destroy'])->name('subworkshop.destroy');
 });

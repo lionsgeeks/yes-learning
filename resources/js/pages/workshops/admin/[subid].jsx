@@ -1,5 +1,5 @@
 "use client"
-import { usePage, Head, Link } from "@inertiajs/react";
+import { usePage, Head, Link, useForm } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -13,6 +13,8 @@ import { format, isPast } from "date-fns"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import AdminUsersTable from "@/components/usersComponents/admin-users-table.jsx"
+import { DeleteSubWorkshopDialog } from "../../../components/workshops/delete-subworkshop-dialog";
+import { useState } from "react";
 
 const breadcrumbs = [
 
@@ -28,6 +30,7 @@ export default function SubWorkshopDetailPage({subWorkshop}) {
     console.log(subWorkshop.users.length);
     
     const isPublished = subWorkshop.status === "published"
+const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
     // Check for missing information
     const missingInfo = []
@@ -67,6 +70,24 @@ export default function SubWorkshopDetailPage({subWorkshop}) {
         french: "FR",
         arabic: "AR",
     }
+
+
+        const { delete: deleteWorkshop, processing } = useForm()
+    
+        const handleDelete = (id) => {
+          setIsDeleting(true)
+      
+          deleteWorkshop(route("subworkshop.destroy", id), {
+            onSuccess: () => {
+              onOpenChange(false)
+              setIsDeleting(false)
+            },
+            onError: () => {
+              setIsDeleting(false)
+            },
+          })
+        }
+
 
     return (
 
@@ -116,7 +137,24 @@ export default function SubWorkshopDetailPage({subWorkshop}) {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                                 <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                                <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+                                 <DropdownMenuItem
+                                    className="text-destructive"
+                                    onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setIsDeleteDialogOpen(true);
+                                    }}
+                                >
+                                    Delete Workshop
+                                </DropdownMenuItem>
+
+                                                                         
+                                <DeleteSubWorkshopDialog
+                                    open={isDeleteDialogOpen}
+                                    onOpenChange={setIsDeleteDialogOpen}
+                                    workshopTitle={subWorkshop.name}
+                                    workshopId={subWorkshop.id}
+                                />
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>

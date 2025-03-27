@@ -107,6 +107,7 @@ class SubWorkshopController extends Controller
     public function update(Request $request, SubWorkshop $subWorkshop)
     {
         //
+        dd($request->all());
     }
 
     /**
@@ -115,5 +116,7 @@ class SubWorkshopController extends Controller
     public function destroy(SubWorkshop $subWorkshop)
     {
         //
+        $subWorkshop->delete();
+        return redirect(route("workshops.show" , $subWorkshop->workshop_id));
     }
 }

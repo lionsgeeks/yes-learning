@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { usePage, Head, Link } from "@inertiajs/react";
+import { usePage, Head, Link, useForm } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,7 @@ import { CreateSubWorkshopModal } from "@/components/workshops/create-sub-worksh
 import { Switch } from "@/components/ui/switch"
 import { SubWorkshopCard } from "@/components/workshops/sub-workshop-card"
 import { format } from "date-fns"
+import { DeleteWorkshopDialog } from "@/components/workshops/delete-workshop-dialog";
 
 const breadcrumbs = [
 
@@ -31,6 +32,7 @@ const breadcrumbs = [
 
 const WorkshopDetails = ({workshop , subWorkshops , chapters}) => {
 // console.log(workshop);
+const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
     // const [isPublished, setIsPublished] = useState(workshop.status === "published")
@@ -87,7 +89,25 @@ const WorkshopDetails = ({workshop , subWorkshops , chapters}) => {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuItem>Duplicate Workshop</DropdownMenuItem>
-                                    <DropdownMenuItem className="text-destructive">Delete Workshop</DropdownMenuItem>
+                                    <DropdownMenuItem className="text-destructive">
+                                    <DropdownMenuItem
+                                        className="text-destructive"
+                                        onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setIsDeleteDialogOpen(true);
+                                        }}
+                                    >
+                                        Delete Workshop
+                                    </DropdownMenuItem>
+                                        
+                                    <DeleteWorkshopDialog
+                                        open={isDeleteDialogOpen}
+                                        onOpenChange={setIsDeleteDialogOpen}
+                                        workshopTitle={workshop.name}
+                                        workshopId={workshop.id}
+                                    />
+                                    </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
