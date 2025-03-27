@@ -40,11 +40,15 @@ class ChapterController extends Controller
             'discussion' => 'boolean',
             'content' => 'required|array',
             'course_id' => 'nullable',
-            // 'course_id' => 'nullable|exists:quizzes,id',
+
+            'quizTitle' => 'required',
+            'quizDescription' => 'required',
+            'quizTime' => 'required',
+            'questions' => 'required',
         ]);
 
         // $block = $reaquest
-        Chapter::create([
+        $chapter = Chapter::create([
             'title' => $request->title,
             'description' => $request->description,
             'estimated_duration' => $request->estimated_duration,
@@ -66,6 +70,10 @@ class ChapterController extends Controller
             // dd($fileName);
         }
         //* if ($request->hasFile('content.0.blocks')) {}
+
+        // calling the quizcontroller to use the store function
+        $quizController = new QuizController();
+        $quizController->store($request, $chapter);
 
         return redirect()->route('admin.courses.index')->with('success', 'Course created successfully!');
     }
