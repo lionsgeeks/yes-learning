@@ -31,6 +31,12 @@ const AdminCoursesCreate = () => {
         enable_discussion: false,
         content: [],
         course_id: courseId,
+
+        quizTitle: '',
+        quizDescription: '',
+        quizTime: '',
+        quizPublish: 0,
+        questions: [],
     });
     useEffect(() => {
         setData("content", subcourses)
@@ -41,7 +47,7 @@ const AdminCoursesCreate = () => {
         e.preventDefault();
 
         console.log("Submitting:", data);
-        
+
         post(route('chapter.store'), {
             data: data,
             onFinish: () => {
@@ -54,6 +60,12 @@ const AdminCoursesCreate = () => {
                     enable_discussion: false,
                     content: [],
                     course_id: courseId,
+
+                    quizTitle: '',
+                    quizDescription: '',
+                    quizTime: '',
+                    quizPublish: 0,
+                    questions: [],
                 });
             },
         });
@@ -147,7 +159,10 @@ const AdminCoursesCreate = () => {
                         </TabsContent>
 
                         <TabsContent value="quizz">
-                            <CreateQuizPage />
+                            <CreateQuizPage
+                                data={data}
+                                setData={setData}
+                            />
                             <div className="flex justify-between mt-6">
                                 <Button variant="outline" onClick={() => setActiveTab("content")}>
                                     Back to Content

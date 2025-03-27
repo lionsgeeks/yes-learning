@@ -30,14 +30,14 @@ class QuizController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($request, $chapter)
     {
         $quiz = Quiz::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'time_limit' => $request->timelimit,
-            'published' => $request->published,
-            'chapter_id' => $request->chapter_id,
+            'title' => $request->quizTitle,
+            'description' => $request->quizDescription,
+            'time_limit' => $request->quizTime,
+            'published' => $request->quizPublish,
+            'chapter_id' => $chapter->id,
         ]);
 
         foreach ($request->questions as $quest) {

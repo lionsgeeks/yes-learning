@@ -203,13 +203,11 @@ export default function AdminDashboardPage() {
     }
 
     const data = {
-        labels: ["Course 1", "Course 2", "Course 3"],
+        labels: ["Course 1", "Course 2", "Course 3", "Course 4"],
         datasets: [
             {
-                data: [30, 50, 20],
-                backgroundColor:["#ff6384", "#36a2eb", "#ffce56"],
-                borderColor: ["#ff6384", "#36a2eb", "#ffce56"],
-                borderWidth: 2,
+                data: [30, 50, 20, 40],
+                backgroundColor: ["#fb0000", "#295da6", "#059925", "#b09417"],
             },
         ],
     };
@@ -298,13 +296,18 @@ export default function AdminDashboardPage() {
                                 </CardHeader>
                                 <CardContent className="h-[300px]">
                                     {
-                                        quizzes.map((quiz) => (
-                                            <>
-                                                <p className="w-full text-justify tracking-wide mb-2">
-                                                    <span className="font-bold">{quiz.user.name}</span> passed the quiz <span className="font-bold">{quiz.quiz.title}</span> with a score of <span className="font-bold">{Math.round(quiz.score)}</span>
-                                                </p>
-                                            </>
-                                        ))
+                                        quizzes.length > 0 ? (
+                                            quizzes.map((quiz) => (
+                                                <>
+                                                    <p className="w-full text-justify tracking-wide mb-2">
+                                                        <span className="font-bold">{quiz.user.name}</span> passed the quiz <span className="font-bold">{quiz.quiz.title}</span> with a score of <span className="font-bold">{Math.round(quiz.score)}</span>
+                                                    </p>
+                                                </>
+                                            ))
+                                        ) :
+                                            <div className="h-full w-full bg-muted/20 rounded-md flex items-center justify-center">
+                                                <p className="text-muted-foreground">No User Engagement Yet.</p>
+                                            </div>
                                     }
                                 </CardContent>
                             </Card>

@@ -10,33 +10,11 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, Plus, Save, Trash2, MoveDown, MoveUp, Copy } from "lucide-react"
 import { Link, useForm } from "@inertiajs/react"
 
-export default function CreateQuizPage() {
-    // TODO: Take data and setData from create.jsx
-    const { data, setData, post } = useForm({
-        title: '',
-        description: '',
-        timelimit: '',
-        published: 0,
-        chapter_id: 1,
-        questions: [],
-    });
-    const [questions, setQuestions] = useState([
-        {
-            id: 1,
-            type: "multiple-choice",
-            text: "What is the capital of France?",
-            options: [
-                { id: 1, text: "London", isCorrect: false },
-                { id: 2, text: "Paris", isCorrect: true },
-                { id: 3, text: "Berlin", isCorrect: false },
-                { id: 4, text: "Madrid", isCorrect: false },
-            ],
-            allowMultiple: false,
-        },
-    ])
+export default function CreateQuizPage({data, setData}) {
 
     const addQuestion = (type) => {
-        const newId = data.questions.length > 0 ? Math.max(...data.questions.map((q) => q.id)) + 1 : 1
+        console.log(data)
+        const newId = data.questions?.length > 0 ? Math.max(...data.questions?.map((q) => q.id)) + 1 : 1
 
         let newQuestion;
 
@@ -551,46 +529,46 @@ export default function CreateQuizPage() {
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="title">Quiz Title</Label>
+                            <Label htmlFor="quizTitle">Quiz Title</Label>
                             <Input
-                                id="title"
-                                value={data.title}
-                                onChange={(e) => setData('title', e.target.value)}
+                                id="quizTitle"
+                                value={data.quizTitle}
+                                onChange={(e) => setData('quizTitle', e.target.value)}
                                 placeholder="Enter quiz title"
                             />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="description">Description</Label>
+                            <Label htmlFor="quizDescription">Quiz Description</Label>
                             <Textarea
-                                id="description"
-                                value={data.description}
-                                onChange={(e) => setData('description', e.target.value)}
+                                id="quizDescription"
+                                value={data.quizDescription}
+                                onChange={(e) => setData('quizDescription', e.target.value)}
                                 placeholder="Enter quiz description"
                             />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="time-limit">Time Limit (minutes)</Label>
+                            <Label htmlFor="quizTime">Time Limit (minutes)</Label>
                             <Input
-                                id="time-limit"
+                                id="quizTime"
                                 type="number"
                                 min="1"
-                                value={data.timelimit}
-                                onChange={(e) => setData('timelimit', e.target.value)}
+                                value={data.quizTime}
+                                onChange={(e) => setData('quizTime', e.target.value)}
                                 placeholder="Enter time limit"
                             />
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox
-                                id="publish"
-                                checked={data.published}
-                                onCheckedChange={(checked) => setData('published', checked)}
+                                id="quizPublish"
+                                checked={data.quizPublish}
+                                onCheckedChange={(checked) => setData('quizPublish', checked)}
                             />
                             <Label htmlFor="publish">Publish immediately</Label>
                         </div>
                     </CardContent>
                 </Card>
 
-                {data.questions.length === 0 ? (
+                {data.questions?.length === 0 ? (
                     <div className="text-center py-12 border rounded-lg">
                         <h3 className="text-lg font-medium mb-2">No Questions Added</h3>
                         <p className="text-muted-foreground mb-4">Add your first question to get started</p>
@@ -611,7 +589,7 @@ export default function CreateQuizPage() {
                     </div>
                 ) : (
                     <>
-                        {data.questions.map((question, index) => renderQuestionEditor(question, index))}
+                        {data.questions?.map((question, index) => renderQuestionEditor(question, index))}
 
                         <div className="flex flex-wrap gap-2 mt-6">
                             <Button onClick={() => addQuestion("multiple-choice")}>
@@ -631,7 +609,7 @@ export default function CreateQuizPage() {
                 )}
             </div>
 
-            <div className="flex justify-end gap-2 mt-8">
+            {/* <div className="flex justify-end gap-2 mt-8">
                 <Button variant="outline" asChild>
                     <Link href="/quizzes">Cancel</Link>
                 </Button>
@@ -639,7 +617,7 @@ export default function CreateQuizPage() {
                     <Save className="mr-2 h-4 w-4" />
                     Save Quiz
                 </Button>
-            </div>
+            </div> */}
         </div>
     )
 }
