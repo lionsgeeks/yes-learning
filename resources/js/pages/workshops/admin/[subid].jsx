@@ -267,7 +267,7 @@ export default function SubWorkshopDetailPage({subWorkshop}) {
             <div className="mb-6">
                 <h2 className="text-xl font-semibold mb-4">Language Sessions</h2>
                 <div className="grid gap-6 md:grid-cols-3">
-                    {["en", "fr", "ar"].map((language) => {
+                    {languages.map((language) => {
                         const instructorData = JSON.parse(subWorkshop.instructor);
                         const meetLinkData = JSON.parse(subWorkshop.meetLink);
                     
