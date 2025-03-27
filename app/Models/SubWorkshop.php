@@ -14,6 +14,7 @@ class SubWorkshop extends Model
         "chapter_id",
         "date",
         "time",
+        "workshop_id",
         "duration",
         "instructor",
         "meetLink",

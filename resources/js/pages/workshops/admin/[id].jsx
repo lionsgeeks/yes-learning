@@ -53,7 +53,7 @@ const WorkshopDetails = ({workshop , subWorkshops , chapters}) => {
             <div className="container mx-auto p-3 lg:p-6">
                 <div className="mb-6 flex items-center">
                     <Button variant="ghost" size="icon" asChild className="mr-2">
-                        <Link href="/workshops">
+                        <Link href="/admin/workshops">
                             <ArrowLeft className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -201,7 +201,7 @@ const WorkshopDetails = ({workshop , subWorkshops , chapters}) => {
                     </div>
                 </div>
 
-                <CreateSubWorkshopModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} chapters={chapters} />
+                <CreateSubWorkshopModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} chapters={chapters} workshop={workshop.id} />
             </div>
 
         </AppLayout>

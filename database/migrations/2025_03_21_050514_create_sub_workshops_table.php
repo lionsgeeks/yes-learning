@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("description");
             $table->string("prerequisite");
             $table->foreignId("chapter_id")->constrained()->cascadeOnDelete();
+            $table->foreignId("workshop_id")->constrained()->cascadeOnDelete();
             $table->date("date");
             $table->time("time");
             $table->integer("duration");

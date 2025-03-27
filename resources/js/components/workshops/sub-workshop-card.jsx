@@ -57,7 +57,7 @@ export function SubWorkshopCard({ subWorkshop }) {
           <div className="flex items-center text-sm text-muted-foreground">
             <Users className="mr-1 h-4 w-4" />
             <span>
-              {subWorkshop.enrolledStudents}/{subWorkshop.maxCapacity} Students
+              {subWorkshop.users.length} Students
             </span>
           </div>
 

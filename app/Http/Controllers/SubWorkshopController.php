@@ -57,6 +57,7 @@ class SubWorkshopController extends Controller
             'name' => $validated['name'],
             'description' => $validated['description'],
             'chapter_id' => $validated['chapter_id'],
+            'workshop_id' => $request->workshop_id,
             "prerequisite"=>$validated['prerequisite'],
             "date"=>$validated['date'],
             "time"=>$validated['time'],
@@ -80,7 +81,7 @@ class SubWorkshopController extends Controller
     {
         //
         return Inertia::render("workshops/admin/[subid]", [
-            "subWorkshop" => $subWorkshop
+            "subWorkshop" => $subWorkshop->load('users')
         ]);
     }
 

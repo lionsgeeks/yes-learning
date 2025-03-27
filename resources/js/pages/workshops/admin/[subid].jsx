@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch"
 import { format, isPast } from "date-fns"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
+import AdminUsersTable from "@/components/usersComponents/admin-users-table.jsx"
 
 const breadcrumbs = [
 
@@ -21,114 +22,11 @@ const breadcrumbs = [
     },
 ];
 
-// Mock data for the sub-workshop
-const subWorkshop = {
-    id: "1-1",
-    name: "HTML Fundamentals",
-    description:
-        "Introduction to HTML tags and document structure. Learn how to create well-structured web pages using semantic HTML elements.",
-    subCourse: "HTML Basics",
-    date: "2023-05-15",
-    time: "10:00 AM",
-    duration: 90,
-    instructors: {
-        english: "John Smith",
-        french: "Marie Dubois",
-        arabic: "Ahmed Hassan",
-    },
-    instructorEmails: {
-        english: "john.smith@example.com",
-        french: "marie.dubois@example.com",
-        arabic: "ahmed.hassan@example.com",
-    },
-    meetLinks: {
-        english: "https://meet.google.com/abc-defg-hij",
-        french: "https://meet.google.com/klm-nopq-rst",
-        arabic: "https://meet.google.com/uvw-xyz-123",
-    },
-    enrolledStudents: 24,
-    maxCapacity: 30,
-    workshopId: "1",
-    workshopTitle: "Introduction to Web Development",
-    status: "draft", // or "published"
-    settings: {
-        recordSession: true,
-        allowQuestions: true,
-        requireRegistration: true,
-        sendNotifications: true,
-        notificationTime: "24h",
-    },
-    prerequisites: ["Basic computer skills", "Understanding of internet concepts", "Text editor installed"],
-}
 
-// Mock data for participants
-const participants = [
-    {
-        id: "1",
-        name: "Alex Johnson",
-        email: "alex@example.com",
-        joinedAt: "2023-04-30T10:15:00Z",
-        status: "confirmed",
-        language: "english",
-        completedPrerequisites: true,
-    },
-    {
-        id: "2",
-        name: "Emma Williams",
-        email: "emma@example.com",
-        joinedAt: "2023-05-01T14:22:00Z",
-        status: "confirmed",
-        language: "english",
-        completedPrerequisites: false,
-    },
-    {
-        id: "3",
-        name: "Michael Brown",
-        email: "michael@example.com",
-        joinedAt: "2023-05-02T09:45:00Z",
-        status: "pending",
-        language: "english",
-        completedPrerequisites: false,
-    },
-    {
-        id: "4",
-        name: "Sophie Martin",
-        email: "sophie@example.com",
-        joinedAt: "2023-05-01T11:30:00Z",
-        status: "confirmed",
-        language: "french",
-        completedPrerequisites: true,
-    },
-    {
-        id: "5",
-        name: "Pierre Dupont",
-        email: "pierre@example.com",
-        joinedAt: "2023-05-02T13:45:00Z",
-        status: "confirmed",
-        language: "french",
-        completedPrerequisites: false,
-    },
-    {
-        id: "6",
-        name: "Ahmed Ali",
-        email: "ahmed@example.com",
-        joinedAt: "2023-05-01T09:15:00Z",
-        status: "confirmed",
-        language: "arabic",
-        completedPrerequisites: true,
-    },
-    {
-        id: "7",
-        name: "Fatima Hassan",
-        email: "fatima@example.com",
-        joinedAt: "2023-05-03T10:30:00Z",
-        status: "pending",
-        language: "arabic",
-        completedPrerequisites: false,
-    },
-]
 
-export default function SubWorkshopDetailPage() {
+export default function SubWorkshopDetailPage({subWorkshop}) {
+    console.log(subWorkshop.users.length);
+    
     const isPublished = subWorkshop.status === "published"
 
     // Check for missing information
@@ -137,12 +35,12 @@ export default function SubWorkshopDetailPage() {
     if (!subWorkshop.time) missingInfo.push("time")
 
     // Check if any language is missing instructor or meet link
-    const languages = ["english", "french", "arabic"]
+    const languages = ["en", "fr", "ar"]
     const missingInstructors = languages.filter(
-        (lang) => !subWorkshop.instructors[lang],
+        (lang) => !JSON.parse(subWorkshop.instructor).instructor-[lang],
     )
     const missingMeetLinks = languages.filter(
-        (lang) => !subWorkshop.meetLinks[lang],
+        (lang) => !JSON.parse(subWorkshop.meetLink).meetLink-[lang],
     )
 
     if (missingInstructors.length > 0) {
@@ -178,7 +76,7 @@ export default function SubWorkshopDetailPage() {
             <div className="container mx-auto p-3 lg:p-6">
             <div className="mb-6 flex items-center">
                 <Button variant="ghost" size="icon" asChild className="mr-2">
-                    <Link href={`/admin/workshops/${subWorkshop.workshopId}`}>
+                    <Link href={`/admin/workshops/${subWorkshop.workshop_id}`}>
                         <ArrowLeft className="h-4 w-4" />
                     </Link>
                 </Button>
@@ -277,7 +175,7 @@ export default function SubWorkshopDetailPage() {
                                     Enrollment
                                 </div>
                                 <div className="text-sm">
-                                    {subWorkshop.enrolledStudents}/{subWorkshop.maxCapacity} participants
+                                    {subWorkshop.users.length} participants
                                 </div>
                             </div>
 
@@ -308,9 +206,7 @@ export default function SubWorkshopDetailPage() {
                                 Prerequisites
                             </div>
                             <ul className="text-sm list-disc pl-5 space-y-1">
-                                {subWorkshop.prerequisites.map((prereq, index) => (
-                                    <li key={index}>{prereq}</li>
-                                ))}
+                                    <li >{subWorkshop.prerequisite}</li>
                             </ul>
                         </div>
                     </CardContent>
@@ -371,11 +267,16 @@ export default function SubWorkshopDetailPage() {
             <div className="mb-6">
                 <h2 className="text-xl font-semibold mb-4">Language Sessions</h2>
                 <div className="grid gap-6 md:grid-cols-3">
-                    {languages.map((language) => {
-                        const hasInstructor = !!subWorkshop.instructors[language]
-                        const hasMeetLink = !!subWorkshop.meetLinks[language]
-                        const isComplete = hasInstructor && hasMeetLink
-
+                    {["en", "fr", "ar"].map((language) => {
+                        const instructorData = JSON.parse(subWorkshop.instructor);
+                        const meetLinkData = JSON.parse(subWorkshop.meetLink);
+                    
+                        const hasInstructor = !!instructorData[`instructor${language}`];
+                        const hasMeetLink = !meetLinkData[`meetLink${language}`];
+                        const isComplete = hasInstructor && hasMeetLink;
+                        
+                        
+                        
                         return (
                             <Card key={language} className="border">
                                 <CardHeader className="pb-3 border-b">
@@ -400,7 +301,7 @@ export default function SubWorkshopDetailPage() {
                                             <div className="flex items-center gap-3">
                                                 <Avatar className="h-8 w-8">
                                                     <AvatarFallback className="bg-primary/10 text-primary">
-                                                        {subWorkshop.instructors[language]
+                                                        {instructorData[`instructor${language}`]
                                                             .split(" ")
                                                             .map((n) => n[0])
                                                             .join("")}
@@ -408,10 +309,10 @@ export default function SubWorkshopDetailPage() {
                                                 </Avatar>
                                                 <div>
                                                     <div className="font-medium">
-                                                        {subWorkshop.instructors[language]}
+                                                        {instructorData[`instructor${language}`]}
                                                     </div>
                                                     <div className="text-xs text-muted-foreground">
-                                                        {subWorkshop.instructorEmails[language]}
+                                                        {instructorData[`instructor${language}`]}
                                                     </div>
                                                 </div>
                                             </div>
@@ -430,7 +331,7 @@ export default function SubWorkshopDetailPage() {
                                         {hasMeetLink ? (
                                             <div className="space-y-2">
                                                 <div className="rounded-md border bg-muted p-2 text-xs text-muted-foreground break-all">
-                                                    {subWorkshop.meetLinks[language]}
+                                                    {meetLinkData[`meetlink${language}`]}
                                                 </div>
                                                 <div className="flex gap-2">
                                                     <Button
@@ -439,7 +340,7 @@ export default function SubWorkshopDetailPage() {
                                                         className="flex-1 h-8 text-xs"
                                                         onClick={() =>
                                                             navigator.clipboard.writeText(
-                                                                subWorkshop.meetLinks[language] || "",
+                                                                meetLinkData[`meetlink${language}`] || "",
                                                             )
                                                         }
                                                     >
@@ -448,7 +349,7 @@ export default function SubWorkshopDetailPage() {
                                                     </Button>
                                                     <Button size="sm" className="flex-1 h-8 text-xs" asChild>
                                                         <a
-                                                            href={subWorkshop.meetLinks[language]}
+                                                            href={meetLinkData[`meetlink${language}`]}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                         >
@@ -466,16 +367,8 @@ export default function SubWorkshopDetailPage() {
                                         )}
                                     </div>
 
-                                    <Separator />
 
-                                    <div className="flex items-center justify-between pt-1">
-                                        <div className="text-sm">
-                                            {participants.filter((p) => p.language === language).length} participants
-                                        </div>
-                                        <Button size="sm" variant="ghost" asChild className="h-8 text-xs">
-                                            <Link href={`#${language}-participants`}>View List</Link>
-                                        </Button>
-                                    </div>
+                
                                 </CardContent>
                             </Card>
                         )
@@ -496,7 +389,7 @@ export default function SubWorkshopDetailPage() {
                 </CardHeader>
                 <CardContent>
                     <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-                        <div className="border rounded-lg p-4">
+                        {/* <div className="border rounded-lg p-4">
                             <div className="text-sm font-medium mb-1">Record Session</div>
                             <div className="flex items-center justify-between">
                                 <span className="text-sm text-muted-foreground">Status</span>
@@ -504,14 +397,14 @@ export default function SubWorkshopDetailPage() {
                                     {subWorkshop.settings.recordSession ? "Enabled" : "Disabled"}
                                 </Badge>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="border rounded-lg p-4">
                             <div className="text-sm font-medium mb-1">Allow Questions</div>
                             <div className="flex items-center justify-between">
                                 <span className="text-sm text-muted-foreground">Status</span>
-                                <Badge variant={subWorkshop.settings.allowQuestions ? "default" : "outline"}>
-                                    {subWorkshop.settings.allowQuestions ? "Enabled" : "Disabled"}
+                                <Badge variant={subWorkshop.allowQuestions ? "default" : "outline"}>
+                                    {subWorkshop.allowQuestions ? "Enabled" : "Disabled"}
                                 </Badge>
                             </div>
                         </div>
@@ -520,160 +413,46 @@ export default function SubWorkshopDetailPage() {
                             <div className="text-sm font-medium mb-1">Registration</div>
                             <div className="flex items-center justify-between">
                                 <span className="text-sm text-muted-foreground">Status</span>
-                                <Badge variant={subWorkshop.settings.requireRegistration ? "default" : "outline"}>
-                                    {subWorkshop.settings.requireRegistration ? "Required" : "Optional"}
+                                <Badge variant={subWorkshop.requireRegistration ? "default" : "outline"}>
+                                    {subWorkshop.requireRegistration ? "Required" : "Optional"}
                                 </Badge>
                             </div>
                         </div>
 
-                        <div className="border rounded-lg p-4">
+                        {/* <div className="border rounded-lg p-4">
                             <div className="text-sm font-medium mb-1">Notifications</div>
                             <div className="flex items-center justify-between">
                                 <span className="text-sm text-muted-foreground">Status</span>
-                                <Badge variant={subWorkshop.settings.sendNotifications ? "default" : "outline"}>
-                                    {subWorkshop.settings.sendNotifications ? "Enabled" : "Disabled"}
+                                <Badge variant={subWorkshop.sendNotifications ? "default" : "outline"}>
+                                    {subWorkshop.sendNotifications ? "Enabled" : "Disabled"}
                                 </Badge>
                             </div>
                             {subWorkshop.settings.sendNotifications && (
                                 <div className="text-xs text-muted-foreground mt-2">
                                     Sent{" "}
-                                    {subWorkshop.settings.notificationTime === "24h"
+                                    {subWorkshop.notificationTime === "24h"
                                         ? "24 hours"
-                                        : subWorkshop.settings.notificationTime === "1h"
+                                        : subWorkshop.notificationTime === "1h"
                                             ? "1 hour"
                                             : "24 hours and 1 hour"}{" "}
                                     before
                                 </div>
                             )}
-                        </div>
+                        </div> */}
                     </div>
                 </CardContent>
             </Card>
 
-            {/* Participants Tabs */}
-            <div>
-                <h2 className="text-xl font-semibold mb-4" id="participants">
-                    Participants
-                </h2>
-                <Tabs defaultValue="english">
-                    <TabsList className="w-full grid grid-cols-3 mb-4">
-                        {languages.map((language) => (
-                            <TabsTrigger
-                                key={language}
-                                value={language}
-                                id={`${language}-participants`}
-                                className="flex items-center gap-2"
-                            >
-                                <div variant="secondary" className="h-5 px-1.5">
-                                    {languageCodes[language]}
-                                </div>
-                                <span>{participants.filter((p) => p.language === language).length}</span>
-                            </TabsTrigger>
-                        ))}
-                    </TabsList>
-
-                    {languages.map((language) => (
-                        <TabsContent key={language} value={language}>
-                            <Card>
-                                <CardHeader className="pb-3 flex flex-row items-center justify-between">
-                                    <div>
-                                        <CardTitle>{languageNames[language]} Participants</CardTitle>
-                                        <CardDescription>
-                                            {participants.filter((p) => p.language === language).length} enrolled
-                                        </CardDescription>
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="outline" size="sm">
-                                                    <Mail className="mr-2 h-4 w-4" />
-                                                    Email
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end">
-                                                <DropdownMenuItem>Send Reminder</DropdownMenuItem>
-                                                <DropdownMenuItem>Send Prerequisites</DropdownMenuItem>
-                                                <DropdownMenuItem>Send Meeting Link</DropdownMenuItem>
-                                                <DropdownMenuSeparator />
-                                                <DropdownMenuItem>Custom Email</DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                        <Button variant="outline" size="sm">
-                                            Export
-                                        </Button>
-                                    </div>
-                                </CardHeader>
-                                <CardContent className="p-0">
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead>Name</TableHead>
-                                                <TableHead>Email</TableHead>
-                                                <TableHead>Joined</TableHead>
-                                                <TableHead>Status</TableHead>
-                                                <TableHead>Prerequisites</TableHead>
-                                                <TableHead className="w-[80px]"></TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {participants
-                                                .filter((participant) => participant.language === language)
-                                                .map((participant) => (
-                                                    <TableRow key={participant.id}>
-                                                        <TableCell className="font-medium">{participant.name}</TableCell>
-                                                        <TableCell>{participant.email}</TableCell>
-                                                        <TableCell>{format(new Date(participant.joinedAt), "MMM d, yyyy")}</TableCell>
-                                                        <TableCell>
-                                                            <Badge
-                                                                variant={
-                                                                    participant.status === "confirmed"
-                                                                        ? "default"
-                                                                        : participant.status === "pending"
-                                                                            ? "outline"
-                                                                            : "destructive"
-                                                                }
-                                                            >
-                                                                {participant.status.charAt(0).toUpperCase() + participant.status.slice(1)}
-                                                            </Badge>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            {participant.completedPrerequisites ? (
-                                                                <div className="flex items-center text-sm">
-                                                                    <CheckCircle className="mr-1 h-4 w-4 text-muted-foreground" />
-                                                                    <span>Completed</span>
-                                                                </div>
-                                                            ) : (
-                                                                <div className="flex items-center text-sm text-amber-600">
-                                                                    <AlertTriangle className="mr-1 h-4 w-4" />
-                                                                    <span>Incomplete</span>
-                                                                </div>
-                                                            )}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <DropdownMenu>
-                                                                <DropdownMenuTrigger asChild>
-                                                                    <Button variant="ghost" size="icon">
-                                                                        <MoreHorizontal className="h-4 w-4" />
-                                                                        <span className="sr-only">Open menu</span>
-                                                                    </Button>
-                                                                </DropdownMenuTrigger>
-                                                                <DropdownMenuContent align="end">
-                                                                    <DropdownMenuItem>Send Reminder</DropdownMenuItem>
-                                                                    <DropdownMenuItem>Change Status</DropdownMenuItem>
-                                                                    <DropdownMenuItem className="text-destructive">Remove</DropdownMenuItem>
-                                                                </DropdownMenuContent>
-                                                            </DropdownMenu>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))}
-                                        </TableBody>
-                                    </Table>
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-                    ))}
-                </Tabs>
-            </div>
+           
+            <AdminUsersTable
+                title="Manage Users"
+                description="Check Students Information"
+                Users={subWorkshop.users}
+                role={1}
+                courses={1}
+                joinDate={1}
+                showAddButton={false}
+            />
         </div>
         </AppLayout>
 

@@ -20,11 +20,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import { useForm } from "@inertiajs/react"
 
-export function CreateSubWorkshopModal({ open, onOpenChange, chapters }) {
+export function CreateSubWorkshopModal({ open, onOpenChange, chapters ,workshop }) {
     const [step, setStep] = useState(1)
 
     const { data, setData, post, processing, errors } = useForm({
         name: '',
+        workshop_id: workshop,
         description: '',
         prerequisite: '',
         chapter_id: '',
