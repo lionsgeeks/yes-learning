@@ -165,7 +165,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 </div>
                                                 <div className="flex items-center text-sm">
                                                     <Video className="text-muted-foreground mr-2 h-4 w-4" />
-                                                    <span>Instructor: {workshop.instructor}</span>
+                                                    <span>Instructor: {JSON.parse(workshop.instructor).instructoren}</span>
                                                 </div>
                                                 <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{workshop.description}</p>
                                                 <div className="text-muted-foreground mt-2 text-xs">

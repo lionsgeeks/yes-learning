@@ -209,7 +209,6 @@ console.log(data);
                             {["en", "fr", "ar"].map((lang) => (
                                 <TabsContent key={lang} value={lang}>
                                     <div className="space-y-4">
-                                        {/* Instructor Input */}
                                         <div className="space-y-2">
                                             <Label htmlFor={`instructor-${lang}`}>Instructor ({lang.toUpperCase()})</Label>
                                             <Input
@@ -225,7 +224,6 @@ console.log(data);
                                             />
                                         </div>
 
-                                        {/* Meet Link Input */}
                                         <div className="space-y-2">
                                             <Label htmlFor={`meetLink-${lang}`}>Google Meet Link ({lang.toUpperCase()})</Label>
                                             <Input
