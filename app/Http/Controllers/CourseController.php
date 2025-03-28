@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Chapter;
 use App\Models\Course;
-use App\Models\UserCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -89,6 +88,9 @@ class CourseController extends Controller
             "course" => $course,
             "image_url" => asset('storage/'),
             "chapters" => Chapter::where("course_id", $course->id)
+                ->with(['users' => function ($query) {
+                    $query->select('users.id');
+                }])
                 ->get()
                 ->map(function ($chapter) {
                     $chapter->content = json_decode($chapter->content, true);
@@ -106,7 +108,6 @@ class CourseController extends Controller
         return Inertia::render("courses/admin/[id]", [
             "course" => $course->load("users"),
             "modules" => Chapter::where("course_id", $course->id)->get(),
-            // dd($chapters)
         ]);
     }
 
@@ -137,7 +138,7 @@ class CourseController extends Controller
 
     public function enroll(Course $course)
     {
-        
+
         $course->users()->toggle(Auth::id()); //  b7al toggle ta3 javascript  
 
         return redirect("/course");

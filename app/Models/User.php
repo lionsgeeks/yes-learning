@@ -47,15 +47,22 @@ class User extends Authenticatable
         ];
     }
 
-    public function courses() {
+    public function courses()
+    {
         $this->belongsToMany(Course::class);
     }
 
-    public function subworkshops() {
+    public function subworkshops()
+    {
         $this->belongsToMany(SubWorkshop::class);
     }
     public function quizzes()
     {
         return $this->belongsToMany(Quiz::class, 'quiz_users');
+    }
+
+    public function chapters()
+    {
+        return  $this->belongsToMany(Chapter::class, 'chapter_users');
     }
 }

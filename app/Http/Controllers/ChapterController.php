@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chapter;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -48,7 +50,6 @@ class ChapterController extends Controller
             'questions' => 'required',
         ]);
 
-        // $block = $reaquest
         $chapter = Chapter::create([
             'title' => $request->title,
             'description' => $request->description,
@@ -65,19 +66,15 @@ class ChapterController extends Controller
             foreach ($blocks as $block) {
                 if (isset($block['content']['file'])) {
                     $file = $block['content']['file'];
-                    // dd($file->getMimeType());
                     $fileName = $file->getClientOriginalName();
                     if (Str::contains($file->getMimeType(), 'application')) {
-                        // dd("its pdf ");
                         $file->storeAs('documents/chapters', $fileName, 'public');
                     } else {
                         $file->storeAs('image/chapters', $fileName, 'public');
                     }
                 }
             }
-            // dd($fileName);
         }
-        //* if ($request->hasFile('content.0.blocks')) {}
 
         // calling the quizcontroller to use the store function
         $quizController = new QuizController();
@@ -86,6 +83,17 @@ class ChapterController extends Controller
         return redirect()->route('admin.courses.index')->with('success', 'Course created successfully!');
     }
 
+    public function readChapters(Request $request) {
+        $request->validate([
+            'user_id' => 'required',
+            'chapter_id' => 'required'
+        ]);
+        if (!DB::table('chapter_users')->where('user_id', $request->user_id)->where('chapter_id', $request->chapter_id)->exists()) {
+            $user = User::find($request->user_id);
+            $user->chapters()->attach($request->chapter_id);
+        }
+        return back();
+    }
     /**
      * Display the specified resource.
      */

@@ -22,13 +22,18 @@ class Chapter extends Model
     protected $casts = [
         'published' => 'boolean',
         'enable_certificate' => 'boolean',
-        'content' => 'array', 
+        'content' => 'array',
     ];
 
 
-    
+
     public function workshops()
     {
         $this->hasMany(Workshop::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'chapter_users');
     }
 }
