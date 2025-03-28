@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chapter;
 use App\Models\SubWorkshop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +82,8 @@ class SubWorkshopController extends Controller
     {
         //
         return Inertia::render("workshops/admin/[subid]", [
-            "subWorkshop" => $subWorkshop->load('users')
+            "subWorkshop" => $subWorkshop->load('users'),
+            'chapters' => Chapter::all(),
         ]);
     }
 
@@ -106,9 +108,28 @@ class SubWorkshopController extends Controller
      */
     public function update(Request $request, SubWorkshop $subWorkshop)
     {
-        //
-        dd($request->all());
+  
+    
+        $subWorkshop->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'chapter_id' => $request->chapter_id,
+            'workshop_id' => $request->workshop_id, 
+            'prerequisite' => $request->prerequisite,
+            'date' => $request->date,
+            'time' => $request->time,
+            'duration' => $request->duration,
+            'instructor' => json_encode($request->instructor),
+            'meetLink' => json_encode($request->meetLink),
+            'allowQuestions' => $request->allowQuestions,
+            'requireRegistration' => $request->requireRegistration,
+            'sendNotifications' => $request->sendNotifications,
+            'published' => $request->published,
+        ]);
+    
+        return back();
     }
+    
 
     /**
      * Remove the specified resource from storage.

@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator"
 import AdminUsersTable from "@/components/usersComponents/admin-users-table.jsx"
 import { DeleteSubWorkshopDialog } from "../../../components/workshops/delete-subworkshop-dialog";
 import { useState } from "react";
+import { UpdateSubWorkshopModal } from "@/components/workshops/update-sub-workshop-modal"
 
 const breadcrumbs = [
 
@@ -26,11 +27,10 @@ const breadcrumbs = [
 
 
 
-export default function SubWorkshopDetailPage({subWorkshop}) {
-    console.log(subWorkshop.users.length);
-    
+export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
     const isPublished = subWorkshop.status === "published"
-const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     // Check for missing information
     const missingInfo = []
@@ -72,21 +72,8 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     }
 
 
-        const { delete: deleteWorkshop, processing } = useForm()
     
-        const handleDelete = (id) => {
-          setIsDeleting(true)
-      
-          deleteWorkshop(route("subworkshop.destroy", id), {
-            onSuccess: () => {
-              onOpenChange(false)
-              setIsDeleting(false)
-            },
-            onError: () => {
-              setIsDeleting(false)
-            },
-          })
-        }
+        
 
 
     return (
@@ -126,9 +113,22 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
                         <Switch checked={isPublished} />
                     </div>
                     <div className="flex gap-2">
-                        <Button variant="outline" asChild>
-                            <Link href={`/workshops/${subWorkshop.workshopId}/sub-workshops/${subWorkshop.id}/edit`}>Edit</Link>
-                        </Button>
+                    <Button
+        variant="outline"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsEditModalOpen(true);
+        }}
+      >
+        Edit
+      </Button>
+      <UpdateSubWorkshopModal
+        open={isEditModalOpen}
+        onOpenChange={setIsEditModalOpen}
+        subWorkshop={subWorkshop}
+        chapters={chapters}
+      />
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline" size="icon">

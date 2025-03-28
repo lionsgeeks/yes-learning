@@ -25,7 +25,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
     const [registrationDialogOpen, setRegistrationDialogOpen] = useState(false);
     const [workshopToRegister, setWorkshopToRegister] = useState(null);
 
-    const { data, setDate, put, proccessing, erro } = useForm({
+    const { data, setData, put, proccessing, erro } = useForm({
         workshop: '',
     });
     const filteredWorkshops = workshops.filter((workshop) => {
@@ -70,11 +70,9 @@ export default function WorkshopsPage({ workshops, chapters }) {
     };
 
     const handleRegisterConfirm = (id) => {
-        // In a real app, this would send a registration request to the server
         setRegistrationDialogOpen(false);
         setWorkshopToRegister(null);
-        let formdata = new FormData();
-        formdata.append('workshop', id);
+        setData('workshop', id);
         put(route('subWorkshop.enroll', id), {
             onSuccess: () => {
                 alert('good');

@@ -25,21 +25,18 @@ export function CreateWorkshopModal({ open, onOpenChange, courses, workshop }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("course_id", data.course_id);
+ 
 
     if (isEditing) {
       put(route("workshop.update", { id: workshop.id }), {
-        data: formData,
+        data,
         onFinish: () => {
           onOpenChange(false);
         },
       });
     } else {
       post(route("workshop.store"), {
-        data: formData,
+        data,
         onFinish: () => {
           setData({ name: "", course_id: "", description: "" });
           onOpenChange(false);

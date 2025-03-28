@@ -42,7 +42,6 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters ,workshop 
             meetlinkfr:"",
             meetlinkar:"",
         },
-        recordSession: false,
         allowQuestions: true,
         requireRegistration: true,
         sendNotifications: true,
@@ -251,16 +250,7 @@ console.log(data);
                 {step === 3 && (
                     <div className="space-y-4 py-4">
                         <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div className="space-y-0.5">
-                                    <Label>Record Session</Label>
-                                    <p className="text-xs text-muted-foreground">Automatically record the workshop for later viewing</p>
-                                </div>
-                                <Switch
-                                    checked={data.recordSession}
-                                    onCheckedChange={(checked) => setData('recordSession', checked)}
-                                />
-                            </div>
+                            
 
                             <div className="flex items-center justify-between">
                                 <div className="space-y-0.5">
