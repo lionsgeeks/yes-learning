@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -16,21 +17,23 @@ interface TableBlockEditorProps {
 }
 
 export function TableBlockEditor({ content, onChange }: TableBlockEditorProps) {
-  const updateDimensions = (rows: number, cols: number) => {
-    // Create new data array with the new dimensions
-    const newData = Array(rows)
-      .fill(null)
-      .map((_, rowIndex) =>
-        Array(cols)
-          .fill(null)
-          .map((_, colIndex) => {
-            // Preserve existing data if available
-            if (content.data && content.data[rowIndex] && content.data[rowIndex][colIndex] !== undefined) {
-              return content.data[rowIndex][colIndex]
-            }
-            return ""
-          }),
+  useEffect(() => {
+    if (!content.data || content.data.length === 0) {
+      const initialData = Array.from({ length: content.rows }, () =>
+        Array.from({ length: content.cols }, () => "")
       )
+
+      onChange({
+        ...content,
+        data: initialData,
+      })
+    }
+  }, [])
+
+  const updateDimensions = (rows: number, cols: number) => {
+    const newData = Array.from({ length: rows }, (_, rowIndex) =>
+      Array.from({ length: cols }, (_, colIndex) => content.data?.[rowIndex]?.[colIndex] || "")
+    )
 
     onChange({
       ...content,
@@ -41,55 +44,19 @@ export function TableBlockEditor({ content, onChange }: TableBlockEditorProps) {
   }
 
   const updateCell = (rowIndex: number, colIndex: number, value: string) => {
-
-    const newData = [...content.data]
-    console.table(newData);
-    if (!newData[rowIndex]) {
-      newData[rowIndex] = []
-    }
+    const newData = content.data.map((row) => [...row]) // Deep copy to avoid mutation issues
     newData[rowIndex][colIndex] = value
-
+    console.log(newData);
     onChange({
       ...content,
       data: newData,
     })
   }
 
-  const addRow = () => {
-    updateDimensions(content.rows + 1, content.cols)
-  }
-
-  const removeRow = () => {
-    if (content.rows > 1) {
-      updateDimensions(content.rows - 1, content.cols)
-    }
-  }
-
-  const addColumn = () => {
-    updateDimensions(content.rows, content.cols + 1)
-  }
-
-  const removeColumn = () => {
-    if (content.cols > 1) {
-      updateDimensions(content.rows, content.cols - 1)
-    }
-  }
-
-  // Initialize data if not present
-  if (!content.data || !content.data.length) {
-    const rows = content.rows || 3
-    const cols = content.cols || 3
-    const initialData = Array(rows)
-      .fill(null)
-      .map(() => Array(cols).fill(""))
-
-    onChange({
-      ...content,
-      rows,
-      cols,
-      data: initialData,
-    })
-  }
+  const addRow = () => updateDimensions(content.rows + 1, content.cols)
+  const removeRow = () => content.rows > 1 && updateDimensions(content.rows - 1, content.cols)
+  const addColumn = () => updateDimensions(content.rows, content.cols + 1)
+  const removeColumn = () => content.cols > 1 && updateDimensions(content.rows, content.cols - 1)
 
   return (
     <div className="space-y-4">
@@ -164,4 +131,3 @@ export function TableBlockEditor({ content, onChange }: TableBlockEditorProps) {
     </div>
   )
 }
-

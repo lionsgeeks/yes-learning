@@ -58,10 +58,10 @@ export function CoursePreview({ course }) {
         return match && match[1];
     }
 
-    // !!view image
+    // preview image
     function ImagePreview({ block }) {
         const [imagePreview, setImagePreview] = useState(null);
-    
+
         useEffect(() => {
             const file = block.content?.file;
             if (file) {
@@ -74,20 +74,13 @@ export function CoursePreview({ course }) {
                 reader.readAsDataURL(file);
             }
         }, [block]);
-    
+
         return imagePreview ? (
-            <img
-                src={imagePreview}
-                alt="Course cover preview"
-                className="h-auto w-full rounded-md object-cover"
-            />
+            <img src={imagePreview} alt="Course cover preview" className="h-auto w-full rounded-md object-cover" />
         ) : (
             <div className="text-muted-foreground">Image Preview</div>
         );
     }
-    const previewImageSrc = (block) => {
-        return ImagePreview(block={block});
-    };
     return (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
             <Card className="lg:col-span-4">
@@ -127,11 +120,7 @@ export function CoursePreview({ course }) {
                                                             {block.type === 'image' && (
                                                                 <div className="space-y-2">
                                                                     <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
-                                                                        {/* {imagePreview ? ( */}
-                                                                            <ImagePreview block={block} />
-                                                                        {/* ) : (
-                                                                            <div className="text-muted-foreground">Image Preview</div>
-                                                                        )} */}
+                                                                        <ImagePreview block={block} />
                                                                     </div>
                                                                     {block.content.caption && (
                                                                         <p className="text-muted-foreground text-center text-sm">
@@ -211,23 +200,26 @@ export function CoursePreview({ course }) {
                                                                             <tr className="bg-muted">
                                                                                 {Array.from({ length: block.content.cols || 3 }).map((_, i) => (
                                                                                     <th key={i} className="border p-2 text-left">
-                                                                                        Header {i + 1}
+                                                                                        {block.content?.data[0][i] || `Header ${i + 1}`}
                                                                                     </th>
                                                                                 ))}
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {Array.from({ length: block.content.rows || 3 }).map((_, rowIndex) => (
-                                                                                <tr key={rowIndex}>
-                                                                                    {Array.from({ length: block.content.cols || 3 }).map(
-                                                                                        (_, colIndex) => (
-                                                                                            <td key={colIndex} className="border p-2">
-                                                                                                Cell {rowIndex + 1},{colIndex + 1}
-                                                                                            </td>
-                                                                                        ),
-                                                                                    )}
-                                                                                </tr>
-                                                                            ))}
+                                                                            {Array.from({ length: block.content.rows - 1 || 3 }).map(
+                                                                                (_, rowIndex) => (
+                                                                                    <tr key={rowIndex}>
+                                                                                        {Array.from({ length: block.content.cols || 3 }).map(
+                                                                                            (_, colIndex) => (
+                                                                                                <td key={colIndex} className="border p-2">
+                                                                                                    {block.content?.data[rowIndex + 1][colIndex] ||
+                                                                                                        `Cell ${rowIndex + 1 }, ${ colIndex + 1}`}
+                                                                                                </td>
+                                                                                            ),
+                                                                                        )}
+                                                                                    </tr>
+                                                                                ),
+                                                                            )}
                                                                         </tbody>
                                                                     </table>
                                                                 </div>

@@ -10,6 +10,10 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { BookOpen, CheckCircle, ChevronLeft, ChevronRight, Clock, Download, FileText, Image, PlusCircle } from 'lucide-react';
 import { useState } from 'react';
+import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
+import { Bar, Line, Pie } from 'react-chartjs-2'; // Importing Chart.js components
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
 const CourseDetails = () => {
     const { course, chapters, image_url } = usePage().props;
@@ -21,6 +25,45 @@ const CourseDetails = () => {
             href: `/course/${course.id}`,
         },
     ];
+    function renderChart(block) {
+        const content = block.content; // Get the block's content
+        const chartData = {
+            labels: content.data.map((point) => point.name),
+            datasets: [
+                {
+                    label: 'Dataset',
+                    data: content.data.map((point) => point.value),
+                    backgroundColor: content.type === 'pie' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                },
+            ],
+        };
+
+        const chartOptions = {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: content.title || 'Chart Preview',
+                },
+            },
+        };
+
+        return (
+            <div className="bg- rounded-md">
+                <div className="h-full w-full">
+                    <div className="flex h-full items-center justify-center">
+                        <div className="">
+                            {block.content.type === 'bar' && <Bar data={chartData} options={chartOptions} />}
+                            {block.content.type === 'line' && <Line data={chartData} options={chartOptions} />}
+                            {block.content.type === 'pie' && <Pie data={chartData} options={chartOptions} />}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     const attachments = [{ id: 1, name: 'HTML Cheat Sheet.pdf', type: 'PDF', size: '1.2 MB', icon: FileText }];
     const [currentSubModuleId, setCurrentSubModuleId] = useState(1);
@@ -245,19 +288,19 @@ const CourseDetails = () => {
                                                                                 <tr className="bg-muted">
                                                                                     {Array.from({ length: block.content.cols || 3 }).map((_, i) => (
                                                                                         <th key={i} className="border p-2 text-left">
-                                                                                            Header {i + 1}
+                                                                                            {block.content?.data[0][i]}
                                                                                         </th>
                                                                                     ))}
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                {Array.from({ length: block.content.rows || 3 }).map(
+                                                                                {Array.from({ length: block.content.rows - 1 || 3 }).map(
                                                                                     (_, rowIndex) => (
                                                                                         <tr key={rowIndex}>
                                                                                             {Array.from({ length: block.content.cols || 3 }).map(
                                                                                                 (_, colIndex) => (
                                                                                                     <td key={colIndex} className="border p-2">
-                                                                                                        Cell {rowIndex + 1},{colIndex + 1}
+                                                                                                        {block.content?.data[rowIndex + 1][colIndex]}
                                                                                                     </td>
                                                                                                 ),
                                                                                             )}
