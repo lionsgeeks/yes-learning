@@ -14,22 +14,21 @@ import { useForm } from "@inertiajs/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export function CreateWorkshopModal({ open, onOpenChange, courses, workshop }) {
-  console.log(courses);
 
   const isEditing = Boolean(workshop);
 
   const { data, setData, post, put, processing, errors } = useForm({
 
-    name:{
-        nameen:workshop?.name || "",
-        namefr:workshop?.name || "",
-        namear:workshop?.name || "",
-    },
-    description:{
-        descriptionen:workshop?.description || "",
-        descriptionfr:workshop?.description || "",
-        descriptionar:workshop?.description || "",
-    },
+    name: {
+        nameen: workshop ? JSON.parse(workshop.name)?.nameen || "" : "",
+        namefr: workshop ? JSON.parse(workshop.name)?.namefr || "" : "",
+        namear: workshop ? JSON.parse(workshop.name)?.namear || "" : "",
+      },
+      description: {
+        descriptionen: workshop ? JSON.parse(workshop.description)?.descriptionen || "" : "",
+        descriptionfr: workshop ? JSON.parse(workshop.description)?.descriptionfr || "" : "",
+        descriptionar: workshop ? JSON.parse(workshop.description)?.descriptionar || "" : "",
+      },
     course_id: workshop?.course_id || "",
   });
 
@@ -48,7 +47,6 @@ export function CreateWorkshopModal({ open, onOpenChange, courses, workshop }) {
       post(route("workshop.store"), {
         data,
         onFinish: () => {
-          setData({ name: "", course_id: "", description: "" });
           onOpenChange(false);
         },
       });

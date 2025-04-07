@@ -33,19 +33,10 @@ class SubWorkshopController extends Controller
     {
         //
         $validated = $request->validate([
-            'name' => 'required|array',
-            "name.nameen"=>"required|string",
-            "name.namefr"=>"required|string",
-            "name.namear"=>"required|string",
-            'description' => 'required|array',
-            "description.descriptionen"=>"required|string",
-            "description.descriptionfr"=>"required|string",
-            "description.descriptionar"=>"required|string",
-            'prerequisite' => 'required|array',
-            "prerequisite.prerequisiteen"=>"required|string",
-            "prerequisite.prerequisitefr"=>"required|string",
-            "prerequisite.prerequisitear"=>"required|string",
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:400',
             "chapter_id"=>"required",
+            "prerequisite"=>"required",
             "date"=>"required",
             "time"=>"required",
             "duration"=>"required",

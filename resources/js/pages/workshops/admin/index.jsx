@@ -23,7 +23,7 @@ const AdminWorkshops = ({ workshops , courses }) => {
 
 
     // Mock data for workshops
-   
+
 
 
     return (

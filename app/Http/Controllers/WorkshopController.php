@@ -107,15 +107,11 @@ class WorkshopController extends Controller
      */
     public function update(Request $request, Workshop $workshop)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'course_id' => 'required|exists:courses,id',
-        ]);
+     
         $workshop->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'course_id' => $validated['course_id'],
+            'name' => json_encode($request->name),
+            'description' => json_encode($request->description),
+            'course_id' => $request->course_id,
             'isComplete' => false,
         ]);
 
