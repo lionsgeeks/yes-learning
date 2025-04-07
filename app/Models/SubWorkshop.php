@@ -28,6 +28,9 @@ class SubWorkshop extends Model
     protected $casts = [
         'meetLink' => 'object',
         'instructor' => 'object',
+        'name' => 'object',
+        'description' => 'object',
+        'prerequisite' => 'object',
     ];
 
 

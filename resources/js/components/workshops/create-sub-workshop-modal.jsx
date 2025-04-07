@@ -24,15 +24,27 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters ,workshop 
     const [step, setStep] = useState(1)
 
     const { data, setData, post, processing, errors } = useForm({
-        name: '',
+        name:{
+            nameen: "",
+            namefr: "",
+            namear: "",
+        },
+        description:{
+            descriptionen: "",
+            descriptionfr: "",
+            descriptionar: "",
+        },
         workshop_id: workshop,
-        description: '',
-        prerequisite: '',
+        prerequisite:{
+            prerequisiteen: "",
+            prerequisitefr: "",
+            prerequisitear: "",
+        },
         chapter_id: '',
         date: '',
         time: '',
         duration: '90',
-        instructor: {
+        instructor:{
             instructoren:"",
             instructorfr:"",
             instructorar:"",
@@ -103,11 +115,72 @@ console.log(data);
 
                 {step === 1 && (
                     <div className="space-y-4 py-4">
-                        <div className="space-y-2">
+
+
+                    <Tabs defaultValue="en">
+                            <TabsList className="grid w-full grid-cols-3">
+                                <TabsTrigger value="en">English</TabsTrigger>
+                                <TabsTrigger value="fr">French</TabsTrigger>
+                                <TabsTrigger value="ar">Arabic</TabsTrigger>
+                            </TabsList>
+
+                            {["en", "fr", "ar"].map((lang) => (
+                                <TabsContent key={lang} value={lang}>
+                                    <div className="space-y-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor={`name-${lang}`}>Sub-Workshop Title ({lang.toUpperCase()})</Label>
+                                            <Input
+                                                id={`name-${lang}`}
+                                                placeholder={`name (${lang.toUpperCase()})`}
+                                                value={data.name[`name${lang}`]}
+                                                onChange={(e) =>
+                                                    setData("name", {
+                                                        ...data.name,
+                                                        [`name${lang}`]: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                        </div>
+
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor={`description-${lang}`}>description ({lang.toUpperCase()})</Label>
+                                            <Input
+                                                id={`description-${lang}`}
+                                                placeholder={`description (${lang.toUpperCase()})`}
+                                                value={data.description[`description${lang}`]}
+                                                onChange={(e) =>
+                                                    setData("description", {
+                                                        ...data.description,
+                                                        [`description${lang}`]: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor={`prerequisite-${lang}`}>prerequisite ({lang.toUpperCase()})</Label>
+                                            <Textarea
+                                                id={`prerequisite-${lang}`}
+                                                placeholder={`prerequisite (${lang.toUpperCase()})`}
+                                                value={data.prerequisite[`prerequisite${lang}`]}
+                                                onChange={(e) =>
+                                                    setData("prerequisite", {
+                                                        ...data.prerequisite,
+                                                        [`prerequisite${lang}`]: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                        </div>
+
+                                    </div>
+                                </TabsContent>
+                            ))}
+                        </Tabs>
+                        {/* <div className="space-y-2">
                             <Label htmlFor="name">Sub-Workshop Title</Label>
-                            <Input 
-                                id="name" 
-                                placeholder="Enter title" 
+                            <Input
+                                id="name"
+                                placeholder="Enter title"
                                 value={data.name}
                                 onChange={e => setData('name', e.target.value)}
                                 error={errors.name}
@@ -137,7 +210,7 @@ console.log(data);
                                 error={errors.prerequisite}
                             />
                             {errors.prerequisite && <p className="text-sm text-red-500">{errors.prerequisite}</p>}
-                        </div>
+                        </div> */}
 
                         <div className="space-y-2">
                             <Label htmlFor="course">Associated chapter</Label>
@@ -159,9 +232,9 @@ console.log(data);
                         <div className="grid gap-4 md:grid-cols-3">
                             <div className="space-y-2">
                                 <Label htmlFor="date">Date</Label>
-                                <Input 
-                                    id="date" 
-                                    type="date" 
+                                <Input
+                                    id="date"
+                                    type="date"
                                     value={data.date}
                                     onChange={e => setData('date', e.target.value)}
                                     error={errors.date}
@@ -170,9 +243,9 @@ console.log(data);
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="time">Time</Label>
-                                <Input 
-                                    id="time" 
-                                    type="time" 
+                                <Input
+                                    id="time"
+                                    type="time"
                                     value={data.time}
                                     onChange={e => setData('time', e.target.value)}
                                     error={errors.time}
@@ -250,7 +323,7 @@ console.log(data);
                 {step === 3 && (
                     <div className="space-y-4 py-4">
                         <div className="space-y-4">
-                            
+
 
                             <div className="flex items-center justify-between">
                                 <div className="space-y-0.5">

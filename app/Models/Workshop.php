@@ -14,8 +14,11 @@ class Workshop extends Model
         "isComplete"
     ];
 
+    protected $casts = [
+        'name' => 'object',
+        'description' => 'object',
+    ];
 
-   
     public function course()
     {
         return $this->belongsTo(Course::class);

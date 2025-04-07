@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('sub_workshops', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("description");
-            $table->string("prerequisite");
+            $table->json("name");
+            $table->json("description");
+            $table->json("prerequisite");
             $table->foreignId("chapter_id")->constrained()->cascadeOnDelete();
             $table->foreignId("workshop_id")->constrained()->cascadeOnDelete();
             $table->date("date");

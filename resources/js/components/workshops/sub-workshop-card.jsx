@@ -15,13 +15,12 @@ export function SubWorkshopCard({ subWorkshop }) {
 
   // Check if the sub-workshop has already passed
   const isPastWorkshop = subWorkshop.date && isPast(new Date(`${subWorkshop.date} ${subWorkshop.time}`))
-
   return (
     <Card className="overflow-hidden transition-all hover:shadow-md h-full flex flex-col">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between">
           <div>
-            <CardTitle className="text-lg">{subWorkshop.name}</CardTitle>
+            <CardTitle className="text-lg">{subWorkshop.name.nameen}</CardTitle>
             <div className="flex items-center gap-2 mt-1">
               <Badge variant="outline" className="text-xs">
                 {subWorkshop.subCourse}
@@ -35,9 +34,9 @@ export function SubWorkshopCard({ subWorkshop }) {
       </CardHeader>
       <CardContent className="pb-2 flex-grow">
         <div className="flex flex-col gap-2">
-          {subWorkshop.description && (
+          {subWorkshop.description.descriptionen && (
             <p className="text-sm text-muted-foreground line-clamp-2">
-              {subWorkshop.description}
+              {subWorkshop.description.descriptionen}
             </p>
           )}
 

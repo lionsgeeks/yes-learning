@@ -18,7 +18,7 @@ class WorkshopController extends Controller
     public function index()
     {
         //
-        
+
         return Inertia::render("workshops/admin/index" , [
             "workshops" => Workshop::with('course')->get(),
             'courses' => Course::all(),
@@ -31,7 +31,7 @@ class WorkshopController extends Controller
         $userId = Auth::id();
         return Inertia::render("workshops/student/index",[
             "workshops" => SubWorkshop::with('chapter')->with("users:id")->get()->map(function($subworkshop) use ($userId) {
-                $subworkshop->enrolled = $subworkshop->users->contains("id", $userId); // zdt value jdid fl subw$subworkshops  li howa  enrolled  bach n3rf wh l user  m enrolli ola la 
+                $subworkshop->enrolled = $subworkshop->users->contains("id", $userId); // zdt value jdid fl subw$subworkshops  li howa  enrolled  bach n3rf wh l user  m enrolli ola la
                 $subworkshop->enrolledCount = $subworkshop->users()->count();
                 unset($subworkshop->users);
                 return $subworkshop;
@@ -39,7 +39,7 @@ class WorkshopController extends Controller
             'chapters' => Chapter::all(),
         ]);
     }
-  
+
     /**
      * Show the form for creating a new resource.
      */
@@ -56,13 +56,19 @@ class WorkshopController extends Controller
         //
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:400',
+            'name' => 'required|array',
+            "name.nameen"=>"required|string",
+            "name.namefr"=>"required|string",
+            "name.namear"=>"required|string",
+            'description' => 'required|array',
+            "description.descriptionen"=>"required|string",
+            "description.descriptionfr"=>"required|string",
+            "description.descriptionar"=>"required|string",
             "course_id"=>"required"
         ]);
         Workshop::create([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
+            "name" => json_encode($validated['name']),
+            "description" => json_encode($validated['description']),
             'course_id' => $validated['course_id'],
             'isComplete' => 0,
         ]);
@@ -78,7 +84,7 @@ class WorkshopController extends Controller
     {
         //
 
-        
+
         return Inertia::render("workshops/admin/[id]", [
             'workshop' => $workshop->load('course'),
             'subWorkshops'=>SubWorkshop::with('users')->get(),
@@ -110,12 +116,12 @@ class WorkshopController extends Controller
             'name' => $validated['name'],
             'description' => $validated['description'],
             'course_id' => $validated['course_id'],
-            'isComplete' => false, 
+            'isComplete' => false,
         ]);
-    
+
         return back()->with('success', 'Workshop updated successfully!');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.

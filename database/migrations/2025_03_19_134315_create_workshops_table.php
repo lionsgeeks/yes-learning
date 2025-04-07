@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('workshops', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("description");
+            $table->json("name");
+            $table->json("description");
             $table->foreignId("course_id")->constrained()->cascadeOnDelete();
             $table->boolean("isComplete");
             $table->timestamps();

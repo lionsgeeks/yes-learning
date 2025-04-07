@@ -33,10 +33,19 @@ class SubWorkshopController extends Controller
     {
         //
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:400',
+            'name' => 'required|array',
+            "name.nameen"=>"required|string",
+            "name.namefr"=>"required|string",
+            "name.namear"=>"required|string",
+            'description' => 'required|array',
+            "description.descriptionen"=>"required|string",
+            "description.descriptionfr"=>"required|string",
+            "description.descriptionar"=>"required|string",
+            'prerequisite' => 'required|array',
+            "prerequisite.prerequisiteen"=>"required|string",
+            "prerequisite.prerequisitefr"=>"required|string",
+            "prerequisite.prerequisitear"=>"required|string",
             "chapter_id"=>"required",
-            "prerequisite"=>"required",
             "date"=>"required",
             "time"=>"required",
             "duration"=>"required",
@@ -89,8 +98,8 @@ class SubWorkshopController extends Controller
 
     public function enroll(SubWorkshop $subWorkshop)
     {
-        
-        $subWorkshop->users()->toggle(Auth::id()); //  b7al toggle ta3 javascript  
+
+        $subWorkshop->users()->toggle(Auth::id()); //  b7al toggle ta3 javascript
 
         return redirect("/workshop");
     }
@@ -108,13 +117,13 @@ class SubWorkshopController extends Controller
      */
     public function update(Request $request, SubWorkshop $subWorkshop)
     {
-  
-    
+
+
         $subWorkshop->update([
             'name' => $request->name,
             'description' => $request->description,
             'chapter_id' => $request->chapter_id,
-            'workshop_id' => $request->workshop_id, 
+            'workshop_id' => $request->workshop_id,
             'prerequisite' => $request->prerequisite,
             'date' => $request->date,
             'time' => $request->time,
@@ -126,10 +135,10 @@ class SubWorkshopController extends Controller
             'sendNotifications' => $request->sendNotifications,
             'published' => $request->published,
         ]);
-    
+
         return back();
     }
-    
+
 
     /**
      * Remove the specified resource from storage.

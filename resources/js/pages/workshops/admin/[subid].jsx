@@ -72,8 +72,8 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
     }
 
 
-    
-        
+
+
 
 
     return (
@@ -90,7 +90,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                 </Button>
                 <div className="flex-1">
                     <div className="flex items-center gap-2">
-                        <h1 className="text-2xl font-bold">{subWorkshop.name}</h1>
+                        <h1 className="text-2xl font-bold">{subWorkshop.name.nameen}</h1>
                         {isPublished ? (
                             <Badge>Published</Badge>
                         ) : (
@@ -148,11 +148,11 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                     Delete Workshop
                                 </DropdownMenuItem>
 
-                                                                         
+
                                 <DeleteSubWorkshopDialog
                                     open={isDeleteDialogOpen}
                                     onOpenChange={setIsDeleteDialogOpen}
-                                    workshopTitle={subWorkshop.name}
+                                    workshopTitle={subWorkshop.name.namen}
                                     workshopId={subWorkshop.id}
                                 />
                             </DropdownMenuContent>
@@ -183,7 +183,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                 <Card className="md:col-span-2">
                     <CardHeader className="pb-3">
                         <CardTitle>Overview</CardTitle>
-                        <CardDescription>{subWorkshop.description}</CardDescription>
+                        <CardDescription>{subWorkshop.description.descriptionen}</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-2 gap-4">
@@ -244,7 +244,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                 Prerequisites
                             </div>
                             <ul className="text-sm list-disc pl-5 space-y-1">
-                                    <li >{subWorkshop.prerequisite}</li>
+                                    <li >{subWorkshop.prerequisite.prerequisiteen}</li>
                             </ul>
                         </div>
                     </CardContent>
@@ -308,13 +308,13 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                     {languages.map((language) => {
                         const instructorData = JSON.parse(subWorkshop.instructor);
                         const meetLinkData = JSON.parse(subWorkshop.meetLink);
-                    
+
                         const hasInstructor = !!instructorData[`instructor${language}`];
                         const hasMeetLink = !meetLinkData[`meetLink${language}`];
                         const isComplete = hasInstructor && hasMeetLink;
-                        
-                        
-                        
+
+
+
                         return (
                             <Card key={language} className="border">
                                 <CardHeader className="pb-3 border-b">
@@ -406,7 +406,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                     </div>
 
 
-                
+
                                 </CardContent>
                             </Card>
                         )
@@ -481,7 +481,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                 </CardContent>
             </Card>
 
-           
+
             <AdminUsersTable
                 title="Manage Users"
                 description="Check Students Information"
