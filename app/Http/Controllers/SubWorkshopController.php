@@ -33,10 +33,19 @@ class SubWorkshopController extends Controller
     {
         //
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:400',
+            'name' => 'required|array',
+            "name.nameen"=>"required|string",
+            "name.namefr"=>"required|string",
+            "name.namear"=>"required|string",
+            'description' => 'required|array',
+            "description.descriptionen"=>"required|string",
+            "description.descriptionfr"=>"required|string",
+            "description.descriptionar"=>"required|string",
             "chapter_id"=>"required",
-            "prerequisite"=>"required",
+            "prerequisite"=>"required|array",
+            "prerequisite.prerequisiteen"=>"required|string",
+            "prerequisite.prerequisitefr"=>"required|string",
+            "prerequisite.prerequisitear"=>"required|string",
             "date"=>"required",
             "time"=>"required",
             "duration"=>"required",
@@ -55,11 +64,11 @@ class SubWorkshopController extends Controller
         ]);
         // dd($request->all());
         SubWorkshop::create([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
+            'name' => json_encode($validated['name']),
+            'description' => json_encode($validated['description']),
             'chapter_id' => $validated['chapter_id'],
             'workshop_id' => $request->workshop_id,
-            "prerequisite"=>$validated['prerequisite'],
+            "prerequisite"=> json_encode($validated['prerequisite']),
             "date"=>$validated['date'],
             "time"=>$validated['time'],
             "duration"=>$validated['duration'],
@@ -111,11 +120,11 @@ class SubWorkshopController extends Controller
 
 
         $subWorkshop->update([
-            'name' => $request->name,
-            'description' => $request->description,
+            'name' => json_encode($request->name),
+            'description' => json_encode($request->description),
             'chapter_id' => $request->chapter_id,
             'workshop_id' => $request->workshop_id,
-            'prerequisite' => $request->prerequisite,
+            'prerequisite' => json_encode($request->prerequisite),
             'date' => $request->date,
             'time' => $request->time,
             'duration' => $request->duration,

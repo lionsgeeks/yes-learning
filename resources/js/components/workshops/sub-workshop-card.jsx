@@ -20,7 +20,7 @@ export function SubWorkshopCard({ subWorkshop }) {
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between">
           <div>
-            <CardTitle className="text-lg">{subWorkshop.name.nameen}</CardTitle>
+            <CardTitle className="text-lg">{JSON.parse(subWorkshop.name).nameen}</CardTitle>
             <div className="flex items-center gap-2 mt-1">
               <Badge variant="outline" className="text-xs">
                 {subWorkshop.subCourse}
@@ -34,9 +34,9 @@ export function SubWorkshopCard({ subWorkshop }) {
       </CardHeader>
       <CardContent className="pb-2 flex-grow">
         <div className="flex flex-col gap-2">
-          {subWorkshop.description.descriptionen && (
+          {JSON.parse(subWorkshop.description).descriptionen && (
             <p className="text-sm text-muted-foreground line-clamp-2">
-              {subWorkshop.description.descriptionen}
+              {JSON.parse(subWorkshop.description).descriptionen}
             </p>
           )}
 

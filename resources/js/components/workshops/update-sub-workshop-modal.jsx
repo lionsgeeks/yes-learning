@@ -21,11 +21,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useForm } from "@inertiajs/react"
 
 export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorkshop }) {
-    
+
   const [step, setStep] = useState(1)
 
   const { data, setData, put, processing, errors } = useForm({
-    name: subWorkshop.name ,
+    // name: subWorkshop.name ,
     workshop_id:  subWorkshop.workshop_id ,
     description: subWorkshop.description ,
     prerequisite: subWorkshop.prerequisite ,
@@ -33,11 +33,30 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
     date: subWorkshop.date ,
     time: subWorkshop.time ,
     duration: subWorkshop.duration,
+
+    name:{
+        nameen: JSON.parse(subWorkshop.name).nameen,
+        namefr:  JSON.parse(subWorkshop.name).namefr,
+        namear:  JSON.parse(subWorkshop.name).namear,
+    },
+    description:{
+        descriptionen: JSON.parse(subWorkshop.description).descriptionen,
+        descriptionfr:  JSON.parse(subWorkshop.description).descriptionfr,
+        descriptionar:  JSON.parse(subWorkshop.description).descriptionar,
+    },
+
+    prerequisite:{
+        prerequisiteen: JSON.parse(subWorkshop.prerequisite).prerequisiteen,
+        prerequisitefr:  JSON.parse(subWorkshop.prerequisite).prerequisitefr,
+        prerequisitear:  JSON.parse(subWorkshop.prerequisite).prerequisitear
+    },
+
+
     instructor:  {
       instructoren: JSON.parse(subWorkshop.instructor).instructoren,
       instructorfr: JSON.parse(subWorkshop.instructor).instructorfr,
       instructorar: JSON.parse(subWorkshop.instructor).instructorar,
-    } 
+    }
     ,
     meetLink: {
         meetlinken: JSON.parse(subWorkshop.meetLink).meetlinken,
@@ -49,8 +68,13 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
     sendNotifications: subWorkshop.sendNotifications ,
     notificationTime:  "24h",
     published: subWorkshop.published ,
+
+
+
+
   })
 
+// console.log(subWorkshop.name);
 
   const nextStep = () => {
     setStep((prev) => Math.min(prev + 1, 3))
@@ -105,38 +129,67 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
 
         {step === 1 && (
           <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Sub-Workshop Title</Label>
-              <Input
-                id="name"
-                placeholder="Enter title"
-                value={data.name}
-                onChange={(e) => setData("name", e.target.value)}
-              />
-              {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                placeholder="Enter description"
-                value={data.description}
-                onChange={(e) => setData("description", e.target.value)}
-              />
-              {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="prerequisite">Prerequisite</Label>
-              <Textarea
-                id="prerequisite"
-                placeholder="Enter prerequisite"
-                value={data.prerequisite}
-                onChange={(e) => setData("prerequisite", e.target.value)}
-              />
-              {errors.prerequisite && <p className="text-sm text-red-500">{errors.prerequisite}</p>}
-            </div>
+            <Tabs defaultValue="en">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="en">English</TabsTrigger>
+                <TabsTrigger value="fr">French</TabsTrigger>
+                <TabsTrigger value="ar">Arabic</TabsTrigger>
+              </TabsList>
+
+              {["en", "fr", "ar"].map((lang) => (
+
+
+                  <TabsContent key={lang} value={lang}>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor={`name-${lang}`}>name ({lang.toUpperCase()})</Label>
+                      <Input
+                        id={`name-${lang}`}
+                        placeholder={`name (${lang.toUpperCase()})`}
+                        value={data.name[`name${lang}`]}
+                        onChange={(e) =>
+                          setData("name", {
+                            ...data.name,
+                            [`name${lang}`]: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor={`description-${lang}`}>description ({lang.toUpperCase()})</Label>
+                      <Input
+                        id={`description-${lang}`}
+                        placeholder="https://meet.google.com/..."
+                        value={data.description[`description${lang}`]}
+                        onChange={(e) =>
+                          setData("description", {
+                            ...data.description,
+                            [`description${lang}`]: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor={`prerequisite-${lang}`}>prerequisite ({lang.toUpperCase()})</Label>
+                      <Textarea
+                        id={`prerequisite-${lang}`}
+                        placeholder="https://meet.google.com/..."
+                        value={data.prerequisite[`prerequisite${lang}`]}
+                        onChange={(e) =>
+                          setData("prerequisite", {
+                            ...data.prerequisite,
+                            [`prerequisite${lang}`]: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
 
             <div className="space-y-2">
               <Label htmlFor="course">Associated chapter</Label>
@@ -191,8 +244,8 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
               </TabsList>
 
               {["en", "fr", "ar"].map((lang) => (
-                
-                  
+
+
                   <TabsContent key={lang} value={lang}>
                   <div className="space-y-4">
                     <div className="space-y-2">
@@ -234,7 +287,7 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
         {step === 3 && (
           <div className="space-y-4 py-4">
             <div className="space-y-4">
-           
+
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
