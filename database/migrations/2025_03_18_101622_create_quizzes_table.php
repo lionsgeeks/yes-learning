@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('time_limit');
             $table->boolean('published')->default(false);
-            $table->foreignId('chapter_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('course_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

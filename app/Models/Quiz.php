@@ -12,13 +12,13 @@ class Quiz extends Model
         'description',
         'time_limit',
         'published',
-        'chapter_id',
+        'course_id',
     ];
 
 
-    public function chapter()
+    public function course()
     {
-        return $this->belongsTo(Chapter::class);
+        return $this->belongsTo(Course::class);
     }
 
     public function questions()

@@ -23,7 +23,7 @@ const QuestionsOptions = ({ q, answers, option }) => {
             return (
                 <>
                     <div
-                        key={option.id}
+                        key={option.text}
                         className={`flex items-center p-2 rounded ${isSelected && isCorrect
                             ? "bg-green-50 border border-green-200"
                             : isSelected && !isCorrect

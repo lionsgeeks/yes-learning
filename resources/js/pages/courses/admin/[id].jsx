@@ -16,11 +16,7 @@ import { Switch } from "@/components/ui/switch"
 import { EditCourseModal } from "@/components/courses/edit-course-modal"
 
 import AdminUsersTable from "@/components/usersComponents/admin-users-table.jsx"
-
-
-// Sample data - in a real app, this would come from a database
-
-
+import CreateQuizPage from '../../../components/quizComponents/createQuiz';
 
 
 function SortableChapter({ chapter, onTogglePublish, onEdit, idx }) {
@@ -65,12 +61,9 @@ function SortableChapter({ chapter, onTogglePublish, onEdit, idx }) {
 
 
 const AdminCoursesShow = () => {
-    const { course, modules } = usePage().props
+    const { course, modules, courseQuiz } = usePage().props
 
     const breadcrumbs = [{ title: "course - " + course.name, },];
-
-
-
 
     const [chapters, setChapters] = useState(modules)
     const [editModalOpen, setEditModalOpen] = useState(false)
@@ -114,7 +107,7 @@ const AdminCoursesShow = () => {
         router.push(`/dashboard/courses/jhg/chapters/${chapter.id}`)
     }
 
-    
+
 
 
     return (
@@ -221,15 +214,20 @@ const AdminCoursesShow = () => {
                     </Card>
                 </div>
 
+
+                {/* Quiz Creation */}
+                <CreateQuizPage course_id={course.id} courseQuiz={courseQuiz} />
+
+
                 <div className="">
-                    <AdminUsersTable role  title="Enrolled users" description="Manage NGOs enrolled in this course" Users = {course.users}/>
+                    <AdminUsersTable role title="Enrolled users" description="Manage NGOs enrolled in this course" Users={course.users} />
                     {/* <Achievement achievement={initialAchievements }/> */}
                 </div>
 
 
             </div>
 
-            <EditCourseModal  course={course} open={editModalOpen} onOpenChange={setEditModalOpen} />
+            <EditCourseModal course={course} open={editModalOpen} onOpenChange={setEditModalOpen} />
 
         </AppLayout>
     )

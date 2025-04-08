@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Achivement;
+use App\Models\Quiz;
+use App\Models\QuizUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class AchivementController extends Controller
@@ -13,8 +17,14 @@ class AchivementController extends Controller
      */
     public function index()
     {
-        //
-        return Inertia::render("achivements/user/index");
+
+        $quizzes = Quiz::all();
+        $userQuiz = QuizUser::where('user_id',Auth::id())->get();
+
+        return Inertia::render("achivements/user/index", [
+            'quizzes' => $quizzes,
+            'userQuiz' => $userQuiz,
+        ]);
     }
 
     /**

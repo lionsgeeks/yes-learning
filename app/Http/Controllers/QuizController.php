@@ -6,6 +6,7 @@ use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\QuizUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -30,37 +31,56 @@ class QuizController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store($request, $chapter)
+    // function works but can reduce repition :/
+    public function store(Request $request)
     {
-        $quiz = Quiz::create([
+        $request->validate([
+            'quizTitle' => 'required',
+            'quizDescription' => 'required',
+            'quizTime' => 'required',
+        ]);
+
+        $quizData = [
             'title' => $request->quizTitle,
             'description' => $request->quizDescription,
             'time_limit' => $request->quizTime,
             'published' => $request->quizPublish,
-            'chapter_id' => $chapter->id,
-        ]);
+            'course_id' => $request->course_id,
+        ];
+
+        $quiz = Quiz::where('course_id', $request->course_id)->with('questions')->first();
+
+        if (!$quiz) {
+            $quiz = Quiz::create($quizData);
+        } else {
+            $quiz->update($quizData);
+        }
+
+        $existingIds = $quiz->questions->pluck('id')->toArray();
 
         foreach ($request->questions as $quest) {
-            $answers = null;
-            if (array_key_exists('options', $quest)) {
-                $filteredData = array_map(function ($item) {
-                    unset($item['id']);
-                    return $item;
-                }, $quest['options']);
-
-                $answers = json_encode($filteredData);
+            // Skip if this question already exists
+            if (!empty($quest['id']) && in_array($quest['id'], $existingIds)) {
+                continue;
             }
+
+            $options = isset($quest['options'])
+                ? json_encode(array_map(fn($item) => Arr::except($item, ['id']), $quest['options']))
+                : null;
 
             Question::create([
                 'quiz_id' => $quiz->id,
                 'type' => $quest['type'],
                 'question' => $quest['text'],
-                'answers' => $answers ?? null,
-                'allow_multiple' => $quest['allowMultiple'] ?? null,
-                'correct_answer' => $quest['correctAnswer'] ?? null
+                'options' => $options,
+                'allow_multiple' => $quest['allow_multiple'] ?? null,
+                'correct_answer' => $quest['correct_answer'] ?? null,
             ]);
         }
+
+        return redirect()->route('admin.courses.index')->with('success', 'Quiz created successfully!');
     }
+
 
     /**
      * Display the specified resource.
@@ -80,7 +100,7 @@ class QuizController extends Controller
                     'id' => $question->id,
                     'type' => $question->type,
                     'question' => $question->question,
-                    'options' => json_decode($question->answers, true) ?? [],
+                    'options' => json_decode($question->options, true) ?? [],
                     'allow_multiple' => $question->allow_multiple,
                     'correct_answer' => $question->correct_answer,
                     'quiz_id' => $question->quiz_id,
@@ -94,30 +114,6 @@ class QuizController extends Controller
             "quiz" => $quizData,
             "user" => $user,
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
 
@@ -138,5 +134,11 @@ class QuizController extends Controller
             'time' => $time,
             'answers' => json_encode($answers),
         ]);
+    }
+
+
+    public function destroyQuestion(Question $question)
+    {
+        $question->delete();
     }
 }

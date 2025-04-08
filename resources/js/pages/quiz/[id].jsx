@@ -95,17 +95,17 @@ export default function QuizPage() {
 
             // Mutliple Choice Single Answer
             if (question.type == 'multiple-choice' && !question.allow_multiple) {
-                const correctAnswer = question.options.find((answ) => answ.isCorrect).text
-                if (userAnswer == correctAnswer) {
+                const correct_answer = question.options.find((answ) => answ.isCorrect).text
+                if (userAnswer == correct_answer) {
                     correctCount++;
                 }
             }
 
             // Multiple Choice Multiple Answers
             if (question.type == 'multiple-choice' && question.allow_multiple) {
-                const correctAnswers = question.options.filter(answ => answ.isCorrect).map(item => item.text).sort();
+                const correct_answers = question.options.filter(answ => answ.isCorrect).map(item => item.text).sort();
                 const userAnswers = userAnswer.sort();
-                if (correctAnswers.every((value, index) => value === userAnswers[index])) {
+                if (correct_answers.every((value, index) => value === userAnswers[index])) {
                     correctCount++;
                 }
             }
@@ -140,7 +140,7 @@ export default function QuizPage() {
         }));
     }
 
-    const isCorrectAnswer = (questionId) => {
+    const iscorrect_answer = (questionId) => {
         const question = quizData.questions.find((q) => q.id === questionId)
         if (!question) return false
 
@@ -148,17 +148,17 @@ export default function QuizPage() {
 
         // Mutliple Choice Single Answer
         if (question.type == 'multiple-choice' && !question.allow_multiple) {
-            const correctAnswer = question.options.find((answ) => answ.isCorrect).text
-            if (userAnswer == correctAnswer) {
+            const correct_answer = question.options.find((answ) => answ.isCorrect).text
+            if (userAnswer == correct_answer) {
                 return true;
             }
         }
 
         // Multiple Choice Multiple Answers
         if (question.type == 'multiple-choice' && question.allow_multiple) {
-            const correctAnswers = question.options.filter(answ => answ.isCorrect).map(item => item.text).sort();
+            const correct_answers = question.options.filter(answ => answ.isCorrect).map(item => item.text).sort();
             const userAnswers = userAnswer.sort();
-            if (correctAnswers.every((value, index) => value === userAnswers[index])) {
+            if (correct_answers.every((value, index) => value === userAnswers[index])) {
                 return true;
             }
         }
@@ -422,10 +422,10 @@ export default function QuizPage() {
                                         <div key={q.id} className="border rounded-lg p-4">
                                             <div className="flex items-start gap-2">
                                                 <div
-                                                    className={`mt-0.5 flex-shrink-0 ${isCorrectAnswer(q.id) ? "text-green-500" : "text-red-500"
+                                                    className={`mt-0.5 flex-shrink-0 ${iscorrect_answer(q.id) ? "text-green-500" : "text-red-500"
                                                         }`}
                                                 >
-                                                    {isCorrectAnswer(q.id) ? (
+                                                    {iscorrect_answer(q.id) ? (
                                                         <CheckCircle className="h-5 w-5" />
                                                     ) : (
                                                         <XCircle className="h-5 w-5" />

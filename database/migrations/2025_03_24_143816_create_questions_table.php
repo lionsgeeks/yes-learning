@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->string('question');
-            $table->json('answers')->nullable();
+            $table->json('options')->nullable();
             $table->boolean('allow_multiple')->nullable();
             $table->string('correct_answer')->nullable();
             $table->foreignId('quiz_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();

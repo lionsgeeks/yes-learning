@@ -9,7 +9,7 @@ use Inertia\Inertia;
 Route::middleware(['auth', 'verified', "role:user"])->group(function () {
     Route::resource("quiz", QuizController::class);
 
-    Route::post('/store/scre', [QuizController::class, 'storeScore'])->name('store.score');
+    Route::post('/store/score', [QuizController::class, 'storeScore'])->name('store.score');
 });
 
 
@@ -18,4 +18,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::get('/quiz', function () {
         return Inertia::render('quiz/index');
     })->name('quiz.index');
+
+
+    Route::delete('/question/{question}', [QuizController::class, 'destroyQuestion'])->name('question.destroy');
 });

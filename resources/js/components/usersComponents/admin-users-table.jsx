@@ -61,9 +61,9 @@ export default function AdminUsersTable({
 
     const filteredUsers = users.filter(
         (user) =>
-            user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.role.toLowerCase().includes(searchQuery.toLowerCase())
+            user.name?.toLowerCase().includes(searchQuery?.toLowerCase()) ||
+            user.email?.toLowerCase().includes(searchQuery?.toLowerCase()) ||
+            user.role?.toLowerCase().includes(searchQuery?.toLowerCase())
     );
 
     const handleDeleteClick = (userId) => {
