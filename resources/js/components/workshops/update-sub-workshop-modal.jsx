@@ -35,33 +35,33 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
     duration: subWorkshop.duration,
 
     name:{
-        nameen: JSON.parse(subWorkshop.name).nameen,
-        namefr:  JSON.parse(subWorkshop.name).namefr,
-        namear:  JSON.parse(subWorkshop.name).namear,
+        en: JSON.parse(subWorkshop.name).en,
+        fr:  JSON.parse(subWorkshop.name).fr,
+        ar:  JSON.parse(subWorkshop.name).ar,
     },
     description:{
-        descriptionen: JSON.parse(subWorkshop.description).descriptionen,
-        descriptionfr:  JSON.parse(subWorkshop.description).descriptionfr,
-        descriptionar:  JSON.parse(subWorkshop.description).descriptionar,
+        en: JSON.parse(subWorkshop.description).en,
+        fr:  JSON.parse(subWorkshop.description).fr,
+        fr:  JSON.parse(subWorkshop.description).fr,
     },
 
     prerequisite:{
-        prerequisiteen: JSON.parse(subWorkshop.prerequisite).prerequisiteen,
-        prerequisitefr:  JSON.parse(subWorkshop.prerequisite).prerequisitefr,
-        prerequisitear:  JSON.parse(subWorkshop.prerequisite).prerequisitear
+        en: JSON.parse(subWorkshop.prerequisite).en,
+        fr:  JSON.parse(subWorkshop.prerequisite).fr,
+        ar:  JSON.parse(subWorkshop.prerequisite).ar
     },
 
 
     instructor:  {
-      instructoren: JSON.parse(subWorkshop.instructor).instructoren,
-      instructorfr: JSON.parse(subWorkshop.instructor).instructorfr,
-      instructorar: JSON.parse(subWorkshop.instructor).instructorar,
+      en: JSON.parse(subWorkshop.instructor).en,
+      fr: JSON.parse(subWorkshop.instructor).fr,
+      ar: JSON.parse(subWorkshop.instructor).ar,
     }
     ,
     meetLink: {
-        meetlinken: JSON.parse(subWorkshop.meetLink).meetlinken,
-        meetlinkfr: JSON.parse(subWorkshop.meetLink).meetlinkfr,
-        meetlinkar: JSON.parse(subWorkshop.meetLink).meetlinkar,
+        en: JSON.parse(subWorkshop.meetLink).en,
+        fr: JSON.parse(subWorkshop.meetLink).fr,
+        ar: JSON.parse(subWorkshop.meetLink).ar,
     },
     allowQuestions: subWorkshop.allowQuestions ,
     requireRegistration: subWorkshop.requireRegistration ,
@@ -148,11 +148,11 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
                       <Input
                         id={`name-${lang}`}
                         placeholder={`name (${lang.toUpperCase()})`}
-                        value={data.name[`name${lang}`]}
+                        value={data.name[`${lang}`]}
                         onChange={(e) =>
                           setData("name", {
                             ...data.name,
-                            [`name${lang}`]: e.target.value,
+                            [`${lang}`]: e.target.value,
                           })
                         }
                       />
@@ -163,11 +163,11 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
                       <Input
                         id={`description-${lang}`}
                         placeholder="https://meet.google.com/..."
-                        value={data.description[`description${lang}`]}
+                        value={data.description[`${lang}`]}
                         onChange={(e) =>
                           setData("description", {
                             ...data.description,
-                            [`description${lang}`]: e.target.value,
+                            [`${lang}`]: e.target.value,
                           })
                         }
                       />
@@ -177,11 +177,11 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
                       <Textarea
                         id={`prerequisite-${lang}`}
                         placeholder="https://meet.google.com/..."
-                        value={data.prerequisite[`prerequisite${lang}`]}
+                        value={data.prerequisite[`${lang}`]}
                         onChange={(e) =>
                           setData("prerequisite", {
                             ...data.prerequisite,
-                            [`prerequisite${lang}`]: e.target.value,
+                            [`${lang}`]: e.target.value,
                           })
                         }
                       />
@@ -253,11 +253,11 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
                       <Input
                         id={`instructor-${lang}`}
                         placeholder={`Instructor (${lang.toUpperCase()})`}
-                        value={data.instructor[`instructor${lang}`]}
+                        value={data.instructor[`${lang}`]}
                         onChange={(e) =>
                           setData("instructor", {
                             ...data.instructor,
-                            [`instructor${lang}`]: e.target.value,
+                            [`${lang}`]: e.target.value,
                           })
                         }
                       />
@@ -268,11 +268,11 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
                       <Input
                         id={`meetLink-${lang}`}
                         placeholder="https://meet.google.com/..."
-                        value={data.meetLink[`meetlink${lang}`]}
+                        value={data.meetLink[`${lang}`]}
                         onChange={(e) =>
                           setData("meetLink", {
                             ...data.meetLink,
-                            [`meetlink${lang}`]: e.target.value,
+                            [`${lang}`]: e.target.value,
                           })
                         }
                       />

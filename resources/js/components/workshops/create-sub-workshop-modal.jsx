@@ -25,34 +25,34 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters ,workshop 
 
     const { data, setData, post, processing, errors } = useForm({
         name:{
-            nameen: "",
-            namefr: "",
-            namear: "",
+            en: "",
+            fr: "",
+            ar: "",
         },
         description:{
-            descriptionen: "",
-            descriptionfr: "",
-            descriptionar: "",
+            en: "",
+            fr: "",
+            fr: "",
         },
         workshop_id: workshop,
         prerequisite:{
-            prerequisiteen: "",
-            prerequisitefr: "",
-            prerequisitear: "",
+            en: "",
+            fr: "",
+            ar: "",
         },
         chapter_id: '',
         date: '',
         time: '',
         duration: '90',
         instructor:{
-            instructoren:"",
-            instructorfr:"",
-            instructorar:"",
+            en:"",
+            fr:"",
+            ar:"",
         },
         meetLink:{
-            meetlinken:"",
-            meetlinkfr:"",
-            meetlinkar:"",
+            en:"",
+            fr:"",
+            ar:"",
         },
         allowQuestions: true,
         requireRegistration: true,
@@ -132,11 +132,11 @@ console.log(data);
                                             <Input
                                                 id={`name-${lang}`}
                                                 placeholder={`name (${lang.toUpperCase()})`}
-                                                value={data.name[`name${lang}`]}
+                                                value={data.name[`${lang}`]}
                                                 onChange={(e) =>
                                                     setData("name", {
                                                         ...data.name,
-                                                        [`name${lang}`]: e.target.value,
+                                                        [`${lang}`]: e.target.value,
                                                     })
                                                 }
                                             />
@@ -148,11 +148,11 @@ console.log(data);
                                             <Input
                                                 id={`description-${lang}`}
                                                 placeholder={`description (${lang.toUpperCase()})`}
-                                                value={data.description[`description${lang}`]}
+                                                value={data.description[`${lang}`]}
                                                 onChange={(e) =>
                                                     setData("description", {
                                                         ...data.description,
-                                                        [`description${lang}`]: e.target.value,
+                                                        [`${lang}`]: e.target.value,
                                                     })
                                                 }
                                             />
@@ -162,11 +162,11 @@ console.log(data);
                                             <Textarea
                                                 id={`prerequisite-${lang}`}
                                                 placeholder={`prerequisite (${lang.toUpperCase()})`}
-                                                value={data.prerequisite[`prerequisite${lang}`]}
+                                                value={data.prerequisite[`${lang}`]}
                                                 onChange={(e) =>
                                                     setData("prerequisite", {
                                                         ...data.prerequisite,
-                                                        [`prerequisite${lang}`]: e.target.value,
+                                                        [`${lang}`]: e.target.value,
                                                     })
                                                 }
                                             />
@@ -287,11 +287,11 @@ console.log(data);
                                             <Input
                                                 id={`instructor-${lang}`}
                                                 placeholder={`Instructor (${lang.toUpperCase()})`}
-                                                value={data.instructor[`instructor${lang}`]}
+                                                value={data.instructor[`${lang}`]}
                                                 onChange={(e) =>
                                                     setData("instructor", {
                                                         ...data.instructor,
-                                                        [`instructor${lang}`]: e.target.value,
+                                                        [`${lang}`]: e.target.value,
                                                     })
                                                 }
                                             />
@@ -302,11 +302,11 @@ console.log(data);
                                             <Input
                                                 id={`meetLink-${lang}`}
                                                 placeholder="https://meet.google.com/..."
-                                                value={data.meetLink[`meetlink${lang}`]}
+                                                value={data.meetLink[`${lang}`]}
                                                 onChange={(e) =>
                                                     setData("meetLink", {
                                                         ...data.meetLink,
-                                                        [`meetlink${lang}`]: e.target.value,
+                                                        [`${lang}`]: e.target.value,
                                                     })
                                                 }
                                             />

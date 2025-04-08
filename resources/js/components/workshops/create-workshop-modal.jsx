@@ -20,14 +20,14 @@ export function CreateWorkshopModal({ open, onOpenChange, courses, workshop }) {
   const { data, setData, post, put, processing, errors } = useForm({
 
     name: {
-        nameen: workshop ? JSON.parse(workshop.name)?.nameen || "" : "",
-        namefr: workshop ? JSON.parse(workshop.name)?.namefr || "" : "",
-        namear: workshop ? JSON.parse(workshop.name)?.namear || "" : "",
+        en: workshop ? JSON.parse(workshop.name)?.en || "" : "",
+        fr: workshop ? JSON.parse(workshop.name)?.fr || "" : "",
+        ar: workshop ? JSON.parse(workshop.name)?.ar || "" : "",
       },
       description: {
-        descriptionen: workshop ? JSON.parse(workshop.description)?.descriptionen || "" : "",
-        descriptionfr: workshop ? JSON.parse(workshop.description)?.descriptionfr || "" : "",
-        descriptionar: workshop ? JSON.parse(workshop.description)?.descriptionar || "" : "",
+        en: workshop ? JSON.parse(workshop.description)?.en || "" : "",
+        fr: workshop ? JSON.parse(workshop.description)?.fr || "" : "",
+        fr: workshop ? JSON.parse(workshop.description)?.fr || "" : "",
       },
     course_id: workshop?.course_id || "",
   });
@@ -81,11 +81,11 @@ export function CreateWorkshopModal({ open, onOpenChange, courses, workshop }) {
                                             <Input
                                                 id={`name-${lang}`}
                                                 placeholder={`name (${lang.toUpperCase()})`}
-                                                value={data.name[`name${lang}`]}
+                                                value={data.name[`${lang}`]}
                                                 onChange={(e) =>
                                                     setData("name", {
                                                         ...data.name,
-                                                        [`name${lang}`]: e.target.value,
+                                                        [`${lang}`]: e.target.value,
                                                     })
                                                 }
                                             />
@@ -96,11 +96,11 @@ export function CreateWorkshopModal({ open, onOpenChange, courses, workshop }) {
                                             <Input
                                                 id={`description-${lang}`}
                                                 placeholder={`description (${lang.toUpperCase()})`}
-                                                value={data.description[`description${lang}`]}
+                                                value={data.description[`${lang}`]}
                                                 onChange={(e) =>
                                                     setData("description", {
                                                         ...data.description,
-                                                        [`description${lang}`]: e.target.value,
+                                                        [`${lang}`]: e.target.value,
                                                     })
                                                 }
                                             />

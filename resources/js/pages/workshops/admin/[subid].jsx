@@ -90,7 +90,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                 </Button>
                 <div className="flex-1">
                     <div className="flex items-center gap-2">
-                        <h1 className="text-2xl font-bold">{JSON.parse(subWorkshop.name).nameen}</h1>
+                        <h1 className="text-2xl font-bold">{JSON.parse(subWorkshop.name).en}</h1>
                         {isPublished ? (
                             <Badge>Published</Badge>
                         ) : (
@@ -152,7 +152,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                 <DeleteSubWorkshopDialog
                                     open={isDeleteDialogOpen}
                                     onOpenChange={setIsDeleteDialogOpen}
-                                    workshopTitle={JSON.parse(subWorkshop.name).nameen}
+                                    workshopTitle={JSON.parse(subWorkshop.name).en}
                                     workshopId={subWorkshop.id}
                                 />
                             </DropdownMenuContent>
@@ -183,7 +183,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                 <Card className="md:col-span-2">
                     <CardHeader className="pb-3">
                         <CardTitle>Overview</CardTitle>
-                        <CardDescription>{JSON.parse(subWorkshop.name).nameen}</CardDescription>
+                        <CardDescription>{JSON.parse(subWorkshop.name).en}</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-2 gap-4">
@@ -244,7 +244,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                 Prerequisites
                             </div>
                             <ul className="text-sm list-disc pl-5 space-y-1">
-                                    <li >{JSON.parse(subWorkshop.prerequisite).prerequisiteen}</li>
+                                    <li >{JSON.parse(subWorkshop.prerequisite).en}</li>
                             </ul>
                         </div>
                     </CardContent>

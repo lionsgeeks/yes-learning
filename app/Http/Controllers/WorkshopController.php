@@ -57,13 +57,13 @@ class WorkshopController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|array',
-            "name.nameen"=>"required|string",
-            "name.namefr"=>"required|string",
-            "name.namear"=>"required|string",
+            "name.en"=>"required|string",
+            "name.fr"=>"required|string",
+            "name.ar"=>"required|string",
             'description' => 'required|array',
-            "description.descriptionen"=>"required|string",
-            "description.descriptionfr"=>"required|string",
-            "description.descriptionar"=>"required|string",
+            "description.en"=>"required|string",
+            "description.fr"=>"required|string",
+            "description.fr"=>"required|string",
             "course_id"=>"required"
         ]);
         Workshop::create([
@@ -107,7 +107,7 @@ class WorkshopController extends Controller
      */
     public function update(Request $request, Workshop $workshop)
     {
-     
+
         $workshop->update([
             'name' => json_encode($request->name),
             'description' => json_encode($request->description),

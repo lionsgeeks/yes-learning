@@ -25,9 +25,9 @@ export function WorkshopCard({ workshop, courses }) {
                 <div className="flex items-start justify-between">
                     <div>
                         <div className="flex items-center gap-2">
-                            <CardTitle className="text-lg">{JSON.parse(workshop.name).nameen}</CardTitle>
+                            <CardTitle className="text-lg">{JSON.parse(workshop.name).en}</CardTitle>
                         </div>
-                        <CardDescription className="line-clamp-1 mt-1">{JSON.parse(workshop.description).descriptionar}</CardDescription>
+                        <CardDescription className="line-clamp-1 mt-1">{JSON.parse(workshop.description).fr}</CardDescription>
                     </div>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild data-dropdown-trigger onClick={handleClick}>

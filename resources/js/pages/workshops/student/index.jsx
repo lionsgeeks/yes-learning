@@ -30,7 +30,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
     });
     const filteredWorkshops = workshops.filter((workshop) => {
         // Filter by search query
-        const matchesSearch = workshop.name || workshop.instructor || workshop.description;
+        const matchesSearch = JSON.parse(workshop.name).en || JSON.parse(workshop.instructor).en || JSON.parse(workshop.description).en;
 
         // Filter by language
         const matchesLanguage = selectedLanguage === 'all' || workshop.language === selectedLanguage;
@@ -146,7 +146,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                     <Card key={workshop.id} className="flex flex-col overflow-hidden">
                                         <CardHeader className="pb-3">
                                             <div className="flex items-start justify-end">{getStatusBadge(workshop.date)}</div>
-                                            <CardTitle className="mt-2">{workshop.name}</CardTitle>
+                                            <CardTitle className="mt-2">{JSON.parse(workshop.name).en}</CardTitle>
                                             <CardDescription>{workshop.chapter.title}</CardDescription>
                                         </CardHeader>
                                         <CardContent className="flex-1">
@@ -163,22 +163,22 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 </div>
                                                 <div className="flex items-center text-sm">
                                                     <Video className="text-muted-foreground mr-2 h-4 w-4" />
-                                                    <span>Instructor: {JSON.parse(workshop.instructor).instructoren}</span>
+                                                    <span>Instructor: {JSON.parse(workshop.instructor).en}</span>
                                                 </div>
-                                                <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{workshop.description}</p>
+                                                <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{JSON.parse(workshop.description).en}</p>
                                                 <div className="text-muted-foreground mt-2 text-xs">
-                                                    <span className="font-medium">Prerequisites:</span> {workshop.prerequisite}
+                                                    <span className="font-medium">Prerequisites:</span> {JSON.parse(workshop.prerequisite).en}
                                                 </div>
                                                 <div className="mt-2 flex items-center justify-between text-sm">
                                                     <span className="text-muted-foreground">
                                                         {workshop.enrolledCount}  enrolled
                                                     </span>
-                                                   
+
                                                 </div>
                                             </div>
                                         </CardContent>
                                         <CardFooter className="flex gap-2 pt-0">
-                                            {/* {console.log(JSON.parse(workshop.meetLink).meetlinkar)} */}
+                                            {/* {console.log(JSON.parse(workshop.meetLink).ar)} */}
                                             {!workshop.enrolled && workshop.requireRegistration ? (
                                                 <>
                                                     <Button
@@ -192,7 +192,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                             ) : (
                                                 <>
                                                     <Button variant="outline" className="flex-1" asChild>
-                                                        <a href={JSON.parse(workshop.meetLink).meetlinken} target="_blank" rel="noopener noreferrer">
+                                                        <a href={JSON.parse(workshop.meetLink).en} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             Join
                                                         </a>
@@ -243,7 +243,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
 
                     {workshopToRegister && (
                         <div className="py-4">
-                            <h3 className="text-lg font-medium">{workshopToRegister.name}</h3>
+                            <h3 className="text-lg font-medium">{JSON.parse(workshopToRegister.name).en}</h3>
                             <div className="mt-2 flex items-center gap-2">
                                 <Calendar className="text-muted-foreground h-4 w-4" />
                                 <span className="text-sm">{format(workshopToRegister.date, 'EEEE, MMMM d, yyyy')}</span>

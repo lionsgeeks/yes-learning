@@ -61,7 +61,7 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
                     </Button>
                     <div className="flex-1">
                         <div className="flex items-center gap-2">
-                            <h1 className="text-2xl font-bold">{JSON.parse(workshop.name).nameen}</h1>
+                            <h1 className="text-2xl font-bold">{JSON.parse(workshop.name).en}</h1>
                             {/* {isPublished ? (
                                 <Badge className="bg-green-500">Published</Badge>
                             ) : (
@@ -119,7 +119,7 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
                     <Card className="md:col-span-2">
                         <CardHeader className="pb-2">
                             <CardTitle>Workshop Overview</CardTitle>
-                            <CardDescription>{JSON.parse(workshop.description).descriptionen}</CardDescription>
+                            <CardDescription>{JSON.parse(workshop.description).en}</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid gap-4 sm:grid-cols-2">

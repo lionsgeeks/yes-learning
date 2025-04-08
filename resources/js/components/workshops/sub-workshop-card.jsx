@@ -10,7 +10,7 @@ export function SubWorkshopCard({ subWorkshop }) {
   const missingInfo = []
   if (!subWorkshop.date) missingInfo.push("date")
   if (!subWorkshop.time) missingInfo.push("time")
-  if (!JSON.parse(subWorkshop.instructor).instructoren) missingInfo.push("instructor")
+  if (!JSON.parse(subWorkshop.instructor).en) missingInfo.push("instructor")
   if (!subWorkshop.meetLink) missingInfo.push("meet link")
 
   // Check if the sub-workshop has already passed
@@ -20,7 +20,7 @@ export function SubWorkshopCard({ subWorkshop }) {
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between">
           <div>
-            <CardTitle className="text-lg">{JSON.parse(subWorkshop.name).nameen}</CardTitle>
+            <CardTitle className="text-lg">{JSON.parse(subWorkshop.name).en}</CardTitle>
             <div className="flex items-center gap-2 mt-1">
               <Badge variant="outline" className="text-xs">
                 {subWorkshop.subCourse}
@@ -34,9 +34,9 @@ export function SubWorkshopCard({ subWorkshop }) {
       </CardHeader>
       <CardContent className="pb-2 flex-grow">
         <div className="flex flex-col gap-2">
-          {JSON.parse(subWorkshop.description).descriptionen && (
+          {JSON.parse(subWorkshop.description).en && (
             <p className="text-sm text-muted-foreground line-clamp-2">
-              {JSON.parse(subWorkshop.description).descriptionen}
+              {JSON.parse(subWorkshop.description).en}
             </p>
           )}
 
@@ -60,11 +60,11 @@ export function SubWorkshopCard({ subWorkshop }) {
             </span>
           </div>
 
-          {JSON.parse(subWorkshop.instructor).instructoren && (
+          {JSON.parse(subWorkshop.instructor).en && (
             <div className="mt-1">
               <div className="text-xs font-medium text-muted-foreground mb-1">Instructor:</div>
               <div className="flex items-center gap-2 text-sm">
-                <span>{JSON.parse(subWorkshop.instructor).instructoren}</span>
+                <span>{JSON.parse(subWorkshop.instructor).en}</span>
               </div>
             </div>
           )}
