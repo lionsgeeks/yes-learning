@@ -1,20 +1,21 @@
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
-import { ArrowLeft, Plus, Save, Trash2, MoveDown, MoveUp, Copy } from "lucide-react"
-import { Link, useForm } from "@inertiajs/react"
+import {  Plus, Save, Trash2,  Copy } from "lucide-react"
+import { useForm } from "@inertiajs/react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+
+// TODO* : disabled the button if any inputs are empty
 
 export default function CreateQuizPage({ course_id, courseQuiz }) {
     const { data, setData, post, delete: destroy } = useForm({
         quizTitle: {
-            en:  courseQuiz ? JSON.parse(courseQuiz.title)?.en || "" : "",
+            en: courseQuiz ? JSON.parse(courseQuiz.title)?.en || "" : "",
             fr: courseQuiz ? JSON.parse(courseQuiz.title)?.fr || "" : "",
             ar: courseQuiz ? JSON.parse(courseQuiz.title)?.ar || "" : "",
         },
@@ -27,8 +28,7 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
         quizPublish: courseQuiz?.publish || 0,
         questions: courseQuiz?.questions || [],
         course_id: course_id,
-    });
-
+    });;
 
     const addQuestion = (type) => {
         const newId = data.questions?.length > 0 ? Math.max(...data.questions?.map((q) => q.id)) + 1 : 1
@@ -40,12 +40,23 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
                 newQuestion = {
                     id: newId,
                     type: "multiple-choice",
-                    text: "",
-                    options: [
-                        { id: 1, text: "", isCorrect: true },
-                        { id: 2, text: "", isCorrect: false },
-                        { id: 3, text: "", isCorrect: false },
-                        { id: 4, text: "", isCorrect: false },
+                    text: {
+                        en: '',
+                        fr: '',
+                        ar: '',
+                    },
+                    options: [{
+                        id: 1, text: { en: '', fr: '', ar: '', }, isCorrect: true
+                    },
+                    {
+                        id: 2, text: { en: '', fr: '', ar: '', }, isCorrect: false
+                    },
+                    {
+                        id: 3, text: { en: '', fr: '', ar: '', }, isCorrect: false
+                    },
+                    {
+                        id: 4, text: { en: '', fr: '', ar: '', }, isCorrect: false
+                    },
                     ],
                     allow_multiple: false,
                 }
@@ -54,7 +65,11 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
                 newQuestion = {
                     id: newId,
                     type: "true-false",
-                    text: "",
+                    text: {
+                        en: '',
+                        fr: '',
+                        ar: '',
+                    },
                     correct_answer: true,
                 }
                 break
@@ -62,22 +77,28 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
                 newQuestion = {
                     id: newId,
                     type: "short-answer",
-                    text: "",
-                    correct_answer: "",
+                    text: {
+                        en: '',
+                        fr: '',
+                        ar: '',
+                    },
+                    correct_answer: {
+                        en: '',
+                        fr: '',
+                        ar: '',
+                    },
                 }
                 break
             default:
                 newQuestion = {
                     id: newId,
-                    type: "multiple-choice",
-                    text: "",
-                    options: [
-                        { id: 1, text: "", isCorrect: true },
-                        { id: 2, text: "", isCorrect: false },
-                        { id: 1, text: "", isCorrect: false },
-                        { id: 2, text: "", isCorrect: false },
-                    ],
-                    allow_multiple: false,
+                    type: "true-false",
+                    text: {
+                        en: '',
+                        fr: '',
+                        ar: '',
+                    },
+                    correct_answer: true,
                 }
         }
 
@@ -109,14 +130,17 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
     }
 
 
-    const updateQuestionText = (questionId, text) => {
+    const updateQuestionText = (questionId, lang, text) => {
         setData({
             ...data,
             questions: data.questions.map((q) => {
                 if (q.id === questionId) {
                     return {
                         ...q,
-                        text,  // Update question text
+                        text: {
+                            ...q.text,
+                            [lang]: text,  // Update only the text for the specified language
+                        },
                     };
                 }
                 return q;
@@ -125,7 +149,9 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
     };
 
 
-    const setCorrectOption = (questionId, optionId) => {
+
+    const setCorrectOption = (questionId, optionText, lang) => {
+
         setData({
             ...data,
             questions: data.questions.map((q) => {
@@ -138,7 +164,7 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
                             ...mcQuestion,
                             options: mcQuestion.options.map((o) => ({
                                 ...o,
-                                isCorrect: o.text === optionId ? !o.isCorrect : o.isCorrect,
+                                isCorrect: o.text[lang] === optionText ? !o.isCorrect : o.isCorrect,
                             })),
                         };
                     } else {
@@ -147,7 +173,7 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
                             ...mcQuestion,
                             options: mcQuestion.options.map((o) => ({
                                 ...o,
-                                isCorrect: o.text === optionId,
+                                isCorrect: o.text[lang] === optionText,
                             })),
                         };
                     }
@@ -158,7 +184,7 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
     };
 
 
-    const updateOptionText = (questionId, optionId, index, text) => {
+    const updateOptionText = (questionId, index, lang, text) => {
         setData({
             ...data,
             questions: data.questions.map((q) => {
@@ -169,7 +195,10 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
                             if (i === index) {
                                 return {
                                     ...o,
-                                    text, // Update option text at given index
+                                    text: {
+                                        ...(typeof o.text === 'object' && o.text !== null ? o.text : {}),
+                                        [lang]: text, // Update only the text for the specified language
+                                    },
                                 };
                             }
                             return o;
@@ -180,6 +209,7 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
             }),
         });
     };
+
 
     const toggleallow_multiple = (questionId) => {
         setData({
@@ -214,20 +244,24 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
     }
 
     // Short answer specific functions
-    const updateShortAnswer = (questionId, answer) => {
+    const updateShortAnswer = (questionId, lang, answer) => {
         setData({
             ...data,
             questions: data.questions.map((q) => {
                 if (q.id === questionId && q.type === "short-answer") {
                     return {
                         ...q,
-                        correct_answer: answer,
+                        correct_answer: {
+                            ...q.correct_answer,
+                            [lang]: answer, // Update only the answer for the specified language
+                        },
                     }
                 }
                 return q
             }),
         })
     }
+
 
     const renderQuestionEditor = (question, index) => {
 
@@ -257,122 +291,144 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-4 pt-0">
-                    <div className="grid gap-2">
-                        <Label htmlFor={`question-${question.id}`}>Question</Label>
-                        <Textarea
-                            id={`question-${question.id}`}
-                            value={question.text}
-                            onChange={(e) => updateQuestionText(question.id, e.target.value)}
-                            placeholder="Enter your question"
-                            disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
-                        />
-                    </div>
 
-                    {question.type === "multiple-choice" && (
-                        <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                                <Label>Answer Options</Label>
-                                <div className="flex items-center space-x-2">
-                                    <Checkbox
-                                        id={`allow-multiple-${question.id}`}
-                                        checked={question.allow_multiple}
-                                        onCheckedChange={() => toggleallow_multiple(question.id)}
-                                        disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
-                                    />
-                                    <Label htmlFor={`allow-multiple-${question.id}`} className="text-sm">
-                                        Allow multiple correct answers
-                                    </Label>
-                                </div>
-                            </div>
+                    <Tabs defaultValue="en">
+                        <TabsList className="grid w-full grid-cols-3">
+                            <TabsTrigger value="en">English</TabsTrigger>
+                            <TabsTrigger value="fr">French</TabsTrigger>
+                            <TabsTrigger value="ar">Arabic</TabsTrigger>
+                        </TabsList>
 
-                            {question.allow_multiple ? (
-                                <div className="space-y-2">
-                                    {question.options.map((option, index) => (
-                                        <div key={index} className="flex items-center space-x-2">
-                                            <Checkbox
-                                                id={`q${question.id}-option-${index}`}
-                                                checked={option.isCorrect}
-                                                onCheckedChange={() => setCorrectOption(question.id, option.text)}
+                        {["en", "fr", "ar"].map((lang) => (
+                            <TabsContent key={lang} value={lang}>
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <div className="grid gap-2">
+                                            <Label htmlFor={`question-${question.id}`}>Question</Label>
+                                            <Textarea
+                                                id={`question-${question.id}`}
+                                                value={question.text[lang]}
+                                                onChange={(e) => updateQuestionText(question.id, lang, e.target.value)}
+                                                placeholder="Enter your question"
                                                 disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
-
-                                            />
-                                            <Input
-                                                value={option.text}
-                                                onChange={(e) => updateOptionText(question.id, option.text, index, e.target.value)}
-                                                placeholder={`Option ${option.text}`}
-                                                className="flex-1"
-                                                disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
-
+                                                required
                                             />
                                         </div>
-                                    ))}
+                                    </div>
                                 </div>
-                            ) : (
-                                <RadioGroup>
-                                    {question.options.map((option, index) => (
-                                        <div key={index} className="flex items-center space-x-2">
-                                            <RadioGroupItem
-                                                value={option.text}
-                                                id={`q${question.id}-option-${option.text}`}
-                                                checked={option.isCorrect}
-                                                onClick={() => setCorrectOption(question.id, option.text)}
-                                                disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
 
-                                            />
-                                            <Input
-                                                value={option.text}
-                                                onChange={(e) => updateOptionText(question.id, option.text, index, e.target.value)}
-                                                placeholder={`Option ${option.text}`}
-                                                className="flex-1"
-                                                disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
-
-                                            />
-
+                                {question.type === "multiple-choice" && (
+                                    <div className="space-y-2">
+                                        <div className="flex items-center justify-between">
+                                            <Label>Answer Options</Label>
+                                            <div className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id={`allow-multiple-${question.id}`}
+                                                    checked={question.allow_multiple}
+                                                    onCheckedChange={() => toggleallow_multiple(question.id)}
+                                                    disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
+                                                />
+                                                <Label htmlFor={`allow-multiple-${question.id}`} className="text-sm">
+                                                    Allow multiple correct answers
+                                                </Label>
+                                            </div>
                                         </div>
-                                    ))}
-                                </RadioGroup>
-                            )}
-                        </div>
-                    )}
 
-                    {question.type === "true-false" && (
-                        <div className="space-y-2">
-                            <Label>Correct Answer</Label>
-                            <RadioGroup
-                                value={question.correct_answer == "1" ? "true" : "false"}
-                                onValueChange={(value) => setTrueFalseAnswer(question.id, value == "true")}
-                                className="flex space-x-4"
-                                disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
+                                        {question.allow_multiple ? (
+                                            <div className="space-y-2">
+                                                {question.options.map((option, index) => (
+                                                    <div key={index} className="flex items-center space-x-2">
+                                                        <Checkbox
+                                                            id={`q${question.id}-option-${index}`}
+                                                            checked={option.isCorrect}
+                                                            onCheckedChange={() => setCorrectOption(question.id, option.text[lang], lang)}
+                                                            disabled={courseQuiz?.questions?.some((q) => q.id === question.id) || !data.questions.find((q) => q.id === question.id)?.options.every(
+                                                                (opt) => opt.text?.[lang]?.trim()
+                                                            )}
 
-                            >
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="true" id={`q${question.id}-true`} />
-                                    <Label htmlFor={`q${question.id}-true`}>True</Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="false" id={`q${question.id}-false`} />
-                                    <Label htmlFor={`q${question.id}-false`}>False</Label>
-                                </div>
-                            </RadioGroup>
-                        </div>
-                    )}
+                                                        />
+                                                        <Input
+                                                            value={option.text[lang]}
+                                                            onChange={(e) => updateOptionText(question.id, index, lang, e.target.value)}
+                                                            placeholder={`Option ${option.text[lang]}`}
+                                                            className="flex-1"
+                                                            disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
+                                                            required
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <RadioGroup>
+                                                {question.options.map((option, index) => (
+                                                    <div key={index} className="flex items-center space-x-2">
+                                                        <RadioGroupItem
+                                                            value={option.text[lang]}
+                                                            id={`q${question.id}-option-${option.text[lang]}`}
+                                                            checked={option.isCorrect}
+                                                            onClick={() => setCorrectOption(question.id, option.text[lang], lang)}
+                                                            disabled={courseQuiz?.questions?.some((q) => q.id === question.id) || !data.questions.find((q) => q.id === question.id)?.options.every(
+                                                                (opt) => opt.text?.[lang]?.trim()
+                                                            )}
 
-                    {question.type === "short-answer" && (
-                        <div className="space-y-2">
-                            <Label htmlFor={`answer-${question.id}`}>Correct Answer</Label>
-                            <Input
-                                id={`answer-${question.id}`}
-                                value={question.correct_answer}
-                                onChange={(e) => updateShortAnswer(question.id, e.target.value)}
-                                placeholder="Enter the correct answer"
-                                disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
+                                                        />
+                                                        <Input
+                                                            value={option.text[lang]}
+                                                            onChange={(e) => updateOptionText(question.id, index, lang, e.target.value)}
+                                                            placeholder={`Option ${option.text[lang]}`}
+                                                            className="flex-1"
+                                                            disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
+                                                            required
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </RadioGroup>
+                                        )}
+                                    </div>
+                                )}
 
-                            />
-                            <p className="text-sm text-muted-foreground">
-                                Students must enter this exact answer to be marked correct.
-                            </p>
-                        </div>
-                    )}
+                                {question.type === "true-false" && (
+                                    <div className="space-y-2">
+                                        <Label>Correct Answer</Label>
+                                        <RadioGroup
+                                            value={question.correct_answer == "1" ? "true" : "false"}
+                                            onValueChange={(value) => setTrueFalseAnswer(question.id, value == "true")}
+                                            className="flex space-x-4"
+                                            disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
+
+                                        >
+                                            <div className="flex items-center space-x-2">
+                                                <RadioGroupItem value="true" id={`q${question.id}-true`} />
+                                                <Label htmlFor={`q${question.id}-true`}>True</Label>
+                                            </div>
+                                            <div className="flex items-center space-x-2">
+                                                <RadioGroupItem value="false" id={`q${question.id}-false`} />
+                                                <Label htmlFor={`q${question.id}-false`}>False</Label>
+                                            </div>
+                                        </RadioGroup>
+                                    </div>
+                                )}
+
+                                {question.type === "short-answer" && (
+                                    <div className="space-y-2">
+                                        <Label htmlFor={`answer-${question.id}`}>Correct Answer</Label>
+                                        <Input
+                                            id={`answer-${question.id}`}
+                                            value={question.correct_answer[lang]}
+                                            onChange={(e) => updateShortAnswer(question.id, lang, e.target.value)}
+                                            placeholder="Enter the correct answer"
+                                            disabled={courseQuiz?.questions?.some((q) => q.id === question.id)}
+                                            required
+                                        />
+                                        <p className="text-sm text-muted-foreground">
+                                            Students must enter this exact answer to be marked correct.
+                                        </p>
+                                    </div>
+                                )}
+                            </TabsContent>
+                        ))}
+                    </Tabs>
+
 
                 </CardContent>
             </Card>
@@ -468,24 +524,7 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
                                 </TabsContent>
                             ))}
                         </Tabs>
-                        {/* <div className="grid gap-2">
-                            <Label htmlFor="quizTitle">Quiz Title</Label>
-                            <Input
-                                id="quizTitle"
-                                value={data.quizTitle}
-                                onChange={(e) => setData('quizTitle', e.target.value)}
-                                placeholder="Enter quiz title"
-                            />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="quizDescription">Quiz Description</Label>
-                            <Textarea
-                                id="quizDescription"
-                                value={data.quizDescription}
-                                onChange={(e) => setData('quizDescription', e.target.value)}
-                                placeholder="Enter quiz description"
-                            />
-                        </div> */}
+
                         <div className="grid gap-2">
                             <Label htmlFor="quizTime">Time Limit (minutes)</Label>
                             <Input
@@ -508,53 +547,57 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
                     </CardContent>
                 </Card>
 
-                {data.questions?.length === 0 ? (
-                    <div className="text-center py-12 border rounded-lg">
-                        <h3 className="text-lg font-medium mb-2">No Questions Added</h3>
-                        <p className="text-muted-foreground mb-4">Add your first question to get started</p>
-                        <div className="flex flex-wrap justify-center gap-2">
-                            <Button onClick={() => addQuestion("multiple-choice")}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Multiple Choice
-                            </Button>
-                            <Button onClick={() => addQuestion("true-false")}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                True/False
-                            </Button>
-                            <Button onClick={() => addQuestion("short-answer")}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Short Answer
-                            </Button>
-                        </div>
+                <form onSubmit={handleSubmit}>
+                    {
+                        data.questions?.length === 0 ?
+                            <div className="text-center py-12 border rounded-lg">
+                                <h3 className="text-lg font-medium mb-2">No Questions Added</h3>
+                                <p className="text-muted-foreground mb-4">Add your first question to get started</p>
+                                <div className="flex flex-wrap justify-center gap-2">
+                                    <Button type="button" onClick={() => addQuestion("multiple-choice")}>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Multiple Choice
+                                    </Button>
+                                    <Button type="button" onClick={() => addQuestion("true-false")}>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        True/False
+                                    </Button>
+                                    <Button type="button" onClick={() => addQuestion("short-answer")}>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Short Answer
+                                    </Button>
+                                </div>
+                            </div>
+                            :
+                            <>
+                                {data.questions?.map((question, index) => renderQuestionEditor(question, index))}
+
+                                <div className="flex flex-wrap gap-2 mt-6">
+                                    <Button type="button" onClick={() => addQuestion("multiple-choice")}>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Add Multiple Choice
+                                    </Button>
+                                    <Button type="button" onClick={() => addQuestion("true-false")}>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Add True/False
+                                    </Button>
+                                    <Button type="button" onClick={() => addQuestion("short-answer")}>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Add Short Answer
+                                    </Button>
+                                </div>
+                            </>
+                    }
+                    <div className="flex justify-end gap-2 mt-8">
+                        <Button type="submit"
+                        >
+                            <Save className="mr-2 h-4 w-4" />
+                            Save Quiz
+                        </Button>
                     </div>
-                ) : (
-                    <>
-                        {data.questions?.map((question, index) => renderQuestionEditor(question, index))}
-
-                        <div className="flex flex-wrap gap-2 mt-6">
-                            <Button onClick={() => addQuestion("multiple-choice")}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Multiple Choice
-                            </Button>
-                            <Button onClick={() => addQuestion("true-false")}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add True/False
-                            </Button>
-                            <Button onClick={() => addQuestion("short-answer")}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Short Answer
-                            </Button>
-                        </div>
-                    </>
-                )}
+                </form>
             </div>
 
-            <div className="flex justify-end gap-2 mt-8">
-                <Button onClick={handleSubmit}>
-                    <Save className="mr-2 h-4 w-4" />
-                    Save Quiz
-                </Button>
-            </div>
         </div>
     )
 }

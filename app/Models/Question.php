@@ -17,6 +17,12 @@ class Question extends Model
         'correct_answer',
     ];
 
+    protected $casts = [
+        'question',
+        'options',
+        'correct_answer',
+    ];
+
 
     public function quiz()
     {

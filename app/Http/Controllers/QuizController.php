@@ -54,18 +54,16 @@ class QuizController extends Controller
             'course_id' => $request->course_id,
         ];
 
-        $quiz = Quiz::where('course_id', $request->course_id)->with('questions')->first();
-
-        if (!$quiz) {
-            $quiz = Quiz::create($quizData);
-        } else {
-            $quiz->update($quizData);
-        }
+        $quiz = Quiz::updateOrCreate(
+            ['course_id' => $request->course_id],
+            $quizData
+        );
 
         $existingIds = $quiz->questions->pluck('id')->toArray();
 
         foreach ($request->questions as $quest) {
-            // Skip if this question already exists
+
+            // if question id already exists then skip and move to the next question
             if (!empty($quest['id']) && in_array($quest['id'], $existingIds)) {
                 continue;
             }
@@ -77,10 +75,10 @@ class QuizController extends Controller
             Question::create([
                 'quiz_id' => $quiz->id,
                 'type' => $quest['type'],
-                'question' => $quest['text'],
+                'question' => json_encode($quest['text']),
                 'options' => $options,
                 'allow_multiple' => $quest['allow_multiple'] ?? null,
-                'correct_answer' => $quest['correct_answer'] ?? null,
+                'correct_answer' => isset($quest['correct_answer'])  ? json_encode($quest['correct_answer']) : null,
             ]);
         }
 
@@ -127,17 +125,14 @@ class QuizController extends Controller
     {
         $data = $request->query('data');
 
-        $score = $data['score'];
-        $time = $data['time'];
         $answers = $data['answers'];
-        $quiz_id = $data['quiz_id'];
         $user = Auth::user();
 
         QuizUser::create([
             'user_id' => $user->id,
-            'quiz_id' => $quiz_id,
-            'score' => $score,
-            'time' => $time,
+            'quiz_id' => $data['quiz_id'],
+            'score' => $data['score'],
+            'time' => $data['time'],
             'answers' => json_encode($answers),
         ]);
     }
