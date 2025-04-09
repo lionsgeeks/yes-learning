@@ -12,6 +12,7 @@ import { CheckCircle, Clock, Filter, Image, Search, Star, Tag, Users } from "luc
 const Course = () => {
     const { courses } = usePage().props
 
+
     const breadcrumbs = [{ title: "Courses", href: `/courses`, },];
 
     return (
@@ -24,7 +25,6 @@ const Course = () => {
                         <p className="text-muted-foreground mt-1">Discover and enroll in courses to enhance your skills</p>
                     </div>
                 </div>
-
                 <Tabs className="" defaultValue="all">
                     <div className="flex flex-col  items-center lg:flex-row gap-x-2 justify-between">
 
@@ -134,6 +134,9 @@ function CourseCard({ course }) {
             onError: (e) => { },
         })
     }
+
+
+
 
 
     return (
