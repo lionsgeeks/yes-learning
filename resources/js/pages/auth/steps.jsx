@@ -3,13 +3,21 @@ import { Globe, Check, ChevronLeft, ChevronRight, Layers } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 import AppLayout from "@/layouts/app-layout";
-import { router } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 
 
-export default function MultiStepSelector() {
+export default function MultiStepSelector({courses}) {
     const [step, setStep] = useState(1)
-    const [selectedLanguage, setSelectedLanguage] = useState("en")
-    const [selectedModules, setSelectedModules] = useState([])
+    const [selectedLanguage, setSelectedLanguage] = useState("")
+    const [selectedcourses, setSelectedcourses] = useState([])
+const { data, setData, post, processing, errors, reset } = useForm({
+   language: "",
+    courses: [],
+});
+
+
+console.log(data);
+
 
     // TODO: store languages locally ??
     const languages = [
@@ -19,44 +27,56 @@ export default function MultiStepSelector() {
     ]
 
     // TODO: Change the IDs to numbers corresponding to Database
-    const modules = [
-        { id: "dashboard", name: "Dashboard", description: "Overview and analytics", icon: <Layers className="h-6 w-6 text-beta" /> },
-        { id: "users", name: "User Management", description: "Manage user accounts", icon: <Layers className="h-6 w-6 text-beta" /> },
-        {
-            id: "content",
-            name: "Content Library",
-            description: "Manage your content",
-            icon: <Layers className="h-6 w-6 text-beta" />,
-        },
-        {
-            id: "analytics",
-            name: "Analytics",
-            description: "Data insights and reports",
-            icon: <Layers className="h-6 w-6 text-beta" />,
-        },
-        { id: "settings", name: "Settings", description: "System configuration", icon: <Layers className="h-6 w-6 text-beta" /> },
-        { id: "messaging", name: "Messaging", description: "Communication tools", icon: <Layers className="h-6 w-6 text-beta" /> },
-        { id: "calendar", name: "Calendar", description: "Schedule and events", icon: <Layers className="h-6 w-6 text-beta" /> },
-        { id: "files", name: "File Storage", description: "Document management", icon: <Layers className="h-6 w-6 text-beta" /> },
-        {
-            id: "integrations",
-            name: "Integrations",
-            description: "Connect with other services",
-            icon: <Layers className="h-6 w-6 text-beta" />,
-        },
-    ]
+    // const courses = [
+    //     { id: "1", name: "Dashboard", description: "Overview and analytics", icon: <Layers className="h-6 w-6 text-beta" /> },
+    //     { id: "2", name: "User Management", description: "Manage user accounts", icon: <Layers className="h-6 w-6 text-beta" /> },
+    //     {
+    //         id: "3",
+    //         name: "Content Library",
+    //         description: "Manage your content",
+    //         icon: <Layers className="h-6 w-6 text-beta" />,
+    //     },
+    //     {
+    //         id: "4",
+    //         name: "Analytics",
+    //         description: "Data insights and reports",
+    //         icon: <Layers className="h-6 w-6 text-beta" />,
+    //     },
+    //     { id: "5", name: "Settings", description: "System configuration", icon: <Layers className="h-6 w-6 text-beta" /> },
+    //     { id: "6", name: "Messaging", description: "Communication tools", icon: <Layers className="h-6 w-6 text-beta" /> },
+    //     { id: "7", name: "Calendar", description: "Schedule and events", icon: <Layers className="h-6 w-6 text-beta" /> },
+    //     { id: "8", name: "File Storage", description: "Document management", icon: <Layers className="h-6 w-6 text-beta" /> },
+    //     {
+    //         id: "9",
+    //         name: "Integrations",
+    //         description: "Connect with other services",
+    //         icon: <Layers className="h-6 w-6 text-beta" />,
+    //     },
+    // ]
 
     const toggleModule = (moduleId) => {
-        setSelectedModules((prev) => (prev.includes(moduleId) ? prev.filter((id) => id !== moduleId) : [...prev, moduleId]))
-    }
+        const updated = selectedcourses.includes(moduleId)
+            ? selectedcourses.filter((id) => id !== moduleId)
+            : [...selectedcourses, moduleId];
+
+        setSelectedcourses(updated);
+        setData("courses", updated);
+    };
+
 
     const handleNext = () => {
         if (step === 1) {
             setStep(2)
         } else {
-            console.log(`Selected language: ${selectedLanguage}, Selected modules: ${selectedModules.join(", ")}`)
-            // TODO: Submit Form update the selected language and modules in the backend
-            router.visit('dashboard');
+            console.log(`Selected language: ${selectedLanguage}, Selected courses: ${selectedcourses.join(", ")}`)
+            post(route('stepss'), {
+                onSuccess: () => {
+                    router.visit('dashboard')
+                },
+                onError: (errors) => {
+                    console.error("Form submission error:", errors)
+                },
+            });
 
         }
     }
@@ -116,7 +136,7 @@ export default function MultiStepSelector() {
                                         delay: 0.3 + languages.findIndex((l) => l.code === language.code) * 0.1,
                                         duration: 0.4,
                                     }}
-                                    onClick={() => setSelectedLanguage(language.code)}
+                                    onClick={() => {setData("language", language.code);   setSelectedLanguage(language.code);}}
                                     className={cn(
                                         "group relative flex gap-3  h-16 items-center justify-center rounded-lg border border-gray-500 px-6 py-4 text-lg transition-all duration-300",
                                         "hover:border-alpha/40 hover:bg-alpha/5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-black",
@@ -137,7 +157,7 @@ export default function MultiStepSelector() {
                     </motion.div>
                 ) : (
                     <motion.div
-                        key="modules-step"
+                        key="courses-step"
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 20 }}
@@ -150,7 +170,7 @@ export default function MultiStepSelector() {
                             transition={{ duration: 0.5 }}
                             className="mb-2 text-center text-2xl font-light tracking-wide md:text-3xl"
                         >
-                            Select your modules
+                            Select your courses
                         </motion.h1>
 
                         <motion.p
@@ -159,11 +179,11 @@ export default function MultiStepSelector() {
                             transition={{ delay: 0.1, duration: 0.5 }}
                             className="mb-8 text-center text-white/70"
                         >
-                            Choose the modules you want to enable (select multiple)
+                            Choose the courses you want to enable (select multiple)
                         </motion.p>
 
                         <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                            {modules.map((module, index) => (
+                            {courses.map((module, index) => (
                                 <motion.button
                                     key={module.id}
                                     initial={{ opacity: 0, y: 10 }}
@@ -173,17 +193,17 @@ export default function MultiStepSelector() {
                                     className={cn(
                                         "group flex items-start gap-4 rounded-lg border border-alpha/20 p-6 text-left transition-all duration-200",
                                         "hover:border-alpha/40 hover:bg-alpha/5 focus:outline-none focus:ring-2 focus:ring-alpha/30 focus:ring-offset-2 focus:ring-offset-black",
-                                        selectedModules.includes(module.id) && "border-alpha/60 bg-alpha/10",
+                                        selectedcourses.includes(module.id) && "border-alpha/60 bg-alpha/10",
                                     )}
-                                    aria-pressed={selectedModules.includes(module.id)}
+                                    aria-pressed={selectedcourses.includes(module.id)}
                                 >
-                                    <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-alpha/10", selectedModules.includes(module.id) && "bg-alpha")}>
-                                        {module.icon}
+                                    <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-alpha/10", selectedcourses.includes(module.id) && "bg-alpha")}>
+                                    <Layers className="h-6 w-6 text-beta" />
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex items-center justify-between">
                                             <h3 className="font-medium">{module.name}</h3>
-                                            {selectedModules.includes(module.id) && (
+                                            {selectedcourses.includes(module.id) && (
                                                 <div className="flex h-5 w-5 items-center justify-center rounded-full bg-beta">
                                                     <Check className="h-3 w-3 text-white" />
                                                 </div>
@@ -219,21 +239,21 @@ export default function MultiStepSelector() {
                         step === 1
                             ? "bg-alpha hover:bg-alpha/90 focus:ring-alpha/50"
                             : "bg-gradient-to-r from-alpha to-beta hover:opacity-90 focus:ring-beta/50",
-                    )} onClick={handleNext}
+                    )} onClick={handleNext }
                 >
                     {step === 1 ? "Continue" : "Complete Setup"}
                     <ChevronRight className="h-4 w-4" />
                 </button>
             </motion.div>
 
-            {step === 2 && selectedModules.length > 0 && (
+            {step === 2 && selectedcourses.length > 0 && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                     className="mt-4 text-sm text-beta"
                 >
-                    {selectedModules.length} module{selectedModules.length !== 1 ? "s" : ""} selected
+                    {selectedcourses.length} module{selectedcourses.length !== 1 ? "s" : ""} selected
                 </motion.div>
             )}
         </div>

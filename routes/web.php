@@ -1,18 +1,23 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsLetterController;
+use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
-
 Route::middleware(['auth', 'verified', "role:user"])->group(function () {
     Route::get('/steps', function () {
-        return Inertia::render('auth/steps');
+        $courses = Course::all();
+        return Inertia::render('auth/steps', compact('courses'));
     })->name('auth.steps');
 });
+
+
+Route::post('/stepss', [DashboardController::class, 'steps'])->name('stepss');
 
 
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {

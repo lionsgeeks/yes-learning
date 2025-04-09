@@ -8,6 +8,7 @@ use App\Models\Library;
 use App\Models\QuizUser;
 use App\Models\User;
 use App\Models\UserCourse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -50,4 +51,24 @@ class DashboardController extends Controller
             'quizzes' => $quizzes,
         ]);
     }
+
+
+    public function steps(Request $request)
+    {
+        $user = Auth::user();
+        $user->update([
+            'language' => $request->language
+        ]);
+        // dd($request->all());
+        foreach ($request->courses as $courseId) {
+            UserCourse::create([
+                'user_id' => $user->id,
+                'course_id' => $courseId,
+            ]);
+        }
+
+
+        return back();
+    }
+
 }

@@ -62,8 +62,8 @@ class WorkshopController extends Controller
             "name.ar"=>"required|string",
             'description' => 'required|array',
             "description.en"=>"required|string",
-            "description.fr"=>"required|string",
-            "description.fr"=>"required|string",
+            "description.descriptionfr"=>"required|string",
+            "description.descriptionar"=>"required|string",
             "course_id"=>"required"
         ]);
         Workshop::create([

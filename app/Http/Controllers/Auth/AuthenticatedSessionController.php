@@ -36,7 +36,12 @@ class AuthenticatedSessionController extends Controller
             # code...
             return redirect()->intended(route('adminDashboard', absolute: false));
         }
-        return redirect()->intended(route('auth.steps'));
+        if (auth()->user()->language == NULL) {
+            return redirect()->intended(route('auth.steps'));
+        }else{
+            return redirect()->intended(route('dashboard'));
+
+        }
     }
 
     /**
