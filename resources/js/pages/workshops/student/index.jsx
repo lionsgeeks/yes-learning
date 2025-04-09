@@ -13,15 +13,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Head, useForm } from '@inertiajs/react';
 import { addHours, format, isAfter, isBefore } from 'date-fns';
 import { Calendar, Clock, ExternalLink, Search, Video } from 'lucide-react';
-
+import TransText from "@/components/TransText"
 // Mock data for workshops
 
 export default function WorkshopsPage({ workshops, chapters }) {
     console.log(chapters);
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedLanguage, setSelectedLanguage] = useState('all');
-    const [selectedCourse, setSelectedCourse] = useState('all');
+
     const [registrationDialogOpen, setRegistrationDialogOpen] = useState(false);
     const [workshopToRegister, setWorkshopToRegister] = useState(null);
 
@@ -32,13 +31,8 @@ export default function WorkshopsPage({ workshops, chapters }) {
         // Filter by search query
         const matchesSearch = JSON.parse(workshop.name).en || JSON.parse(workshop.instructor).en || JSON.parse(workshop.description).en;
 
-        // Filter by language
-        const matchesLanguage = selectedLanguage === 'all' || workshop.language === selectedLanguage;
 
-        // Filter by course
-        const matchesCourse = selectedCourse === 'all';
-
-        return matchesSearch && matchesLanguage && matchesCourse;
+        return matchesSearch  ;
     });
 
     const getStatusBadge = (date) => {
@@ -79,7 +73,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
             },
             onError: (e) => {},
         });
-        // Show success message or update UI
+
     };
 
     return (
@@ -87,56 +81,18 @@ export default function WorkshopsPage({ workshops, chapters }) {
             <Head title="Workshops" />
             <div className="space-y-6">
                 <div>
-                    <h1 className="text-3xl font-bold">Workshops</h1>
-                    <p className="text-muted-foreground mt-1">Join live interactive workshops with our instructors</p>
+                    <h1 className="text-3xl font-bold"><TransText en="Workshops" fr="Ateliers" ar="ورش عمل" /></h1>
+                    <p className="text-muted-foreground mt-1"><TransText en="Join live interactive workshops with our instructors" fr="Rejoignez les ateliers interactifs en direct avec nos instructeurs." ar="انضم إلى ورش العمل التفاعلية المباشرة مع مدربينا" /></p>
                 </div>
 
-                <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-                    <div className="flex flex-wrap gap-2">
-                        <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-                            <SelectTrigger className="w-[150px]">
-                                <SelectValue placeholder="Language" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Languages</SelectItem>
-                                <SelectItem value="en">English</SelectItem>
-                                <SelectItem value="fr">French</SelectItem>
-                                <SelectItem value="ar">Arabic</SelectItem>
-                            </SelectContent>
-                        </Select>
 
-                        <Select value={selectedCourse} onValueChange={setSelectedCourse}>
-                            <SelectTrigger className="w-[200px]">
-                                <SelectValue placeholder="Course" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All chapters</SelectItem>
-                                {chapters.map((chapter) => (
-                                    <SelectItem key={chapter.id} value={chapter.title}>
-                                        {chapter.title}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
 
-                    <div className="relative w-full sm:w-auto">
-                        <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
-                        <Input
-                            type="search"
-                            placeholder="Search workshops..."
-                            className="w-full pl-9 sm:w-[260px]"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
-                </div>
 
                 <Tabs defaultValue="upcoming">
                     <TabsList>
-                        <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-                        <TabsTrigger value="registered">Registered</TabsTrigger>
-                        <TabsTrigger value="past">Past Workshops</TabsTrigger>
+                        <TabsTrigger value="upcoming"><TransText en="upcoming" fr="À venir" ar="القادمة" /></TabsTrigger>
+                        <TabsTrigger value="registered"><TransText en="registered" fr="Inscrite" ar="مُسَجَّلَة " /></TabsTrigger>
+                        <TabsTrigger value="past"><TransText en="past" fr="Passé" ar="مَرَّت " /></TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="upcoming" className="mt-6">
@@ -146,7 +102,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                     <Card key={workshop.id} className="flex flex-col overflow-hidden">
                                         <CardHeader className="pb-3">
                                             <div className="flex items-start justify-end">{getStatusBadge(workshop.date)}</div>
-                                            <CardTitle className="mt-2">{JSON.parse(workshop.name).en}</CardTitle>
+                                            <CardTitle className="mt-2"> <TransText en={JSON.parse(workshop.name).en} fr={JSON.parse(workshop.name).fr} ar={JSON.parse(workshop.name).ar} /></CardTitle>
                                             <CardDescription>{workshop.chapter.title}</CardDescription>
                                         </CardHeader>
                                         <CardContent className="flex-1">
@@ -163,15 +119,17 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 </div>
                                                 <div className="flex items-center text-sm">
                                                     <Video className="text-muted-foreground mr-2 h-4 w-4" />
-                                                    <span>Instructor: {JSON.parse(workshop.instructor).en}</span>
+                                                    <span><TransText en={"instructor : " + JSON.parse(workshop.instructor).en} fr={"instructeur : " +JSON.parse(workshop.instructor).fr} ar={"مُدَرِّب  : " +JSON.parse(workshop.instructor).ar} /></span>
                                                 </div>
                                                 <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{JSON.parse(workshop.description).en}</p>
                                                 <div className="text-muted-foreground mt-2 text-xs">
-                                                    <span className="font-medium">Prerequisites:</span> {JSON.parse(workshop.prerequisite).en}
+                                                <span><TransText en={"prerequisite : " + JSON.parse(workshop.prerequisite).en} fr={"prérequis : " +JSON.parse(workshop.prerequisite).fr} ar={"مُتَطَلَّب سابِق  : " +JSON.parse(workshop.prerequisite).ar} /></span>
+
                                                 </div>
                                                 <div className="mt-2 flex items-center justify-between text-sm">
                                                     <span className="text-muted-foreground">
-                                                        {workshop.enrolledCount}  enrolled
+                                                        {workshop.enrolledCount} <TransText en="enrolled" fr="inscrit" ar="مُسَجَّلون" />
+
                                                     </span>
 
                                                 </div>
@@ -186,17 +144,32 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                         onClick={() => handleRegisterClick(workshop)}
                                                         // disabled={workshop.enrolled >= workshop.capacity}
                                                     >
-                                                        Register
+                                                        <TransText en="Register" fr="s’inscrire" ar="تسجيل" />
                                                     </Button>
                                                 </>
                                             ) : (
                                                 <>
                                                     <Button variant="outline" className="flex-1" asChild>
+
+
+                                                    </Button>
+                                                        <TransText en= <Button variant="outline" className="flex-1" asChild>
                                                         <a href={JSON.parse(workshop.meetLink).en} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             Join
                                                         </a>
-                                                    </Button>
+                                                        </Button>
+                                                        fr= <Button variant="outline" className="flex-1" asChild>  <a href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
+                                                            <ExternalLink className="mr-2 h-4 w-4" />
+                                                            rejoindre
+                                                        </a>
+                                                        </Button>
+                                                        ar= <Button variant="outline" className="flex-1" asChild> <a href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
+                                                            <ExternalLink className="mr-2 h-4 w-4" />
+                                                            انضمَّ
+                                                        </a>
+                                                        </Button>
+                                                         />
                                                 </>
                                             )}
                                         </CardFooter>
@@ -237,13 +210,13 @@ export default function WorkshopsPage({ workshops, chapters }) {
             <Dialog open={registrationDialogOpen} onOpenChange={setRegistrationDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Register for Workshop</DialogTitle>
-                        <DialogDescription>You're registering for the following workshop:</DialogDescription>
+                        <DialogTitle><TransText en="Register for Workshop" fr="S'inscrire à l'atelier" ar="لتسجيل في ورشة العمل" /></DialogTitle>
+                        <DialogDescription><TransText en="You're registering for the following workshop:" fr="Vous vous inscrivez pour l'atelier suivant :" ar=" : أنت تسجل في ورشة العمل التالية" /></DialogDescription>
                     </DialogHeader>
 
                     {workshopToRegister && (
-                        <div className="py-4">
-                            <h3 className="text-lg font-medium">{JSON.parse(workshopToRegister.name).en}</h3>
+                        <div className="">
+                            <h3 className="text-lg font-medium"><TransText en={JSON.parse(workshopToRegister.name).en} fr={JSON.parse(workshopToRegister.name).fr} ar={JSON.parse(workshopToRegister.name).ar} /></h3>
                             <div className="mt-2 flex items-center gap-2">
                                 <Calendar className="text-muted-foreground h-4 w-4" />
                                 <span className="text-sm">{format(workshopToRegister.date, 'EEEE, MMMM d, yyyy')}</span>
@@ -255,41 +228,21 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                 </span>
                             </div>
 
-                            <div className="mt-4 space-y-2">
-                                <p className="text-sm font-medium">Would you like to receive reminders?</p>
-                                <div className="flex items-center space-x-2">
-                                    <input type="checkbox" id="reminder24h" defaultChecked />
-                                    <label htmlFor="reminder24h" className="text-sm">
-                                        24 hours before
-                                    </label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <input type="checkbox" id="reminder1h" defaultChecked />
-                                    <label htmlFor="reminder1h" className="text-sm">
-                                        1 hour before
-                                    </label>
-                                </div>
-                            </div>
 
-                            <div className="bg-muted mt-4 rounded-md p-3 text-sm">
-                                <p className="font-medium">Note:</p>
-                                <p className="mt-1">
-                                    By registering, you'll receive the workshop materials and a calendar invitation. You can cancel your registration
-                                    up to 12 hours before the workshop starts.
-                                </p>
-                            </div>
+
+
                         </div>
                     )}
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setRegistrationDialogOpen(false)}>
-                            Cancel
+                        <TransText en="Cancel" fr="Annuler" ar="إلغاء" />
                         </Button>
                         <Button
                             onClick={() => {
                                 handleRegisterConfirm(workshopToRegister.id);
                             }}
                         >
-                            Confirm Registration
+                            <TransText en="Confirm Registration" fr="Confirmer l'inscription" ar="تأكيد التسجيل " />
                         </Button>
                     </DialogFooter>
                 </DialogContent>
