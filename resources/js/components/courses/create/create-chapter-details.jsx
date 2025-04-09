@@ -1,14 +1,14 @@
-import React from 'react';
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { Check } from 'lucide-react';
 
-const ChapterDetails = ({ setActiveTab, data, setData }) => {
+const ChapterDetails = ({ setActiveTab, data, setData, lang }) => {
+    console.log("data",data)
     return (
         <>
             <Card className="col-span-3">
@@ -17,27 +17,27 @@ const ChapterDetails = ({ setActiveTab, data, setData }) => {
                     <CardDescription>Enter the main details about your course</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div className="space-y-2">
                             <Label htmlFor="title">Course Title</Label>
-                            <Input 
-                                className="mt-4" 
-                                id="title" 
-                                placeholder="Enter course title" 
-                                value={data.title} 
-                                onChange={(e) => setData({ ...data, title: e.target.value })} 
+                            <Input
+                                className="mt-4"
+                                id="title"
+                                placeholder="Enter course title"
+                                value={data.title}
+                                onChange={(e) => setData((prev) => ({ ...prev, [lang]: { ...prev[lang], title: e.target.value } }))}
                             />
                         </div>
                         <div className="space-y-4">
                             <Label htmlFor="duration">Estimated Duration (Minutes)</Label>
-                            <Input 
-                                className="mt-4" 
-                                id="duration" 
-                                type="number" 
-                                min="1" 
+                            <Input
+                                className="mt-4"
+                                id="duration"
+                                type="number"
+                                min="1"
                                 placeholder="e.g., 8"
                                 value={data.estimated_duration}
-                                onChange={(e) => setData({ ...data, estimated_duration: e.target.value })}
+                                onChange={(e) => setData((prev) => ({ ...prev, [lang]: { ...prev[lang], estimated_duration: e.target.value } }))}
                             />
                         </div>
                     </div>
@@ -46,9 +46,9 @@ const ChapterDetails = ({ setActiveTab, data, setData }) => {
                         <Textarea
                             id="description"
                             placeholder="Describe what this course covers and its learning objectives"
-                            className="h-[35vh] mt-4"
+                            className="mt-4 h-[35vh]"
                             value={data.description}
-                            onChange={(e) => setData({ ...data, description: e.target.value })}
+                            onChange={(e) => setData((prev) => ({ ...prev, [lang]: { ...prev[lang], description: e.target.value } }))}
                         />
                     </div>
                 </CardContent>
@@ -63,42 +63,45 @@ const ChapterDetails = ({ setActiveTab, data, setData }) => {
                     <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
                             <Label htmlFor="published">Published</Label>
-                            <p className="text-sm text-muted-foreground">Make this course available to learners</p>
+                            <p className="text-muted-foreground text-sm">Make this course available to learners</p>
                         </div>
-                        <Switch 
-                            id="published" 
-                            checked={data.published} 
-                            onCheckedChange={(value) => setData({ ...data, published: value })} 
+                        <Switch
+                            id="published"
+                            checked={data.published}
+                            onCheckedChange={(value) => setData((prev) => ({ ...prev, [lang]: { ...prev[lang], published: value } }))}
                         />
                     </div>
                     <Separator />
                     <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
                             <Label htmlFor="certificate">Enable Certificate</Label>
-                            <p className="text-sm text-muted-foreground">Issue certificates upon course completion</p>
+                            <p className="text-muted-foreground text-sm">Issue certificates upon course completion</p>
                         </div>
-                        <Switch 
-                            id="certificate" 
-                            checked={data.enable_certificate} 
-                            onCheckedChange={(value) => setData({ ...data, enable_certificate: value })} 
+                        <Switch
+                            id="certificate"
+                            checked={data.enable_certificate}
+                            onCheckedChange={(value) => setData((prev) => ({ ...prev, [lang]: { ...prev[lang], enable_certificate: value } }))}
                         />
                     </div>
                     <Separator />
                     <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
                             <Label htmlFor="discussions">Enable Discussions</Label>
-                            <p className="text-sm text-muted-foreground">Allow learners to discuss course content</p>
+                            <p className="text-muted-foreground text-sm">Allow learners to discuss course content</p>
                         </div>
-                        <Switch 
-                            id="discussions" 
-                            checked={data.enable_discussions} 
-                            onCheckedChange={(value) => setData({ ...data, enable_discussions: value })} 
+                        <Switch
+                            id="discussions"
+                            checked={data.enable_discussions}
+                            onCheckedChange={(value) => setData((prev) => ({ ...prev, [lang]: {...prev[lang], enable_discussions: value } }))}
                         />
                     </div>
                 </CardContent>
-                <div className="flex justify-end items-end h-full mr-3">
-                    <Button onClick={() => {setActiveTab("content")
-                    }}>
+                <div className="mr-3 flex h-full items-end justify-end">
+                    <Button
+                        onClick={() => {
+                            setActiveTab('content');
+                        }}
+                    >
                         Continue to Content
                         <Check className="ml-2 h-4 w-4" />
                     </Button>

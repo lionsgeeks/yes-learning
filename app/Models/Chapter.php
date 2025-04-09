@@ -20,6 +20,9 @@ class Chapter extends Model
     ];
 
     protected $casts = [
+        'title' => 'array',
+        'description' => 'array',
+        'estimated_duration' => 'array',
         'published' => 'boolean',
         'enable_certificate' => 'boolean',
         'content' => 'array',

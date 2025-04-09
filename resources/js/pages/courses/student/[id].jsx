@@ -18,6 +18,8 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 const CourseDetails = () => {
     const { course, chapters, image_url, auth } = usePage().props;
+    console.log("course :",course);
+    console.log("chapters :",chapters);
     const [currentChapterId, setCurrentChapterId] = useState(chapters[0]?.id);
     console.log('auth : ', currentChapterId);
     const { data, setData, post, processing } = useForm({
@@ -244,7 +246,7 @@ const CourseDetails = () => {
                                                                             <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
                                                                                 {/* <div className="text-muted-foreground">Image Preview</div> */}
                                                                                 <img
-                                                                                    src={`${image_url}/${block.content.url}`}
+                                                                                    src={`/storage/${block.content.url}`}
                                                                                     alt="Course cover preview"
                                                                                     className="h-auto w-full rounded-md object-cover"
                                                                                 />

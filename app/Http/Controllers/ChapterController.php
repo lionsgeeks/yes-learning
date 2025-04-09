@@ -36,54 +36,95 @@ class ChapterController extends Controller
         // dd($request);
 
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'estimated_duration' => 'required|integer|min:1',
+            'en.title' => 'required|string|max:255',
+            'en.description' => 'nullable|string',
+            'en.estimated_duration' => 'required|integer|min:1',
+            'en.content' => 'required|array',
+
+            'fr.title' => 'required|string|max:255',
+            'fr.description' => 'nullable|string',
+            'fr.estimated_duration' => 'required|integer|min:1',
+            'fr.content' => 'required|array',
+
+            'ar.title' => 'required|string|max:255',
+            'ar.description' => 'nullable|string',
+            'ar.estimated_duration' => 'required|integer|min:1',
+            'ar.content' => 'required|array',
+
             'published' => 'boolean',
             'enable_certificate' => 'boolean',
-            'discussion' => 'boolean',
-            'content' => 'required|array',
-            'course_id' => 'nullable',
-            'quizTitle' => 'required',
-            'quizDescription' => 'required',
-            'quizTime' => 'required',
-            'questions' => 'required',
+            'enable_discussion' => 'boolean',
+            'course_id' => 'required|integer',
+            // 'quizTitle' => 'required|string',
+            // 'quizDescription' => 'required|string',
+            // 'quizTime' => 'required',
+            // 'questions' => 'required|array',
         ]);
 
+        // dd($request->course_id);
         $chapter = Chapter::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'estimated_duration' => $request->estimated_duration,
-            'published' => $request->published ?? false,
-            'enable_certificate' => $request->enable_certificate ?? true,
-            'enable_discussion' => $request->discussion ?? false,
-            'content' => json_encode($request->content),
+            'title' => [
+                'en' => $request->input('en.title'),
+                'fr' => $request->input('fr.title'),
+                'ar' => $request->input('ar.title'),
+            ],
+            'description' => [
+                'en' => $request->input('en.description'),
+                'fr' => $request->input('fr.description'),
+                'ar' => $request->input('ar.description'),
+            ],
+            'estimated_duration' => [
+                'en' => $request->input('en.estimated_duration'),
+                'fr' => $request->input('fr.estimated_duration'),
+                'ar' => $request->input('ar.estimated_duration'),
+            ],
+            'published' => $request->boolean('published'),
+            'enable_certificate' => $request->boolean('enable_certificate'),
+            'enable_discussion' => $request->boolean('enable_discussion'),
+            'content' => [
+                'en' => $request->input('en.content'),
+                'fr' => $request->input('fr.content'),
+                'ar' => $request->input('ar.content'),
+            ],
             'course_id' => $request->course_id,
         ]);
 
+        // dd($request);
+        // use Illuminate\Support\Str;
+
         if ($request->file()) {
-            $blocks = $request->file('content.0.blocks');
-            foreach ($blocks as $block) {
-                if (isset($block['content']['file'])) {
-                    $file = $block['content']['file'];
-                    $fileName = $file->getClientOriginalName();
-                    if (Str::contains($file->getMimeType(), 'application')) {
-                        $file->storeAs('documents/chapters', $fileName, 'public');
-                    } else {
-                        $file->storeAs('image/chapters', $fileName, 'public');
+            foreach (['en', 'fr', 'ar'] as $locale) {
+                $blocks = $request->file("$locale.content.0.blocks");
+
+                if (!is_array($blocks)) {
+                    continue; // Skip if no blocks
+                }
+
+                foreach ($blocks as $block) {
+                    if (isset($block['content']['file']) && $block['content']['file'] instanceof \Illuminate\Http\UploadedFile) {
+                        $file = $block['content']['file'];
+                        $fileName = $file->getClientOriginalName();
+
+                        if (Str::contains($file->getMimeType(), 'application')) {
+                            $file->storeAs('documents/chapters', $fileName, 'public');
+                        } else {
+                            $file->storeAs('image/chapters', $fileName, 'public');
+                        }
                     }
                 }
             }
         }
 
+
         // calling the quizcontroller to use the store function
-        $quizController = new QuizController();
-        $quizController->store($request, $chapter);
+        // $quizController = new QuizController();
+        // $quizController->store($request, $chapter);
 
         return redirect()->route('admin.courses.index')->with('success', 'Course created successfully!');
     }
 
-    public function readChapters(Request $request) {
+    public function readChapters(Request $request)
+    {
         $request->validate([
             'user_id' => 'required',
             'chapter_id' => 'required'

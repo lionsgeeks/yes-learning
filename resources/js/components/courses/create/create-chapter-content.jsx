@@ -11,8 +11,9 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import SortableItem from "@/components/courses/content-blocks/sortableItem";
 
-const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveSubcourse, addSubcourse, updateSubcourse, deleteSubcourse, data, setData }) => {
+const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveSubcourse, addSubcourse, updateSubcourse, deleteSubcourse, data, setData, lang }) => {
     // Sensors for drag events
+    console.log("subcourse ",subcourses, activeSubcourse);
     const sensors = useSensors(
         useSensor(PointerSensor),
         useSensor(KeyboardSensor, {
@@ -25,8 +26,8 @@ const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveS
         const { active, over } = event;
         if (!over || active.id === over.id) return;
 
-        const oldIndex = subcourses.findIndex((s) => s.id === active.id);
-        const newIndex = subcourses.findIndex((s) => s.id === over.id);
+        const oldIndex = subcourses[lang].findIndex((s) => s.id === active.id);
+        const newIndex = subcourses[lang].findIndex((s) => s.id === over.id);
         const newOrder = arrayMove(subcourses, oldIndex, newIndex);
 
         setSubcourses(newOrder);
@@ -72,16 +73,17 @@ const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveS
 
                 <Card className="lg:col-span-2">
                     <CardHeader>
-                        <CardTitle>{subcourses.find((s) => s.id === activeSubcourse)?.title || "Module Content"}</CardTitle>
+                        <CardTitle>{subcourses[lang]?.find((s) => s.id === activeSubcourse)?.title || "Module Content"}</CardTitle>
                         <CardDescription>Add and arrange content blocks for this module</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <ContentBlockEditor
                             subcourseId={activeSubcourse}
-                            blocks={subcourses.find((s) => s.id === activeSubcourse)?.blocks || []}
+                            blocks={subcourses[lang]?.find((s) => s.id === activeSubcourse)?.blocks || []}
                             onBlocksChange={(blocks) => {
-                                updateSubcourse(activeSubcourse, { blocks });
+                                updateSubcourse(activeSubcourse, { blocks }, lang);
                             }}
+                            lang={lang}
                         />
                     </CardContent>
                 </Card>

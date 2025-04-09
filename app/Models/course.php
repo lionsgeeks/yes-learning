@@ -14,7 +14,11 @@ class Course extends Model
         "image",
         "label",
     ];
-
+    protected $casts = [
+        'name' => 'array',
+        'description' => 'array',
+        'label' => 'array',
+    ];
 
     public function workshops()
     {

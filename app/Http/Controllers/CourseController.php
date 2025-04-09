@@ -18,9 +18,13 @@ class CourseController extends Controller
     {
         //
         $userId = Auth::id(); // hna khdit l id  ta3 l auth user
+        $userLang = Auth::user()->language;
         return Inertia::render("courses/student/index", [
-            "courses" => Course::with("users:id")->get()->map(function ($course) use ($userId) { // mappit 3la ga3 l courses  o 3ayat m3ahom 3la l users  o 3ayat ghi 3la l id dyal l user  li
+            "courses" => Course::with("users:id")->get()->map(function ($course) use ($userId, $userLang) { // mappit 3la ga3 l courses  o 3ayat m3ahom 3la l users  o 3ayat ghi 3la l id dyal l user  li
                 //an7tajo bach n9arn  wach m enrolli fl course to avoid loading data li mam7tajhach
+                $course->name = $course->name[$userLang];
+                $course->description = $course->description[$userLang];
+                $course->label = $course->label[$userLang];
                 $course->enrolled = $course->users->contains("id", $userId); // zdt value jdid fl courses  li howa  enrolled  bach n3rf wh l user  m enrolli ola la
                 $course->enrolledCount = $course->users()->count();
                 unset($course->users); // hna 9bel mansift data  unlinkit l relation bach matmchich l  front  ( makayn lach  tmchi 7it lgharad  howa  n9ad kolchi  fl backend)
@@ -58,10 +62,22 @@ class CourseController extends Controller
     {
         //
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'label' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3072',
+            'name' => 'required|array',
+            'name.en' => 'required|string|max:255',
+            'name.fr' => 'required|string|max:255',
+            'name.ar' => 'required|string|max:255',
+
+            'description' => 'required|array',
+            'description.en' => 'required|string',
+            'description.fr' => 'required|string',
+            'description.ar' => 'required|string',
+
+            'label' => 'required|array',
+            'label.en' => 'required|string',
+            'label.fr' => 'required|string',
+            'label.ar' => 'required|string',
+
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:3072',
         ]);
 
         $imagePath = null;
@@ -69,12 +85,13 @@ class CourseController extends Controller
             $imagePath = $request->file('image')->store('image/courses', 'public');
         }
 
-        $course = Course::create([
+        Course::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
             'label' => $validated['label'],
             'image' => $imagePath,
         ]);
+
         // Return a response
         return redirect()->route('admin.courses.index')->with('success', 'Course created successfully!');
     }
@@ -84,25 +101,33 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        //
+        $lang = Auth::user()->language;
+        // dd($lang);
         return Inertia::render("courses/student/[id]", [
-            "course" => $course,
+            "course" => [
+                'id' => $course->id,
+                'name' => $course->name[$lang],
+                'description' => $course->description[$lang],
+                'label' =>  $course->label[$lang],
+            ],
             "image_url" => asset('storage/'),
             "chapters" => Chapter::where("course_id", $course->id)
                 ->with(['users' => function ($query) {
                     $query->select('users.id');
                 }])
                 ->get()
-                ->map(function ($chapter) {
-                    $chapter->content = json_decode($chapter->content, true);
+                ->map(function ($chapter) use ($lang) {
+                    $chapter->title = $chapter->title[$lang];
+                    $chapter->description = $chapter->description[$lang];
+                    $chapter->estimated_duration = $chapter->estimated_duration[$lang];
+                    $chapter->content = $chapter->content[$lang];
                     return $chapter;
-                }),
+                })
+
         ]);
     }
     public function adminShow(Course $course)
     {
-
-
         $course->image = asset('storage/' . $course->image);
         $courseQuiz = Quiz::where('course_id', $course->id)->with('questions')->first();
 

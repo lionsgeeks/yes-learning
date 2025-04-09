@@ -31,7 +31,8 @@ import { FileBlockEditor } from "./content-blocks/file-block"
 
 
 
-export function ContentBlockEditor({  blocks, onBlocksChange }) {
+export function ContentBlockEditor({  blocks, onBlocksChange,lang }) {
+  console.log('blocks : ',blocks);
   const [activeBlockId, setActiveBlockId] = useState(null)
 
   const addBlock = (type) => {
@@ -47,12 +48,12 @@ export function ContentBlockEditor({  blocks, onBlocksChange }) {
 
   const updateBlock = (id, content) => {
     
-    onBlocksChange(blocks.map((block) => (block.id === id ? { ...block, content } : block)))
+    onBlocksChange(blocks?.map((block) => (block.id === id ? { ...block, content } : block)))
     
   }
 
   const removeBlock = (id) => {
-    onBlocksChange(blocks.filter((block) => block.id !== id))
+    onBlocksChange(blocks?.filter((block) => block.id !== id))
     if (activeBlockId === id) {
       setActiveBlockId(null)
     }

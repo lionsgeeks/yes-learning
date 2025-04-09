@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
-import { Plus } from "lucide-react"
-import { usePage, Head, Link } from "@inertiajs/react";
-import AppLayout from "@/layouts/app-layout";
+import AppLayout from '@/layouts/app-layout';
+import { Head, usePage } from '@inertiajs/react';
+import { Plus } from 'lucide-react';
+import { useState } from 'react';
 
-import { Button } from "@/components/ui/button"
-import { CourseCard } from "@/components/courses/course-card"
-import { CreateCourseModal } from "@/components/courses/create/create-course-modal"
-
+import { CourseCard } from '@/components/courses/course-card';
+import { CreateCourseModal } from '@/components/courses/create/create-course-modal';
+import { Button } from '@/components/ui/button';
 
 // Sample data - in a real app, this would come from a database
 
-
-
 const AdminCourses = () => {
-    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-const {courses} = usePage().props
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const { courses } = usePage().props;
+    console.log(courses);
     return (
         <AppLayout>
-            <Head title={"Courses"} />
-            <div className="space-y-6 lg:p-6 p-3 ">
+            <Head title={'Courses'} />
+            <div className="space-y-6 p-3 lg:p-6">
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">Courses</h1>
@@ -38,9 +36,8 @@ const {courses} = usePage().props
             </div>
 
             <CreateCourseModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
-
         </AppLayout>
-    )
+    );
 };
 
 export default AdminCourses;

@@ -11,8 +11,6 @@ import { CheckCircle, Clock, Filter, Image, Search, Star, Tag, Users } from "luc
 
 const Course = () => {
     const { courses } = usePage().props
-
-
     const breadcrumbs = [{ title: "Courses", href: `/courses`, },];
 
     return (
@@ -121,7 +119,7 @@ const Course = () => {
 export default Course;
 
 function CourseCard({ course }) {
-
+    
     const { data, setDate, put, proccessing, erro } = useForm({
         "course": course.id
     })
