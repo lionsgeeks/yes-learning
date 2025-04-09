@@ -110,10 +110,10 @@ class CourseController extends Controller
             return [
                 'id' => $question->id,
                 'type' => $question->type,
-                'text' => $question->question,
+                'text' => json_decode($question->question, true),
                 'options' => json_decode($question->options, true),
                 'allow_multiple' => $question->allow_multiple,
-                'correct_answer' => $question->correct_answer,
+                'correct_answer' => json_decode($question->correct_answer),
             ];
         });
 
