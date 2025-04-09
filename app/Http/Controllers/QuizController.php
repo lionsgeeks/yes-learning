@@ -34,15 +34,21 @@ class QuizController extends Controller
     // function works but can reduce repition :/
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'quizTitle' => 'required',
+            'quizTitle.en' => 'required',
+            'quizTitle.fr' => 'required',
+            'quizTitle.ar' => 'required',
             'quizDescription' => 'required',
+            'quizDescription.en' => 'required',
+            'quizDescription.fr' => 'required',
+            'quizDescription.ar' => 'required',
             'quizTime' => 'required',
         ]);
 
         $quizData = [
-            'title' => $request->quizTitle,
-            'description' => $request->quizDescription,
+            'title' => json_encode($validated['quizTitle']),
+            'description' => json_encode($validated['quizDescription']),
             'time_limit' => $request->quizTime,
             'published' => $request->quizPublish,
             'course_id' => $request->course_id,

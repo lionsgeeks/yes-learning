@@ -9,11 +9,20 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, Plus, Save, Trash2, MoveDown, MoveUp, Copy } from "lucide-react"
 import { Link, useForm } from "@inertiajs/react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function CreateQuizPage({ course_id, courseQuiz }) {
-    const { data, setData, post, delete:destroy } = useForm({
-        quizTitle: courseQuiz?.title || '',
-        quizDescription: courseQuiz?.description || '',
+    const { data, setData, post, delete: destroy } = useForm({
+        quizTitle: {
+            en:  courseQuiz ? JSON.parse(courseQuiz.title)?.en || "" : "",
+            fr: courseQuiz ? JSON.parse(courseQuiz.title)?.fr || "" : "",
+            ar: courseQuiz ? JSON.parse(courseQuiz.title)?.ar || "" : "",
+        },
+        quizDescription: {
+            en: courseQuiz ? JSON.parse(courseQuiz.description)?.en || "" : "",
+            fr: courseQuiz ? JSON.parse(courseQuiz.description)?.fr || "" : "",
+            ar: courseQuiz ? JSON.parse(courseQuiz.description)?.ar || "" : "",
+        },
         quizTime: courseQuiz?.time || '',
         quizPublish: courseQuiz?.publish || 0,
         questions: courseQuiz?.questions || [],
@@ -79,7 +88,7 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
     const removeQuestion = (id) => {
         const im_so_confused_at_this_point = courseQuiz?.questions?.some((q) => q.id === id)
         if (im_so_confused_at_this_point) {
-            destroy(route('question.destroy', {question: id}))
+            destroy(route('question.destroy', { question: id }))
         }
         const newQuestions = data.questions.filter((q) => q.id !== id);
         setData('questions', newQuestions);
@@ -408,13 +417,58 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
 
 
             <div className="flex flex-col gap-2">
+
+
                 <Card>
                     <CardHeader>
                         <CardTitle>Quiz Information</CardTitle>
                         <CardDescription>Enter the basic information about your quiz</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <div className="grid gap-2">
+                        <Tabs defaultValue="en">
+                            <TabsList className="grid w-full grid-cols-3">
+                                <TabsTrigger value="en">English</TabsTrigger>
+                                <TabsTrigger value="fr">French</TabsTrigger>
+                                <TabsTrigger value="ar">Arabic</TabsTrigger>
+                            </TabsList>
+
+                            {["en", "fr", "ar"].map((lang) => (
+                                <TabsContent key={lang} value={lang}>
+                                    <div className="space-y-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor={`title-${lang}`}>Title ({lang.toUpperCase()})</Label>
+                                            <Input
+                                                id={`title-${lang}`}
+                                                placeholder={`Title (${lang.toUpperCase()})`}
+                                                value={data.quizTitle[`${lang}`]}
+                                                onChange={(e) =>
+                                                    setData("quizTitle", {
+                                                        ...data.quizTitle,
+                                                        [`${lang}`]: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor={`description-${lang}`}>Description ({lang.toUpperCase()})</Label>
+                                            <Input
+                                                id={`description-${lang}`}
+                                                placeholder={`Description (${lang.toUpperCase()})`}
+                                                value={data.quizDescription[`${lang}`]}
+                                                onChange={(e) =>
+                                                    setData("quizDescription", {
+                                                        ...data.quizDescription,
+                                                        [`${lang}`]: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                </TabsContent>
+                            ))}
+                        </Tabs>
+                        {/* <div className="grid gap-2">
                             <Label htmlFor="quizTitle">Quiz Title</Label>
                             <Input
                                 id="quizTitle"
@@ -431,7 +485,7 @@ export default function CreateQuizPage({ course_id, courseQuiz }) {
                                 onChange={(e) => setData('quizDescription', e.target.value)}
                                 placeholder="Enter quiz description"
                             />
-                        </div>
+                        </div> */}
                         <div className="grid gap-2">
                             <Label htmlFor="quizTime">Time Limit (minutes)</Label>
                             <Input

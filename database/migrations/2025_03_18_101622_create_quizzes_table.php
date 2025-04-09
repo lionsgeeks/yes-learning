@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('description');
+            $table->json('title');
+            $table->json('description');
             $table->string('time_limit');
             $table->boolean('published')->default(false);
             $table->foreignId('course_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();

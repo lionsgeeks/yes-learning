@@ -15,6 +15,11 @@ class Quiz extends Model
         'course_id',
     ];
 
+    protected $casts = [
+        'title' => 'object',
+        'description' => 'object',
+    ];
+
 
     public function course()
     {
