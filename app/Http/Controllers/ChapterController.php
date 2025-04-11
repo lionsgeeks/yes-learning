@@ -6,6 +6,7 @@ use App\Models\Chapter;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -140,7 +141,9 @@ class ChapterController extends Controller
      */
     public function show(Chapter $chapter)
     {
-        //
+        return Inertia::render('courses/admin/chapter/[id]', [
+            'chapter' => $chapter,
+        ]);
     }
 
     /**
@@ -164,6 +167,14 @@ class ChapterController extends Controller
      */
     public function destroy(Chapter $chapter)
     {
-        //
+        foreach ($chapter->content as $locale) {
+            $blocks = $locale[0]['blocks'];
+            foreach ($blocks as $block) {
+                if ($block['type'] === 'image') {
+                    Storage::disk("public")->delete($block['content']['url']);
+                }
+            }
+        }
+        $chapter->delete();
     }
 }

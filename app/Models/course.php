@@ -20,6 +20,10 @@ class Course extends Model
         'label' => 'array',
     ];
 
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class);
+    }
     public function workshops()
     {
         $this->hasMany(Workshop::class);

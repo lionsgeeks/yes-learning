@@ -1,39 +1,47 @@
 'use client';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
-
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { ArrowLeft, Edit, Eye, GripVertical, Pencil, Plus } from 'lucide-react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { ArrowLeft, Edit, Eye, GripVertical, MoreHorizontal, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Switch } from "@/components/ui/switch"
-import { EditCourseModal } from "@/components/courses/edit-course-modal"
+import { EditCourseModal } from '@/components/courses/edit-course-modal';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
-import AdminUsersTable from "@/components/usersComponents/admin-users-table.jsx"
+import AdminUsersTable from '@/components/usersComponents/admin-users-table.jsx';
 import CreateQuizPage from '../../../components/quizComponents/createQuiz';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
-
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 // Sample data - in a real app, this would come from a database
 
-function SortableChapter({ chapter, onTogglePublish, onEdit, idx }) {
+function SortableChapter({ chapter, onTogglePublish, onEdit, idx, onDelete }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: chapter.id });
-
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
     };
+    const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
     return (
         <div ref={setNodeRef} style={style} className="flex items-center border-b p-4 last:border-b-0">
-            <div className="mr-4 flex cursor-move items-center" {...attributes} {...listeners}>
+            {/* <div className="mr-4 flex cursor-move items-center" {...attributes} {...listeners}>
                 <GripVertical className="text-muted-foreground h-5 w-5" />
-            </div>
+            </div> */}
 
             <div className="min-w-0 flex-1">
                 <div className="flex items-center">
@@ -46,19 +54,67 @@ function SortableChapter({ chapter, onTogglePublish, onEdit, idx }) {
             </div>
 
             <div className="ml-4 flex items-center gap-4">
-                <Switch checked={chapter.published} onCheckedChange={() => onTogglePublish(chapter.id)} />
+                {/* <Switch checked={chapter.published} onCheckedChange={() => onTogglePublish(chapter.id)} />
                 <Button variant="outline" size="icon" onClick={() => onEdit(chapter)}>
                     <Pencil className="h-4 w-4" />
-                </Button>
+                </Button> */}
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-4 w-4" />
+                            <span className="sr-only">Open menu</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => router.visit(`/admin/courses/${course.id}`)}>
+                            <Eye className="mr-2 h-4 w-4" />
+                            View
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onEdit(chapter)}>
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setShowDeleteAlert(true)} >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
+            <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure you want to delete this chapter?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the chapter and all its content.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={() => onDelete(chapter.id)}
+                            className="bg-destructive text-white hover:bg-destructive/90"
+                        >
+                            Delete
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
+        
     );
 }
 
 const AdminCoursesShow = () => {
-    const { course, modules, courseQuiz } = usePage().props
-    console.log(course)
-    const breadcrumbs = [{ title: 'course - ' + course.name.en }];
+    const { course, modules, courseQuiz } = usePage().props;
+    const { delete: destroy } = useForm();
+    const deleteChapter = (id) => {
+        destroy(route('chapter.destroy', id),{
+            onFinish:() => setChapters(chapters.filter(chapter => chapter.id !== id))
+        })
+    }
+    console.log(course);
+    const breadcrumbs = [{ title: 'course - ' + course.name.en }];  
 
     const [chapters, setChapters] = useState(modules);
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -96,11 +152,8 @@ const AdminCoursesShow = () => {
     };
 
     const handleEditChapter = (chapter) => {
-        router.push(`/dashboard/courses/jhg/chapters/${chapter.id}`)
-    }
-
-
-
+        router.push(`/dashboard/courses/jhg/chapters/${chapter.id}`);
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -124,7 +177,7 @@ const AdminCoursesShow = () => {
                         </Link>
                     </Button>
                     <Button variant="outline" asChild>
-                        <Link href={`/preview/courses/jhg`} target="_blank">
+                        <Link href={`preview/${course.id}`} target="_blank">
                             <Eye className="mr-2 h-4 w-4" />
                             Preview
                         </Link>
@@ -142,7 +195,7 @@ const AdminCoursesShow = () => {
                             )}
                         </CardHeader>
                         <CardContent className="p-">
-                            <p className='text-xl font-bold'>{course.name.en}</p>
+                            <p className="text-xl font-bold">{course.name.en}</p>
                             <p>{course.description.en}</p>
                         </CardContent>
                     </Card>
@@ -163,7 +216,7 @@ const AdminCoursesShow = () => {
                         </CardHeader>
                         <CardContent className="p-0">
                             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                                <SortableContext items={chapters.map((chapter) => chapter.id)} strategy={verticalListSortingStrategy}>
+                                <SortableContext items={chapters.map((chapter) => chapter.id)} strategy={verticalListSortingStrategy} >
                                     {chapters.map((chapter, idx) => (
                                         <>
                                             <SortableChapter
@@ -172,6 +225,7 @@ const AdminCoursesShow = () => {
                                                 onTogglePublish={handleTogglePublish}
                                                 onEdit={handleEditChapter}
                                                 idx={idx}
+                                                onDelete={deleteChapter}
                                             />
                                         </>
                                     ))}
@@ -181,10 +235,8 @@ const AdminCoursesShow = () => {
                     </Card>
                 </div>
 
-
                 {/* Quiz Creation */}
                 <CreateQuizPage course_id={course.id} courseQuiz={courseQuiz} />
-
 
                 <div className="">
                     <AdminUsersTable role title="Enrolled users" description="Manage NGOs enrolled in this course" Users={course.users} />
@@ -193,7 +245,6 @@ const AdminCoursesShow = () => {
             </div>
 
             <EditCourseModal course={course} open={editModalOpen} onOpenChange={setEditModalOpen} />
-
         </AppLayout>
     );
 };

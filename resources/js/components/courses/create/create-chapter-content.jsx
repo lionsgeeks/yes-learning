@@ -88,8 +88,7 @@ const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveS
                     </CardContent>
                 </Card>
                 <div className="col-span-2">
-
-                    <CoursePreview course={{ title: "Course Title", description: "Course description will appear here.", subcourses: subcourses, }} />
+                    <CoursePreview course={{ title: "Course Title", description: "Course description will appear here.", subcourses: subcourses[lang], }} />
                 </div>
 
             </div>

@@ -28,7 +28,9 @@ class Chapter extends Model
         'content' => 'array',
     ];
 
-
+    public function course() {
+        return $this->belongsTo(Course::class);
+    }
 
     public function workshops()
     {

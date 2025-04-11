@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class CourseController extends Controller
@@ -165,6 +166,16 @@ class CourseController extends Controller
     {
         //
     }
+    /**
+     * Preview the course.
+     */
+    public function preview(Course $course)
+    {
+        return Inertia::render('courses/admin/preview', [
+            'course' => $course,
+            'chapters' => Chapter::where('course_id', $course->id)->get(),
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -179,7 +190,8 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        //
+        Storage::disk("public")->delete($course->image);
+        $course->delete();
     }
 
 

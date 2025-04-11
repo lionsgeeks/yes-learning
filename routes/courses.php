@@ -8,8 +8,8 @@ Route::middleware(['auth', 'verified', "role:user"])->group(function () {
     Route::resource("course", CourseController::class);
     Route::put("enroll/{course}" , [CourseController::class , "enroll"])->name("course.enroll");
     Route::post("/chapter/read" , [ChapterController::class, 'readChapters'])->name('chapter.read');
-
-
+    
+    
     
 });
 
@@ -19,5 +19,6 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::resource("chapter", ChapterController::class);
     Route::get("/courses" , [CourseController::class, 'adminIndex'])->name('admin.courses.index');
     Route::get("/courses/{course}" , [CourseController::class, 'adminShow'])->name('admin.courses.show');
+    Route::get("courses/preview/{course}" , [CourseController::class , "preview"])->name("course.preview");
 
 });
