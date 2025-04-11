@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
-// TODO* Something is wrong here. I can feel it. fix later.
 Route::middleware(['auth', 'verified', "role:user"])->group(function () {
     Route::resource("quiz", QuizController::class);
 

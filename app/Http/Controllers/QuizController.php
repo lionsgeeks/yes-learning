@@ -92,21 +92,24 @@ class QuizController extends Controller
     public function show(Quiz $quiz)
     {
         $user = Auth::user();
+        $lang = $user->language;
+
         $quizData = [
             'id' => $quiz->id,
-            'title' => $quiz->title,
-            'description' => $quiz->description,
+            'title' => json_decode($quiz->title)->$lang,
+            'description' => json_decode($quiz->description)->$lang,
             'timeLimit' => $quiz->time_limit,
             'passingScore' => 70,
             'chapter_id' => $quiz->chapter_id,
-            'questions' => $quiz->questions()->get()->map(function ($question) {
+            'questions' => $quiz->questions()->get()->map(function ($question) use ($lang) {
+
                 return [
                     'id' => $question->id,
                     'type' => $question->type,
-                    'question' => $question->question,
+                    'question' => json_decode($question->question)->$lang,
                     'options' => json_decode($question->options, true) ?? [],
                     'allow_multiple' => $question->allow_multiple,
-                    'correct_answer' => $question->correct_answer,
+                    'correct_answer' => json_decode($question->correct_answer),
                     'quiz_id' => $question->quiz_id,
                     'created_at' => $question->created_at,
                     'updated_at' => $question->updated_at,
@@ -117,6 +120,7 @@ class QuizController extends Controller
         return Inertia::render("quiz/[id]", [
             "quiz" => $quizData,
             "user" => $user,
+            "lang" => $lang,
         ]);
     }
 
@@ -124,17 +128,18 @@ class QuizController extends Controller
     public function storeScore(Request $request)
     {
         $data = $request->query('data');
-
         $answers = $data['answers'];
         $user = Auth::user();
 
-        QuizUser::create([
-            'user_id' => $user->id,
-            'quiz_id' => $data['quiz_id'],
-            'score' => $data['score'],
-            'time' => $data['time'],
-            'answers' => json_encode($answers),
-        ]);
+        // Use updateOrCreate to avoid duplicates
+        QuizUser::updateOrCreate(
+            ['user_id' => $user->id, 'quiz_id' => $data['quiz_id']],
+            [
+                'score' => $data['score'],
+                'time' => $data['time'],
+                'answers' => json_encode($answers),
+            ]
+        );
     }
 
 
