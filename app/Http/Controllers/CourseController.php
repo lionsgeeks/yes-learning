@@ -162,9 +162,34 @@ class CourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Course $course)
+    public function update(Request $request, Course $course)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|array',
+            'name.en' => 'required|string|max:255',
+            'name.fr' => 'required|string|max:255',
+            'name.ar' => 'required|string|max:255',
+            'description' => 'required|array',
+            'description.en' => 'required|string',
+            'description.fr' => 'required|string',
+            'description.ar' => 'required|string',
+            'label' => 'required|array',
+            'label.en' => 'required|string',
+            'label.fr' => 'required|string',
+            'label.ar' => 'required|string',
+            'image' => 'required',
+        ]);
+        // dd($course);
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('image/courses', 'public');
+        }
+        $course->update([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'label' => $validated['label'],
+            'image' => $imagePath,
+        ]);
     }
     /**
      * Preview the course.
@@ -180,10 +205,7 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Course $course)
-    {
-        //
-    }
+    public function edit(Course $course) {}
 
     /**
      * Remove the specified resource from storage.
