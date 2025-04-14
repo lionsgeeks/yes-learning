@@ -139,7 +139,7 @@ const AdminCoursesCreate = () => {
                 },
             });
         } else {
-            alert('All inputs should be filled')
+            alert('All inputs should be filled');
         }
     };
 
@@ -239,11 +239,6 @@ const AdminCoursesCreate = () => {
                         </DropdownMenu>
                     </div>
                     <Tabs value={activeLangTab} onValueChange={setActiveLangTab} className="space-y-4">
-                        {/* <TabsList className="grid w-full grid-cols-3">
-                            <TabsTrigger value="en">English</TabsTrigger>
-                            <TabsTrigger value="fr">Français</TabsTrigger>
-                            <TabsTrigger value="ar">Arabya</TabsTrigger>
-                        </TabsList> */}
                         <TabsContent value="en" className="grid-cols- grid gap-4 space-y-4">
                             <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
                                 <TabsList className="grid w-full grid-cols-3">
@@ -278,8 +273,9 @@ const AdminCoursesCreate = () => {
                                         course={{
                                             title: 'Course Title',
                                             description: 'Course description will appear here.',
-                                            subcourses: subcourses,
+                                            subcourses: subcourses.en,
                                         }}
+                                        lang='en'
                                     />
                                     <div className="mt-6 flex justify-between">
                                         <Button variant="outline" onClick={() => setActiveTab('content')}>
@@ -300,28 +296,6 @@ const AdminCoursesCreate = () => {
                                         </Button>
                                     </div>
                                 </TabsContent>
-
-                                {/* <TabsContent value="quizz">
-                            <CreateQuizPage data={data} setData={setData} />
-                            <div className="mt-6 flex justify-between">
-                                <Button variant="outline" onClick={() => setActiveTab('content')}>
-                                    Back to Content
-                                </Button>
-                                <Button onClick={handleSubmit} disabled={isSubmitting}>
-                                    {isSubmitting ? (
-                                        <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Saving...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Save className="mr-2 h-4 w-4" />
-                                            Save Course
-                                        </>
-                                    )}
-                                </Button>
-                            </div>
-                        </TabsContent> */}
                             </Tabs>
                         </TabsContent>
                         <TabsContent value="fr" className="grid-cols- grid gap-4 space-y-4">
@@ -358,8 +332,9 @@ const AdminCoursesCreate = () => {
                                         course={{
                                             title: 'Course Title',
                                             description: 'Course description will appear here.',
-                                            subcourses: subcourses,
+                                            subcourses: subcourses.fr,
                                         }}
+                                        lang='fr'
                                     />
                                     <div className="mt-6 flex justify-between">
                                         <Button variant="outline" onClick={() => setActiveTab('content')}>
@@ -380,28 +355,6 @@ const AdminCoursesCreate = () => {
                                         </Button>
                                     </div>
                                 </TabsContent>
-
-                                {/* <TabsContent value="quizz">
-                            <CreateQuizPage data={data} setData={setData} />
-                            <div className="mt-6 flex justify-between">
-                                <Button variant="outline" onClick={() => setActiveTab('content')}>
-                                    Back to Content
-                                </Button>
-                                <Button onClick={handleSubmit} disabled={isSubmitting}>
-                                    {isSubmitting ? (
-                                        <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Saving...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Save className="mr-2 h-4 w-4" />
-                                            Save Course
-                                        </>
-                                    )}
-                                </Button>
-                            </div>
-                        </TabsContent> */}
                             </Tabs>
                         </TabsContent>
                         <TabsContent value="ar" className="grid-cols- grid gap-4 space-y-4">
@@ -438,8 +391,9 @@ const AdminCoursesCreate = () => {
                                         course={{
                                             title: 'Course Title',
                                             description: 'Course description will appear here.',
-                                            subcourses: subcourses,
+                                            subcourses: subcourses.ar,
                                         }}
+                                        lang='fr'
                                     />
                                     <div className="mt-6 flex justify-between">
                                         <Button variant="outline" onClick={() => setActiveTab('content')}>
@@ -460,28 +414,6 @@ const AdminCoursesCreate = () => {
                                         </Button>{' '}
                                     </div>
                                 </TabsContent>
-
-                                {/* <TabsContent value="quizz">
-                            <CreateQuizPage data={data} setData={setData} />
-                            <div className="mt-6 flex justify-between">
-                                <Button variant="outline" onClick={() => setActiveTab('content')}>
-                                    Back to Content
-                                </Button>
-                                <Button onClick={handleSubmit} disabled={isSubmitting}>
-                                    {isSubmitting ? (
-                                        <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Saving...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Save className="mr-2 h-4 w-4" />
-                                            Save Course
-                                        </>
-                                    )}
-                                </Button>
-                            </div>
-                        </TabsContent> */}
                             </Tabs>
                         </TabsContent>
                     </Tabs>

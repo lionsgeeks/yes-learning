@@ -202,14 +202,14 @@ console.log(data);
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="font-medium">{module.name}</h3>
+                                            <h3 className="font-medium">{module.name[data.language]}</h3>
                                             {selectedcourses.includes(module.id) && (
                                                 <div className="flex h-5 w-5 items-center justify-center rounded-full bg-beta">
                                                     <Check className="h-3 w-3 text-white" />
                                                 </div>
                                             )}
                                         </div>
-                                        <p className="mt-1 text-sm ">{module.description}</p>
+                                        <p className="mt-1 text-sm ">{module.description[data.language]}</p>
                                     </div>
                                 </motion.button>
                             ))}

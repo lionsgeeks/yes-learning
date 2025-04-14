@@ -94,11 +94,6 @@ export function CoursePreview({ course }) {
 
                 <CardContent className="">
                     <Tabs defaultValue="content">
-                        {/* <TabsList>
-              <TabsTrigger value="content">Content</TabsTrigger>
-              <TabsTrigger value="resources">Resources</TabsTrigger>
-              <TabsTrigger value="discussions">Discussions</TabsTrigger>
-            </TabsList> */}
 
                         <TabsContent value="content" className="mt-3">
                             {course.subcourses.length > 0 ? (

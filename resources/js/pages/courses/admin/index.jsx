@@ -7,7 +7,6 @@ import { CourseCard } from '@/components/courses/course-card';
 import { CreateCourseModal } from '@/components/courses/create/create-course-modal';
 import { Button } from '@/components/ui/button';
 
-// Sample data - in a real app, this would come from a database
 
 const AdminCourses = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);

@@ -20,8 +20,8 @@ import QuestionsOptions from "../../components/quizComponents/questionOptions"
 
 export default function QuizPage() {
 
-    const { quiz, user } = usePage().props;
-    const { data, setData, post } = useForm({
+    const { quiz, user, lang } = usePage().props;
+    const { post } = useForm({
         score: 0,
         time: 0,
     });
@@ -95,7 +95,7 @@ export default function QuizPage() {
 
             // Mutliple Choice Single Answer
             if (question.type == 'multiple-choice' && !question.allow_multiple) {
-                const correct_answer = question.options.find((answ) => answ.isCorrect).text
+                const correct_answer = question.options.find((answ) => answ.isCorrect).text[lang]
                 if (userAnswer == correct_answer) {
                     correctCount++;
                 }
@@ -103,16 +103,21 @@ export default function QuizPage() {
 
             // Multiple Choice Multiple Answers
             if (question.type == 'multiple-choice' && question.allow_multiple) {
-                const correct_answers = question.options.filter(answ => answ.isCorrect).map(item => item.text).sort();
+                const correct_answers = question.options.filter(answ => answ.isCorrect).map(item => item.text[lang]).sort();
                 const userAnswers = userAnswer.sort();
                 if (correct_answers.every((value, index) => value === userAnswers[index])) {
                     correctCount++;
                 }
             }
 
-
             // True False Questions + Text Questions
-            if (question.type == 'true-false' || question.type == "short-answer") {
+            if (question.type == "short-answer") {
+                if (userAnswer == question.correct_answer[lang]) {
+                    correctCount++;
+                }
+            }
+
+            if (question.type == "true-false") {
                 if (userAnswer == question.correct_answer) {
                     correctCount++;
                 }
@@ -148,7 +153,8 @@ export default function QuizPage() {
 
         // Mutliple Choice Single Answer
         if (question.type == 'multiple-choice' && !question.allow_multiple) {
-            const correct_answer = question.options.find((answ) => answ.isCorrect).text
+            const correct_answer = question.options.find((answ) => answ.isCorrect).text[lang]
+
             if (userAnswer == correct_answer) {
                 return true;
             }
@@ -156,16 +162,23 @@ export default function QuizPage() {
 
         // Multiple Choice Multiple Answers
         if (question.type == 'multiple-choice' && question.allow_multiple) {
-            const correct_answers = question.options.filter(answ => answ.isCorrect).map(item => item.text).sort();
+            const correct_answers = question.options.filter(answ => answ.isCorrect).map(item => item.text[lang]).sort();
             const userAnswers = userAnswer.sort();
-            if (correct_answers.every((value, index) => value === userAnswers[index])) {
+
+            if (correct_answers.every((value, index) => value == userAnswers[index])) {
                 return true;
             }
         }
 
 
         // True False Questions + Text Questions
-        if (question.type == 'true-false' || question.type == "short-answer") {
+        if (question.type == "short-answer") {
+            if (userAnswer == question.correct_answer[lang]) {
+                return true;
+            }
+        }
+
+        if (question.type == "true-false") {
             if (userAnswer == question.correct_answer) {
                 return true;
             }
@@ -229,12 +242,13 @@ export default function QuizPage() {
                                         <div className="space-y-3">
                                             {question.options.map((option) => (
                                                 <div
-                                                    key={option.text}
+                                                    key={option.text[lang]}
                                                     className="flex items-center space-x-2 border rounded-lg p-3 hover:bg-muted/50 transition-colors"
                                                 >
-                                                    <RadioGroupItem value={option.text} id={`option-${option.text}`} />
-                                                    <Label htmlFor={`option-${option.text}`} className="flex-1 cursor-pointer">
-                                                        {option.text}
+
+                                                    <RadioGroupItem value={option.text[lang]} id={`option-${option.text[lang]}`} />
+                                                    <Label htmlFor={`option-${option.text[lang]}`} className="flex-1 cursor-pointer">
+                                                        {option.text[lang]}
                                                     </Label>
                                                 </div>
                                             ))}
@@ -245,16 +259,16 @@ export default function QuizPage() {
                                         <div className="space-y-3">
                                             {question.options.map((option) => (
                                                 <div
-                                                    key={option.text}
+                                                    key={option.text[lang]}
                                                     className="flex items-center space-x-2 border rounded-lg p-3 hover:bg-muted/50 transition-colors"
                                                 >
                                                     <Checkbox
-                                                        id={`option-${option.text}`}
-                                                        checked={((answers[question.id]) || []).includes(option.text)}
-                                                        onCheckedChange={() => handleMultipleAnswer(option.text)}
+                                                        id={`option-${option.text[lang]}`}
+                                                        checked={((answers[question.id]) || []).includes(option.text[lang])}
+                                                        onCheckedChange={() => handleMultipleAnswer(option.text[lang])}
                                                     />
-                                                    <Label htmlFor={`option-${option.text}`} className="flex-1 cursor-pointer">
-                                                        {option.text}
+                                                    <Label htmlFor={`option-${option.text[lang]}`} className="flex-1 cursor-pointer">
+                                                        {option.text[lang]}
                                                     </Label>
                                                 </div>
                                             ))}
@@ -439,13 +453,13 @@ export default function QuizPage() {
                                                     <div className="mt-3 space-y-2">
                                                         {
                                                             (q.options && q.options.length > 0) ?
-                                                                q.options.map((option) => (
-                                                                    <>
-                                                                        <QuestionsOptions q={q} answers={answers} option={option} />
-                                                                    </>
+                                                                q.options.map((option, index) => (
+                                                                    <div key={index}>
+                                                                        <QuestionsOptions q={q} answers={answers} option={option} lang={lang} />
+                                                                    </div>
                                                                 ))
                                                                 :
-                                                                <QuestionsOptions q={q} answers={answers} />
+                                                                <QuestionsOptions q={q} answers={answers} lang={lang} />
                                                         }
                                                     </div>
                                                 </div>

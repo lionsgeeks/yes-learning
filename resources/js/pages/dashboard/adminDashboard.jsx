@@ -9,7 +9,7 @@ import Achievement from "@/components/achievement/achievement.jsx"
 import AdminDiscussionsTable from "@/components/discussions/admin-discussions-table.jsx";
 import { Doughnut, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from "chart.js";
-
+import TransText from "@/components/TransText"
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
 const breadcrumbs = [
@@ -294,13 +294,15 @@ export default function AdminDashboardPage() {
                                     <CardTitle>User Engagement</CardTitle>
                                     <CardDescription>Daily active users over the last 30 days</CardDescription>
                                 </CardHeader>
-                                <CardContent className="h-[300px]">
+                                <CardContent className="h-[300px] overflow-auto">
                                     {
                                         quizzes.length > 0 ? (
                                             quizzes.map((quiz) => (
                                                 <>
                                                     <p className="w-full text-justify tracking-wide mb-2">
-                                                        <span className="font-bold">{quiz.user.name}</span> passed the quiz <span className="font-bold">{quiz.quiz.title}</span> with a score of <span className="font-bold">{Math.round(quiz.score)}</span>
+                                                        <span className="font-bold">{quiz.user.name}</span> passed the quiz <span className="font-bold">
+                                                            <TransText {...JSON.parse(quiz.quiz.title)} />
+                                                        </span> with a score of <span className="font-bold">{Math.round(quiz.score)}</span>
                                                     </p>
                                                 </>
                                             ))
