@@ -70,7 +70,7 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
                                 </Badge>
                             )} */}
                         </div>
-                        <p className="text-sm text-muted-foreground">{workshop.course.name}</p>
+                        <p className="text-sm text-muted-foreground">{workshop.course.name.en}</p>
                     </div>
                     <div className="flex items-center gap-4">
                         {/* <div className="flex items-center gap-2">
@@ -126,7 +126,7 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
                                 <div>
                                     <h3 className="text-sm font-medium text-muted-foreground">Course</h3>
                                     <Badge variant="outline" className="mt-1">
-                                        {workshop.course.name}
+                                        {workshop.course.name.en}
                                     </Badge>
                                 </div>
 

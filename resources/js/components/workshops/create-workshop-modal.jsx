@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm } from "@inertiajs/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
+import TransText from "@/components/TransText"
 export function CreateWorkshopModal({ open, onOpenChange, courses, workshop }) {
 
   const isEditing = Boolean(workshop);
@@ -141,7 +141,8 @@ export function CreateWorkshopModal({ open, onOpenChange, courses, workshop }) {
                 <SelectContent>
                   {courses.map((course) => (
                     <SelectItem key={course.id} value={course.id}>
-                      {course.name}
+
+                      <TransText en={course.name.en} fr={course.name.fr} ar={course.name.ar} />
                     </SelectItem>
                   ))}
                 </SelectContent>

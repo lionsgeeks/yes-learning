@@ -60,7 +60,7 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters ,workshop 
         notificationTime: '24h',
         published: false,
     })
-console.log(data);
+// console.log(data);
 
     const nextStep = () => {
         setStep((prev) => Math.min(prev + 1, 3))
@@ -221,7 +221,7 @@ console.log(data);
                                 <SelectContent>
                                     {chapters.map((chapter) => (
                                         <SelectItem key={chapter.id} value={chapter.id}>
-                                            {chapter.title}
+                                            {chapter.title.en}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>

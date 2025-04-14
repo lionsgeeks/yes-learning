@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Plus } from "lucide-react"
 import { CreateWorkshopModal } from "@/components/workshops/create-workshop-modal"
 import { WorkshopCard } from "@/components/workshops/workshop-card"
-
+import TransText from "@/components/TransText"
 const breadcrumbs = [
 
     {
@@ -53,7 +53,8 @@ const AdminWorkshops = ({ workshops , courses }) => {
             <SelectItem value="all">All Courses</SelectItem>
                   {courses.map((course) => (
                     <SelectItem key={course.name} value={course.name}>
-                      {course.name}
+
+                      <TransText en={course.name.en} fr={course.name.fr} ar={course.name.ar} />
                     </SelectItem>
                   ))}
                 </SelectContent>

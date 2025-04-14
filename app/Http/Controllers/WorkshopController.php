@@ -54,7 +54,6 @@ class WorkshopController extends Controller
     public function store(Request $request)
     {
         //
-
         $validated = $request->validate([
             'name' => 'required|array',
             "name.en"=>"required|string",
@@ -62,10 +61,11 @@ class WorkshopController extends Controller
             "name.ar"=>"required|string",
             'description' => 'required|array',
             "description.en"=>"required|string",
-            "description.descriptionfr"=>"required|string",
-            "description.descriptionar"=>"required|string",
+            "description.fr"=>"required|string",
+            "description.ar"=>"required|string",
             "course_id"=>"required"
         ]);
+        // dd($request->all());
         Workshop::create([
             "name" => json_encode($validated['name']),
             "description" => json_encode($validated['description']),

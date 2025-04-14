@@ -40,19 +40,19 @@ export default function WorkshopsPage({ workshops, chapters }) {
         if (isBefore(date, now)) {
             return (
                 <Badge variant="outline" className="bg-gray-100 text-gray-800">
-                    Completed
+                    <TransText en="Completed" fr="Terminé" ar="مُكتمل" />
                 </Badge>
             );
         } else if (isAfter(date, now) && isBefore(date, addHours(now, 24))) {
             return (
                 <Badge variant="outline" className="bg-amber-100 text-amber-800">
-                    Upcoming (24h)
+                <TransText en="Upcoming" fr="À venir" ar="قادِم " />
                 </Badge>
             );
         } else {
             return (
                 <Badge variant="outline" className="bg-green-100 text-green-800">
-                    Scheduled
+                <TransText en="Scheduled" fr="Planifié" ar=" " />
                 </Badge>
             );
         }
@@ -103,7 +103,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                         <CardHeader className="pb-3">
                                             <div className="flex items-start justify-end">{getStatusBadge(workshop.date)}</div>
                                             <CardTitle className="mt-2"> <TransText en={JSON.parse(workshop.name).en} fr={JSON.parse(workshop.name).fr} ar={JSON.parse(workshop.name).ar} /></CardTitle>
-                                            <CardDescription>{workshop.chapter.title}</CardDescription>
+                                            <CardDescription>{workshop.chapter.title.en}</CardDescription>
                                         </CardHeader>
                                         <CardContent className="flex-1">
                                             <div className="space-y-4">
@@ -149,26 +149,23 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <Button variant="outline" className="flex-1" asChild>
 
-
-                                                    </Button>
-                                                        <TransText en= <Button variant="outline" className="flex-1" asChild>
-                                                        <a href={JSON.parse(workshop.meetLink).en} target="_blank" rel="noopener noreferrer">
+                                                        <TransText en=
+                                                        <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).en} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             Join
                                                         </a>
-                                                        </Button>
-                                                        fr= <Button variant="outline" className="flex-1" asChild>  <a href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
+
+                                                        fr=   <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             rejoindre
                                                         </a>
-                                                        </Button>
-                                                        ar= <Button variant="outline" className="flex-1" asChild> <a href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
+
+                                                        ar= <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             انضمَّ
                                                         </a>
-                                                        </Button>
+
                                                          />
                                                 </>
                                             )}

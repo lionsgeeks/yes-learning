@@ -27,7 +27,7 @@ export function WorkshopCard({ workshop, courses }) {
                         <div className="flex items-center gap-2">
                             <CardTitle className="text-lg">{JSON.parse(workshop.name).en}</CardTitle>
                         </div>
-                        <CardDescription className="line-clamp-1 mt-1">{JSON.parse(workshop.description).fr}</CardDescription>
+                        <CardDescription className="line-clamp-1 mt-1">{JSON.parse(workshop.description).en}</CardDescription>
                     </div>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild data-dropdown-trigger onClick={handleClick}>
@@ -64,7 +64,7 @@ export function WorkshopCard({ workshop, courses }) {
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center text-sm text-muted-foreground">
                         <Badge variant="outline" className="mr-2">
-                            {workshop.course.name}
+                            {workshop.course.name.en}
                         </Badge>
                     </div>
                     <div className="flex items-center text-sm text-muted-foreground">
