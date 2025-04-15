@@ -179,7 +179,7 @@ export default function AdminUsersTable({
                                     <TableHead className="w-full ">User</TableHead>
                                     {role && <TableHead className="w-full">Role</TableHead>}
                                     {/* <TableHead className="w-full">Status</TableHead> */}
-                                    {courses && <TableHead className="w-full">Courses</TableHead>}
+                                    {courses && <TableHead className="w-full">Subscribed Courses</TableHead>}
                                     {joinDate && <TableHead className="w-full">Join Date</TableHead>}
                                     {/* <TableHead className="text-right w-full">Actions</TableHead> */}
                                 </TableRow>
