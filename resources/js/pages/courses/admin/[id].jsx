@@ -27,7 +27,6 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-// Sample data - in a real app, this would come from a database
 
 function SortableChapter({ chapter, onTogglePublish, onEdit, idx, onDelete }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: chapter.id });

@@ -13,6 +13,7 @@ class Course extends Model
         "description",
         "image",
         "label",
+        "published"
     ];
     protected $casts = [
         'name' => 'array',

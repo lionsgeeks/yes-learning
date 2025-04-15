@@ -1,7 +1,7 @@
 'use client';
 
 import { Edit, Eye, MoreHorizontal, Trash2 } from 'lucide-react';
-
+import { EditCourseModal } from '@/components/courses/edit-course-modal';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -18,6 +18,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Link, router, useForm } from '@inertiajs/react';
 import { useState } from 'react';
+import TruncateText from '../TruncateText';
 
 interface CourseCardProps {
     course: {
@@ -46,6 +47,8 @@ interface CourseCardProps {
 export function CourseCard({ course }: CourseCardProps) {
     const [showDeleteAlert, setShowDeleteAlert] = useState(false);
     const { delete: destroy } = useForm();
+    const [editModalOpen, setEditModalOpen] = useState(false);
+
     return (
         <>
             <Card className="gap-3 overflow-hidden transition-all hover:shadow-md p-0">
@@ -57,13 +60,13 @@ export function CourseCard({ course }: CourseCardProps) {
                                 Draft
                             </Badge>
                         )}
-                        {!course.published && <Badge className="absolute top-2 left-2">{course.label.en}</Badge>}
+                        <Badge className="absolute top-2 left-2"> <TruncateText text={course.label.en} length={10} />  </Badge>
                     </div>
                 </Link>
                 <CardHeader className="px-4">
                     <div className="flex items-start justify-between">
                         <Link href={`/admin/courses/${course.id}`} className="hover:underline">
-                            <h3 className="line-clamp-1 text-lg font-semibold">{course.name.en}</h3>
+                            <h3 className="line-clamp-1 text-lg font-semibold"><TruncateText text={course.name.en} length={19} /> </h3>
                         </Link>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -77,7 +80,7 @@ export function CourseCard({ course }: CourseCardProps) {
                                     <Eye className="mr-2 h-4 w-4" />
                                     View
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => router.visit(`/admin/courses/${course.id}/edit`)}>
+                                <DropdownMenuItem onClick={() => setEditModalOpen(true)}>
                                     <Edit className="mr-2 h-4 w-4" />
                                     Edit
                                 </DropdownMenuItem>
@@ -123,6 +126,7 @@ export function CourseCard({ course }: CourseCardProps) {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
+            <EditCourseModal course={course} open={editModalOpen} onOpenChange={setEditModalOpen} />
         </>
     );
 }

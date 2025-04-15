@@ -32,6 +32,7 @@ export function EditCourseModal({ open, onOpenChange, course }) {
             fr: course.label.fr,
             ar: course.label.ar,
         },
+        published: course.published,
         image: course.image,
     });
     useEffect(() => {
@@ -42,18 +43,13 @@ export function EditCourseModal({ open, onOpenChange, course }) {
         console.log(data);
         e.preventDefault();
         setIsSubmitting(true);
-        // put(route('course.update', course.id), {
-        //     // Add these options:
-        //     forceFormData: true,
-        //     onSuccess: () => onOpenChange(false),
-        //     onError: () => {},
-        //     preserveScroll: true,
-        //   });
-        post(route('course.update', {
+        post(
+            route('course.update', {
                 _method: 'put',
                 data: data,
-                course: course.id
-            }))
+                course: course.id,
+            }),
+        );
         setIsSubmitting(false);
         onOpenChange(false);
     };
@@ -61,14 +57,17 @@ export function EditCourseModal({ open, onOpenChange, course }) {
         const [field, lang] = e.target.name.split('.');
         // console.log(field, lang);
         const value = e.target.value;
-
-        setData((prev) => ({
-            ...prev,
-            [field]: {
-                ...prev[field],
-                [lang]: value,
-            },
-        }));
+        if (field == 'published') {
+            setData('published', !data.published);
+        } else {
+            setData((prev) => ({
+                ...prev,
+                [field]: {
+                    ...prev[field],
+                    [lang]: value,
+                },
+            }));
+        }
     };
     const handleImageChange = (e) => {
         const file = e.target.files?.[0];
@@ -83,14 +82,13 @@ export function EditCourseModal({ open, onOpenChange, course }) {
             reader.readAsDataURL(file);
         }
     };
-    
+
     // Update the reset function to also clear the data.image
     const handleRemoveImage = () => {
         setImagePreview(null);
         setData('image', null); // Explicitly set to null
-      };
-    
-    
+    };
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <div className="p-5">
@@ -225,7 +223,17 @@ export function EditCourseModal({ open, onOpenChange, course }) {
                                 </div>
                             </TabsContent>
                         </Tabs>
-
+                        <div className="flex items-center space-x-2 pt-2">
+                            <input
+                                type="checkbox"
+                                id="published"
+                                name="published"
+                                className="text-primary focus:ring-primary h-4 w-4 rounded border-gray-300"
+                                checked={data.published}
+                                onChange={handleInputChange}
+                            />
+                            <Label htmlFor="auto-award">Publish this course</Label>
+                        </div>
                         <div className="border-muted space-y- relative flex flex-col items-center gap-y-2 rounded-lg border-2 border-dashed p-3">
                             {imagePreview ? (
                                 <div className="reletive mt-4">

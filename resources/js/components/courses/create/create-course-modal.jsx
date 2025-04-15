@@ -15,23 +15,28 @@ export function CreateCourseModal({ open, onOpenChange }) {
         name: { en: '', fr: '', ar: '' },
         label: { en: '', fr: '', ar: '' },
         description: { en: '', fr: '', ar: '' },
+        published: false,
         image: null,
     });
     const [activeTab, setActiveTab] = useState('en');
     const [imagePreview, setImagePreview] = useState(null);
 
     const handleInputChange = (e) => {
-        // console.log(data.name);
         const [field, lang] = e.target.name.split('.');
         const value = e.target.value;
 
-        setData((prev) => ({
-            ...prev,
-            [field]: {
-                ...prev[field],
-                [lang]: value,
-            },
-        }));
+        console.log(field);
+        if (field == 'published') {
+            setData('published', !data.published);
+        } else {
+            setData((prev) => ({
+                ...prev,
+                [field]: {
+                    ...prev[field],
+                    [lang]: value,
+                },
+            }));
+        }
     };
 
     const handleImageChange = (e) => {
@@ -51,12 +56,6 @@ export function CreateCourseModal({ open, onOpenChange }) {
     const handleCreate = (e) => {
         e.preventDefault();
 
-        // const formData = new FormData();
-        // formData.append('name', data.name);
-        // formData.append('label', data.label);
-        // formData.append('description', data.description);
-        // formData.append('image', data.image);
-
         post(route('course.store'), {
             data: data,
             onFinish: () => {
@@ -64,6 +63,7 @@ export function CreateCourseModal({ open, onOpenChange }) {
                     name: { en: '', fr: '', ar: '' },
                     label: { en: '', fr: '', ar: '' },
                     description: { en: '', fr: '', ar: '' },
+                    published: false,
                     image: null,
                 });
                 onOpenChange(false);
@@ -203,6 +203,17 @@ export function CreateCourseModal({ open, onOpenChange }) {
                         </div>
                     </TabsContent>
                 </Tabs>
+                <div className="flex items-center space-x-2 pb-2">
+                    <input
+                        type="checkbox"
+                        id="published"
+                        name="published"
+                        className="text-primary focus:ring-primary h-4 w-4 rounded border-gray-300"
+                        checked={data.published}
+                        onChange={handleInputChange}
+                    />
+                    <Label htmlFor="auto-award">Publish this course</Label>
+                </div>
                 <div className="border-muted space-y- relative flex flex-col items-center gap-y-2 rounded-lg border-2 border-dashed p-3">
                     {imagePreview ? (
                         <div className="mt-4">
