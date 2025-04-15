@@ -38,21 +38,38 @@ class DashboardController extends Controller
     {
         // Counts
         $userCount = User::count();
-        $courseCount = Course::count();
         $libraryCount = Library::count();
         $completionCount = QuizUser::count();
 
-        $users = User::latest()->take(4)->get();
+        $courses = Course::all()->map(function($course) {
+            return [
+                'id' => $course->id,
+                'name' => $course->name['en'],
+                'subscribed' => $course->users->count()
+            ];
+        });
+
+        $users = User::where('role', null)->latest()->take(4)->get()->map(function($user) {
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role,
+                'language' => $user->language,
+                'created_at' => $user->created_at,
+                'courses' => $user->courses->count()
+            ];
+        });
         $quizzes = QuizUser::with('user', 'quiz')->get();
 
 
         return Inertia::render("dashboard/adminDashboard", [
             'userCount' => $userCount,
-            'courseCount' => $courseCount,
             'libraryCount' => $libraryCount,
             'completionCount' => $completionCount,
             'users' => $users,
             'quizzes' => $quizzes,
+            'courses' => $courses,
         ]);
     }
 
@@ -63,7 +80,7 @@ class DashboardController extends Controller
         $user->update([
             'language' => $request->language
         ]);
-        // dd($request->all());
+
         foreach ($request->courses as $courseId) {
             UserCourse::create([
                 'user_id' => $user->id,
