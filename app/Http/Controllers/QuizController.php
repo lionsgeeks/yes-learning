@@ -100,7 +100,7 @@ class QuizController extends Controller
             'description' => json_decode($quiz->description)->$lang,
             'timeLimit' => $quiz->time_limit,
             'passingScore' => 70,
-            'chapter_id' => $quiz->chapter_id,
+            'course_id' => $quiz->course_id,
             'questions' => $quiz->questions()->get()->map(function ($question) use ($lang) {
 
                 return [

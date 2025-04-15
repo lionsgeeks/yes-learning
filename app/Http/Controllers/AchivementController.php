@@ -18,7 +18,7 @@ class AchivementController extends Controller
     public function index()
     {
 
-        $quizzes = Quiz::all();
+        $quizzes = Quiz::where('published', 1)->get();
         $userQuiz = QuizUser::where('user_id',Auth::id())->get();
 
         return Inertia::render("achivements/user/index", [
@@ -27,21 +27,6 @@ class AchivementController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.

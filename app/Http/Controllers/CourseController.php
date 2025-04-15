@@ -103,7 +103,8 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         $lang = Auth::user()->language;
-        // dd($lang);
+        $quizId = $course->quiz()->first()->id;
+
         return Inertia::render("courses/student/[id]", [
             "course" => [
                 'id' => $course->id,
@@ -111,6 +112,7 @@ class CourseController extends Controller
                 'description' => $course->description[$lang],
                 'label' =>  $course->label[$lang],
             ],
+            "quizId" => $quizId,
             "image_url" => asset('storage/'),
             "chapters" => Chapter::where("course_id", $course->id)
                 ->with(['users' => function ($query) {

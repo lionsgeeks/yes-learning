@@ -21,6 +21,7 @@ import QuestionsOptions from "../../components/quizComponents/questionOptions"
 export default function QuizPage() {
 
     const { quiz, user, lang } = usePage().props;
+
     const { post } = useForm({
         score: 0,
         time: 0,
@@ -208,7 +209,7 @@ export default function QuizPage() {
             <Head title="Quiz Title" />
             <div className="mb-6 p-6">
                 <Link
-                    href={"/course/" + quiz.id}
+                    href={"/course/" + quiz.course_id}
                     className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                     <ChevronLeft className="mr-1 h-4 w-4" />
@@ -470,7 +471,7 @@ export default function QuizPage() {
                             </CardContent>
                             <CardFooter className="flex justify-between">
                                 <Button variant="outline" asChild>
-                                    <Link href={`/course/${quizData.chapter_id}`}>
+                                    <Link href={`/course/${quizData.course_id}`}>
                                         <ArrowLeft className="mr-2 h-4 w-4" />
                                         Return to Course
                                     </Link>
@@ -484,7 +485,6 @@ export default function QuizPage() {
                                             <ChevronRight className="ml-2 h-4 w-4" />
                                         </Link>
                                     </Button> */}
-
                                     </>
                                 ) : (
                                     <Button

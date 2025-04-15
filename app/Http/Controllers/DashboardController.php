@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Library;
+use App\Models\Quiz;
 use App\Models\QuizUser;
 use App\Models\User;
 use App\Models\UserCourse;
@@ -18,7 +19,8 @@ class DashboardController extends Controller
     //
     public function dashboard()
     {
-        //
+        $quizzes = Quiz::where('published', 1)->get();
+        $userQuiz = QuizUser::where('user_id', Auth::id())->get();
         return Inertia::render("dashboard/dashboard", [
             "courses" => DB::table('courses')->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
                 ->where('user_courses.user_id', Auth::id())
@@ -26,7 +28,9 @@ class DashboardController extends Controller
                 ->get()->map(function ($course) {
                     $course->chapterCount = Chapter::where("course_id", $course->id)->count();
                     return $course;
-                })
+                }),
+            "quizzes" => $quizzes,
+            "userQuiz" => $userQuiz
         ]);
     }
 
@@ -70,5 +74,4 @@ class DashboardController extends Controller
 
         return back();
     }
-
 }

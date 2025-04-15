@@ -17,7 +17,7 @@ import Loading from '../../../components/loading';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
 const CourseDetails = () => {
-    const { course, chapters, image_url, auth } = usePage().props;
+    const { course, chapters, image_url, auth, quizId } = usePage().props;
     console.log("course :",course);
     console.log("chapters :",chapters);
     const [currentChapterId, setCurrentChapterId] = useState(chapters[0]?.id);
@@ -55,7 +55,8 @@ const CourseDetails = () => {
     const takeQuiz = (e) => {
         e.preventDefault();
         readChapters();
-        router.visit('/dashboard');
+        router.visit('/quiz/' + quizId)
+
     }
     function renderChart(block) {
         const content = block.content;
@@ -485,12 +486,12 @@ const CourseDetails = () => {
                                 </Button>
                             )}
                             {currentSubModuleId === chapters.length ? (
-                                <Link onClick={(e)=>takeQuiz(e)}>
+                                <a onClick={(e)=>takeQuiz(e)}>
                                     <Button>
                                         Take Quiz
                                         <ChevronRight className="ml-2 h-4 w-4" />
                                     </Button>
-                                </Link>
+                                </a>
                             ) : (
                                 <Button
                                     onClick={() => {

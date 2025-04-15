@@ -48,7 +48,7 @@ export function CourseCard({ course }: CourseCardProps) {
     const { delete: destroy } = useForm();
     return (
         <>
-            <Card className="gap-3 overflow-hidden transition-all hover:shadow-md">
+            <Card className="gap-3 overflow-hidden transition-all hover:shadow-md p-0">
                 <Link href={`/admin/courses/${course.id}`}>
                     <div className="relative aspect-video overflow-hidden">
                         <img src={course.image} alt={course.name.en} className="object-cover transition-transform hover:scale-105" />
