@@ -55,6 +55,16 @@ const ChapterDetails = ({ setActiveTab, data, setData, lang }) => {
                         />
                     </div>
                 </CardContent>
+                <div className="mr-3 flex h-full items-end justify-end">
+                    <Button
+                        onClick={() => {
+                            setActiveTab('content');
+                        }}
+                    >
+                        Continue to Content
+                        <Check className="ml-2 h-4 w-4" />
+                    </Button>
+                </div>
             </Card>
 
             {/* <Card className="col-span-2">
@@ -99,17 +109,8 @@ const ChapterDetails = ({ setActiveTab, data, setData, lang }) => {
                         />
                     </div>
                 </CardContent>
-                <div className="mr-3 flex h-full items-end justify-end">
-                    <Button
-                        onClick={() => {
-                            setActiveTab('content');
-                        }}
-                    >
-                        Continue to Content
-                        <Check className="ml-2 h-4 w-4" />
-                    </Button>
-                </div>
-            </Card> */}
+                </Card> */}
+               
         </>
     );
 };

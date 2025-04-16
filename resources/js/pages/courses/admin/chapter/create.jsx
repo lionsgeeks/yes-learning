@@ -283,7 +283,7 @@ const AdminCoursesCreate = () => {
                                         <Button variant="outline" onClick={() => setActiveTab('content')}>
                                             Back to Content
                                         </Button>
-                                        <Button onClick={handleSubmit} disabled={isSubmitting}>
+                                        {/* <Button onClick={handleSubmit} disabled={isSubmitting}>
                                             {isSubmitting ? (
                                                 <>
                                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -295,7 +295,7 @@ const AdminCoursesCreate = () => {
                                                     Save Course
                                                 </>
                                             )}
-                                        </Button>
+                                        </Button> */}
                                     </div>
                                 </TabsContent>
                             </Tabs>
@@ -342,7 +342,7 @@ const AdminCoursesCreate = () => {
                                         <Button variant="outline" onClick={() => setActiveTab('content')}>
                                             Back to Content
                                         </Button>
-                                        <Button onClick={handleSubmit} disabled={isSubmitting}>
+                                        {/* <Button onClick={handleSubmit} disabled={isSubmitting}>
                                             {isSubmitting ? (
                                                 <>
                                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -354,7 +354,7 @@ const AdminCoursesCreate = () => {
                                                     Save Course
                                                 </>
                                             )}
-                                        </Button>
+                                        </Button> */}
                                     </div>
                                 </TabsContent>
                             </Tabs>
@@ -402,7 +402,7 @@ const AdminCoursesCreate = () => {
                                             <Button variant="outline" onClick={() => setActiveTab('content')}>
                                                 Back to Content
                                             </Button>
-                                            <Button onClick={handleSubmit} disabled={isSubmitting}>
+                                            {/* <Button onClick={handleSubmit} disabled={isSubmitting}>
                                                 {isSubmitting ? (
                                                     <>
                                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -414,7 +414,7 @@ const AdminCoursesCreate = () => {
                                                         Save Course
                                                     </>
                                                 )}
-                                            </Button>{' '}
+                                            </Button> */}
                                         </div>
                                     </TabsContent>
                                 </Tabs>

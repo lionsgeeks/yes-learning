@@ -29,7 +29,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import TruncateText from '@/components/TruncateText'
 function SortableChapter({ chapter, onTogglePublish, onEdit, idx, onDelete }) {
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: chapter.id });
+    const { attributes, listeners, setNodeRef, transform, transition, } = useSortable({ id: chapter.id });
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
@@ -131,7 +131,7 @@ const AdminCoursesShow = () => {
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
-
+        console.log('drop the soap')
         if (active.id !== over.id) {
             setChapters((items) => {
                 const oldIndex = items.findIndex((item) => item.id === active.id);

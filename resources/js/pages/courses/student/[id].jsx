@@ -1,4 +1,4 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import TransText from '@/components/TransText';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,14 +13,13 @@ import { BookOpen, CheckCircle, ChevronLeft, ChevronRight, Clock, Download, File
 import { useEffect, useState } from 'react';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 import Loading from '../../../components/loading';
-import TransText from '@/components/TransText';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
 const CourseDetails = () => {
-    const { course, chapters, image_url, auth, quizId } = usePage().props;
-    console.log("course :", course);
-    console.log("chapters :", chapters);
+    const { course, chapters, auth, quizId } = usePage().props;
+    console.log('course :', course);
+    console.log('chapters :', chapters);
     const [currentChapterId, setCurrentChapterId] = useState(chapters[0]?.id);
     console.log('auth : ', currentChapterId);
     const { data, setData, post, processing } = useForm({
@@ -30,6 +29,14 @@ const CourseDetails = () => {
     const [currentSubModuleId, setCurrentSubModuleId] = useState(1);
     const attachments = [{ id: 1, name: 'HTML Cheat Sheet.pdf', type: 'PDF', size: '1.2 MB', icon: FileText }];
     const [coursePercentage, setCoursePercentage] = useState(0);
+    useEffect(() => {
+        chapters.forEach(chapter => {
+            if (chapter.content) {
+                
+            }
+        });
+    }, []);
+
     const calculPercentage = (param) => {
         setCoursePercentage((param / chapters.length) * 100);
     };
@@ -56,9 +63,8 @@ const CourseDetails = () => {
     const takeQuiz = (e) => {
         e.preventDefault();
         readChapters();
-        router.visit('/quiz/' + quizId)
-
-    }
+        router.visit('/quiz/' + quizId);
+    };
     function renderChart(block) {
         const content = block.content;
         const chartData = {
@@ -73,7 +79,6 @@ const CourseDetails = () => {
                 },
             ],
         };
-
         const chartOptions = {
             responsive: true,
             plugins: {
@@ -83,7 +88,6 @@ const CourseDetails = () => {
                 },
             },
         };
-
         return (
             <div className="bg- rounded-md">
                 <div className="h-full w-full">
@@ -145,55 +149,54 @@ const CourseDetails = () => {
                         <CardContent className="p-0">
                             <ScrollArea className="h-[calc(100vh-300px)]">
                                 {/* <Accordion type="multiple" defaultValue={['module-1']} className="px-4 pb-4"> */}
-                                    {/* <AccordionItem key={course.id} value={`module-${course.id}`}> */}
-                                        {/* <AccordionTrigger className="py-3 text-sm hover:no-underline">
+                                {/* <AccordionItem key={course.id} value={`module-${course.id}`}> */}
+                                {/* <AccordionTrigger className="py-3 text-sm hover:no-underline">
                                             <div className="flex items-start text-left">
                                                 <span>{course.name}</span>
                                             </div>
                                         </AccordionTrigger> */}
-                                        {/* <AccordionContent> */}
-                                            <div className="space-y-1 pl-2">
-                                                {chapters.map((subModule, index) => (
-                                                    <div
-                                                        key={index}
-                                                        onClick={() => {
-                                                            setCurrentSubModuleId(index + 1);
-                                                            calculPercentage(index + 1);
-                                                            setCurrentChapterId(subModule.id);
-                                                        }}
-                                                        // href={`/module/${subModule.id}`}
-                                                        className={`flex cursor-pointer items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors ${index + 1 === currentSubModuleId
-                                                            ? 'bg-primary/80 text-primary-foreground'
-                                                            : 'hover:bg-muted'
-                                                            }`}
-                                                    >
-                                                        {/* </Card> */}
-                                                        <div className="flex items-center">
-                                                            {subModule.users.some((user) => user.id === auth.user.id) ? (
-                                                                <div className="bg-primary mr-2 flex h-4 w-4 items-center justify-center rounded-full text-[10px] text-white">
-                                                                    ✓
-                                                                </div>
-                                                            ) : (
-                                                                <div className="border-input mr-2 flex h-4 w-4 items-center justify-center rounded-full border text-[10px]"></div>
-                                                            )}
-                                                            <span className={index + 1 === currentSubModuleId ? '' : 'text-muted-foreground'}>
-                                                                {subModule.title}
-                                                            </span>
-                                                        </div>
-                                                        <div className="flex items-center gap-2">
-                                                            {subModule.hasQuiz && (
-                                                                <Badge variant="outline" className="h-5 px-1 text-[10px]">
-                                                                    Quiz
-                                                                </Badge>
-                                                            )}
-                                                            <span className={index + 1 === currentSubModuleId ? '' : 'text-muted-foreground text-xs'}>
-                                                                {subModule.estimated_duration}
-                                                            </span>
-                                                        </div>
+                                {/* <AccordionContent> */}
+                                <div className="space-y-1 pl-2">
+                                    {chapters.map((subModule, index) => (
+                                        <div
+                                            key={index}
+                                            onClick={() => {
+                                                setCurrentSubModuleId(index + 1);
+                                                calculPercentage(index + 1);
+                                                setCurrentChapterId(subModule.id);
+                                            }}
+                                            // href={`/module/${subModule.id}`}
+                                            className={`flex cursor-pointer items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors ${
+                                                index + 1 === currentSubModuleId ? 'bg-primary/80 text-primary-foreground' : 'hover:bg-muted'
+                                            }`}
+                                        >
+                                            {/* </Card> */}
+                                            <div className="flex items-center">
+                                                {subModule.users.some((user) => user.id === auth.user.id) ? (
+                                                    <div className="bg-primary mr-2 flex h-4 w-4 items-center justify-center rounded-full text-[10px] text-white">
+                                                        ✓
                                                     </div>
-                                                ))}
+                                                ) : (
+                                                    <div className="border-input mr-2 flex h-4 w-4 items-center justify-center rounded-full border text-[10px]"></div>
+                                                )}
+                                                <span className={index + 1 === currentSubModuleId ? '' : 'text-muted-foreground'}>
+                                                    {subModule.title}
+                                                </span>
                                             </div>
-                                        {/* </AccordionContent>
+                                            <div className="flex items-center gap-2">
+                                                {subModule.hasQuiz && (
+                                                    <Badge variant="outline" className="h-5 px-1 text-[10px]">
+                                                        Quiz
+                                                    </Badge>
+                                                )}
+                                                <span className={index + 1 === currentSubModuleId ? '' : 'text-muted-foreground text-xs'}>
+                                                    {subModule.estimated_duration}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                {/* </AccordionContent>
                                     </AccordionItem>
                                 </Accordion> */}
                             </ScrollArea>
@@ -203,12 +206,14 @@ const CourseDetails = () => {
 
                 {/* Middle - Course content */}
                 {!processing ? (
-                    <div  className="lg:col-span-6">
+                    <div className="lg:col-span-6">
                         <Card className="overflow-hidden">
                             <CardContent className="p-6">
                                 <Tabs defaultValue="content">
                                     <TabsList className="mb-4">
-                                        <TabsTrigger value="content"><TransText en="Lesson Content" fr="Contenu" ar='محتوى ' />  </TabsTrigger>
+                                        <TabsTrigger value="content">
+                                            <TransText en="Lesson Content" fr="Contenu" ar="محتوى " />{' '}
+                                        </TabsTrigger>
                                         <TabsTrigger value="discussion">Discussion</TabsTrigger>
                                         <TabsTrigger value="notes">My Notes</TabsTrigger>
                                     </TabsList>
@@ -335,7 +340,7 @@ const CourseDetails = () => {
                                                                                                         <td key={colIndex} className="border p-2">
                                                                                                             {
                                                                                                                 block.content?.data[rowIndex + 1][
-                                                                                                                colIndex
+                                                                                                                    colIndex
                                                                                                                 ]
                                                                                                             }
                                                                                                         </td>
@@ -364,7 +369,7 @@ const CourseDetails = () => {
                                                                                         </div>
                                                                                     </div>
                                                                                     <a
-                                                                                        href={`${image_url}/${block.content.url}`}
+                                                                                        href={`/storage/${block.content.url}`}
                                                                                         target="_blank"
                                                                                         download
                                                                                     >
@@ -486,19 +491,18 @@ const CourseDetails = () => {
                                 </Button>
                             )}
                             {currentSubModuleId === chapters.length ? (
-                                quizId ?
+                                quizId ? (
                                     <a onClick={(e) => takeQuiz(e)}>
                                         <Button>
                                             Take Quiz
                                             <ChevronRight className="ml-2 h-4 w-4" />
                                         </Button>
                                     </a>
-                                    :
+                                ) : (
                                     <a href="/course">
-                                        <Button>
-                                            Return To Courses
-                                        </Button>
+                                        <Button>Return To Courses</Button>
                                     </a>
+                                )
                             ) : (
                                 <Button
                                     onClick={() => {
@@ -512,7 +516,7 @@ const CourseDetails = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className="lg:col-span-6 flex justify-center items-center">
+                    <div className="flex items-center justify-center lg:col-span-6">
                         <Loading />
                     </div>
                 )}

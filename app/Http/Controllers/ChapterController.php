@@ -170,9 +170,6 @@ class ChapterController extends Controller
             'content.*.*.blocks.*.id' => 'required|string',
             'content.*.*.blocks.*.type' => 'required|string',
         ]);
-        // dd();
-        // try {
-        // dd($request);
         if ($request->file()) {
             foreach (['en', 'fr', 'ar'] as $locale) {
                 $blocks = $request->file("content.$locale.0.blocks");
@@ -199,11 +196,6 @@ class ChapterController extends Controller
         $chapter->update([
             'content' => $request->content
         ]);
-
-        //     return redirect()->back()->with('success', 'Chapter updated successfully');
-        // } catch (\Exception $e) {
-        //     return redirect()->back()->with('error', 'Error updating chapter: ' . $e->getMessage());
-        // }
     }
 
     /**
