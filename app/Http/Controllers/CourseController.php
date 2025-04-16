@@ -28,7 +28,12 @@ class CourseController extends Controller
                 $course->label = $course->label[$userLang];
                 $course->enrolled = $course->users->contains("id", $userId); // zdt value jdid fl courses  li howa  enrolled  bach n3rf wh l user  m enrolli ola la
                 $course->enrolledCount = $course->users()->count();
+                // get the duration of course based on the sum of the chapters
+                $course->duration = $course->chapters->sum(function ($chapter) use ($userLang) {
+                    return $chapter->estimated_duration[$userLang] ?? 0;
+                });
                 unset($course->users); // hna 9bel mansift data  unlinkit l relation bach matmchich l  front  ( makayn lach  tmchi 7it lgharad  howa  n9ad kolchi  fl backend)
+
                 return $course; //  akhiran  had l3ayba o l3ziz 3la amimto 3mro maytkhas
             })
         ]);
