@@ -151,7 +151,9 @@ class ChapterController extends Controller
      */
     public function edit(Chapter $chapter)
     {
-        //
+        return Inertia::render('courses/admin/chapter/[id]', [
+            'chapter' => $chapter
+        ]);
     }
 
     /**
@@ -159,7 +161,49 @@ class ChapterController extends Controller
      */
     public function update(Request $request, Chapter $chapter)
     {
-        //
+        $request->validate([
+            'content' => 'required|array',
+            'content.en' => 'sometimes|array',
+            'content.ar' => 'sometimes|array',
+            'content.fr' => 'sometimes|array',
+            'content.*.*.blocks' => 'required|array',
+            'content.*.*.blocks.*.id' => 'required|string',
+            'content.*.*.blocks.*.type' => 'required|string',
+        ]);
+        // dd();
+        // try {
+        // dd($request);
+        if ($request->file()) {
+            foreach (['en', 'fr', 'ar'] as $locale) {
+                $blocks = $request->file("content.$locale.0.blocks");
+                // dd($blocks);
+
+                if (!is_array($blocks)) {
+                    continue; // Skip if no blocks
+                }
+                foreach ($blocks as $block) {
+                    if (isset($block['content']['file']) && $block['content']['file'] instanceof \Illuminate\Http\UploadedFile) {
+                        $file = $block['content']['file'];
+                        $fileName = $file->getClientOriginalName();
+
+                        if (Str::contains($file->getMimeType(), 'application')) {
+                            $file->storeAs('documents/chapters', $fileName, 'public');
+                        } else {
+                            $file->storeAs('image/chapters', $fileName, 'public');
+                        }
+                    }
+                }
+            }
+        }
+
+        $chapter->update([
+            'content' => $request->content
+        ]);
+
+        //     return redirect()->back()->with('success', 'Chapter updated successfully');
+        // } catch (\Exception $e) {
+        //     return redirect()->back()->with('error', 'Error updating chapter: ' . $e->getMessage());
+        // }
     }
 
     /**
@@ -170,11 +214,23 @@ class ChapterController extends Controller
         foreach ($chapter->content as $locale) {
             $blocks = $locale[0]['blocks'];
             foreach ($blocks as $block) {
-                if ($block['type'] === 'image') {
+                if ($block['type'] === 'image' || $block['type'] === 'document') {
                     Storage::disk("public")->delete($block['content']['url']);
                 }
             }
         }
         $chapter->delete();
     }
+    // public function deleteBlock(Chapter $chapter)
+    // {
+    //     foreach ($chapter->content as $locale) {
+    //         $blocks = $locale[0]['blocks'];
+    //         foreach ($blocks as $block) {
+    //             if ($block['type'] === 'image' || $block['type'] === 'document') {
+    //                 Storage::disk("public")->delete($block['content']['url']);
+    //             }
+    //         }
+    //     }
+    //     // $chapter->delete();
+    // }
 }

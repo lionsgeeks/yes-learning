@@ -4,7 +4,7 @@ import AppLayout from '@/layouts/app-layout';
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { ArrowLeft, Edit, Eye, GripVertical, MoreHorizontal, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -27,7 +27,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-
+import TruncateText from '@/components/TruncateText'
 function SortableChapter({ chapter, onTogglePublish, onEdit, idx, onDelete }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: chapter.id });
     const style = {
@@ -47,7 +47,7 @@ function SortableChapter({ chapter, onTogglePublish, onEdit, idx, onDelete }) {
                     <div className="bg-primary/10 text-primary mr-3 flex h-8 w-8 items-center justify-center rounded-full">{idx + 1}</div>
                     <div>
                         <h3 className="truncate font-medium">{chapter.title.en}</h3>
-                        <p className="text-muted-foreground truncate text-sm">{chapter.description.en}...</p>
+                        <p className="text-muted-foreground truncate text-sm"><TruncateText text={chapter.description.en} length={40} /></p>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@ function SortableChapter({ chapter, onTogglePublish, onEdit, idx, onDelete }) {
                             <Eye className="mr-2 h-4 w-4" />
                             View
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => onEdit(chapter)}>
+                        <DropdownMenuItem onClick={() => router.visit(`/admin/chapter/${chapter.id}/edit`)}>
                             <Edit className="mr-2 h-4 w-4" />
                             Edit
                         </DropdownMenuItem>

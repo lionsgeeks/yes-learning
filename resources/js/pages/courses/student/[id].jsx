@@ -13,6 +13,7 @@ import { BookOpen, CheckCircle, ChevronLeft, ChevronRight, Clock, Download, File
 import { useEffect, useState } from 'react';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 import Loading from '../../../components/loading';
+import TransText from '@/components/TransText';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
@@ -134,7 +135,7 @@ const CourseDetails = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-12">
+            <div dir={auth.user.language === 'ar' ? 'rtl' : 'ltr'} className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-12">
                 {/* Left sidebar - Module navigation */}
                 <div className="lg:col-span-3">
                     <Card>
@@ -143,14 +144,14 @@ const CourseDetails = () => {
                         </CardHeader>
                         <CardContent className="p-0">
                             <ScrollArea className="h-[calc(100vh-300px)]">
-                                <Accordion type="multiple" defaultValue={['module-1']} className="px-4 pb-4">
-                                    <AccordionItem key={course.id} value={`module-${course.id}`}>
-                                        <AccordionTrigger className="py-3 text-sm hover:no-underline">
+                                {/* <Accordion type="multiple" defaultValue={['module-1']} className="px-4 pb-4"> */}
+                                    {/* <AccordionItem key={course.id} value={`module-${course.id}`}> */}
+                                        {/* <AccordionTrigger className="py-3 text-sm hover:no-underline">
                                             <div className="flex items-start text-left">
                                                 <span>{course.name}</span>
                                             </div>
-                                        </AccordionTrigger>
-                                        <AccordionContent>
+                                        </AccordionTrigger> */}
+                                        {/* <AccordionContent> */}
                                             <div className="space-y-1 pl-2">
                                                 {chapters.map((subModule, index) => (
                                                     <div
@@ -192,9 +193,9 @@ const CourseDetails = () => {
                                                     </div>
                                                 ))}
                                             </div>
-                                        </AccordionContent>
+                                        {/* </AccordionContent>
                                     </AccordionItem>
-                                </Accordion>
+                                </Accordion> */}
                             </ScrollArea>
                         </CardContent>
                     </Card>
@@ -202,26 +203,26 @@ const CourseDetails = () => {
 
                 {/* Middle - Course content */}
                 {!processing ? (
-                    <div className="lg:col-span-6">
+                    <div  className="lg:col-span-6">
                         <Card className="overflow-hidden">
                             <CardContent className="p-6">
                                 <Tabs defaultValue="content">
                                     <TabsList className="mb-4">
-                                        <TabsTrigger value="content">Lesson Content</TabsTrigger>
+                                        <TabsTrigger value="content"><TransText en="Lesson Content" fr="Contenu" ar='محتوى ' />  </TabsTrigger>
                                         <TabsTrigger value="discussion">Discussion</TabsTrigger>
                                         <TabsTrigger value="notes">My Notes</TabsTrigger>
                                     </TabsList>
 
                                     <TabsContent value="content" className="space-y-4">
-                                        <div className="flex items-center justify-between">
+                                        <div dir={auth.user.language === 'ar' ? 'rtl' : 'ltr'} className="flex items-center justify-between">
                                             <h2 className="text-xl font-medium">{chapters[0].title}</h2>
-                                            <Button variant="outline" size="sm">
+                                            {/* <Button variant="outline" size="sm">
                                                 <PlusCircle className="mr-1 h-4 w-4" />
                                                 Save to Bookmarks
-                                            </Button>
+                                            </Button> */}
                                         </div>
 
-                                        <div className="prose max-w-none">
+                                        <div dir={auth.user.language === 'ar' ? 'rtl' : 'ltr'} className="prose max-w-none">
                                             {chapters.flatMap((chapter, chapterIndex) =>
                                                 chapter.content.flatMap((content, contentIndex) =>
                                                     content.blocks.map(

@@ -8,28 +8,31 @@ import { Textarea } from '@/components/ui/textarea';
 import { Check } from 'lucide-react';
 
 const ChapterDetails = ({ setActiveTab, data, setData, lang }) => {
+    const Transtext = (param) => {
+        return param[lang]
+    }
     console.log("data",data)
     return (
         <>
-            <Card className="col-span-3">
+            <Card dir={lang === 'ar' ? 'rtl' : 'ltr'} className="col-span-5">
                 <CardHeader>
-                    <CardTitle>Basic Information</CardTitle>
-                    <CardDescription>Enter the main details about your course</CardDescription>
+                    <CardTitle> {Transtext({en:"Basic Information", ar:"المعلومات الأساسية", fr:"Informations de base"})} </CardTitle>
+                    <CardDescription>{Transtext({en:"Enter the main details about your course", ar:"أدخل التفاصيل الرئيسية حول دورتك", fr:"Informations de base"})}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div className="space-y-2">
-                            <Label htmlFor="title">Course Title</Label>
+                            <Label htmlFor="title">{Transtext({en:'Course Title', ar:'عنوان الدورة', fr:'titre du cours'})}</Label>
                             <Input
                                 className="mt-4"
                                 id="title"
-                                placeholder="Enter course title"
+                                placeholder={Transtext({en:"Enter course title", ar:"	أدخل عنوان الدورة", fr:"Saisissez le titre du cours"})}
                                 value={data.title}
                                 onChange={(e) => setData((prev) => ({ ...prev, [lang]: { ...prev[lang], title: e.target.value } }))}
                             />
                         </div>
                         <div className="space-y-4">
-                            <Label htmlFor="duration">Estimated Duration (Minutes)</Label>
+                            <Label htmlFor="duration">{Transtext({en:'Estimated Duration (Minutes)', ar:'المدة التقديرية', fr:'Durée estimée'})} </Label>
                             <Input
                                 className="mt-4"
                                 id="duration"
@@ -42,10 +45,10 @@ const ChapterDetails = ({ setActiveTab, data, setData, lang }) => {
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="description">Course Description</Label>
+                        <Label htmlFor="description">{Transtext({en:"Course Description", ar:'وصف الدورة', fr:'Description du cours'})}  </Label>
                         <Textarea
                             id="description"
-                            placeholder="Describe what this course covers and its learning objectives"
+                            placeholder={Transtext({en:"Describe what this course covers and its learning objectives", ar:"صِف ما تغطيه هذه الدورة وأهدافها التعليمية", fr:"Décrivez le contenu de ce cours et ses objectifs d’apprentissage"})}
                             className="mt-4 h-[35vh]"
                             value={data.description}
                             onChange={(e) => setData((prev) => ({ ...prev, [lang]: { ...prev[lang], description: e.target.value } }))}
@@ -54,7 +57,7 @@ const ChapterDetails = ({ setActiveTab, data, setData, lang }) => {
                 </CardContent>
             </Card>
 
-            <Card className="col-span-2">
+            {/* <Card className="col-span-2">
                 <CardHeader>
                     <CardTitle>Course Settings</CardTitle>
                     <CardDescription>Configure additional course options</CardDescription>
@@ -106,7 +109,7 @@ const ChapterDetails = ({ setActiveTab, data, setData, lang }) => {
                         <Check className="ml-2 h-4 w-4" />
                     </Button>
                 </div>
-            </Card>
+            </Card> */}
         </>
     );
 };

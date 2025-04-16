@@ -32,7 +32,9 @@ const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveS
 
         setSubcourses(newOrder);
     };
-
+    const Transtext = (param) => {
+        return param[lang];
+    };
 
 
     return (
@@ -74,7 +76,7 @@ const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveS
                 <Card className="lg:col-span-2">
                     <CardHeader>
                         <CardTitle>{subcourses[lang]?.find((s) => s.id === activeSubcourse)?.title || "Module Content"}</CardTitle>
-                        <CardDescription>Add and arrange content blocks for this module</CardDescription>
+                        <CardDescription>{Transtext({en:'Add and arrange content blocks for this module', fr:'', ar:''})} </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <ContentBlockEditor
@@ -88,7 +90,7 @@ const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveS
                     </CardContent>
                 </Card>
                 <div className="col-span-2">
-                    <CoursePreview course={{ title: "Course Title", description: "Course description will appear here.", subcourses: subcourses[lang], }} />
+                    <CoursePreview lang={lang} course={{ title: "Course Title", description: "Course description will appear here.", subcourses: subcourses[lang], }} />
                 </div>
 
             </div>

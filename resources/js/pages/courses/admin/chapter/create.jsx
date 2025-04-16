@@ -18,6 +18,7 @@ const AdminCoursesCreate = () => {
         fr: [{ id: 'subcourse-1', title: 'Chapter 1', description: '', block: [] }],
         ar: [{ id: 'subcourse-1', title: 'Chapter 1', description: '', block: [] }],
     });
+
     const [activeSubcourse, setActiveSubcourse] = useState('subcourse-1');
     const courseId = new URLSearchParams(window.location.search).get('course');
     console.log('course id : ', courseId);
@@ -83,7 +84,12 @@ const AdminCoursesCreate = () => {
             },
         }));
     }, [subcourses]);
-
+    const Transtext = (param) => {
+        return param[activeLangTab];
+    };
+    useEffect(() => {
+        setActiveTab('details');
+    }, [activeLangTab]);
     function areAllLanguagesValid(data) {
         const languages = ['en', 'fr', 'ar'];
 
@@ -189,7 +195,7 @@ const AdminCoursesCreate = () => {
             <div className="space-y-6 p-3 lg:p-6">
                 <div className="flex flex-col gap-6">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center">
+                        <div className="flex flex-col items-start">
                             <Button variant="ghost" size="sm" asChild className="mr-2">
                                 <Link href="/admin/courses">
                                     <ArrowLeft className="mr-1 h-4 w-4" />
@@ -212,15 +218,11 @@ const AdminCoursesCreate = () => {
                             )}
                         </Button>
                     </div>
-                    <div className={`bg-alpha mb-6 flex items-center justify-between rounded-lg p-3 text-white`}>
+                    <div dir={activeLangTab === 'ar' ? 'rtl' : 'ltr' } className={`bg-alpha mb-6 flex items-center justify-between rounded-lg p-3 text-white`}>
                         <div className="flex items-center">
                             <span className="font-medium">
-                                Editing{' '}
-                                <span className="text-beta">
-                                    {' '}
-                                    {activeLangTab === 'en' ? 'English' : activeLangTab === 'fr' ? 'Français' : 'Arabe'}{' '}
-                                </span>{' '}
-                                Language Content
+                                {Transtext({ en: 'Editing english Language Content', ar: 'تعديل محتوى اللغة العربية ', fr: 'Modification du contenu en langue français' })}
+                                {'  '}
                             </span>
                         </div>
                         <DropdownMenu>
@@ -275,7 +277,7 @@ const AdminCoursesCreate = () => {
                                             description: 'Course description will appear here.',
                                             subcourses: subcourses.en,
                                         }}
-                                        lang='en'
+                                        lang="en"
                                     />
                                     <div className="mt-6 flex justify-between">
                                         <Button variant="outline" onClick={() => setActiveTab('content')}>
@@ -334,7 +336,7 @@ const AdminCoursesCreate = () => {
                                             description: 'Course description will appear here.',
                                             subcourses: subcourses.fr,
                                         }}
-                                        lang='fr'
+                                        lang="fr"
                                     />
                                     <div className="mt-6 flex justify-between">
                                         <Button variant="outline" onClick={() => setActiveTab('content')}>
@@ -357,64 +359,66 @@ const AdminCoursesCreate = () => {
                                 </TabsContent>
                             </Tabs>
                         </TabsContent>
-                        <TabsContent value="ar" className="grid-cols- grid gap-4 space-y-4">
-                            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-                                <TabsList className="grid w-full grid-cols-3">
-                                    <TabsTrigger value="details">Course Details</TabsTrigger>
-                                    <TabsTrigger value="content">Content & Modules</TabsTrigger>
-                                    <TabsTrigger value="preview">Preview</TabsTrigger>
-                                    {/* <TabsTrigger value="quizz">Quizz</TabsTrigger> */}
-                                </TabsList>
+                        <TabsContent value="ar" dir="rtl" className="grid-cols- grid gap-4 space-y-4">
+                            <div dir="rtl">
+                                <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+                                    <TabsList className="grid w-full grid-cols-3">
+                                        <TabsTrigger value="details">Course Details</TabsTrigger>
+                                        <TabsTrigger value="content">Content & Modules</TabsTrigger>
+                                        <TabsTrigger value="preview">Preview</TabsTrigger>
+                                        {/* <TabsTrigger value="quizz">Quizz</TabsTrigger> */}
+                                    </TabsList>
 
-                                <TabsContent value="details" className="grid grid-cols-5 gap-4 space-y-4">
-                                    <ChapterDetails data={data['ar']} setData={setData} setActiveTab={setActiveTab} lang="ar" />
-                                </TabsContent>
+                                    <TabsContent value="details" className="grid grid-cols-5 gap-4 space-y-4">
+                                        <ChapterDetails data={data['ar']} setData={setData} setActiveTab={setActiveTab} lang="ar" />
+                                    </TabsContent>
 
-                                <TabsContent value="content" className="space-y-4">
-                                    <ChapterContent
-                                        data={data}
-                                        setData={setData}
-                                        deleteSubcourse={deleteSubcourse}
-                                        updateSubcourse={updateSubcourse}
-                                        onDragEnd={onDragEnd}
-                                        addSubcourse={addSubcourse}
-                                        subcourses={subcourses}
-                                        activeSubcourse={activeSubcourse}
-                                        setActiveSubcourse={setActiveSubcourse}
-                                        setSubcourses={setSubcourses}
-                                        lang="ar"
-                                    />
-                                </TabsContent>
+                                    <TabsContent value="content" className="space-y-4">
+                                        <ChapterContent
+                                            data={data}
+                                            setData={setData}
+                                            deleteSubcourse={deleteSubcourse}
+                                            updateSubcourse={updateSubcourse}
+                                            onDragEnd={onDragEnd}
+                                            addSubcourse={addSubcourse}
+                                            subcourses={subcourses}
+                                            activeSubcourse={activeSubcourse}
+                                            setActiveSubcourse={setActiveSubcourse}
+                                            setSubcourses={setSubcourses}
+                                            lang="ar"
+                                        />
+                                    </TabsContent>
 
-                                <TabsContent value="preview">
-                                    <CoursePreview
-                                        course={{
-                                            title: 'Course Title',
-                                            description: 'Course description will appear here.',
-                                            subcourses: subcourses.ar,
-                                        }}
-                                        lang='fr'
-                                    />
-                                    <div className="mt-6 flex justify-between">
-                                        <Button variant="outline" onClick={() => setActiveTab('content')}>
-                                            Back to Content
-                                        </Button>
-                                        <Button onClick={handleSubmit} disabled={isSubmitting}>
-                                            {isSubmitting ? (
-                                                <>
-                                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                    Saving...
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Save className="mr-2 h-4 w-4" />
-                                                    Save Course
-                                                </>
-                                            )}
-                                        </Button>{' '}
-                                    </div>
-                                </TabsContent>
-                            </Tabs>
+                                    <TabsContent value="preview">
+                                        <CoursePreview
+                                            course={{
+                                                title: 'Course Title',
+                                                description: 'Course description will appear here.',
+                                                subcourses: subcourses.ar,
+                                            }}
+                                            lang="ar"
+                                        />
+                                        <div className="mt-6 flex justify-between">
+                                            <Button variant="outline" onClick={() => setActiveTab('content')}>
+                                                Back to Content
+                                            </Button>
+                                            <Button onClick={handleSubmit} disabled={isSubmitting}>
+                                                {isSubmitting ? (
+                                                    <>
+                                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                        Saving...
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Save className="mr-2 h-4 w-4" />
+                                                        Save Course
+                                                    </>
+                                                )}
+                                            </Button>{' '}
+                                        </div>
+                                    </TabsContent>
+                                </Tabs>
+                            </div>
                         </TabsContent>
                     </Tabs>
                 </div>

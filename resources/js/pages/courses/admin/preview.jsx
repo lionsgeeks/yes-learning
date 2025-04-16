@@ -14,7 +14,7 @@ import { Bar, Line, Pie } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
 const CourseDetails = () => {
-    const { course, chapters } = usePage().props;
+    const { course, chapters, auth } = usePage().props;
     console.log('course :', course);
     console.log('chapters :', chapters);
     const [currentChapterId, setCurrentChapterId] = useState(chapters[0]?.id);
@@ -184,6 +184,9 @@ const CourseDetails = () => {
                                                     <span className={index + 1 === currentSubModuleId ? '' : 'text-muted-foreground text-xs'}>
                                                         {subModule.estimated_duration[lang]}
                                                     </span>
+                                                    <span className={index + 1 === currentSubModuleId ? '' : 'text-muted-foreground'}>
+                                                        {subModule.title[lang]}
+                                                    </span>
                                                 </div>
                                             </div>
                                         ))}
@@ -195,7 +198,7 @@ const CourseDetails = () => {
 
                     {/* Middle - Course content */}
 
-                    <div className="lg:col-span-9">
+                    <div dir={auth.user.language === 'ar' ? 'rtl' : 'ltr'} className="lg:col-span-9">
                         <Card className="overflow-hidden">
                             <CardContent className="">
                                 <Tabs defaultValue="content">
@@ -211,7 +214,7 @@ const CourseDetails = () => {
                                             </Button> */}
                                         </div>
 
-                                        <div className="prose max-w-none">
+                                        <div dir={auth.user.language === 'ar' ? 'rtl' : 'ltr'} className="prose max-w-none">
                                             {chapters.flatMap((chapter, chapterIndex) =>
                                                 chapter.content[lang].flatMap((content, contentIndex) =>
                                                     content.blocks.map(

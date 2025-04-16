@@ -8,7 +8,7 @@ import { Button } from '../ui/button';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
-export function CoursePreview({ course }) {
+export function CoursePreview({ course, lang }) {
     console.log('inside the course preview : ', course);
     // Separate function to render chart
     function renderChart(block) {
@@ -85,7 +85,7 @@ export function CoursePreview({ course }) {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
             <Card className="lg:col-span-4">
                 <CardHeader className="pb-0">
-                    <div className="flex items-center justify-between">
+                    <div dir={lang === "ar" ? 'rtl' : 'ltr'} className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                             <div className="bg-primary/10 text-primary rounded-full px-2 py-1 text-xs">NGO View</div>
                         </div>
@@ -93,7 +93,7 @@ export function CoursePreview({ course }) {
                 </CardHeader>
 
                 <CardContent className="">
-                    <Tabs defaultValue="content">
+                    <Tabs dir={lang === "ar" ? 'rtl' : 'ltr'} defaultValue="content">
 
                         <TabsContent value="content" className="mt-3">
                             {course.subcourses.length > 0 ? (
