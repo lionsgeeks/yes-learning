@@ -50,7 +50,7 @@ export function CourseCard({ course }: CourseCardProps) {
     const [editModalOpen, setEditModalOpen] = useState(false);
 
     return (
-        <>
+        <div>
             <Card className="gap-3 overflow-hidden transition-all hover:shadow-md p-0">
                 <Link href={`/admin/courses/${course.id}`}>
                     <div className="relative aspect-video overflow-hidden">
@@ -127,6 +127,6 @@ export function CourseCard({ course }: CourseCardProps) {
                 </AlertDialogContent>
             </AlertDialog>
             <EditCourseModal course={course} open={editModalOpen} onOpenChange={setEditModalOpen} />
-        </>
+        </div>
     );
 }
