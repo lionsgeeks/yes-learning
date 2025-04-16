@@ -27,7 +27,6 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-// Sample data - in a real app, this would come from a database
 
 function SortableChapter({ chapter, onTogglePublish, onEdit, idx, onDelete }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: chapter.id });
@@ -101,7 +100,7 @@ function SortableChapter({ chapter, onTogglePublish, onEdit, idx, onDelete }) {
                 </AlertDialogContent>
             </AlertDialog>
         </div>
-        
+
     );
 }
 
@@ -114,7 +113,7 @@ const AdminCoursesShow = () => {
         })
     }
     console.log(course);
-    const breadcrumbs = [{ title: 'course - ' + course.name.en }];  
+    const breadcrumbs = [{ title: 'course - ' + course.name.en }];
 
     const [chapters, setChapters] = useState(modules);
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -185,9 +184,9 @@ const AdminCoursesShow = () => {
                 </div>
 
                 <div className="grid gap-6 lg:grid-cols-2">
-                    <Card>
+                    <Card className="p-0">
                         <CardHeader className="relative aspect-video overflow-hidden p-0">
-                            <img src={course.image} alt={course.name.en} fill className="object-cover" />
+                            <img src={course.image} alt={course.name.en} fill className="object-cover rounded-t" />
                             {!course.published && (
                                 <Badge variant="secondary" className="absolute top-2 right-2">
                                     Draft

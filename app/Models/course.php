@@ -13,6 +13,7 @@ class Course extends Model
         "description",
         "image",
         "label",
+        "published"
     ];
     protected $casts = [
         'name' => 'array',
@@ -32,5 +33,10 @@ class Course extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_courses');
+    }
+
+    public function quiz()
+    {
+        return $this->hasMany(Quiz::class);
     }
 }

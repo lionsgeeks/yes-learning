@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Library;
+use App\Models\Quiz;
 use App\Models\QuizUser;
 use App\Models\User;
 use App\Models\UserCourse;
@@ -18,15 +19,21 @@ class DashboardController extends Controller
     //
     public function dashboard()
     {
-        //
+        $quizzes = Quiz::where('published', 1)->get();
+        $userQuiz = QuizUser::where('user_id', Auth::id())->get();
+        $user = Auth::user();
         return Inertia::render("dashboard/dashboard", [
             "courses" => DB::table('courses')->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
                 ->where('user_courses.user_id', Auth::id())
                 ->select('courses.*')
-                ->get()->map(function ($course) {
+                ->get()
+                ->map(function ($course) use ($user) {
                     $course->chapterCount = Chapter::where("course_id", $course->id)->count();
+                    $course->completedCount = $user->chapters->where('course_id', $course->id)->count();
                     return $course;
-                })
+                }),
+            "quizzes" => $quizzes,
+            "userQuiz" => $userQuiz
         ]);
     }
 
@@ -34,21 +41,39 @@ class DashboardController extends Controller
     {
         // Counts
         $userCount = User::count();
-        $courseCount = Course::count();
         $libraryCount = Library::count();
         $completionCount = QuizUser::count();
 
-        $users = User::latest()->take(4)->get();
+        $courses = Course::all()->map(function($course) {
+            return [
+                'id' => $course->id,
+                'name' => $course->name['en'],
+                'image' => $course->image,
+                'subscribed' => $course->users->count()
+            ];
+        });
+
+        $users = User::where('role', null)->latest()->take(4)->get()->map(function($user) {
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role,
+                'language' => $user->language,
+                'created_at' => $user->created_at,
+                'courses' => $user->courses->count()
+            ];
+        });
         $quizzes = QuizUser::with('user', 'quiz')->get();
 
 
         return Inertia::render("dashboard/adminDashboard", [
             'userCount' => $userCount,
-            'courseCount' => $courseCount,
             'libraryCount' => $libraryCount,
             'completionCount' => $completionCount,
             'users' => $users,
             'quizzes' => $quizzes,
+            'courses' => $courses,
         ]);
     }
 
@@ -59,7 +84,7 @@ class DashboardController extends Controller
         $user->update([
             'language' => $request->language
         ]);
-        // dd($request->all());
+
         foreach ($request->courses as $courseId) {
             UserCourse::create([
                 'user_id' => $user->id,
@@ -70,5 +95,4 @@ class DashboardController extends Controller
 
         return back();
     }
-
 }

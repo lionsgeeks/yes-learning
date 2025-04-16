@@ -61,7 +61,6 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $validated = $request->validate([
             'name' => 'required|array',
             'name.en' => 'required|string|max:255',
@@ -77,9 +76,10 @@ class CourseController extends Controller
             'label.en' => 'required|string',
             'label.fr' => 'required|string',
             'label.ar' => 'required|string',
-
+            'published' => 'required|boolean',
             'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:3072',
         ]);
+        // dd($request);
 
         $imagePath = null;
         if ($request->hasFile('image')) {
@@ -90,6 +90,7 @@ class CourseController extends Controller
             'name' => $validated['name'],
             'description' => $validated['description'],
             'label' => $validated['label'],
+            'published' => $validated['published'],
             'image' => $imagePath,
         ]);
 
@@ -103,7 +104,8 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         $lang = Auth::user()->language;
-        // dd($lang);
+        $quizId = $course->quiz()?->first()?->id;
+
         return Inertia::render("courses/student/[id]", [
             "course" => [
                 'id' => $course->id,
@@ -111,6 +113,7 @@ class CourseController extends Controller
                 'description' => $course->description[$lang],
                 'label' =>  $course->label[$lang],
             ],
+            "quizId" => $quizId,
             "image_url" => asset('storage/'),
             "chapters" => Chapter::where("course_id", $course->id)
                 ->with(['users' => function ($query) {
@@ -160,10 +163,11 @@ class CourseController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * update the form for editing the specified resource.
      */
     public function update(Request $request, Course $course)
     {
+        // dd($request);
         $validated = $request->validate([
             'name' => 'required|array',
             'name.en' => 'required|string|max:255',
@@ -177,6 +181,7 @@ class CourseController extends Controller
             'label.en' => 'required|string',
             'label.fr' => 'required|string',
             'label.ar' => 'required|string',
+            'published' => 'required|boolean',
             'image' => 'required',
         ]);
         // dd($course);
@@ -184,13 +189,25 @@ class CourseController extends Controller
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('image/courses', 'public');
         }
-        $course->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'label' => $validated['label'],
-            'image' => $imagePath,
-        ]);
-    }
+        if ($imagePath) {
+
+            $course->update([
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'label' => $validated['label'],
+                'published' => $validated['published'],
+                'image' =>  $imagePath ,
+            ]);
+        } else {
+            $course->update([
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'label' => $validated['label'],
+                'published' => $validated['published'],
+            ]);
+
+        }
+        }
     /**
      * Preview the course.
      */
@@ -203,7 +220,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * edit the specified resource in storage.
      */
     public function edit(Course $course) {}
 

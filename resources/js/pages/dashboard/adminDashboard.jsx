@@ -10,6 +10,7 @@ import AdminDiscussionsTable from "@/components/discussions/admin-discussions-ta
 import { Doughnut, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from "chart.js";
 import TransText from "@/components/TransText"
+import { useEffect, useState } from "react";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
 const breadcrumbs = [
@@ -19,173 +20,7 @@ const breadcrumbs = [
     },
 ];
 export default function AdminDashboardPage() {
-    const { userCount, courseCount, libraryCount, completionCount, users, quizzes } = usePage().props;
-    const defaultUsers = [
-        {
-            id: 1,
-            name: "Alex Johnson",
-            email: "alex.johnson@example.com",
-            role: "Student",
-            status: "Active",
-            courses: 3,
-            joinDate: "March 15, 2025",
-            avatar: "/placeholder.svg?height=40&width=40",
-        },
-        {
-            id: 2,
-            name: "Sarah Miller",
-            email: "sarah.miller@example.com",
-            role: "Instructor",
-            status: "Active",
-            courses: 4,
-            joinDate: "January 10, 2025",
-            avatar: "/placeholder.svg?height=40&width=40",
-        },
-        {
-            id: 3,
-            name: "Sarah Miller",
-            email: "sarah.miller@example.com",
-            role: "Instructor",
-            status: "Active",
-            courses: 4,
-            joinDate: "January 10, 2025",
-            avatar: "/placeholder.svg?height=40&width=40",
-        },
-        // Add other user mock data here
-    ];
-
-    const defaultDiscussions = [
-        {
-            id: 1,
-            title: "How to implement React hooks correctly?",
-            author: "Alex Johnson",
-            authorAvatar: "/placeholder.svg?height=40&width=40",
-            course: "Web Development Fundamentals",
-            status: "Active",
-            replies: 12,
-            lastActivity: "2 hours ago",
-            created: "March 15, 2025",
-        },
-        {
-            id: 2,
-            title: "CSS Grid vs Flexbox - when to use which?",
-            author: "Sarah Miller",
-            authorAvatar: "/placeholder.svg?height=40&width=40",
-            course: "Advanced CSS Techniques",
-            status: "Active",
-            replies: 8,
-            lastActivity: "5 hours ago",
-            created: "March 14, 2025",
-        },
-        {
-            id: 3,
-            title: "Best practices for Node.js error handling",
-            author: "Michael Chen",
-            authorAvatar: "/placeholder.svg?height=40&width=40",
-            course: "Node.js for Beginners",
-            status: "Active",
-            replies: 6,
-            lastActivity: "1 day ago",
-            created: "March 13, 2025",
-        },
-        {
-            id: 4,
-            title: "Database indexing strategies",
-            author: "Emma Rodriguez",
-            authorAvatar: "/placeholder.svg?height=40&width=40",
-            course: "Database Design Masterclass",
-            status: "Locked",
-            replies: 4,
-            lastActivity: "2 days ago",
-            created: "March 12, 2025",
-        },
-        {
-            id: 5,
-            title: "UI design principles for mobile apps",
-            author: "David Wilson",
-            authorAvatar: "/placeholder.svg?height=40&width=40",
-            course: "UI/UX Design Principles",
-            status: "Active",
-            replies: 15,
-            lastActivity: "3 hours ago",
-            created: "March 11, 2025",
-        },
-        {
-            id: 6,
-            title: "JavaScript performance optimization techniques",
-            author: "Lisa Thompson",
-            authorAvatar: "/placeholder.svg?height=40&width=40",
-            course: "JavaScript Performance Optimization",
-            status: "Archived",
-            replies: 9,
-            lastActivity: "5 days ago",
-            created: "March 8, 2025",
-        },
-        {
-            id: 7,
-            title: "Responsive design for different screen sizes",
-            author: "James Brown",
-            authorAvatar: "/placeholder.svg?height=40&width=40",
-            course: "Responsive Web Design",
-            status: "Active",
-            replies: 7,
-            lastActivity: "1 day ago",
-            created: "March 10, 2025",
-        },
-
-    ];
-
-    const initialAchievements = [
-        {
-            id: 1,
-            name: "First Course",
-            description: "Complete your first course",
-            category: "Course",
-            difficulty: "Easy",
-            points: 50,
-            icon: "🏆",
-            status: "Active",
-            earnedBy: 245,
-            createdAt: "March 15, 2025",
-        },
-        {
-            id: 2,
-            name: "Perfect Score",
-            description: "Score 100% on a module assessment",
-            category: "Assessment",
-            difficulty: "Medium",
-            points: 100,
-            icon: "🎯",
-            status: "Active",
-            earnedBy: 87,
-            createdAt: "March 12, 2025",
-        },
-        {
-            id: 3,
-            name: "Fast Learner",
-            description: "Complete a course in under 3 days",
-            category: "Course",
-            difficulty: "Medium",
-            points: 150,
-            icon: "⚡",
-            status: "Active",
-            earnedBy: 56,
-            createdAt: "March 10, 2025",
-        },
-        {
-            id: 4,
-            name: "Discussion Expert",
-            description: "Post 10 comments in discussions",
-            category: "Social",
-            difficulty: "Easy",
-            points: 75,
-            icon: "💬",
-            status: "Active",
-            earnedBy: 132,
-            createdAt: "March 8, 2025",
-        },
-    ];
-
+    const { userCount, libraryCount, completionCount, users, quizzes, courses } = usePage().props;
 
     const timeAgo = (dateString) => {
         const now = new Date();
@@ -211,9 +46,31 @@ export default function AdminDashboardPage() {
             },
         ],
     };
+    const [chartData, setChartData] = useState(null);
+    useEffect(() => {
+        let data = {
+            labels: [],
+            datasets: [
+                {
+                    data: [],
+                    backgroundColor: [],
+                },
+            ],
+        };
+        courses.forEach(course => {
+            const hex = `#${Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0')}`;
+            data.labels.push(course.name);
+            data.datasets[0].data.push(course.subscribed);
+            data.datasets[0].backgroundColor.push(hex);
+        });
+
+        setChartData(data);
+    }, []);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs} >
             <Head title="AdminDashboard" />
+
             <div className="lg:p-6 p-3">
 
                 {/* <div className="flex items-center justify-between mb-6">
@@ -240,10 +97,10 @@ export default function AdminDashboardPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold">{userCount}</div>
-                                    <p className="text-xs text-muted-foreground flex items-center mt-1">
+                                    {/* <p className="text-xs text-muted-foreground flex items-center mt-1">
                                         <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
                                         <span className="text-green-500 font-medium">12%</span> from last month
-                                    </p>
+                                    </p> */}
                                 </CardContent>
                             </Card>
                             <Card>
@@ -252,11 +109,11 @@ export default function AdminDashboardPage() {
                                     <BookOpen className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">{courseCount}</div>
-                                    <p className="text-xs text-muted-foreground flex items-center mt-1">
+                                    <div className="text-2xl font-bold">{courses.length}</div>
+                                    {/* <p className="text-xs text-muted-foreground flex items-center mt-1">
                                         <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
                                         <span className="text-green-500 font-medium">4</span> new this month
-                                    </p>
+                                    </p> */}
                                 </CardContent>
                             </Card>
                             <Card>
@@ -266,10 +123,10 @@ export default function AdminDashboardPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold">{libraryCount}</div>
-                                    <p className="text-xs text-muted-foreground flex items-center mt-1">
+                                    {/* <p className="text-xs text-muted-foreground flex items-center mt-1">
                                         <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
                                         <span className="text-green-500 font-medium">8</span> new this month
-                                    </p>
+                                    </p> */}
                                 </CardContent>
                             </Card>
                             <Card>
@@ -279,10 +136,10 @@ export default function AdminDashboardPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold">{completionCount}</div>
-                                    <p className="text-xs text-muted-foreground flex items-center mt-1">
+                                    {/* <p className="text-xs text-muted-foreground flex items-center mt-1">
                                         <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
                                         <span className="text-green-500 font-medium">18%</span> from last month
-                                    </p>
+                                    </p> */}
                                 </CardContent>
                             </Card>
                         </div>
@@ -321,7 +178,7 @@ export default function AdminDashboardPage() {
                                 <CardContent className="h-[300px]">
                                     <div className="h-full w-full bg-muted/20 rounded-md flex items-center justify-center">
                                         {/* <p className="text-muted-foreground">Course Popularity Chart</p> */}
-                                        <Doughnut data={data} />
+                                        <Doughnut data={chartData || data} />
 
                                     </div>
                                 </CardContent>
@@ -329,7 +186,7 @@ export default function AdminDashboardPage() {
                         </div>
 
                         {/* Quick Actions */}
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid gap-4 md:grid-cols-2">
                             <Card>
                                 <CardHeader>
                                     <CardTitle>Quick Actions</CardTitle>
@@ -344,16 +201,16 @@ export default function AdminDashboardPage() {
                                     </Button>
                                     <Button variant="outline" className="w-full justify-between" asChild>
                                         <Link href="/admin/create/library">
-                                            Upload Library Session
+                                            Upload Library Session (TODO)
                                             <ArrowUpRight className="h-4 w-4" />
                                         </Link>
                                     </Button>
-                                    <Button variant="outline" className="w-full justify-between" asChild>
+                                    {/* <Button variant="outline" className="w-full justify-between" asChild>
                                         <Link href="/admin/users/create">
                                             Add New User
                                             <ArrowUpRight className="h-4 w-4" />
                                         </Link>
-                                    </Button>
+                                    </Button> */}
                                     <Button variant="outline" className="w-full justify-between" asChild>
                                         <Link href="/settings/profile">
                                             Platform Settings
@@ -388,7 +245,7 @@ export default function AdminDashboardPage() {
                                 </CardContent>
                             </Card>
 
-                            <Card>
+                            {/* <Card>
                                 <CardHeader>
                                     <CardTitle>System Status</CardTitle>
                                     <CardDescription>Platform health and metrics</CardDescription>
@@ -417,7 +274,7 @@ export default function AdminDashboardPage() {
                                         </div>
                                     </div>
                                 </CardContent>
-                            </Card>
+                            </Card> */}
                         </div>
                     </TabsContent>
 
