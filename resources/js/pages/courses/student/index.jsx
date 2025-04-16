@@ -200,8 +200,8 @@ function CourseCard({ course }) {
         let formdata = new FormData()
         formdata.append("course", course.id)
         put(route("course.enroll", course.id), {
-            onSuccess: () => { alert("good") },
-            onError: (e) => { },
+            // onSuccess: () => { alert("good") },
+            // onError: (e) => { },
         })
     }
 

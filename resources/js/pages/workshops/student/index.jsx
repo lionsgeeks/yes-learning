@@ -27,13 +27,28 @@ export default function WorkshopsPage({ workshops, chapters }) {
     const { data, setData, put, proccessing, erro } = useForm({
         workshop: '',
     });
+    const today = new Date();
     const filteredWorkshops = workshops.filter((workshop) => {
         // Filter by search query
-        const matchesSearch = JSON.parse(workshop.name).en || JSON.parse(workshop.instructor).en || JSON.parse(workshop.description).en;
+        const matchesSearch = new Date(workshop.date);
+        return matchesSearch >= today;
 
-
-        return matchesSearch  ;
     });
+
+    const filter = workshops.filter((workshop) => {
+        const createdAt = new Date(workshop.date);
+        return createdAt < today;
+    });
+
+    console.log("Workshops from the past:", filter);
+
+    const registredfilter = workshops.filter((workshop) => {
+        const registred = workshop.enrolled
+
+        return registred ;
+    });
+
+    console.log("Workshops from the past:", filter);
 
     const getStatusBadge = (date) => {
         const now = new Date();
@@ -68,10 +83,10 @@ export default function WorkshopsPage({ workshops, chapters }) {
         setWorkshopToRegister(null);
         setData('workshop', id);
         put(route('subWorkshop.enroll', id), {
-            onSuccess: () => {
-                alert('good');
-            },
-            onError: (e) => {},
+            // onSuccess: () => {
+            //     alert('good');
+            // },
+            // onError: (e) => {},
         });
 
     };
@@ -183,22 +198,177 @@ export default function WorkshopsPage({ workshops, chapters }) {
                     </TabsContent>
 
                     <TabsContent value="registered" className="mt-6">
-                        <div className="bg-muted/20 rounded-lg border py-12 text-center">
-                            <Video className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
-                            <h3 className="text-lg font-medium">No registered workshops</h3>
-                            <p className="text-muted-foreground mt-1">You haven't registered for any workshops yet</p>
-                            <Button className="mt-4" onClick={() => document.querySelector('[data-value="upcoming"]')?.click()}>
-                                Browse Workshops
-                            </Button>
-                        </div>
+                    {registredfilter.length > 0 ? (
+                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                {registredfilter.map((workshop) => (
+                                    <Card key={workshop.id} className="flex flex-col overflow-hidden">
+                                        <CardHeader className="pb-3">
+                                            <div className="flex items-start justify-end">{getStatusBadge(workshop.date)}</div>
+                                            <CardTitle className="mt-2"> <TransText en={JSON.parse(workshop.name).en} fr={JSON.parse(workshop.name).fr} ar={JSON.parse(workshop.name).ar} /></CardTitle>
+                                            <CardDescription>{workshop.chapter.title.en}</CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="flex-1">
+                                            <div className="space-y-4">
+                                                <div className="flex items-center text-sm">
+                                                    <Calendar className="text-muted-foreground mr-2 h-4 w-4" />
+                                                    <span>{format(workshop.date, 'EEEE, MMMM d, yyyy')}</span>
+                                                </div>
+                                                <div className="flex items-center text-sm">
+                                                    <Clock className="text-muted-foreground mr-2 h-4 w-4" />
+                                                    <span>
+                                                        {format(workshop.date, 'h:mm a')} • {workshop.duration} minutes
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center text-sm">
+                                                    <Video className="text-muted-foreground mr-2 h-4 w-4" />
+                                                    <span><TransText en={"instructor : " + JSON.parse(workshop.instructor).en} fr={"instructeur : " +JSON.parse(workshop.instructor).fr} ar={"مُدَرِّب  : " +JSON.parse(workshop.instructor).ar} /></span>
+                                                </div>
+                                                <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{JSON.parse(workshop.description).en}</p>
+                                                <div className="text-muted-foreground mt-2 text-xs">
+                                                <span><TransText en={"prerequisite : " + JSON.parse(workshop.prerequisite).en} fr={"prérequis : " +JSON.parse(workshop.prerequisite).fr} ar={"مُتَطَلَّب سابِق  : " +JSON.parse(workshop.prerequisite).ar} /></span>
+
+                                                </div>
+                                                <div className="mt-2 flex items-center justify-between text-sm">
+                                                    <span className="text-muted-foreground">
+                                                        {workshop.enrolledCount} <TransText en="enrolled" fr="inscrit" ar="مُسَجَّلون" />
+
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                        <CardFooter className="flex gap-2 pt-0">
+                                            {/* {console.log(JSON.parse(workshop.meetLink).ar)} */}
+                                            {!workshop.enrolled && workshop.requireRegistration ? (
+                                                <>
+                                                    <Button
+                                                        className="flex-1"
+                                                        onClick={() => handleRegisterClick(workshop)}
+                                                        // disabled={workshop.enrolled >= workshop.capacity}
+                                                    >
+                                                        <TransText en="Register" fr="s’inscrire" ar="تسجيل" />
+                                                    </Button>
+                                                </>
+                                            ) : (
+                                                <>
+
+                                                        <TransText en=
+                                                        <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).en} target="_blank" rel="noopener noreferrer">
+                                                            <ExternalLink className="mr-2 h-4 w-4" />
+                                                            Join
+                                                        </a>
+
+                                                        fr=   <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
+                                                            <ExternalLink className="mr-2 h-4 w-4" />
+                                                            rejoindre
+                                                        </a>
+
+                                                        ar= <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
+                                                            <ExternalLink className="mr-2 h-4 w-4" />
+                                                            انضمَّ
+                                                        </a>
+
+                                                         />
+                                                </>
+                                            )}
+                                        </CardFooter>
+                                    </Card>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="bg-muted/20 rounded-lg border py-12 text-center">
+                                <Video className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+                                <h3 className="text-lg font-medium">No workshops found</h3>
+                                <p className="text-muted-foreground mt-1">Try adjusting your filters or check back later for new workshops</p>
+                            </div>
+                        )}
                     </TabsContent>
 
                     <TabsContent value="past" className="mt-6">
-                        <div className="bg-muted/20 rounded-lg border py-12 text-center">
-                            <Video className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
-                            <h3 className="text-lg font-medium">No past workshops</h3>
-                            <p className="text-muted-foreground mt-1">You haven't attended any workshops yet</p>
-                        </div>
+                    {filter.length > 0 ? (
+                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                {filter.map((workshop) => (
+                                    <Card key={workshop.id} className="flex flex-col overflow-hidden">
+                                        <CardHeader className="pb-3">
+                                            <div className="flex items-start justify-end">{getStatusBadge(workshop.date)}</div>
+                                            <CardTitle className="mt-2"> <TransText en={JSON.parse(workshop.name).en} fr={JSON.parse(workshop.name).fr} ar={JSON.parse(workshop.name).ar} /></CardTitle>
+                                            <CardDescription>{workshop.chapter.title.en}</CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="flex-1">
+                                            <div className="space-y-4">
+                                                <div className="flex items-center text-sm">
+                                                    <Calendar className="text-muted-foreground mr-2 h-4 w-4" />
+                                                    <span>{format(workshop.date, 'EEEE, MMMM d, yyyy')}</span>
+                                                </div>
+                                                <div className="flex items-center text-sm">
+                                                    <Clock className="text-muted-foreground mr-2 h-4 w-4" />
+                                                    <span>
+                                                        {format(workshop.date, 'h:mm a')} • {workshop.duration} minutes
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center text-sm">
+                                                    <Video className="text-muted-foreground mr-2 h-4 w-4" />
+                                                    <span><TransText en={"instructor : " + JSON.parse(workshop.instructor).en} fr={"instructeur : " +JSON.parse(workshop.instructor).fr} ar={"مُدَرِّب  : " +JSON.parse(workshop.instructor).ar} /></span>
+                                                </div>
+                                                <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{JSON.parse(workshop.description).en}</p>
+                                                <div className="text-muted-foreground mt-2 text-xs">
+                                                <span><TransText en={"prerequisite : " + JSON.parse(workshop.prerequisite).en} fr={"prérequis : " +JSON.parse(workshop.prerequisite).fr} ar={"مُتَطَلَّب سابِق  : " +JSON.parse(workshop.prerequisite).ar} /></span>
+
+                                                </div>
+                                                <div className="mt-2 flex items-center justify-between text-sm">
+                                                    <span className="text-muted-foreground">
+                                                        {workshop.enrolledCount} <TransText en="enrolled" fr="inscrit" ar="مُسَجَّلون" />
+
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                        <CardFooter className="flex gap-2 pt-0">
+                                            {/* {console.log(JSON.parse(workshop.meetLink).ar)} */}
+                                            {!workshop.enrolled && workshop.requireRegistration ? (
+                                                <>
+                                                    <Button
+                                                        className="flex-1"
+                                                        onClick={() => handleRegisterClick(workshop)}
+                                                        // disabled={workshop.enrolled >= workshop.capacity}
+                                                    >
+                                                        <TransText en="Register" fr="s’inscrire" ar="تسجيل" />
+                                                    </Button>
+                                                </>
+                                            ) : (
+                                                <>
+
+                                                        <TransText en=
+                                                        <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).en} target="_blank" rel="noopener noreferrer">
+                                                            <ExternalLink className="mr-2 h-4 w-4" />
+                                                            Join
+                                                        </a>
+
+                                                        fr=   <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
+                                                            <ExternalLink className="mr-2 h-4 w-4" />
+                                                            rejoindre
+                                                        </a>
+
+                                                        ar= <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
+                                                            <ExternalLink className="mr-2 h-4 w-4" />
+                                                            انضمَّ
+                                                        </a>
+
+                                                         />
+                                                </>
+                                            )}
+                                        </CardFooter>
+                                    </Card>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="bg-muted/20 rounded-lg border py-12 text-center">
+                                <Video className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+                                <h3 className="text-lg font-medium">No workshops found</h3>
+                                <p className="text-muted-foreground mt-1">Try adjusting your filters or check back later for new workshops</p>
+                            </div>
+                        )}
                     </TabsContent>
                 </Tabs>
             </div>
