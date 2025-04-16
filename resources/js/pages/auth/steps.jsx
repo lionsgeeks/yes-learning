@@ -209,7 +209,7 @@ console.log(data);
                                                 </div>
                                             )}
                                         </div>
-                                        <p className="mt-1 text-sm ">{module.description[data.language]}</p>
+                                        {/* <p className="mt-1 text-sm ">{module.description[data.language]}</p> */}
                                     </div>
                                 </motion.button>
                             ))}
