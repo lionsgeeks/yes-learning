@@ -3,21 +3,31 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsLetterController;
 use App\Models\Course;
+use Illuminate\Container\Attributes\Auth as AttributesAuth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
-Route::middleware(['auth', 'verified', "role:user"])->group(function () {
+Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
+
     Route::get('/steps', function () {
-        $courses = Course::all();
-        return Inertia::render('auth/steps', compact('courses'));
+        $user = Auth::user();
+        // dd($user);
+        if (!$user->language) {
+            $courses = Course::all();
+            return Inertia::render('auth/steps', compact('courses'));
+        } else {
+            return redirect()->route('dashboard');
+        }
     })->name('auth.steps');
+
+    Route::post('/stepss', [DashboardController::class, 'steps'])->name('stepss');
 });
 
 
-Route::post('/stepss', [DashboardController::class, 'steps'])->name('stepss');
 
 
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
