@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chapter;
-use App\Models\Course;
 use App\Models\Library;
 use App\Models\Quiz;
 use App\Models\QuizUser;
@@ -44,16 +43,19 @@ class DashboardController extends Controller
         $libraryCount = Library::count();
         $completionCount = QuizUser::count();
 
-        $courses = Course::all()->map(function($course) {
+        $courses = DB::table('courses')->get()->map(function ($course) {
             return [
                 'id' => $course->id,
-                'name' => $course->name['en'],
+                'name' => json_decode($course->name)->en,
                 'image' => $course->image,
-                'subscribed' => $course->users->count()
+                'subscribed' => DB::table('users')
+                    ->where('course_id', $course->id)
+                    ->count()
             ];
         });
 
-        $users = User::where('role', null)->latest()->take(4)->get()->map(function($user) {
+
+        $users = User::where('role', null)->latest()->take(4)->get()->map(function ($user) {
             return [
                 'id' => $user->id,
                 'name' => $user->name,
