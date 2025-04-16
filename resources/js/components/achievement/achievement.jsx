@@ -129,7 +129,7 @@ export default function Achievement({ limit, showHeader = true, showActions = tr
             <h2 className="text-2xl font-bold">Achievements</h2>
             <p className="text-muted-foreground mt-1">Manage platform achievements</p>
           </div>
-       
+
         </div>
       )}
 
