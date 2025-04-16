@@ -77,7 +77,7 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
                             <span className="text-sm font-medium">{isPublished ? "Published" : "Draft"}</span>
                             <Switch checked={isPublished} onCheckedChange={setIsPublished} />
                         </div> */}
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 jus">
                             <Button variant="outline" asChild>
                                 <Link href={`/workshops/${workshop.id}/edit`}>Edit Workshop</Link>
                             </Button>
@@ -170,34 +170,6 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
                                     </div>
                                 )}
                             </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Workshop Settings Card */}
-                    <Card className="md:col-span-1">
-                        <CardHeader className="pb-2">
-                            <CardTitle>Settings</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm">Record Session</span>
-                                {/* <span className="text-sm font-medium">{workshop.settings.recordSession ? "Yes" : "No"}</span> */}
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm">Allow Questions</span>
-                                {/* <span className="text-sm font-medium">{workshop.settings.allowQuestions ? "Yes" : "No"}</span> */}
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm">Require Registration</span>
-                                {/* <span className="text-sm font-medium">{workshop.settings.requireRegistration ? "Yes" : "No"}</span> */}
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm">Visibility</span>
-                                {/* <span className="text-sm font-medium">{workshop.settings.visibility}</span> */}
-                            </div>
-                            <Button variant="outline" size="sm" className="w-full" asChild>
-                                <Link href={`/workshops/${workshop.id}/settings`}>Edit Settings</Link>
-                            </Button>
                         </CardContent>
                     </Card>
 

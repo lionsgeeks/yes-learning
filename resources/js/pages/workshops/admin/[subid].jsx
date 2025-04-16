@@ -309,11 +309,11 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                         const instructorData = JSON.parse(subWorkshop.instructor);
                         const meetLinkData = JSON.parse(subWorkshop.meetLink);
 
-                        const hasInstructor = !!instructorData[`instructor${language}`];
-                        const hasMeetLink = !meetLinkData[`meetLink${language}`];
+                        const hasInstructor = !!instructorData[`${language}`];
+                        const hasMeetLink = !!meetLinkData[`${language}`];
                         const isComplete = hasInstructor && hasMeetLink;
 
-
+                        console.log();
 
                         return (
                             <Card key={language} className="border">
@@ -337,20 +337,20 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                         <div className="text-sm font-medium">Instructor</div>
                                         {hasInstructor ? (
                                             <div className="flex items-center gap-3">
-                                                <Avatar className="h-8 w-8">
+                                                {/* <Avatar className="h-8 w-8">
                                                     <AvatarFallback className="bg-primary/10 text-primary">
                                                         {instructorData[`instructor${language}`]
                                                             .split(" ")
                                                             .map((n) => n[0])
                                                             .join("")}
                                                     </AvatarFallback>
-                                                </Avatar>
+                                                </Avatar> */}
                                                 <div>
                                                     <div className="font-medium">
-                                                        {instructorData[`instructor${language}`]}
+                                                        {instructorData[`${language}`]}
                                                     </div>
                                                     <div className="text-xs text-muted-foreground">
-                                                        {instructorData[`instructor${language}`]}
+                                                        {instructorData[`${language}`]}
                                                     </div>
                                                 </div>
                                             </div>
@@ -369,7 +369,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                         {hasMeetLink ? (
                                             <div className="space-y-2">
                                                 <div className="rounded-md border bg-muted p-2 text-xs text-muted-foreground break-all">
-                                                    {meetLinkData[`meetlink${language}`]}
+                                                    {meetLinkData[`${language}`]}
                                                 </div>
                                                 <div className="flex gap-2">
                                                     <Button
@@ -378,7 +378,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                                         className="flex-1 h-8 text-xs"
                                                         onClick={() =>
                                                             navigator.clipboard.writeText(
-                                                                meetLinkData[`meetlink${language}`] || "",
+                                                                meetLinkData[`${language}`] || "",
                                                             )
                                                         }
                                                     >
@@ -387,7 +387,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                                     </Button>
                                                     <Button size="sm" className="flex-1 h-8 text-xs" asChild>
                                                         <a
-                                                            href={meetLinkData[`meetlink${language}`]}
+                                                            href={meetLinkData[`${language}`]}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                         >
@@ -415,7 +415,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
             </div>
 
             {/* Settings Card */}
-            <Card className="mb-6">
+            {/* <Card className="mb-6">
                 <CardHeader className="pb-3 flex flex-row items-center justify-between">
                     <div>
                         <CardTitle>Settings</CardTitle>
@@ -427,7 +427,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                 </CardHeader>
                 <CardContent>
                     <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-                        {/* <div className="border rounded-lg p-4">
+                        <div className="border rounded-lg p-4">
                             <div className="text-sm font-medium mb-1">Record Session</div>
                             <div className="flex items-center justify-between">
                                 <span className="text-sm text-muted-foreground">Status</span>
@@ -435,7 +435,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                     {subWorkshop.settings.recordSession ? "Enabled" : "Disabled"}
                                 </Badge>
                             </div>
-                        </div> */}
+                        </div>
 
                         <div className="border rounded-lg p-4">
                             <div className="text-sm font-medium mb-1">Allow Questions</div>
@@ -457,7 +457,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                             </div>
                         </div>
 
-                        {/* <div className="border rounded-lg p-4">
+                        <div className="border rounded-lg p-4">
                             <div className="text-sm font-medium mb-1">Notifications</div>
                             <div className="flex items-center justify-between">
                                 <span className="text-sm text-muted-foreground">Status</span>
@@ -476,10 +476,10 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                     before
                                 </div>
                             )}
-                        </div> */}
+                        </div>
                     </div>
                 </CardContent>
-            </Card>
+            </Card> */}
 
 
             <AdminUsersTable
