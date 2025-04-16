@@ -32,7 +32,7 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters ,workshop 
         description:{
             en: "",
             fr: "",
-            fr: "",
+            ar: "",
         },
         workshop_id: workshop,
         prerequisite:{

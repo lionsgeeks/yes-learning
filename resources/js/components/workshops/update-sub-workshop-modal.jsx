@@ -138,7 +138,7 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
                 <TabsTrigger value="ar">Arabic</TabsTrigger>
               </TabsList>
 
-              {["en", "fr", "ar"].map((lang) => (
+             {["en", "fr", "ar"].map((lang) => (
 
 
                   <TabsContent key={lang} value={lang}>
@@ -186,27 +186,28 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
                         }
                       />
                     </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="course">Associated chapter</Label>
+                        <Select value={data.chapter_id} onValueChange={(value) => setData("chapter_id", value)}>
+                            <SelectTrigger id="course">
+                            <SelectValue placeholder="Select a course" />
+                            </SelectTrigger>
+                            <SelectContent>
+                            {chapters.map((chapter) => (
+                                <SelectItem key={chapter.id} value={chapter.id}>
+                                {chapter.title[`${lang}`]}
+                                </SelectItem>
+                            ))}
+                            </SelectContent>
+                        </Select>
+                        {errors.chapter_id && <p className="text-sm text-red-500">{errors.chapter_id}</p>}
+                        </div>
                   </div>
                 </TabsContent>
               ))}
             </Tabs>
 
-            <div className="space-y-2">
-              <Label htmlFor="course">Associated chapter</Label>
-              <Select value={data.chapter_id} onValueChange={(value) => setData("chapter_id", value)}>
-                <SelectTrigger id="course">
-                  <SelectValue placeholder="Select a course" />
-                </SelectTrigger>
-                <SelectContent>
-                  {chapters.map((chapter) => (
-                    <SelectItem key={chapter.id} value={chapter.id}>
-                      {chapter.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.chapter_id && <p className="text-sm text-red-500">{errors.chapter_id}</p>}
-            </div>
+
 
             <div className="grid gap-4 md:grid-cols-3">
               <div className="space-y-2">

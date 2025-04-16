@@ -27,7 +27,7 @@ export function CreateWorkshopModal({ open, onOpenChange, courses, workshop }) {
       description: {
         en: workshop ? JSON.parse(workshop.description)?.en || "" : "",
         fr: workshop ? JSON.parse(workshop.description)?.fr || "" : "",
-        fr: workshop ? JSON.parse(workshop.description)?.fr || "" : "",
+        ar: workshop ? JSON.parse(workshop.description)?.ar || "" : "",
       },
     course_id: workshop?.course_id || "",
   });
