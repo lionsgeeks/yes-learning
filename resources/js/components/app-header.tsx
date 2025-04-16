@@ -15,33 +15,6 @@ import { Award, BookOpen, Folder, LayoutGrid, LibraryBig, Menu, Search, Workflow
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        url: '/dashboard',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Courses',
-        url: '/course',
-        icon: BookOpen,
-    },
-    {
-        title: 'Achievements',
-        url: '/achievement',
-        icon: Award,
-    },
-    {
-        title: 'Library',
-        url: '/library',
-        icon: LibraryBig,
-    },
-    {
-        title: 'Workshops',
-        url: '/workshop',
-        icon: Workflow,
-    },
-];
 
 // const rightNavItems: NavItem[] = [
 //     {
@@ -65,6 +38,33 @@ interface AppHeaderProps {
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
+    const mainNavItems: NavItem[] = [
+        {
+            title: auth.user.language == "ar" ? 'الرئيسية' : auth.user.language == "fr" ? 'Tableau de bord' : 'Dashboard',
+            url: '/dashboard',
+            icon: LayoutGrid,
+        },
+        {
+            title: auth.user.language == "ar" ? 'الدورات' : auth.user.language == "fr" ? 'Cours' : 'Courses',
+            url: '/course',
+            icon: BookOpen,
+        },
+        {
+            title: auth.user.language == "ar" ? 'الإنجازات' : auth.user.language == "fr" ? 'Réalisation' : 'Achievements',
+            url: '/achievement',
+            icon: Award,
+        },
+        {
+            title: auth.user.language == "ar" ? 'المكتبة' : auth.user.language == "fr" ? 'Bibliothèque' : 'Library',
+            url: '/library',
+            icon: LibraryBig,
+        },
+        {
+            title: auth.user.language == "ar" ? 'ورش العمل' : auth.user.language == "fr" ? 'Ateliers' : 'Workshops',
+            url: '/workshop',
+            icon: Workflow,
+        },
+    ];
     const getInitials = useInitials();
     return (
         <>
@@ -81,7 +81,9 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                             <SheetContent side="left" className="bg-sidebar flex h-full w-64 flex-col items-stretch justify-between">
                                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                                 <SheetHeader className="flex justify-start text-left">
-                                    <AppLogoIcon className="h-6 w-6 fill-current text-black dark:text-white" />
+                                    <Link href="/dashboard" prefetch className="flex items-center space-x-2">
+                                        <AppLogo />
+                                    </Link>
                                 </SheetHeader>
                                 <div className="flex h-full flex-1 flex-col space-y-4 p-4">
                                     <div className="flex h-full flex-col justify-between text-sm">
