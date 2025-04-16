@@ -37,7 +37,7 @@ export function WorkshopCard({ workshop, courses }) {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuItem
+                            {/* <DropdownMenuItem
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
@@ -45,7 +45,7 @@ export function WorkshopCard({ workshop, courses }) {
                                 }}
                             >
                                 Edit Workshop
-                            </DropdownMenuItem>
+                            </DropdownMenuItem> */}
                             <DropdownMenuItem
                                 className="text-destructive"
                                 onClick={(e) => {

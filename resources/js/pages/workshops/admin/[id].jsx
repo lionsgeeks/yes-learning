@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { ArrowLeft, Calendar, MoreHorizontal, Plus, Users, Globe } from "lucide-react"
 import { CreateSubWorkshopModal } from "@/components/workshops/create-sub-workshop-modal"
-import { Switch } from "@/components/ui/switch"
+import { CreateWorkshopModal } from "@/components/workshops/create-workshop-modal"
 import { SubWorkshopCard } from "@/components/workshops/sub-workshop-card"
 import { format } from "date-fns"
 import { DeleteWorkshopDialog } from "@/components/workshops/delete-workshop-dialog";
@@ -30,9 +30,10 @@ const breadcrumbs = [
 // Mock data for sub-workshops
 
 
-const WorkshopDetails = ({workshop , subWorkshops , chapters}) => {
+const WorkshopDetails = ({workshop , subWorkshops , chapters , courses}) => {
 // console.log(workshop);
 const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
     // const [isPublished, setIsPublished] = useState(workshop.status === "published")
@@ -78,9 +79,7 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
                             <Switch checked={isPublished} onCheckedChange={setIsPublished} />
                         </div> */}
                         <div className="flex gap-2 jus">
-                            <Button variant="outline" asChild>
-                                <Link href={`/workshops/${workshop.id}/edit`}>Edit Workshop</Link>
-                            </Button>
+
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="outline" size="icon">
@@ -88,8 +87,16 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
-                                    <DropdownMenuItem>Duplicate Workshop</DropdownMenuItem>
-                                    <DropdownMenuItem className="text-destructive">
+                                    {/* <DropdownMenuItem>Duplicate Workshop</DropdownMenuItem> */}
+                                    <DropdownMenuItem
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            setIsEditModalOpen(true);
+                                        }}
+                                    >
+                                        Edit Workshop
+                                    </DropdownMenuItem>
                                     <DropdownMenuItem
                                         className="text-destructive"
                                         onClick={(e) => {
@@ -107,7 +114,6 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
                                         workshopTitle={workshop.name}
                                         workshopId={workshop.id}
                                     />
-                                    </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
@@ -195,6 +201,14 @@ const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
                 <CreateSubWorkshopModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} chapters={chapters} workshop={workshop.id} />
             </div>
+
+
+            <CreateWorkshopModal
+                open={isEditModalOpen}
+                onOpenChange={setIsEditModalOpen}
+                workshop={workshop}
+                courses={courses}
+            />
 
         </AppLayout>
     );

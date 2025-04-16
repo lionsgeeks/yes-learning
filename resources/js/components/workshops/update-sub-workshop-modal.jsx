@@ -22,15 +22,15 @@ import { useForm } from "@inertiajs/react"
 
 export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorkshop }) {
 
-  const [step, setStep] = useState(1)
+    const [step, setStep] = useState(1)
 
   const { data, setData, put, processing, errors } = useForm({
     // name: subWorkshop.name ,
     workshop_id:  subWorkshop.workshop_id ,
-    description: subWorkshop.description ,
-    prerequisite: subWorkshop.prerequisite ,
-    chapter_id: subWorkshop.chapter_id ,
-    date: subWorkshop.date ,
+    // description: subWorkshop.description ,
+        // prerequisite: subWorkshop.prerequisite ,
+        chapter_id: subWorkshop.chapter_id ,
+        date: subWorkshop.date ,
     time: subWorkshop.time ,
     duration: subWorkshop.duration,
 
@@ -53,7 +53,7 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
 
 
     instructor:  {
-      en: JSON.parse(subWorkshop.instructor).en,
+        en: JSON.parse(subWorkshop.instructor).en,
       fr: JSON.parse(subWorkshop.instructor).fr,
       ar: JSON.parse(subWorkshop.instructor).ar,
     }
@@ -72,7 +72,7 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
 
 
 
-  })
+})
 
 // console.log(subWorkshop.name);
 

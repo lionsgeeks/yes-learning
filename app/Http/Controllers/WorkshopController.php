@@ -89,6 +89,7 @@ class WorkshopController extends Controller
             'workshop' => $workshop->load('course'),
             'subWorkshops' => SubWorkshop::with('users')->get(),
             'chapters' => Chapter::where('course_id', $workshop->course->id)->get(),
+            "courses"=>Course::all()
         ]);
 
     }

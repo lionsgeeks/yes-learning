@@ -20,7 +20,7 @@ import { UpdateSubWorkshopModal } from "@/components/workshops/update-sub-worksh
 const breadcrumbs = [
 
     {
-        title: "Workshop Session",
+        title: "Sub-Workshop Session",
         href: `/admin/sub-workshop/1`,
     },
 ];
@@ -79,7 +79,7 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
     return (
 
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={"Workshop Session"} />
+            <Head title={"Sub-Workshop Session"} />
 
             <div className="container mx-auto p-3 lg:p-6">
             <div className="mb-6 flex items-center">
@@ -114,39 +114,32 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                     </div>
                     <div className="flex gap-2">
                     <Button
-        variant="outline"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setIsEditModalOpen(true);
-        }}
-      >
-        Edit
-      </Button>
-      <UpdateSubWorkshopModal
-        open={isEditModalOpen}
-        onOpenChange={setIsEditModalOpen}
-        subWorkshop={subWorkshop}
-        chapters={chapters}
-      />
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="icon">
-                                    <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                                 <DropdownMenuItem
-                                    className="text-destructive"
-                                    onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    setIsDeleteDialogOpen(true);
-                                    }}
-                                >
-                                    Delete Workshop
-                                </DropdownMenuItem>
+                        variant="outline"
+                        onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setIsEditModalOpen(true);
+                        }}
+                    >
+                        Edit
+                    </Button>
+                    <UpdateSubWorkshopModal
+                        open={isEditModalOpen}
+                        onOpenChange={setIsEditModalOpen}
+                        subWorkshop={subWorkshop}
+                        chapters={chapters}
+                    />
+                        <Button
+                            className="text-destructive"
+                             variant="outline"
+                            onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setIsDeleteDialogOpen(true);
+                            }}
+                            >
+                            Delete Sub-Workshop
+                        </Button>
 
 
                                 <DeleteSubWorkshopDialog
@@ -155,8 +148,6 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                                     workshopTitle={JSON.parse(subWorkshop.name).en}
                                     workshopId={subWorkshop.id}
                                 />
-                            </DropdownMenuContent>
-                        </DropdownMenu>
                     </div>
                 </div>
             </div>
