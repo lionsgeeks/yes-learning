@@ -25,6 +25,8 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     })->name('auth.steps');
 
     Route::post('/stepss', [DashboardController::class, 'steps'])->name('stepss');
+
+    Route::post('/update/language', [DashboardController::class, 'updateLanguage'])->name('langugage.update');
 });
 
 

@@ -94,7 +94,14 @@ class DashboardController extends Controller
             ]);
         }
 
-
         return back();
+    }
+
+
+    public function updateLanguage(Request $request)
+    {
+        Auth::user()->update([
+            'language' => $request->language
+        ]);
     }
 }
