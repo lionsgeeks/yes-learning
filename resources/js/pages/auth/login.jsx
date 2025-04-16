@@ -86,9 +86,9 @@ export default function Login({ status, canResetPassword }) {
 
                 <div className="text-muted-foreground text-center text-sm">
                     Don't have an account?{' '}
-                    <TextLink href={route('register')} tabIndex={5}>
-                        Sign up
-                    </TextLink>
+                    <a target='_blank' className='text-alpha underline' href="https://youthempowermentsummit.africa/contact" >
+                        Contact us
+                    </a>
                 </div>
             </form>
 

@@ -17,18 +17,18 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@gmail.com',
+            'name' => 'Yes Africa',
+            'email' => 'admin@youthempowermentsummit.africa',
             'role' => 'admin',
             "language" =>"en",
-            'password' => Hash::make('admin@gmail.com'),
+            'password' => Hash::make('yesafrica'),
         ]);
         User::create([
             'name' => 'jadara',
-            'email' => 'jadara@gmail.com',
+            'email' => 'ngo@youthempowermentsummit.africa',
             'role' => NULL,
             "language" =>"en",
-            'password' => Hash::make('yeslearning'),
+            'password' => Hash::make('yesafrica'),
         ]);
     }
 }
