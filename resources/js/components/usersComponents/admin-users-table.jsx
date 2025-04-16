@@ -132,26 +132,26 @@ export default function AdminUsersTable({
     }
     return (
         <>
-            <div className="lg:p-6 p-3">
-                <div className="flex flex-row items-center justify-between gap-4 mb-6">
-                    <div>
-                        <h2 className="text-2xl font-bold">{title}</h2>
-                        {description && <p className="text-muted-foreground mt-1">{description}</p>}
-                    </div>
-                    {showAddButton && (
-                        <div className="flex items-center gap-2">
-                            <Button asChild>
-                                <Link href={addButtonLink}>
-                                    <UserPlus className="h-4 w-4 mr-2" />
-                                    Add User
-                                </Link>
-                            </Button>
-                        </div>
-                    )}
-                </div>
-
+            <div className="">
                 <Card>
                     <CardHeader className="pb-3">
+                    <div className="flex flex-row items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h2 className="text-2xl font-bold">{title}</h2>
+                            {description && <p className="text-muted-foreground mt-1">{description}</p>}
+                        </div>
+                        {showAddButton && (
+                            <div className="flex items-center gap-2">
+                                <Button asChild>
+                                    <Link href={addButtonLink}>
+                                        <UserPlus className="h-4 w-4 mr-2" />
+                                        Add User
+                                    </Link>
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                             <CardTitle>Users</CardTitle>
                             <div className="flex items-center sm:justify-normal justify-evenly gap-2">
@@ -184,7 +184,7 @@ export default function AdminUsersTable({
                                     {/* <TableHead className="text-right w-full">Actions</TableHead> */}
                                 </TableRow>
                             </TableHeader>
-                            <TableBody className="flex-col flex gap-y-2">
+                            <TableBody className="flex-col flex gap-y-2 overflow-auto h-[35vh]">
                                 {filteredUsers.map((user) => (
                                     <TableRow key={user.id} className="flex flex-col  p-2 rounded-lg lg:flex-row w-full border-2 lg:border-1">
                                         <TableCell className="w-full">
@@ -300,6 +300,8 @@ export default function AdminUsersTable({
                                         </TableCell> */}
                                     </TableRow>
                                 ))}
+
+                                {/* There are no users */}
                                 {filteredUsers.length === 0 && (
                                     <TableRow className="flex flex-col  p-2 rounded-lg lg:flex-row w-full">
                                         <TableCell colSpan={6} className="text-center py-8 text-muted-foreground w-full">

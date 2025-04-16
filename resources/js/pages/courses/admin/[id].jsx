@@ -108,8 +108,8 @@ const AdminCoursesShow = () => {
     const { course, modules, courseQuiz } = usePage().props;
     const { delete: destroy } = useForm();
     const deleteChapter = (id) => {
-        destroy(route('chapter.destroy', id),{
-            onFinish:() => setChapters(chapters.filter(chapter => chapter.id !== id))
+        destroy(route('chapter.destroy', id), {
+            onFinish: () => setChapters(chapters.filter(chapter => chapter.id !== id))
         })
     }
     console.log(course);
@@ -184,7 +184,7 @@ const AdminCoursesShow = () => {
                 </div>
 
                 <div className="grid gap-6 lg:grid-cols-2">
-                    <Card className="p-0">
+                    {/* <Card className="p-0">
                         <CardHeader className="relative aspect-video overflow-hidden p-0">
                             <img src={course.image} alt={course.name.en} fill className="object-cover rounded-t" />
                             {!course.published && (
@@ -197,7 +197,7 @@ const AdminCoursesShow = () => {
                             <p className="text-xl font-bold">{course.name.en}</p>
                             <p>{course.description.en}</p>
                         </CardContent>
-                    </Card>
+                    </Card> */}
 
                     <Card className="h-[70vh] overflow-y-auto">
                         <CardHeader>
@@ -232,13 +232,15 @@ const AdminCoursesShow = () => {
                             </DndContext>
                         </CardContent>
                     </Card>
+
+
+                    <AdminUsersTable role title="Enrolled users" description="Manage NGOs enrolled in this course" Users={course.users} />
                 </div>
 
-                {/* Quiz Creation */}
-                <CreateQuizPage course_id={course.id} courseQuiz={courseQuiz} />
-
                 <div className="">
-                    <AdminUsersTable role title="Enrolled users" description="Manage NGOs enrolled in this course" Users={course.users} />
+                    {/* Quiz Creation */}
+                    <CreateQuizPage course_id={course.id} courseQuiz={courseQuiz} />
+
                     {/* <Achievement achievement={initialAchievements }/> */}
                 </div>
             </div>
