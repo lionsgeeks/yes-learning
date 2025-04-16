@@ -18,8 +18,8 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 const CourseDetails = () => {
     const { course, chapters, image_url, auth, quizId } = usePage().props;
-    console.log("course :",course);
-    console.log("chapters :",chapters);
+    console.log("course :", course);
+    console.log("chapters :", chapters);
     const [currentChapterId, setCurrentChapterId] = useState(chapters[0]?.id);
     console.log('auth : ', currentChapterId);
     const { data, setData, post, processing } = useForm({
@@ -161,11 +161,10 @@ const CourseDetails = () => {
                                                             setCurrentChapterId(subModule.id);
                                                         }}
                                                         // href={`/module/${subModule.id}`}
-                                                        className={`flex cursor-pointer items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors ${
-                                                            index + 1 === currentSubModuleId
-                                                                ? 'bg-primary/80 text-primary-foreground'
-                                                                : 'hover:bg-muted'
-                                                        }`}
+                                                        className={`flex cursor-pointer items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors ${index + 1 === currentSubModuleId
+                                                            ? 'bg-primary/80 text-primary-foreground'
+                                                            : 'hover:bg-muted'
+                                                            }`}
                                                     >
                                                         {/* </Card> */}
                                                         <div className="flex items-center">
@@ -335,7 +334,7 @@ const CourseDetails = () => {
                                                                                                         <td key={colIndex} className="border p-2">
                                                                                                             {
                                                                                                                 block.content?.data[rowIndex + 1][
-                                                                                                                    colIndex
+                                                                                                                colIndex
                                                                                                                 ]
                                                                                                             }
                                                                                                         </td>
@@ -486,12 +485,19 @@ const CourseDetails = () => {
                                 </Button>
                             )}
                             {currentSubModuleId === chapters.length ? (
-                                <a onClick={(e)=>takeQuiz(e)}>
-                                    <Button>
-                                        Take Quiz
-                                        <ChevronRight className="ml-2 h-4 w-4" />
-                                    </Button>
-                                </a>
+                                quizId ?
+                                    <a onClick={(e) => takeQuiz(e)}>
+                                        <Button>
+                                            Take Quiz
+                                            <ChevronRight className="ml-2 h-4 w-4" />
+                                        </Button>
+                                    </a>
+                                    :
+                                    <a href="/course">
+                                        <Button>
+                                            Return To Courses
+                                        </Button>
+                                    </a>
                             ) : (
                                 <Button
                                     onClick={() => {

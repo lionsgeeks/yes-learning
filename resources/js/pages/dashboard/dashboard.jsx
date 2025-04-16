@@ -19,43 +19,37 @@ const breadcrumbs = [
 
 export default function Dashboard() {
 
-    const { courses, quizzes, userQuiz } = usePage().props;
+    const { courses, quizzes, userQuiz, auth } = usePage().props;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-6">
-                {/* <div>
-                    <h1 className='text-3xl font-bold'>Welcome Back, Ayman!</h1>
+                <div>
+                    <h1 className='text-3xl font-bold'>Welcome Back, {auth.user.name}!</h1>
                     <h1 className='text-2xl pt-2'>Continue learning </h1>
                 </div>
                 <div className="grid auto-rows-min gap-4 md:grid-cols-2">
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
-                        <img className='h-[65%] w-full object-cover' src="/storage/ee6ab2d0dc78dda0ec5e0c0583bf9e72.jpg" alt="" />
-                        <div className='p-2 flex-col gap-y-2'>
-                            <h1>Web Development Fundamentals</h1>
-                            <p>Module 3: CSS Layouts</p>
-                            <Progress value={65} className="h-2 mt-2 mb-2" />
-                            <div className='flex justify-between '>
-                                <p>65% complete</p>
-                                <p>35 min left</p>
-                            </div>
-                        </div>
-                    </div>
+                    {
+                        courses.slice(0, 2).map((course, index) =>
+                            <div key={index} className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
+                                <img className='h-[65%] w-full object-cover' src={'/storage/' + course.image} alt="" />
+                                <div className='p-2 flex-col gap-y-2'>
+                                    <h1>
+                                        <TransText {...JSON.parse(course.name)} />
+                                    </h1>
+                                    <p>Modules: {course.chapterCount}</p>
+                                    <Progress value={(course.completedCount / course.chapterCount) * 100} className="h-2 mt-2 mb-2" />
 
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
-                        <img className='h-[65%] w-full object-cover' src="/storage/ee6ab2d0dc78dda0ec5e0c0583bf9e72.jpg" alt="" />
-                        <div className='p-2 flex-col gap-y-2'>
-                            <h1>Web Development Fundamentals</h1>
-                            <p>Module 3: CSS Layouts</p>
-                            <Progress value={65} className="h-2 mt-2 mb-2" />
-                            <div className='flex justify-between '>
-                                <p>65% complete</p>
-                                <p>35 min left</p>
+                                    <div className='flex justify-between '>
+                                        <p>{course.completedCount ? (course.completedCount / course.chapterCount) * 100 : 0} % complete</p>
+
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div> */}
+                        )
+                    }
+                </div>
                 <div className="border-sidebar-border/70 p-2 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
                     <Tabs defaultValue="courses" className="mt-6">
                         <TabsList className="grid grid-cols-4 w-full md:w-auto">

@@ -21,12 +21,15 @@ class DashboardController extends Controller
     {
         $quizzes = Quiz::where('published', 1)->get();
         $userQuiz = QuizUser::where('user_id', Auth::id())->get();
+        $user = Auth::user();
         return Inertia::render("dashboard/dashboard", [
             "courses" => DB::table('courses')->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
                 ->where('user_courses.user_id', Auth::id())
                 ->select('courses.*')
-                ->get()->map(function ($course) {
+                ->get()
+                ->map(function ($course) use ($user) {
                     $course->chapterCount = Chapter::where("course_id", $course->id)->count();
+                    $course->completedCount = $user->chapters->where('course_id', $course->id)->count();
                     return $course;
                 }),
             "quizzes" => $quizzes,
@@ -45,6 +48,7 @@ class DashboardController extends Controller
             return [
                 'id' => $course->id,
                 'name' => $course->name['en'],
+                'image' => $course->image,
                 'subscribed' => $course->users->count()
             ];
         });

@@ -104,7 +104,7 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         $lang = Auth::user()->language;
-        $quizId = $course->quiz()->first()->id;
+        $quizId = $course->quiz()?->first()?->id;
 
         return Inertia::render("courses/student/[id]", [
             "course" => [
