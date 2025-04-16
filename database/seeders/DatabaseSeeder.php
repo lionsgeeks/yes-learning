@@ -23,5 +23,12 @@ class DatabaseSeeder extends Seeder
             "language" =>"en",
             'password' => Hash::make('admin@gmail.com'),
         ]);
+        User::create([
+            'name' => 'jadara',
+            'email' => 'jadara@gmail.com',
+            'role' => NULL,
+            "language" =>"en",
+            'password' => Hash::make('yeslearning'),
+        ]);
     }
 }

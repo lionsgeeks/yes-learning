@@ -42,7 +42,7 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
     description:{
         en: JSON.parse(subWorkshop.description).en,
         fr:  JSON.parse(subWorkshop.description).fr,
-        fr:  JSON.parse(subWorkshop.description).fr,
+        ar:  JSON.parse(subWorkshop.description).ar,
     },
 
     prerequisite:{
