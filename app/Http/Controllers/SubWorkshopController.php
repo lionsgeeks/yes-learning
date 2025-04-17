@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MeetingNotification;
 use App\Models\Chapter;
 use App\Models\SubWorkshop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class SubWorkshopController extends Controller
@@ -103,6 +105,27 @@ class SubWorkshopController extends Controller
 
         return redirect("/workshop");
     }
+
+
+
+
+    public function sendnotification(SubWorkshop $subWorkshop){
+        $sub = SubWorkshop::where("id", $subWorkshop->id)->with('users')->first();
+
+    foreach ($sub->users as $user) {
+        // $email = $user->email;
+        $email = "aymenboujjar12@gmail.com";
+        $language = $user->language;
+
+        $meetLinks = json_decode($sub->meetLink);
+        $meetLink = $meetLinks->$language ?? null;
+
+
+            Mail::to($email)->send(new MeetingNotification($email, $meetLink , $language));
+
+    }
+    }
+
 
     /**
      * Show the form for editing the specified resource.

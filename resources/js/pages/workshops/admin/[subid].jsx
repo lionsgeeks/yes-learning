@@ -71,8 +71,17 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
         arabic: "AR",
     }
 
+    const { data, setData, put, proccessing, erro } = useForm({
+        workshop: '',
+    });
 
+    const sendnotif = (id) => {
+        setData('workshop', id);
+        put(route('workshop.notif', id), {
+            
+        });
 
+    };
 
 
 
@@ -91,27 +100,27 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                 <div className="flex-1">
                     <div className="flex items-center gap-2">
                         <h1 className="text-2xl font-bold">{JSON.parse(subWorkshop.name).en}</h1>
-                        {isPublished ? (
+                        {/* {isPublished ? (
                             <Badge>Published</Badge>
                         ) : (
                             <Badge variant="outline" className="text-amber-500 border-amber-500">
                                 Draft
                             </Badge>
-                        )}
-                        {isPastWorkshop && <Badge variant="outline">Passed</Badge>}
+                        )} */}
+                        {/* {isPastWorkshop && <Badge variant="outline">Passed</Badge>} */}
                     </div>
                     <p className="text-sm text-muted-foreground">
                         <Link href={`/workshops/${subWorkshop.workshopId}`} className="hover:underline">
                             {subWorkshop.workshopTitle}
                         </Link>{" "}
-                        &gt; {subWorkshop.subCourse}
+                         {subWorkshop.subCourse}
                     </p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                         <span className="text-sm font-medium">{isPublished ? "Published" : "Draft"}</span>
                         <Switch checked={isPublished} />
-                    </div>
+                    </div> */}
                     <div className="flex gap-2">
                     <Button
                         variant="outline"
@@ -258,19 +267,10 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                             <div className="text-xs text-muted-foreground">Remind participants about the upcoming session</div>
                         </div>
 
-                        <div className="space-y-2">
-                            <Button variant="outline" className="w-full justify-between" size="sm">
-                                <div className="flex items-center">
-                                    <BookOpen className="mr-2 h-4 w-4" />
-                                    Prerequisites Reminder
-                                </div>
-                                <ChevronRight className="h-4 w-4" />
-                            </Button>
-                            <div className="text-xs text-muted-foreground">Remind participants to complete prerequisites</div>
-                        </div>
+
 
                         <div className="space-y-2">
-                            <Button variant="outline" className="w-full justify-between" size="sm">
+                            <Button variant="outline" className="w-full justify-between" size="sm" onClick={() => sendnotif(subWorkshop)}>
                                 <div className="flex items-center">
                                     <LinkIcon className="mr-2 h-4 w-4" />
                                     Send Meeting Links

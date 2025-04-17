@@ -55,7 +55,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
         if (isBefore(date, now)) {
             return (
                 <Badge variant="outline" className="bg-gray-100 text-gray-800">
-                    <TransText en="Completed" fr="Terminé" ar="مُكتمل" />
+                    <TransText en="past" fr="Passé" ar="مَرَّت" />
                 </Badge>
             );
         } else if (isAfter(date, now) && isBefore(date, addHours(now, 24))) {
@@ -324,40 +324,11 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 </div>
                                             </div>
                                         </CardContent>
-                                        <CardFooter className="flex gap-2 pt-0">
-                                            {/* {console.log(JSON.parse(workshop.meetLink).ar)} */}
-                                            {!workshop.enrolled && workshop.requireRegistration ? (
-                                                <>
-                                                    <Button
-                                                        className="flex-1"
-                                                        onClick={() => handleRegisterClick(workshop)}
-                                                        // disabled={workshop.enrolled >= workshop.capacity}
-                                                    >
-                                                        <TransText en="Register" fr="s’inscrire" ar="تسجيل" />
-                                                    </Button>
-                                                </>
-                                            ) : (
-                                                <>
+                                        <CardFooter>
+                                        <Button className="flex-1">
+                                             <TransText en="passed" fr="s’inscrire" ar="تسجيل" />
+                                        </Button>
 
-                                                        <TransText en=
-                                                        <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).en} target="_blank" rel="noopener noreferrer">
-                                                            <ExternalLink className="mr-2 h-4 w-4" />
-                                                            Join
-                                                        </a>
-
-                                                        fr=   <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
-                                                            <ExternalLink className="mr-2 h-4 w-4" />
-                                                            rejoindre
-                                                        </a>
-
-                                                        ar= <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
-                                                            <ExternalLink className="mr-2 h-4 w-4" />
-                                                            انضمَّ
-                                                        </a>
-
-                                                         />
-                                                </>
-                                            )}
                                         </CardFooter>
                                     </Card>
                                 ))}

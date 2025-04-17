@@ -18,4 +18,5 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::resource("sub-workshop" , SubWorkshopController::class);
     Route::delete('/subworkshop/destroy/{subWorkshop}', [SubWorkshopController::class, 'destroy'])->name('subworkshop.destroy');
     Route::put('/subworkshop/update/{subWorkshop}', [SubWorkshopController::class, 'update'])->name('subworkshop.update');
+    Route::put('/subworkshop/sendnotif/{subWorkshop}', [SubWorkshopController::class, 'sendnotification'])->name('workshop.notif');
 });
