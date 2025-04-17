@@ -13,7 +13,7 @@ import { BookOpen, CheckCircle, ChevronLeft, ChevronRight, Clock, Download, File
 import { useEffect, useState } from 'react';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 import Loading from '../../../components/loading';
-
+import TruncateText from '@/components/TruncateText'
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
 const CourseDetails = () => {
@@ -27,16 +27,24 @@ const CourseDetails = () => {
         chapter_id: null,
     });
     const [currentSubModuleId, setCurrentSubModuleId] = useState(1);
-    const attachments = [{ id: 1, name: 'HTML Cheat Sheet.pdf', type: 'PDF', size: '1.2 MB', icon: FileText }];
+    // const attachments = [{ id: 1, name: 'HTML Cheat Sheet.pdf', type: 'PDF', size: '1.2 MB', icon: FileText }];
     const [coursePercentage, setCoursePercentage] = useState(0);
+    const [attachments, setAttachments] = useState([]);
     useEffect(() => {
-        chapters.forEach(chapter => {
-            if (chapter.content) {
-                
-            }
+        const docs = [];
+        chapters.forEach((chapter) => {
+            chapter.content.forEach((cnt) => {
+                cnt.blocks.forEach((block) => {
+                    if (block.type === 'document') {
+                        console.log('document block', block);
+                        const document = block.content;
+                        docs.push(document);
+                    }
+                });
+            });
         });
+        setAttachments(docs);
     }, []);
-
     const calculPercentage = (param) => {
         setCoursePercentage((param / chapters.length) * 100);
     };
@@ -220,7 +228,7 @@ const CourseDetails = () => {
 
                                     <TabsContent value="content" className="space-y-4">
                                         <div dir={auth.user.language === 'ar' ? 'rtl' : 'ltr'} className="flex items-center justify-between">
-                                            <h2 className="text-xl font-medium">{chapters[0].title}</h2>
+                                            <h2 className="text-xl font-medium">{chapters[0].title} </h2>
                                             {/* <Button variant="outline" size="sm">
                                                 <PlusCircle className="mr-1 h-4 w-4" />
                                                 Save to Bookmarks
@@ -529,26 +537,27 @@ const CourseDetails = () => {
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-3">
-                                {attachments.map((attachment) => (
+                                {attachments?.map((attachment, index) => (
                                     <div
-                                        key={attachment.id}
+                                        key={index}
                                         className="hover:bg-muted/50 flex items-center justify-between rounded-md border p-2 transition-colors"
                                     >
                                         <div className="flex items-center">
                                             <div className="bg-primary/10 mr-3 flex h-8 w-8 items-center justify-center rounded">
-                                                <attachment.icon className="text-primary h-4 w-4" />
+                                                <FileText className="text-primary h-4 w-4" />
                                             </div>
                                             <div>
-                                                <div className="text-sm font-medium">{attachment.name}</div>
-                                                <div className="text-muted-foreground text-xs">
-                                                    {attachment.type} • {attachment.size}
+                                                <div className="text-sm font-medium">
+                                                    <TruncateText text={attachment.title} length={8} />
                                                 </div>
                                             </div>
                                         </div>
-                                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                                            <Download className="h-4 w-4" />
-                                            <span className="sr-only">Download</span>
-                                        </Button>
+                                        <a href={`/storage/${attachment.url}`} target="_blank" download>
+                                            <Button variant="outline" size="sm" className="h-8">
+                                                <Download className="mr-2 h-4 w-4" />
+                                                Download
+                                            </Button>
+                                        </a>
                                     </div>
                                 ))}
                             </div>

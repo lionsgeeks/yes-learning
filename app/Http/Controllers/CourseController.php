@@ -119,7 +119,6 @@ class CourseController extends Controller
                 'label' =>  $course->label[$lang],
             ],
             "quizId" => $quizId,
-            "image_url" => asset('storage/'),
             "chapters" => Chapter::where("course_id", $course->id)
                 ->with(['users' => function ($query) {
                     $query->select('users.id');
