@@ -1,11 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Meeting Link</title>
 </head>
+
 <body>
     <h1>Meeting Invitation fr</h1>
 
@@ -18,6 +19,7 @@
     <p>Looking forward to seeing you there!</p>
 
     <p>Best regards,<br>
-    The Team</p>
+        The Team</p>
 </body>
+
 </html>

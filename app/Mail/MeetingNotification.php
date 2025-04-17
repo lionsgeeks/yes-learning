@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
@@ -35,25 +36,25 @@ class MeetingNotification extends Mailable
     {
         if ($this->language == 'en') {
             return $this->view('emails.meeting_notification')
-                        ->with([
-                            'meetLink' => $this->meetLink,
-                            'language' => $this->language,
-                        ])
-                        ;
+                ->with([
+                    'meetLink' => $this->meetLink,
+                    'language' => $this->language,
+                ])
+            ;
         } elseif ($this->language == 'fr') {
             return $this->view('emails.meeting_notification2')
-                        ->with([
-                            'meetLink' => $this->meetLink,
-                            'language' => $this->language,
-                        ])
-                        ;
+                ->with([
+                    'meetLink' => $this->meetLink,
+                    'language' => $this->language,
+                ])
+            ;
         } elseif ($this->language == 'ar') {
             return $this->view('emails.meeting_notification3')
-                        ->with([
-                            'meetLink' => $this->meetLink,
-                            'language' => $this->language,
-                        ])
-                        ;
+                ->with([
+                    'meetLink' => $this->meetLink,
+                    'language' => $this->language,
+                ])
+            ;
         }
     }
 }

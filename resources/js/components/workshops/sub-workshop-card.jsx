@@ -80,11 +80,18 @@ export function SubWorkshopCard({ subWorkshop }) {
         </CardFooter>
       )}
 
-      {isPastWorkshop && missingInfo.length === 0 && (
+      {isPastWorkshop && missingInfo.length === 0 ? (
         <CardFooter className="border-t bg-muted px-4 py-2">
           <div className="flex items-center gap-2 text-muted-foreground w-full">
             <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
             <span className="text-xs">Completed</span>
+          </div>
+        </CardFooter>
+      ):(
+        <CardFooter className="border-t bg-muted px-4 py-2">
+          <div className="flex items-center gap-2 text-muted-foreground w-full">
+            <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
+            <span className="text-xs">Soon</span>
           </div>
         </CardFooter>
       )}
