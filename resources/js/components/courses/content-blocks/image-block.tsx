@@ -32,7 +32,7 @@ export function ImageBlockEditor({ content, onChange }: ImageBlockEditorProps) {
         const hashedFileName = await generateHashedFileName(file);
         const renamedFile = new File([file], hashedFileName, { type: file.type });
         const url = `image/chapters/${hashedFileName}`;
-        console.log('Generated URL:', url);
+
         onChange({ ...content, file: renamedFile, url: url });
     };
     return (

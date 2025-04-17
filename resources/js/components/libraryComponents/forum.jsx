@@ -9,11 +9,11 @@ const Forum = ({ comments }) => {
     const handleSubmitComment = (e) => {
         e.preventDefault();
         // In a real app, you would send this to your API
-        console.log('Submitting comment:', newComment);
+        // console.log('Submitting comment:', newComment);
         setNewComment('');
         // Then you would add the new comment to the list
     };
-    console.log(comments);
+    // console.log(comments);
     return (
         <div className="space-y-6">
             <form onSubmit={handleSubmitComment} className="space-y-3">

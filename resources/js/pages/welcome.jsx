@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, BookOpen, Globe, Users, CheckCircle } from "lucide-react"
-import { Link } from "@inertiajs/react"
+import { Head, Link } from "@inertiajs/react"
 
 
 export default function Welcome() {
 
     return (
         <div className="flex flex-col min-h-screen bg-white lg:p-6">
+        <Head title="Welcome To" />
             <header className="  bg-white/30 sticky top-0 z-10 /80 backdrop-blur-md">
                 <div className="container flex h-20 items-center justify-between px-6 md:px-8">
                     <div className="flex items-center gap-3">

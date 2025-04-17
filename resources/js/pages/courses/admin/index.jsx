@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 const AdminCourses = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const { courses } = usePage().props;
-    console.log(courses);
+
     return (
         <AppLayout>
             <Head title={'Courses'} />

@@ -147,7 +147,7 @@ const NewsletterPage = () => {
                                                             value={scheduleDate}
                                                             onChange={(e) => {
                                                                 setScheduleDate(e.target.value);
-                                                                console.log(e.target.value);
+                                                                // console.log(e.target.value);
                                                             }}
                                                         />
                                                     </div>

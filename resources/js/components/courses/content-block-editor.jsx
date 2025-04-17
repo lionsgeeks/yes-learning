@@ -20,9 +20,9 @@ import { TextBlockEditor } from './content-blocks/text-block';
 import { VideoBlockEditor } from './content-blocks/video-block';
 
 export function ContentBlockEditor({ blocks, onBlocksChange, lang }) {
-    console.log('blocks : ', blocks);
+
     const [activeBlockId, setActiveBlockId] = useState(null);
-    
+
     const addBlock = (type) => {
         const newBlock = {
             id: `block-${Date.now()}`,

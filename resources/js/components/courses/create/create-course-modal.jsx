@@ -25,7 +25,7 @@ export function CreateCourseModal({ open, onOpenChange }) {
         const [field, lang] = e.target.name.split('.');
         const value = e.target.value;
 
-        console.log(field);
+
         if (field == 'published') {
             setData('published', !data.published);
         } else {

@@ -4,7 +4,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/compon
 import { ThumbsUp } from 'lucide-react';
 
 const Comment = ({ comment }) => {
-    console.log(comment)
+
     return (
         <div className="grid grid-cols-[0.1fr_3fr] justify-start gap-3 rounded p-3">
             <Avatar className="h-8 w-8">

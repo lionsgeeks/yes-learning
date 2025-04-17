@@ -17,13 +17,13 @@ interface PDFBlockEditorProps {
 export function FileBlockEditor({ content, onChange }: PDFBlockEditorProps) {
     const handleFile = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
             const file = e.target.files? e.target.files[0] : null
-            console.log('pdf : ',file);
-            
+
+
             if (!file) return;
             // const hashedFileName = await generateHashedFileName(file);
             // const renamedFile = new File([file], hashedFileName, { type: file.type });
             const url = `documents/chapters/${file.name}`;
-            // console.log('Generated URL:', url);
+
             onChange({ ...content, file: file, url: url });
         };
   return (

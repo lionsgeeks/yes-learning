@@ -11,7 +11,7 @@ const ChapterDetails = ({ setActiveTab, data, setData, lang }) => {
     const Transtext = (param) => {
         return param[lang]
     }
-    console.log("data",data)
+
     return (
         <>
             <Card dir={lang === 'ar' ? 'rtl' : 'ltr'} className="col-span-5">
@@ -110,7 +110,7 @@ const ChapterDetails = ({ setActiveTab, data, setData, lang }) => {
                     </div>
                 </CardContent>
                 </Card> */}
-               
+
         </>
     );
 };

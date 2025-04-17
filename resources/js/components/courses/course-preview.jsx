@@ -9,7 +9,7 @@ import { Button } from '../ui/button';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
 export function CoursePreview({ course, lang }) {
-    console.log('inside the course preview : ', course);
+
     // Separate function to render chart
     function renderChart(block) {
         const content = block.content; // Get the block's content

@@ -16,7 +16,7 @@ const { data, setData, post, processing, errors, reset } = useForm({
 });
 
 
-console.log(data);
+
 
 
     // TODO: store languages locally ??
@@ -68,7 +68,7 @@ console.log(data);
         if (step === 1) {
             setStep(2)
         } else {
-            console.log(`Selected language: ${selectedLanguage}, Selected courses: ${selectedcourses.join(", ")}`)
+            // console.log(`Selected language: ${selectedLanguage}, Selected courses: ${selectedcourses.join(", ")}`)
             post(route('stepss'), {
                 onSuccess: () => {
                     router.visit('dashboard')

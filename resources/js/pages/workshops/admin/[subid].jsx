@@ -304,7 +304,6 @@ export default function SubWorkshopDetailPage({subWorkshop , chapters}) {
                         const hasMeetLink = !!meetLinkData[`${language}`];
                         const isComplete = hasInstructor && hasMeetLink;
 
-                        console.log();
 
                         return (
                             <Card key={language} className="border">

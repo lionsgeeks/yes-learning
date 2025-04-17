@@ -18,10 +18,10 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 const CourseDetails = () => {
     const { course, chapters, auth, quizId } = usePage().props;
-    console.log('course :', course);
-    console.log('chapters :', chapters);
+    // console.log('course :', course);
+    // console.log('chapters :', chapters);
     const [currentChapterId, setCurrentChapterId] = useState(chapters[0]?.id);
-    console.log('auth : ', currentChapterId);
+    // console.log('auth : ', currentChapterId);
     const { data, setData, post, processing } = useForm({
         user_id: auth?.user.id,
         chapter_id: null,
@@ -49,7 +49,7 @@ const CourseDetails = () => {
         setCoursePercentage((param / chapters.length) * 100);
     };
     // console.log('course ', course);
-    console.log('chapters', chapters);
+    // console.log('chapters', chapters);
     const breadcrumbs = [
         {
             title: course.name,
@@ -222,8 +222,8 @@ const CourseDetails = () => {
                                         <TabsTrigger value="content">
                                             <TransText en="Lesson Content" fr="Contenu" ar="محتوى " />{' '}
                                         </TabsTrigger>
-                                        <TabsTrigger value="discussion">Discussion</TabsTrigger>
-                                        <TabsTrigger value="notes">My Notes</TabsTrigger>
+                                        {/* <TabsTrigger value="discussion">Discussion</TabsTrigger>
+                                        <TabsTrigger value="notes">My Notes</TabsTrigger> */}
                                     </TabsList>
 
                                     <TabsContent value="content" className="space-y-4">

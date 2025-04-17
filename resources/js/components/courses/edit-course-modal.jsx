@@ -14,7 +14,7 @@ export function EditCourseModal({ open, onOpenChange, course }) {
     const [activeTab, setActiveTab] = useState('details');
     const [imagePreview, setImagePreview] = useState(null);
 
-    // console.log(course);
+
     const { data, setData, post, progress } = useForm({
         id: course.id,
         name: {
@@ -40,7 +40,7 @@ export function EditCourseModal({ open, onOpenChange, course }) {
     }, [data.image]);
 
     const handleSubmit = async (e) => {
-        console.log(data);
+
         e.preventDefault();
         setIsSubmitting(true);
         post(
@@ -55,7 +55,7 @@ export function EditCourseModal({ open, onOpenChange, course }) {
     };
     const handleInputChange = (e) => {
         const [field, lang] = e.target.name.split('.');
-        // console.log(field, lang);
+
         const value = e.target.value;
         if (field == 'published') {
             setData('published', !data.published);

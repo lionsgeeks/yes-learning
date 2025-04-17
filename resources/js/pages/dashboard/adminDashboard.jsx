@@ -154,14 +154,14 @@ export default function AdminDashboardPage() {
                                 <CardContent className="h-[300px] overflow-auto">
                                     {
                                         quizzes.length > 0 ? (
-                                            quizzes.map((quiz) => (
-                                                <>
+                                            quizzes.map((quiz, index) => (
+                                                <div key={index}>
                                                     <p className="w-full text-justify tracking-wide mb-2">
                                                         <span className="font-bold">{quiz.user.name}</span> passed the quiz <span className="font-bold">
                                                             <TransText {...JSON.parse(quiz.quiz.title)} />
                                                         </span> with a score of <span className="font-bold">{Math.round(quiz.score)}</span>
                                                     </p>
-                                                </>
+                                                </div>
                                             ))
                                         ) :
                                             <div className="h-full w-full bg-muted/20 rounded-md flex items-center justify-center">

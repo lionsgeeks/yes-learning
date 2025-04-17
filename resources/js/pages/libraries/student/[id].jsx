@@ -120,7 +120,7 @@ const LibraryDetails = () => {
     const handleSubmitComment = (e) => {
         e.preventDefault();
         // In a real app, you would send this to your API
-        console.log('Submitting comment:', newComment);
+        // console.log('Submitting comment:', newComment);
         setNewComment('');
         // Then you would add the new comment to the list
     };

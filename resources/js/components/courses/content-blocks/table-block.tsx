@@ -46,7 +46,7 @@ export function TableBlockEditor({ content, onChange }: TableBlockEditorProps) {
   const updateCell = (rowIndex: number, colIndex: number, value: string) => {
     const newData = content.data.map((row) => [...row]) // Deep copy to avoid mutation issues
     newData[rowIndex][colIndex] = value
-    console.log(newData);
+
     onChange({
       ...content,
       data: newData,

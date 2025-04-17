@@ -13,7 +13,7 @@ import SortableItem from "@/components/courses/content-blocks/sortableItem";
 
 const ChapterContent = ({ subcourses, setSubcourses, activeSubcourse, setActiveSubcourse, addSubcourse, updateSubcourse, deleteSubcourse, data, setData, lang }) => {
     // Sensors for drag events
-    console.log("subcourse ",subcourses, activeSubcourse);
+
     const sensors = useSensors(
         useSensor(PointerSensor),
         useSensor(KeyboardSensor, {

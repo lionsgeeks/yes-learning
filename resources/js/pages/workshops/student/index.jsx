@@ -17,7 +17,7 @@ import TransText from "@/components/TransText"
 // Mock data for workshops
 
 export default function WorkshopsPage({ workshops, chapters }) {
-    console.log(chapters);
+    // console.log(chapters);
 
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -40,7 +40,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
         return createdAt < today;
     });
 
-    console.log("Workshops from the past:", filter);
+    // console.log("Workshops from the past:", filter);
 
     const registredfilter = workshops.filter((workshop) => {
         const registred = workshop.enrolled
@@ -48,7 +48,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
         return registred ;
     });
 
-    console.log("Workshops from the past:", filter);
+    // console.log("Workshops from the past:", filter);
 
     const getStatusBadge = (date) => {
         const now = new Date();
@@ -129,7 +129,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 <div className="flex items-center text-sm">
                                                     <Clock className="text-muted-foreground mr-2 h-4 w-4" />
                                                     <span>
-                                                        {format(workshop.date, 'h:mm a')} • {workshop.duration} minutes
+                                                        {format(workshop.date, 'h:mm a')} GMT+1 • {workshop.duration} minutes
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center text-sm">
@@ -216,7 +216,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 <div className="flex items-center text-sm">
                                                     <Clock className="text-muted-foreground mr-2 h-4 w-4" />
                                                     <span>
-                                                        {format(workshop.date, 'h:mm a')} • {workshop.duration} minutes
+                                                        {format(workshop.date, 'h:mm a')} GMT+1 • {workshop.duration} minutes
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center text-sm">
@@ -303,7 +303,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 <div className="flex items-center text-sm">
                                                     <Clock className="text-muted-foreground mr-2 h-4 w-4" />
                                                     <span>
-                                                        {format(workshop.date, 'h:mm a')} • {workshop.duration} minutes
+                                                        {format(workshop.date, 'h:mm a')} GMT+1 • {workshop.duration} minutes
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center text-sm">

@@ -112,7 +112,7 @@ const AdminCoursesShow = () => {
             onFinish: () => setChapters(chapters.filter(chapter => chapter.id !== id))
         })
     }
-    console.log(course);
+
     const breadcrumbs = [{ title: 'course - ' + course.name.en }];
 
     const [chapters, setChapters] = useState(modules);
@@ -131,7 +131,7 @@ const AdminCoursesShow = () => {
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
-        console.log('drop the soap')
+        // console.log('drop the soap')
         if (active.id !== over.id) {
             setChapters((items) => {
                 const oldIndex = items.findIndex((item) => item.id === active.id);
@@ -217,7 +217,7 @@ const AdminCoursesShow = () => {
                             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                                 <SortableContext items={chapters.map((chapter) => chapter.id)} strategy={verticalListSortingStrategy} >
                                     {chapters.map((chapter, idx) => (
-                                        <>
+                                        <div key={idx}>
                                             <SortableChapter
                                                 key={chapter.id}
                                                 chapter={chapter}
@@ -226,7 +226,7 @@ const AdminCoursesShow = () => {
                                                 idx={idx}
                                                 onDelete={deleteChapter}
                                             />
-                                        </>
+                                        </div>
                                     ))}
                                 </SortableContext>
                             </DndContext>
@@ -234,7 +234,7 @@ const AdminCoursesShow = () => {
                     </Card>
 
 
-                    <AdminUsersTable role title="Enrolled users" description="Manage NGOs enrolled in this course" Users={course.users} />
+                    <AdminUsersTable role showAddButton={false} title="Enrolled users" description="Manage NGOs enrolled in this course" Users={course.users} />
                 </div>
 
                 <div className="">

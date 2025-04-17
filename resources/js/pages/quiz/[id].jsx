@@ -59,7 +59,7 @@ export default function QuizPage() {
     const question = quizData.questions[currentQuestion]
 
     const handleSingleAnswer = (value) => {
-        console.log(value)
+        // console.log(value)
         setAnswers({
             ...answers,
             [question.id]: value,

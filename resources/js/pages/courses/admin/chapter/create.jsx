@@ -21,7 +21,7 @@ const AdminCoursesCreate = () => {
 
     const [activeSubcourse, setActiveSubcourse] = useState('subcourse-1');
     const courseId = new URLSearchParams(window.location.search).get('course');
-    console.log('course id : ', courseId);
+    // console.log('course id : ', courseId);
     const { data, setData, post, processing } = useForm({
         en: {
             title: '',
@@ -108,7 +108,7 @@ const AdminCoursesCreate = () => {
         console.log('all feilds are fill : ', areAllLanguagesValid);
         e.preventDefault();
         if (areAllLanguagesValid(data)) {
-            console.log('Submitting:', data);
+            // console.log('Submitting:', data);
             post(route('chapter.store'), {
                 data: data,
                 onFinish: () => {
@@ -150,7 +150,7 @@ const AdminCoursesCreate = () => {
     };
 
     const addSubcourse = (lang) => {
-        console.log('add course');
+        // console.log('add course');
         const newId = `subcourse-${subcourses[lang].length + 1}`;
         setSubcourses((prev) => ({
             ...prev,
@@ -168,7 +168,7 @@ const AdminCoursesCreate = () => {
     };
 
     const updateSubcourse = (id, data, lang) => {
-        console.log('update course : ', lang, id, data);
+        // console.log('update course : ', lang, id, data);
         setSubcourses((prev) => ({
             ...prev,
             [lang]: prev[lang].map((subcourse) => (subcourse.id === id ? { ...subcourse, ...data } : subcourse)),

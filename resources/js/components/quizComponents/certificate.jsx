@@ -1,5 +1,6 @@
 import { CalendarDays, Award, QrCode } from "lucide-react"
 import { memo } from "react"
+import AppLogo from "@/components/app-logo"
 
 
 // Memoize the Certificate component to prevent unnecessary re-renders
@@ -22,12 +23,12 @@ export const Certificate = memo(function Certificate({
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center">
-                        <div className="w-16 h-16 bg-alpha rounded-full flex items-center justify-center">
-                            <Award className="h-10 w-10 text-white" />
+                        <div className="w-12 h-12  rounded-full flex items-center justify-center">
+                            <AppLogo />
                         </div>
                         <div className="ml-4">
-                            <h2 className="text-xl font-bold text-alpha ">LearnHub</h2>
-                            <p className="text-sm text-beta">Certificate of Completion</p>
+                            <h2 className="text-xl font-bold text-alpha ">Yes Africa</h2>
+                            <p className="text-sm text-beta">Certificate of Course Completion</p>
                         </div>
                     </div>
                     <div className="hidden md:block">
@@ -59,22 +60,18 @@ export const Certificate = memo(function Certificate({
                         <span className="text-sm text-muted-foreground">Issued on {completionDate}</span>
                     </div>
 
+                    <div className="w-20 h-0.5 bg-alpha"></div>
                     <div className="flex items-center gap-4">
-                        <div className="w-20 h-0.5 bg-alpha"></div>
-                        {/* <Image
-                            src="/placeholder.svg?height=60&width=120&text=Signature"
-                            alt="Signature"
-                            width={120}
-                            height={60}
-                            className="opacity-80"
-                        /> */}
+                        {/* "Signature" */}
+                        <AppLogo />
+
                     </div>
                 </div>
 
                 {/* Certificate ID */}
-                <div className="absolute bottom-2 right-4 text-xs text-muted-foreground/50">
+                {/* <div className="absolute bottom-2 right-4 text-xs text-muted-foreground/50">
                     Certificate ID: LH-{Math.random().toString(36).substring(2, 10).toUpperCase()}
-                </div>
+                </div> */}
             </div>
         </div>
     )
