@@ -16,7 +16,7 @@ export function FileUploader() {
 
     setFile(selectedFile)
 
-    
+    console.log(file)
 
     // Create a preview URL
     const reader = new FileReader()
