@@ -48,7 +48,7 @@ class DashboardController extends Controller
                 'id' => $course->id,
                 'name' => json_decode($course->name)->en,
                 'image' => $course->image,
-                'subscribed' => DB::table('users')
+                'subscribed' => DB::table('user_courses')
                     ->where('course_id', $course->id)
                     ->count()
             ];
