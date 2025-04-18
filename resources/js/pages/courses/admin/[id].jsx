@@ -43,10 +43,10 @@ function SortableChapter({ chapter, onTogglePublish, onEdit, idx, onDelete }) {
             </div> */}
 
             <div className="min-w-0 flex-1">
-                <div className="flex items-center">
-                    <div className="bg-primary/10 text-primary mr-3 flex h-8 w-8 items-center justify-center rounded-full">{idx + 1}</div>
+                <div className="flex items-center gap-x-6">
+                    <div className="bg-primary/10 text-primary flex p-2">{idx + 1}</div>
                     <div>
-                        <h3 className="truncate font-medium">{chapter.title.en}</h3>
+                        <h3 onClick={() => router.visit(`/admin/chapter/${chapter.id}/edit`)} className="cursor-pointer font-medium w-5/6">  {chapter.title.en}</h3>
                         <p className="text-muted-foreground truncate text-sm"><TruncateText text={chapter.description.en} length={40} /></p>
                     </div>
                 </div>
@@ -65,10 +65,10 @@ function SortableChapter({ chapter, onTogglePublish, onEdit, idx, onDelete }) {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => router.visit(`/admin/courses/${course.id}`)}>
+                        {/* <DropdownMenuItem onClick={() => router.visit(`/admin/courses/${course.id}`)}>
                             <Eye className="mr-2 h-4 w-4" />
                             View
-                        </DropdownMenuItem>
+                        </DropdownMenuItem> */}
                         <DropdownMenuItem onClick={() => router.visit(`/admin/chapter/${chapter.id}/edit`)}>
                             <Edit className="mr-2 h-4 w-4" />
                             Edit
@@ -199,7 +199,7 @@ const AdminCoursesShow = () => {
                         </CardContent>
                     </Card> */}
 
-                    <Card className="h-[70vh] overflow-y-auto">
+                    <Card className="h-[70vh] overflow-x-hidden overflow-y-auto">
                         <CardHeader>
                             {/* <CardTitle>Course Statistics</CardTitle>
                             <CardDescription>Overview of your course content and engagement</CardDescription> */}
@@ -213,7 +213,7 @@ const AdminCoursesShow = () => {
                                 </Button>
                             </div>
                         </CardHeader>
-                        <CardContent className="p-0">
+                        <CardContent className="px-3">
                             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                                 <SortableContext items={chapters.map((chapter) => chapter.id)} strategy={verticalListSortingStrategy} >
                                     {chapters.map((chapter, idx) => (
