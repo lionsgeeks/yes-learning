@@ -29,6 +29,6 @@ class DatabaseSeeder extends Seeder
             'role' => NULL,
             "language" =>null,
             'password' => Hash::make('yesafrica'),
-        ]);
+        ]); 
     }
 }
