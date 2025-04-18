@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Quiz;
+use App\Models\SubWorkshop;
+use App\Models\Workshop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -200,7 +202,7 @@ class CourseController extends Controller
                 'description' => $validated['description'],
                 'label' => $validated['label'],
                 'published' => $validated['published'],
-                'image' =>  $imagePath ,
+                'image' =>  $imagePath,
             ]);
         } else {
             $course->update([
@@ -209,9 +211,8 @@ class CourseController extends Controller
                 'label' => $validated['label'],
                 'published' => $validated['published'],
             ]);
-
         }
-        }
+    }
     /**
      * Preview the course.
      */
@@ -240,8 +241,25 @@ class CourseController extends Controller
 
     public function enroll(Course $course)
     {
+        $workshops = Workshop::where('course_id', $course->id)->get();
+        $course->users()->toggle(Auth::id());
+        $allSubworkshops = collect();
 
-        $course->users()->toggle(Auth::id()); //  b7al toggle ta3 javascript
+        foreach ($workshops as $workshop) {
+            $subworkshops = SubWorkshop::where('workshop_id', $workshop->id)->get();
+            $allSubworkshops = $allSubworkshops->merge($subworkshops);
+        }
+
+        // dd($allSubworkshops);
+
+        $subworkshopcontroller = new SubWorkshopController;
+
+
+        foreach ($allSubworkshops as $onesub) {
+             $subworkshopcontroller->enroll($onesub);
+        }
+
+
 
         return redirect("/course");
     }

@@ -113,8 +113,8 @@ class SubWorkshopController extends Controller
         $sub = SubWorkshop::where("id", $subWorkshop->id)->with('users')->first();
 
     foreach ($sub->users as $user) {
-        // $email = $user->email;
-        $email = "aymenboujjar12@gmail.com";
+        $email = $user->email;
+        // $email = "aymenboujjar12@gmail.com";
         $language = $user->language;
 
         $meetLinks = json_decode($sub->meetLink);
