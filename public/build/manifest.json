@@ -55,7 +55,7 @@
     ]
   },
   "_app-layout-C86-vYy4.js": {
-    "file": "assets/app.js",
+    "file": "assets/app-layout-C86-vYy4.js",
     "name": "app-layout",
     "imports": [
       "resources/js/app.jsx",
@@ -622,12 +622,12 @@
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app.css",
+    "file": "assets/app-BEvR2dPN.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.jsx": {
-    "file": "assets/app.js",
+    "file": "assets/app-C63RW_A8.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
