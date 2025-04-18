@@ -25,9 +25,9 @@ export default function Welcome() {
                         <Link href="#testimonials" className="text-sm font-medium hover:text-beta text-alpha transition-colors">
                             Testimonials
                         </Link>
-                        <Link href="#contact" className="text-sm font-medium hover:text-beta text-alpha transition-colors">
+                        <a target="_blank" href="https://youthempowermentsummit.africa/contact" className="text-sm font-medium hover:text-beta text-alpha transition-colors">
                             Contact
-                        </Link>
+                        </a>
                     </nav>
                     <div className="flex items-center gap-4">
                         {
@@ -95,18 +95,42 @@ export default function Welcome() {
                                     knowledge, and build capacity within your organization.
                                 </p>
                                 <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-                                    <Link
-                                        href="/login"
-                                        className="inline-flex h-12 items-center justify-center rounded-md bg-[#295da6] px-8 text-sm font-medium text-white shadow-md transition-colors hover:bg-[#295da6]/90 focus-visible:outline-none focus-visible:ring-1"
-                                    >
-                                        Login to Platform
-                                    </Link>
-                                    <Link
-                                        href="#contact"
+
+
+                                    {
+                                        !auth.user ?
+                                            <Link
+                                                href="/login"
+                                                className="inline-flex h-12 items-center justify-center rounded-md bg-[#295da6] px-8 text-sm font-medium text-white shadow-md transition-colors hover:bg-[#295da6]/90 focus-visible:outline-none focus-visible:ring-1"
+                                            >
+                                                Login
+                                            </Link>
+                                            :
+                                            auth.user.role == "admin" ?
+                                                <Link
+                                                    href="/admin/dashboard"
+                                                    className="inline-flex h-12 items-center justify-center rounded-md bg-[#295da6] px-8 text-sm font-medium text-white shadow-md transition-colors hover:bg-[#295da6]/90 focus-visible:outline-none focus-visible:ring-1"
+                                                >
+                                                    Admin Dashboard
+                                                </Link>
+
+                                                :
+
+                                                <Link
+                                                    href="/dashboard"
+                                                    className="inline-flex h-12 items-center justify-center rounded-md bg-[#295da6] px-8 text-sm font-medium text-white shadow-md transition-colors hover:bg-[#295da6]/90 focus-visible:outline-none focus-visible:ring-1"
+                                                >
+                                                    Dashboard
+                                                </Link>
+
+                                    }
+                                    <a
+                                        target="_blank"
+                                        href="https://youthempowermentsummit.africa/contact"
                                         className="inline-flex h-12 items-center justify-center rounded-md border border-[#b09417]  px-8 text-sm font-medium text-[#b09417] shadow-sm transition-colors hover:bg-[#b09417]/10 focus-visible:outline-none focus-visible:ring-1"
                                     >
                                         Contact Us to Join
-                                    </Link>
+                                    </a>
                                 </div>
                             </div>
                             <div className="mx-auto lg:ml-auto">
@@ -288,18 +312,41 @@ export default function Welcome() {
                             </div>
                             <div className="w-full max-w-md space-y-2 pt-6">
                                 <div className="flex flex-col gap-4 sm:flex-row justify-center">
-                                    <Link
-                                        href="/login"
-                                        className="inline-flex h-12 items-center justify-center rounded-md  px-8 text-sm font-medium text-[#295da6] bg-white shadow-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-1"
-                                    >
-                                        Login to Platform
-                                    </Link>
-                                    <Link
-                                        href="/contact"
+                                  
+                                    {
+                                        !auth.user ?
+                                            <Link
+                                                href="/login"
+                                                className="inline-flex h-12 items-center justify-center rounded-md  px-8 text-sm font-medium text-[#295da6] bg-white shadow-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-1"
+                                            >
+                                                Login
+                                            </Link>
+                                            :
+                                            auth.user.role == "admin" ?
+                                                <Link
+                                                    href="/admin/dashboard"
+                                                    className="inline-flex h-12 items-center justify-center rounded-md  px-8 text-sm font-medium text-[#295da6] bg-white shadow-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-1"
+                                                >
+                                                    Admin Dashboard
+                                                </Link>
+
+                                                :
+
+                                                <Link
+                                                    href="/dashboard"
+                                                    className="inline-flex h-12 items-center justify-center rounded-md  px-8 text-sm font-medium text-[#295da6] bg-white shadow-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-1"
+                                                >
+                                                    Dashboard
+                                                </Link>
+
+                                    }
+                                    <a
+                                        target="_blank"
+                                        href="https://youthempowermentsummit.africa/contact"
                                         className="inline-flex h-12 items-center justify-center rounded-md border border-white bg-transparent px-8 text-sm font-medium text-white shadow-sm transition-colors hover:/10 focus-visible:outline-none focus-visible:ring-1"
                                     >
                                         Contact Us to Join <ArrowRight className="ml-2 h-4 w-4" />
-                                    </Link>
+                                    </a>
                                 </div>
                             </div>
                         </div>
