@@ -58,7 +58,10 @@ const CourseDetails = () => {
     ];
     useEffect(() => {
         if (currentChapterId !== null) {
-            setData('chapter_id', currentChapterId);
+            // console.log(chapters[currentSubModuleId -1 ].id);
+            
+            // alert(chapters[currentSubModuleId]?.id)
+            setData('chapter_id', chapters[currentSubModuleId -1 ]?.id);
         }
     }, [currentChapterId]);
 

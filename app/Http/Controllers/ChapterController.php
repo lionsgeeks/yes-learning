@@ -130,6 +130,7 @@ class ChapterController extends Controller
             'user_id' => 'required',
             'chapter_id' => 'required'
         ]);
+        
         if (!DB::table('chapter_users')->where('user_id', $request->user_id)->where('chapter_id', $request->chapter_id)->exists()) {
             $user = User::find($request->user_id);
             $user->chapters()->attach($request->chapter_id);
