@@ -56,6 +56,7 @@ export default function AdminDashboardPage() {
                     backgroundColor: [],
                 },
             ],
+
         };
         courses.forEach(course => {
             const hex = `#${Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0')}`;
@@ -66,6 +67,17 @@ export default function AdminDashboardPage() {
 
         setChartData(data);
     }, []);
+
+    const options = {
+        plugins: {
+            legend: {
+                display: false,
+            },
+            datalabels: {
+                display: false,
+            },
+        },
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs} >
@@ -177,9 +189,7 @@ export default function AdminDashboardPage() {
                                 </CardHeader>
                                 <CardContent className="h-[300px]">
                                     <div className="h-full w-full bg-muted/20 rounded-md flex items-center justify-center">
-                                        {/* <p className="text-muted-foreground">Course Popularity Chart</p> */}
-                                        <Doughnut data={chartData || data} />
-
+                                        <Doughnut data={chartData || data} options={options} />
                                     </div>
                                 </CardContent>
                             </Card>
