@@ -66,16 +66,16 @@ class SubWorkshopController extends Controller
         ]);
         // dd($request->all());
         SubWorkshop::create([
-            'name' => json_encode($validated['name']),
-            'description' => json_encode($validated['description']),
+            'name' => $validated['name'],
+            'description' => $validated['description'],
             'chapter_id' => $validated['chapter_id'],
             'workshop_id' => $request->workshop_id,
-            "prerequisite"=> json_encode($validated['prerequisite']),
+            "prerequisite"=> $validated['prerequisite'],
             "date"=>$validated['date'],
             "time"=>$validated['time'],
             "duration"=>$validated['duration'],
-            "instructor"=>json_encode($validated['instructor']),
-            "meetLink" => json_encode($validated['meetLink']),
+            "instructor"=>$validated['instructor'],
+            "meetLink" => $validated['meetLink'],
             "allowQuestions"=>$validated['allowQuestions'],
             "requireRegistration"=>$validated['requireRegistration'],
             "sendNotifications"=>$validated['sendNotifications'],

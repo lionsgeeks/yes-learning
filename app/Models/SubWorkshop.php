@@ -26,14 +26,16 @@ class SubWorkshop extends Model
 
     ];
     protected $casts = [
-        'meetLink' => 'object',
-        'instructor' => 'object',
-        'name' => 'object',
-        'description' => 'object',
-        'prerequisite' => 'object',
+        'meetLink' => 'array',
+        'instructor' => 'array',
+        'name' => 'array',
+        'description' => 'array',
+        'prerequisite' => 'array',
     ];
 
-
+    public function workshop() {
+        return $this->belongsTo(Workshop::class);
+    }
 
 
     public function chapter()

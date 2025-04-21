@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sublibraries', function (Blueprint $table) {
+        Schema::create('filelibraries', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('link')->nullable();
-            $table->string('coach');
-            $table->foreignId('library_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('sublibrary_id')->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->string('path');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sublibraries');
+        Schema::dropIfExists('filelibraries');
     }
 };

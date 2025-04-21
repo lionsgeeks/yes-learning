@@ -35,33 +35,33 @@ export function UpdateSubWorkshopModal({ open, onOpenChange, chapters, subWorksh
     duration: subWorkshop.duration,
 
     name:{
-        en: JSON.parse(subWorkshop.name).en,
-        fr:  JSON.parse(subWorkshop.name).fr,
-        ar:  JSON.parse(subWorkshop.name).ar,
+        en: subWorkshop.name.en,
+        fr:  subWorkshop.name.fr,
+        ar:  subWorkshop.name.ar,
     },
     description:{
-        en: JSON.parse(subWorkshop.description).en,
-        fr:  JSON.parse(subWorkshop.description).fr,
-        ar:  JSON.parse(subWorkshop.description).ar,
+        en: subWorkshop.description.en,
+        fr:  subWorkshop.description.fr,
+        ar:  subWorkshop.description.ar,
     },
 
     prerequisite:{
-        en: JSON.parse(subWorkshop.prerequisite).en,
-        fr:  JSON.parse(subWorkshop.prerequisite).fr,
-        ar:  JSON.parse(subWorkshop.prerequisite).ar
+        en: subWorkshop.prerequisite.en,
+        fr:  subWorkshop.prerequisite.fr,
+        ar:  subWorkshop.prerequisite.ar
     },
 
 
     instructor:  {
-        en: JSON.parse(subWorkshop.instructor).en,
-      fr: JSON.parse(subWorkshop.instructor).fr,
-      ar: JSON.parse(subWorkshop.instructor).ar,
+        en: subWorkshop.instructor.en,
+      fr: subWorkshop.instructor.fr,
+      ar: subWorkshop.instructor.ar,
     }
     ,
     meetLink: {
-        en: JSON.parse(subWorkshop.meetLink).en,
-        fr: JSON.parse(subWorkshop.meetLink).fr,
-        ar: JSON.parse(subWorkshop.meetLink).ar,
+        en: subWorkshop.meetLink.en,
+        fr: subWorkshop.meetLink.fr,
+        ar: subWorkshop.meetLink.ar,
     },
     allowQuestions: subWorkshop.allowQuestions ,
     requireRegistration: subWorkshop.requireRegistration ,

@@ -1,66 +1,53 @@
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
-import { Link, router } from '@inertiajs/react';
-import { ChevronLeft, Image, Plus, Upload, X } from 'lucide-react';
+import { Link, useForm } from '@inertiajs/react';
+import { ChevronLeft, Upload } from 'lucide-react';
 import { useState } from 'react';
 
 const CreateLibrary = () => {
-    //   const router = useRouter()
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [tags, setTags] = useState([]);
-    const [tagInput, setTagInput] = useState('');
-    const [thumbnailPreview, setThumbnailPreview] = useState('/placeholder.svg?height=200&width=200');
-
-    const handleAddTag = () => {
-        if (tagInput.trim() && !tags.includes(tagInput.trim())) {
-            setTags([...tags, tagInput.trim()]);
-            setTagInput('');
-        }
-    };
-
-    const handleRemoveTag = (tagToRemove) => {
-        setTags(tags.filter((tag) => tag !== tagToRemove));
-    };
+    const [thumbnailPreview, setThumbnailPreview] = useState(null);
+    const { post, data, setData, progress } = useForm({
+        title: '',
+        image: null,
+    });
 
     const handleThumbnailUpload = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
+            setData('image', file);
             const reader = new FileReader();
-
             reader.onload = (event) => {
                 if (event.target?.result) {
                     setThumbnailPreview(event.target.result);
                 }
             };
-
             reader.readAsDataURL(file);
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
-
-        // Simulate API call
-        setTimeout(() => {
-            setIsSubmitting(false);
-            // Redirect to libraries page after successful creation
-            router.push('/admin/libraries');
-        }, 1500);
+        post(route('library.store'), {
+            onFinish: () =>
+                setData({
+                    title: '',
+                    image: null,
+                }),
+        });
     };
-    const breadcrumbs = [{
-        title: 'Create Library',
-        href: '/admin/create/library'
-    }]
+
+    const breadcrumbs = [
+        {
+            title: 'Create Library',
+            href: '/admin/create/library',
+        },
+    ];
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <div className='lg:p-6 p-3'>
+            <div className="p-3 lg:p-6">
                 <div className="mb-6">
                     <Link
                         href="/admin/libraries"
@@ -84,10 +71,14 @@ const CreateLibrary = () => {
                                 <CardContent className="space-y-4">
                                     <div className="space-y-2">
                                         <Label htmlFor="title">Library Title</Label>
-                                        <Input id="title" placeholder="Enter a descriptive title" required />
+                                        <Input
+                                            id="title"
+                                            onChange={(e) => setData('title', e.target.value)}
+                                            placeholder="Enter a descriptive title"
+                                            required
+                                        />
                                     </div>
-
-                                    <div className="space-y-2">
+                                    {/* <div className="space-y-2">
                                         <Label htmlFor="category">Category</Label>
                                         <Select required>
                                             <SelectTrigger id="category">
@@ -101,9 +92,8 @@ const CreateLibrary = () => {
                                                 <SelectItem value="data-science">Data Science</SelectItem>
                                             </SelectContent>
                                         </Select>
-                                    </div>
-
-                                    <div className="space-y-2">
+                                    </div> */}
+                                    {/* <div className="space-y-2">
                                         <Label htmlFor="description">Description</Label>
                                         <Textarea
                                             id="description"
@@ -111,9 +101,8 @@ const CreateLibrary = () => {
                                             className="min-h-[120px]"
                                             required
                                         />
-                                    </div>
-
-                                    <div className="space-y-2">
+                                    </div> */}
+                                    {/* <div className="space-y-2">
                                         <Label htmlFor="tags">Tags</Label>
                                         <div className="flex gap-2">
                                             <Input
@@ -150,44 +139,33 @@ const CreateLibrary = () => {
                                                 ))}
                                             </div>
                                         )}
-                                    </div>
-                                </CardContent>
-                            </Card>
-
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Thumbnail Image</CardTitle>
-                                    <CardDescription>Upload a thumbnail image for this library</CardDescription>
-                                </CardHeader>
-                                <CardContent className="space-y-4">
+                                    </div> */}
+                                    <Label>Thumbnail Image</Label>
                                     <div className="flex flex-col items-center gap-6 sm:flex-row">
-                                        <div className="relative h-40 w-40 overflow-hidden rounded-md border">
-                                            <Image
-                                                src={thumbnailPreview || '/placeholder.svg'}
-                                                alt="Thumbnail preview"
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        </div>
-
-                                        <div className="flex-1 space-y-4">
-                                            <div className="rounded-lg border-2 border-dashed p-6 text-center">
-                                                <Upload className="text-muted-foreground mx-auto mb-4 h-8 w-8" />
-                                                <h3 className="mb-2 font-medium">Drag and drop your image</h3>
-                                                <p className="text-muted-foreground mb-4 text-sm">Supports JPG, PNG, and WebP formats up to 5MB</p>
-                                                <Button variant="outline" className="relative">
-                                                    <input
-                                                        type="file"
-                                                        className="absolute inset-0 cursor-pointer opacity-0"
-                                                        accept="image/jpeg,image/png,image/webp"
-                                                        onChange={handleThumbnailUpload}
-                                                    />
-                                                    Select Image
-                                                </Button>
+                                        {thumbnailPreview ? (
+                                            <div className="relative h-40 w-40 overflow-hidden rounded-md border">
+                                                <img src={thumbnailPreview} alt="Thumbnail preview" className="object-cover" />
                                             </div>
-
-                                            <p className="text-muted-foreground text-xs">Recommended size: 1280x720 pixels (16:9 aspect ratio)</p>
-                                        </div>
+                                        ) : (
+                                            <div className="flex-1 space-y-4">
+                                                <div className="rounded-lg border-2 border-dashed p-6 text-center">
+                                                    <Upload className="text-muted-foreground mx-auto mb-4 h-8 w-8" />
+                                                    <h3 className="mb-2 font-medium">Drag and drop your image</h3>
+                                                    <p className="text-muted-foreground mb-4 text-sm">
+                                                        Supports JPG, PNG, and WebP formats up to 5MB
+                                                    </p>
+                                                    <Button variant="outline" className="relative">
+                                                        <input
+                                                            type="file"
+                                                            className="absolute inset-0 cursor-pointer opacity-0"
+                                                            accept="image/jpeg,image/png,image/webp"
+                                                            onChange={handleThumbnailUpload}
+                                                        />
+                                                        Select Image
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </CardContent>
                             </Card>
@@ -195,11 +173,11 @@ const CreateLibrary = () => {
 
                         <div className="space-y-6">
                             <Card>
-                                <CardHeader>
+                                {/* <CardHeader>
                                     <CardTitle>Publishing Options</CardTitle>
-                                </CardHeader>
+                                </CardHeader> */}
                                 <CardContent className="space-y-4">
-                                    <div className="space-y-2">
+                                    {/* <div className="space-y-2">
                                         <Label htmlFor="status">Status</Label>
                                         <Select defaultValue="draft">
                                             <SelectTrigger id="status">
@@ -210,65 +188,16 @@ const CreateLibrary = () => {
                                                 <SelectItem value="published">Published</SelectItem>
                                             </SelectContent>
                                         </Select>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="visibility">Visibility</Label>
-                                        <Select defaultValue="public">
-                                            <SelectTrigger id="visibility">
-                                                <SelectValue placeholder="Select visibility" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="public">Public</SelectItem>
-                                                <SelectItem value="private">Private</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                        <p className="text-muted-foreground text-xs">Public libraries are visible to all students</p>
-                                    </div>
+                                    </div> */}
                                 </CardContent>
                                 <CardFooter className="flex flex-col gap-2">
-                                    <Button className="w-full" type="submit" disabled={isSubmitting}>
-                                        {isSubmitting ? 'Creating...' : 'Create Library'}
+                                    <Button className="w-full" type="submit" disabled={progress}>
+                                        {progress ? 'Creating...' : 'Create Library'}
                                     </Button>
                                     <Button variant="outline" className="w-full" type="button" asChild>
                                         <Link href="/admin/libraries">Cancel</Link>
                                     </Button>
                                 </CardFooter>
-                            </Card>
-
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Organization Tips</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <ul className="text-muted-foreground space-y-2 text-sm">
-                                        <li className="flex gap-2">
-                                            <span className="text-primary font-medium">•</span>
-                                            Main libraries serve as categories for organizing related content
-                                        </li>
-                                        <li className="flex gap-2">
-                                            <span className="text-primary font-medium">•</span>
-                                            Use clear, descriptive titles that explain the category
-                                        </li>
-                                        <li className="flex gap-2">
-                                            <span className="text-primary font-medium">•</span>
-                                            Add relevant tags to help with search and discovery
-                                        </li>
-                                        <li className="flex gap-2">
-                                            <span className="text-primary font-medium">•</span>
-                                            After creating the main library, you can add sub-libraries with specific content
-                                        </li>
-                                        <li className="flex gap-2">
-                                            <span className="text-primary font-medium">•</span>
-                                            <div>
-                                                <span className="block font-medium">Structure example:</span>
-                                                <span className="ml-2 block">• Frontend Development (Main Library)</span>
-                                                <span className="ml-4 block">- React Hooks Tutorial (Sub-Library)</span>
-                                                <span className="ml-4 block">- CSS Grid Masterclass (Sub-Library)</span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </CardContent>
                             </Card>
                         </div>
                     </div>
