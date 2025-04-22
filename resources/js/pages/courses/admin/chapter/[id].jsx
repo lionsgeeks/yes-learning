@@ -63,7 +63,7 @@ const ChapterPreview = () => {
                         <option value="" disabled defaultValue={""}>Select Course</option>
                         <option value="" >All Courses</option>
                         {
-                            courses.map((course, index) => (
+                            courses?.map((course, index) => (
                                 <option key={index} value={course.id} className='text-black'>{course.name.en}</option>
                             ))
                         }
@@ -72,7 +72,7 @@ const ChapterPreview = () => {
                     <select name="chapterID" id="chapterID" className='p-2 border rounded mt-2 w-[200px]' onChange={(e) => setChapterID(e.target.value)}>
                         <option value="" disabled defaultValue={""}>Select Chapter</option>
                         {
-                            selectChapters.map((chap, index) => (
+                            selectChapters?.map((chap, index) => (
                                 <option key={index} value={chap.id} className='text-black'>{chap.title.en}</option>
                             ))
                         }
