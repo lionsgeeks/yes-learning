@@ -40,7 +40,7 @@ class CredentialsMailer extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.credentialsMail',
+            view: 'maizzlMails.credentialsmail',
         );
     }
 
