@@ -31,11 +31,6 @@ const AdminCoursesCreate = () => {
             enable_certificate: false,
             enable_discussion: false,
             content: [],
-            quizTitle: '',
-            quizDescription: '',
-            quizTime: '',
-            quizPublish: 0,
-            questions: [],
         },
         fr: {
             title: '',
@@ -45,11 +40,6 @@ const AdminCoursesCreate = () => {
             enable_certificate: false,
             enable_discussion: false,
             content: [],
-            quizTitle: '',
-            quizDescription: '',
-            quizTime: '',
-            quizPublish: 0,
-            questions: [],
         },
         ar: {
             title: '',
@@ -59,11 +49,6 @@ const AdminCoursesCreate = () => {
             enable_certificate: false,
             enable_discussion: false,
             content: [],
-            quizTitle: '',
-            quizDescription: '',
-            quizTime: '',
-            quizPublish: 0,
-            questions: [],
         },
         course_id: courseId,
     });
@@ -99,7 +84,7 @@ const AdminCoursesCreate = () => {
                 langData.title.trim() !== '' &&
                 langData.description.trim() !== '' &&
                 langData.estimated_duration.trim() !== '' &&
-                (langData.content.length > 0 || (langData.quizTitle.trim() !== '' && langData.questions.length > 0))
+                langData.content.length > 0
             );
         });
     }
@@ -247,7 +232,6 @@ const AdminCoursesCreate = () => {
                                     <TabsTrigger value="details">Course Details</TabsTrigger>
                                     <TabsTrigger value="content">Content & Modules</TabsTrigger>
                                     <TabsTrigger value="preview">Preview</TabsTrigger>
-                                    {/* <TabsTrigger value="quizz">Quizz</TabsTrigger> */}
                                 </TabsList>
 
                                 <TabsContent value="details" className="grid grid-cols-5 gap-4 space-y-4">
@@ -306,7 +290,6 @@ const AdminCoursesCreate = () => {
                                     <TabsTrigger value="details">Course Details</TabsTrigger>
                                     <TabsTrigger value="content">Content & Modules</TabsTrigger>
                                     <TabsTrigger value="preview">Preview</TabsTrigger>
-                                    {/* <TabsTrigger value="quizz">Quizz</TabsTrigger> */}
                                 </TabsList>
 
                                 <TabsContent value="details" className="grid grid-cols-5 gap-4 space-y-4">
@@ -366,7 +349,6 @@ const AdminCoursesCreate = () => {
                                         <TabsTrigger value="details">Course Details</TabsTrigger>
                                         <TabsTrigger value="content">Content & Modules</TabsTrigger>
                                         <TabsTrigger value="preview">Preview</TabsTrigger>
-                                        {/* <TabsTrigger value="quizz">Quizz</TabsTrigger> */}
                                     </TabsList>
 
                                     <TabsContent value="details" className="grid grid-cols-5 gap-4 space-y-4">

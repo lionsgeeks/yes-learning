@@ -31,14 +31,17 @@ const ChapterPreview = () => {
         post(
             route('chapter.update', {
                 _method: 'put',
-                data: data,
+                // data: data,
                 chapter: chapter.id,
             }),
         );
     };
-
+    const breadcrumbs = [{
+        title:chapter.title.en,
+        href:`/admin/chapter/${chapter.id}/edit`
+    }]
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Chapter ${chapter.title.en}`} />
             <div className="flex flex-col gap-3 p-3 lg:p-6">
                 <div className="flex- flex items-center justify-between">

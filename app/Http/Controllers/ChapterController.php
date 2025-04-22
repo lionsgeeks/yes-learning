@@ -56,14 +56,10 @@ class ChapterController extends Controller
             'enable_certificate' => 'boolean',
             'enable_discussion' => 'boolean',
             'course_id' => 'required|integer',
-            // 'quizTitle' => 'required|string',
-            // 'quizDescription' => 'required|string',
-            // 'quizTime' => 'required',
-            // 'questions' => 'required|array',
         ]);
 
         // dd($request->course_id);
-        $chapter = Chapter::create([
+        Chapter::create([
             'title' => [
                 'en' => $request->input('en.title'),
                 'fr' => $request->input('fr.title'),
@@ -116,11 +112,6 @@ class ChapterController extends Controller
             }
         }
 
-
-        // calling the quizcontroller to use the store function
-        // $quizController = new QuizController();
-        // $quizController->store($request, $chapter);
-
         return redirect()->route('admin.courses.index')->with('success', 'Course created successfully!');
     }
 
@@ -130,7 +121,7 @@ class ChapterController extends Controller
             'user_id' => 'required',
             'chapter_id' => 'required'
         ]);
-        
+
         if (!DB::table('chapter_users')->where('user_id', $request->user_id)->where('chapter_id', $request->chapter_id)->exists()) {
             $user = User::find($request->user_id);
             $user->chapters()->attach($request->chapter_id);
