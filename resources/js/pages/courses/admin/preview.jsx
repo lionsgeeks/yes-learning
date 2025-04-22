@@ -20,43 +20,23 @@ const CourseDetails = () => {
     const [currentChapterId, setCurrentChapterId] = useState(chapters[0]?.id);
     const [lang, setLang] = useState('en');
 
-    // console.log('auth : ', currentChapterId);
-    // const { data, setData, post, processing } = useForm({
-    //     user_id: auth?.user.id,
-    //     chapter_id: null,
-    // });
     const [currentSubModuleId, setCurrentSubModuleId] = useState(1);
-    // const attachments = [{ id: 1, name: 'HTML Cheat Sheet.pdf', type: 'PDF', size: '1.2 MB', icon: FileText }];
     const [coursePercentage, setCoursePercentage] = useState(0);
     const calculPercentage = (param) => {
         setCoursePercentage((param / chapters.length) * 100);
     };
-    // console.log('course ', course);
-    // console.log('chapters', chapters);
-    // const lang = 'en';
     const breadcrumbs = [
         {
             title: course.name[lang],
             href: `/course/${course.id}`,
         },
     ];
-    // useEffect(() => {
-    //     if (currentChapterId !== null) {
-    //         setData('chapter_id', currentChapterId);
-    //     }
-    // }, [currentChapterId]);
 
     const readChapters = () => {
-        // post(route('chapter.read'));
         setCurrentSubModuleId(currentSubModuleId + 1);
         calculPercentage(currentSubModuleId);
         setCurrentChapterId(currentChapterId + 1);
     };
-    // const takeQuiz = (e) => {
-    //     e.preventDefault();
-    //     readChapters();
-    //     router.visit('/dashboard');
-    // }
     function renderChart(block) {
         const content = block.content;
         const chartData = {
@@ -118,23 +98,12 @@ const CourseDetails = () => {
                     <div className="mt-2 flex flex-wrap items-center justify-between gap-4">
                         <h1 className="text-xl font-bold">{course.name[lang]}</h1>
                         <div className="flex items-center gap-2">
-                            {/* <Badge variant="outline" className="px-2 py-0 text-xs font-normal">
-                            <Clock className="mr-1 h-3 w-3" />
-                            {chapters.reduce((sum, chapter) => sum + chapter.estimated_duration[lang], 0)} Minutes total
-                        </Badge> */}
                             <Badge variant="outline" className="px-2 py-0 text-xs font-normal">
                                 <BookOpen className="mr-1 h-3 w-3" />
                                 {chapters.length} lessons
                             </Badge>
                         </div>
                     </div>
-                    {/* <Progress value={coursePercentage} className="mt-4 h-2" /> */}
-                    {/* <div className="text-muted-foreground mt-1 flex justify-between text-xs">
-                    <span>{Math.round(coursePercentage)}% completed</span>
-                    <span>
-                        {currentSubModuleId} of {chapters.length} lessons completed
-                    </span>
-                </div> */}
                 </div>
                 <div className="p-4">
                     <DropdownMenu className="">
@@ -208,10 +177,6 @@ const CourseDetails = () => {
                                     <TabsContent value="content" className="space-y-4">
                                         <div className="flex items-center justify-between">
                                             <h2 className="text-xl font-medium">{chapters[0].title[lang]}</h2>
-                                            {/* <Button variant="outline" size="sm">
-                                                <PlusCircle className="mr-1 h-4 w-4" />
-                                                Save to Bookmarks
-                                            </Button> */}
                                         </div>
 
                                         <div dir={auth.user.language === 'ar' ? 'rtl' : 'ltr'} className="prose max-w-none">
@@ -237,7 +202,6 @@ const CourseDetails = () => {
                                                                     {block.type === 'image' && (
                                                                         <div className="space-y-2">
                                                                             <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
-                                                                                {/* <div className="text-muted-foreground">Image Preview</div> */}
                                                                                 <img
                                                                                     src={`/storage/${block.content.url}`}
                                                                                     alt="Course cover preview"
@@ -384,7 +348,6 @@ const CourseDetails = () => {
                                 </Tabs>
                             </CardContent>
                         </Card>
-
                         <div className="mt-6 flex justify-between">
                             {currentSubModuleId > 1 && (
                                 <Button variant="outline" onClick={() => setCurrentSubModuleId(currentSubModuleId - 1)}>
@@ -409,41 +372,6 @@ const CourseDetails = () => {
                             )}
                         </div>
                     </div>
-
-                    {/* //!!! Right sidebar - Attachments */}
-                    {/* <div className="lg:col-span-3">
-                    <Card>
-                        <CardHeader className="py-3">
-                            <CardTitle className="text-lg">Attachments</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="space-y-3">
-                                {attachments.map((attachment) => (
-                                    <div
-                                        key={attachment.id}
-                                        className="hover:bg-muted/50 flex items-center justify-between rounded-md border p-2 transition-colors"
-                                    >
-                                        <div className="flex items-center">
-                                            <div className="bg-primary/10 mr-3 flex h-8 w-8 items-center justify-center rounded">
-                                                <attachment.icon className="text-primary h-4 w-4" />
-                                            </div>
-                                            <div>
-                                                <div className="text-sm font-medium">{attachment.name}</div>
-                                                <div className="text-muted-foreground text-xs">
-                                                    {attachment.type} • {attachment.size}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                                            <Download className="h-4 w-4" />
-                                            <span className="sr-only">Download</span>
-                                        </Button>
-                                    </div>
-                                ))}
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div> */}
                 </div>
             </div>
         </AppLayout>

@@ -295,12 +295,13 @@ export default function AdminLibraries() {
                                                                         <Edit className="mr-2 h-4 w-4" />
                                                                         Edit
                                                                     </DropdownMenuItem>
-                                                                    <DropdownMenuItem asChild>
+                                                                    {/* //! add sub library manually */}
+                                                                    {/* <DropdownMenuItem asChild>
                                                                         <Link href={`/admin/create/library/${library.id}/subLibrary`}>
                                                                             <FolderPlus className="mr-2 h-4 w-4" />
                                                                             Add Sub-Library
                                                                         </Link>
-                                                                    </DropdownMenuItem>
+                                                                    </DropdownMenuItem> */}
                                                                     <DropdownMenuSeparator />
                                                                     <DropdownMenuItem
                                                                         className="text-destructive"
