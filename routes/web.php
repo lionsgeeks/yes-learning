@@ -55,3 +55,30 @@ require __DIR__ . '/workshops.php';
 require __DIR__ . '/courses.php';
 require __DIR__ . '/library.php';
 require __DIR__ . '/quiz.php';
+
+
+
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/deploy', function () {
+  
+    
+
+    // Run shell commands
+    exec('git pull origin main 2>&1', $gitOutput);
+    exec('npm ci 2>&1', $npmInstallOutput);
+    exec('npm run build 2>&1', $npmBuildOutput);
+
+    // Laravel commands
+    Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    Artisan::call('view:clear');
+    Artisan::call('optimize:clear');
+
+    return response()->json([
+        'status' => '✅ Deployment successful!',
+        'git' => $gitOutput,
+        'npm install' => $npmInstallOutput,
+        'npm build' => $npmBuildOutput,
+    ]);
+});
