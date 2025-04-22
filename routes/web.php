@@ -70,10 +70,7 @@ Route::get('/deploy', function () {
     exec('npm run build 2>&1', $npmBuildOutput);
 
     // Laravel commands
-    Artisan::call('config:cache');
-    Artisan::call('route:cache');
-    Artisan::call('view:clear');
-    Artisan::call('optimize:clear');
+
 
     return response()->json([
         'status' => '✅ Deployment successful!',
