@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chapter;
+use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -143,8 +144,13 @@ class ChapterController extends Controller
      */
     public function edit(Chapter $chapter)
     {
+        // only select what i need instead of sending whole collection
+        $chapters = Chapter::select('id', 'title', 'content')->get();
+        $courses = Course::select('id', 'name')->get();
         return Inertia::render('courses/admin/chapter/[id]', [
-            'chapter' => $chapter
+            'chapter' => $chapter,
+            'chapters' => $chapters,
+            'courses' => $courses,
         ]);
     }
 
