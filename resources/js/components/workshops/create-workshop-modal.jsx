@@ -20,9 +20,9 @@ export function CreateWorkshopModal({ open, onOpenChange, courses, workshop }) {
   const { data, setData, post, put, processing, errors } = useForm({
 
     name: {
-        en: workshop ? workshop.name?.en || "" : "",
-        fr: workshop ? workshop.name?.fr || "" : "",
-        ar: workshop ? workshop.name?.ar || "" : "",
+        en: workshop ? JSON.parse(workshop.name)?.en || "" : "",
+        fr: workshop ? JSON.parse(workshop.name)?.en|| "" : "",
+        ar: workshop ? JSON.parse(workshop.name)?.en || "" : "",
       },
       description: {
         en: workshop ? JSON.parse(workshop.description)?.en || "" : "",

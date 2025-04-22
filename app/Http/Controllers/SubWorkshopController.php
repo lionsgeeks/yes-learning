@@ -121,13 +121,14 @@ class SubWorkshopController extends Controller
         $meetLink = $meetLinks->$language ?? null;
         $date = $sub->date;
         $time = $sub->time;
-     
+
             Mail::to($email)->send(new MeetingNotification($email, $meetLink , $language , $date , $time));
 
     }
     }
 
 
+   
     /**
      * Show the form for editing the specified resource.
      */

@@ -11,4 +11,8 @@ class NewsLetter extends Model
          'subject',
         'content'
     ];
+    protected $casts = [
+        'subject' => 'array',
+        'content' => 'array',
+    ];
 }

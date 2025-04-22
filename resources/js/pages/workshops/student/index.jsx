@@ -170,17 +170,17 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 <>
 
                                                     <TransText en=
-                                                        <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).en} target="_blank" rel="noopener noreferrer">
+                                                        <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={workshop.meetLink.en} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             Join
                                                         </a>
 
-                                                        fr=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
+                                                        fr=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={workshop.meetLink.fr} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             rejoindre
                                                         </a>
 
-                                                        ar=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
+                                                        ar=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={workshop.meetLink.ar} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             انضمَّ
                                                         </a>
@@ -208,7 +208,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                     <Card key={workshop.id} className="flex flex-col overflow-hidden">
                                         <CardHeader className="pb-3">
                                             <div className="flex items-start justify-end">{getStatusBadge(workshop.date)}</div>
-                                            <CardTitle className="mt-2"> <TransText en={JSON.parse(workshop.name).en} fr={JSON.parse(workshop.name).fr} ar={JSON.parse(workshop.name).ar} /></CardTitle>
+                                            <CardTitle className="mt-2"> <TransText en={workshop.name.en} fr={workshop.name.fr} ar={workshop.name.ar} /></CardTitle>
                                             <CardDescription>{workshop.chapter.title.en}</CardDescription>
                                         </CardHeader>
                                         <CardContent className="flex-1">
@@ -225,11 +225,11 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 </div>
                                                 <div className="flex items-center text-sm">
                                                     <Video className="text-muted-foreground mr-2 h-4 w-4" />
-                                                    <span><TransText en={"instructor : " + JSON.parse(workshop.instructor).en} fr={"instructeur : " + JSON.parse(workshop.instructor).fr} ar={"مُدَرِّب  : " + JSON.parse(workshop.instructor).ar} /></span>
+                                                    <span><TransText en={"instructor : " + workshop.instructor.en} fr={"instructeur : " + workshop.instructor.fr} ar={"مُدَرِّب  : " + workshop.instructor.ar} /></span>
                                                 </div>
-                                                <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{JSON.parse(workshop.description).en}</p>
+                                                <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{workshop.description.en}</p>
                                                 <div className="text-muted-foreground mt-2 text-xs">
-                                                    <span><TransText en={"prerequisite : " + JSON.parse(workshop.prerequisite).en} fr={"prérequis : " + JSON.parse(workshop.prerequisite).fr} ar={"مُتَطَلَّب سابِق  : " + JSON.parse(workshop.prerequisite).ar} /></span>
+                                                    <span><TransText en={"prerequisite : " + workshop.prerequisite.en} fr={"prérequis : " + workshop.prerequisite.fr} ar={"مُتَطَلَّب سابِق  : " + workshop.prerequisite.ar} /></span>
 
                                                 </div>
                                                 <div className="mt-2 flex items-center justify-between text-sm">
@@ -257,17 +257,17 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 <>
 
                                                     <TransText en=
-                                                        <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).en} target="_blank" rel="noopener noreferrer">
+                                                        <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={workshop.meetLink.en} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             Join
                                                         </a>
 
-                                                        fr=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
+                                                        fr=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={workshop.meetLink.fr} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             rejoindre
                                                         </a>
 
-                                                        ar=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
+                                                        ar=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={workshop.meetLink.ar} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             انضمَّ
                                                         </a>
@@ -295,7 +295,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                     <Card key={workshop.id} className="flex flex-col overflow-hidden">
                                         <CardHeader className="pb-3">
                                             <div className="flex items-start justify-end">{getStatusBadge(workshop.date)}</div>
-                                            <CardTitle className="mt-2"> <TransText en={JSON.parse(workshop.name).en} fr={JSON.parse(workshop.name).fr} ar={JSON.parse(workshop.name).ar} /></CardTitle>
+                                            <CardTitle className="mt-2"> <TransText en={workshop.name.en} fr={workshop.name.fr} ar={workshop.name.ar} /></CardTitle>
                                             <CardDescription>{workshop.chapter.title.en}</CardDescription>
                                         </CardHeader>
                                         <CardContent className="flex-1">
@@ -312,11 +312,11 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 </div>
                                                 <div className="flex items-center text-sm">
                                                     <Video className="text-muted-foreground mr-2 h-4 w-4" />
-                                                    <span><TransText en={"instructor : " + JSON.parse(workshop.instructor).en} fr={"instructeur : " + JSON.parse(workshop.instructor).fr} ar={"مُدَرِّب  : " + JSON.parse(workshop.instructor).ar} /></span>
+                                                    <span><TransText en={"instructor : " + workshop.instructor.en} fr={"instructeur : " + workshop.instructor.fr} ar={"مُدَرِّب  : " + workshop.instructor.ar} /></span>
                                                 </div>
-                                                <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{JSON.parse(workshop.description).en}</p>
+                                                <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{workshop.description.en}</p>
                                                 <div className="text-muted-foreground mt-2 text-xs">
-                                                    <span><TransText en={"prerequisite : " + JSON.parse(workshop.prerequisite).en} fr={"prérequis : " + JSON.parse(workshop.prerequisite).fr} ar={"مُتَطَلَّب سابِق  : " + JSON.parse(workshop.prerequisite).ar} /></span>
+                                                    <span><TransText en={"prerequisite : " + workshop.prerequisite.en} fr={"prérequis : " + workshop.prerequisite.fr} ar={"مُتَطَلَّب سابِق  : " + workshop.prerequisite.ar} /></span>
 
                                                 </div>
                                                 <div className="mt-2 flex items-center justify-between text-sm">
@@ -358,7 +358,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
 
                     {workshopToRegister && (
                         <div className="">
-                            <h3 className="text-lg font-medium"><TransText en={JSON.parse(workshopToRegister.name).en} fr={JSON.parse(workshopToRegister.name).fr} ar={JSON.parse(workshopToRegister.name).ar} /></h3>
+                            <h3 className="text-lg font-medium"><TransText en={workshopToRegister.name.en} fr={workshopToRegister.name.fr} ar={workshopToRegister.name.ar} /></h3>
                             <div className="mt-2 flex items-center gap-2">
                                 <Calendar className="text-muted-foreground h-4 w-4" />
                                 <span className="text-sm">{format(workshopToRegister.date, 'EEEE, MMMM d, yyyy')}</span>

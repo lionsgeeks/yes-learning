@@ -46,19 +46,23 @@ class NewsletterController extends Controller
 
     public function send(Request $request)
     {
-        $request->validate([
-            'subject' => 'required|string|max:255',
-            'content' => 'required|string',
+        $validated =  $request->validate([
+            'subject' => 'required|array|max:255',
+            'subject.en' => 'required',
+            'subject.fr' => 'required',
+            'subject.ar' => 'required',
+            'content' => 'required|array',
+            'content.en' => 'required',
+            'content.fr' => 'required',
+            'content.ar' => 'required',
             'recipient_type' => 'required',
         ]);
         $new = NewsLetter::create([
-             'subject' => $request->subject,
-          'content' => $request->content,
+            'content' => $validated['content'],
+            'subject' => $validated['subject'],
         ]);
+        // dd($request->all());
 
-        $subject = $new->subject;
-        $content = $new->content;
-        $courses = $request->courses;
 
 
 
@@ -71,6 +75,10 @@ class NewsletterController extends Controller
         if ($request->recipient_type == "all") {
 
             foreach ($users as $recipient) {
+                $subject = $new->subject[$recipient->language];
+                $content = $new->content[$recipient->language];
+                $courses = $request->courses;
+
                 Mail::to($recipient['email'])->send(new NEwsletterMail($subject, $content , $courses));
 
             }
@@ -82,6 +90,9 @@ class NewsletterController extends Controller
                     $user = User::find($uc->user_id);
                     if ($user) {
                         // dd($user->email);
+                        $subject = $new->subject[$uc->language];
+                        $content = $new->content[$uc->language];
+                        $courses = $request->courses;
                         Mail::to($user->email)->send(new NEwsletterMail($subject, $content, $courses));
                     }
                 }

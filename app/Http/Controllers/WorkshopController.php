@@ -87,7 +87,7 @@ class WorkshopController extends Controller
 
         return Inertia::render("workshops/admin/[id]", [
             'workshop' => $workshop->load('course'),
-            'subWorkshops' => SubWorkshop::with('users')->get(),
+            'subWorkshops' => SubWorkshop::where("workshop_id", $workshop->id)->with('users')->get(),
             'chapters' => Chapter::where('course_id', $workshop->course->id)->get(),
             "courses"=>Course::all()
         ]);

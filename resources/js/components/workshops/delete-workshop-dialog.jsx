@@ -36,7 +36,7 @@ export function DeleteWorkshopDialog({ open, onOpenChange, workshopTitle, worksh
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the {workshopTitle} workshop and remove its data
+            This action cannot be undone. This will permanently delete the {JSON.parse(workshopTitle).en} workshop and remove its data
             from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
