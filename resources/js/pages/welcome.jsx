@@ -85,8 +85,7 @@ export default function Welcome() {
                         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
                             <div className="space-y-6">
                                 <div className="inline-block rounded-lg bg-[#b09417]/10 px-4 py-1.5 text-sm text-[#b09417] font-medium">
-                                   mehdiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-                                </div>
+                                    Empowering NGOs Across Africa                                </div>
                                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-[#295da6]">
                                     Transform Your Organization with Yes Learning
                                 </h1>
@@ -312,7 +311,7 @@ export default function Welcome() {
                             </div>
                             <div className="w-full max-w-md space-y-2 pt-6">
                                 <div className="flex flex-col gap-4 sm:flex-row justify-center">
-                                  
+
                                     {
                                         !auth.user ?
                                             <Link

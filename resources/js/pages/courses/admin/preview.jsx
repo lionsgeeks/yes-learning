@@ -181,8 +181,8 @@ const CourseDetails = () => {
 
                                         <div dir={auth.user.language === 'ar' ? 'rtl' : 'ltr'} className="prose max-w-none">
                                             {chapters.flatMap((chapter, chapterIndex) =>
-                                                chapter.content[lang].flatMap((content, contentIndex) =>
-                                                    content.blocks.map(
+                                                chapter?.content[lang]?.flatMap((content, contentIndex) =>
+                                                    content?.blocks?.map(
                                                         (block, blockIndex) =>
                                                             chapterIndex + 1 === currentSubModuleId && (
                                                                 <div key={`${chapterIndex}-${contentIndex}-${blockIndex}`} className="rounded-md p-4">
@@ -244,19 +244,19 @@ const CourseDetails = () => {
                                                                         <div>
                                                                             {block.content.type === 'bullet' ? (
                                                                                 <ul className="list-disc space-y-1 pl-5">
-                                                                                    {(block.content.items || ['Sample item']).map((item, i) => (
+                                                                                    {(block.content.items || ['Sample item'])?.map((item, i) => (
                                                                                         <li key={i}>{item}</li>
                                                                                     ))}
                                                                                 </ul>
                                                                             ) : block.content.type === 'numbered' ? (
                                                                                 <ol className="list-decimal space-y-1 pl-5">
-                                                                                    {(block.content.items || ['Sample item']).map((item, i) => (
+                                                                                    {(block.content.items || ['Sample item'])?.map((item, i) => (
                                                                                         <li key={i}>{item}</li>
                                                                                     ))}
                                                                                 </ol>
                                                                             ) : (
                                                                                 <div className="space-y-2">
-                                                                                    {(block.content.items || ['Sample item']).map((item, i) => (
+                                                                                    {(block.content.items || ['Sample item'])?.map((item, i) => (
                                                                                         <div key={i} className="flex items-center">
                                                                                             <CheckCircle className="text-primary mr-2 h-4 w-4" />
                                                                                             <span>{item}</span>
@@ -273,7 +273,7 @@ const CourseDetails = () => {
                                                                             <table className="w-full border-collapse">
                                                                                 <thead>
                                                                                     <tr className="bg-muted">
-                                                                                        {Array.from({ length: block.content.cols || 3 }).map(
+                                                                                        {Array.from({ length: block.content.cols || 3 })?.map(
                                                                                             (_, i) => (
                                                                                                 <th key={i} className="border p-2 text-left">
                                                                                                     {block.content?.data[0][i]}
@@ -283,10 +283,10 @@ const CourseDetails = () => {
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                    {Array.from({ length: block.content.rows - 1 || 3 }).map(
+                                                                                    {Array.from({ length: block.content.rows - 1 || 3 })?.map(
                                                                                         (_, rowIndex) => (
                                                                                             <tr key={rowIndex}>
-                                                                                                {Array.from({ length: block.content.cols || 3 }).map(
+                                                                                                {Array.from({ length: block.content.cols || 3 })?.map(
                                                                                                     (_, colIndex) => (
                                                                                                         <td key={colIndex} className="border p-2">
                                                                                                             {
