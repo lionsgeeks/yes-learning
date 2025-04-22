@@ -55,27 +55,3 @@ require __DIR__ . '/workshops.php';
 require __DIR__ . '/courses.php';
 require __DIR__ . '/library.php';
 require __DIR__ . '/quiz.php';
-
-
-
-use Illuminate\Support\Facades\Artisan;
-
-Route::get('/deploy', function () {
-  
-    
-
-    // Run shell commands
-    exec('git pull origin main 2>&1', $gitOutput);
-    exec('npm ci 2>&1', $npmInstallOutput);
-    exec('npm run build 2>&1', $npmBuildOutput);
-
-    // Laravel commands
-
-
-    return response()->json([
-        'status' => '✅ Deployment successful!',
-        'git' => $gitOutput,
-        'npm install' => $npmInstallOutput,
-        'npm build' => $npmBuildOutput,
-    ]);
-});
