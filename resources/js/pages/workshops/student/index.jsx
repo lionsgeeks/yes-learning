@@ -45,7 +45,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
     const registredfilter = workshops.filter((workshop) => {
         const registred = workshop.enrolled
 
-        return registred ;
+        return registred;
     });
 
     // console.log("Workshops from the past:", filter);
@@ -61,13 +61,13 @@ export default function WorkshopsPage({ workshops, chapters }) {
         } else if (isAfter(date, now) && isBefore(date, addHours(now, 24))) {
             return (
                 <Badge variant="outline" className="bg-amber-100 text-amber-800">
-                <TransText en="Upcoming" fr="À venir" ar="قادِم " />
+                    <TransText en="Upcoming" fr="À venir" ar="قادِم " />
                 </Badge>
             );
         } else {
             return (
                 <Badge variant="outline" className="bg-green-100 text-green-800">
-                <TransText en="Scheduled" fr="Planifié" ar=" " />
+                    <TransText en="Scheduled" fr="Planifié" ar=" " />
                 </Badge>
             );
         }
@@ -117,7 +117,9 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                     <Card key={workshop.id} className="flex flex-col overflow-hidden">
                                         <CardHeader className="pb-3">
                                             <div className="flex items-start justify-end">{getStatusBadge(workshop.date)}</div>
-                                            <CardTitle className="mt-2"> <TransText en={JSON.parse(workshop.name).en} fr={JSON.parse(workshop.name).fr} ar={JSON.parse(workshop.name).ar} /></CardTitle>
+                                            <CardTitle className="mt-2"> <TransText en={workshop.name.en} fr={workshop.name.fr} ar={workshop.name.ar} />
+
+                                            </CardTitle>
                                             <CardDescription>{workshop.chapter.title.en}</CardDescription>
                                         </CardHeader>
                                         <CardContent className="flex-1">
@@ -134,11 +136,13 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 </div>
                                                 <div className="flex items-center text-sm">
                                                     <Video className="text-muted-foreground mr-2 h-4 w-4" />
-                                                    <span><TransText en={"instructor : " + JSON.parse(workshop.instructor).en} fr={"instructeur : " +JSON.parse(workshop.instructor).fr} ar={"مُدَرِّب  : " +JSON.parse(workshop.instructor).ar} /></span>
+                                                    <span><TransText en={"instructor : " + workshop.instructor.en} fr={"instructeur : " + workshop.instructor.fr} ar={"مُدَرِّب  : " + workshop.instructor.ar} /></span>
                                                 </div>
-                                                <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{JSON.parse(workshop.description).en}</p>
+                                                <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">
+                                                    <TransText en={workshop.description.en} fr={workshop.description.fr} ar={workshop.description.ar} />
+                                                </p>
                                                 <div className="text-muted-foreground mt-2 text-xs">
-                                                <span><TransText en={"prerequisite : " + JSON.parse(workshop.prerequisite).en} fr={"prérequis : " +JSON.parse(workshop.prerequisite).fr} ar={"مُتَطَلَّب سابِق  : " +JSON.parse(workshop.prerequisite).ar} /></span>
+                                                    <span><TransText en={"prerequisite : " + workshop.prerequisite.en} fr={"prérequis : " + workshop.prerequisite.fr} ar={"مُتَطَلَّب سابِق  : " + workshop.prerequisite.ar} /></span>
 
                                                 </div>
                                                 <div className="mt-2 flex items-center justify-between text-sm">
@@ -157,7 +161,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                     <Button
                                                         className="flex-1"
                                                         onClick={() => handleRegisterClick(workshop)}
-                                                        // disabled={workshop.enrolled >= workshop.capacity}
+                                                    // disabled={workshop.enrolled >= workshop.capacity}
                                                     >
                                                         <TransText en="Register" fr="s’inscrire" ar="تسجيل" />
                                                     </Button>
@@ -165,23 +169,23 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                             ) : (
                                                 <>
 
-                                                        <TransText en=
+                                                    <TransText en=
                                                         <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).en} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             Join
                                                         </a>
 
-                                                        fr=   <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
+                                                        fr=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             rejoindre
                                                         </a>
 
-                                                        ar= <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
+                                                        ar=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             انضمَّ
                                                         </a>
 
-                                                         />
+                                                    />
                                                 </>
                                             )}
                                         </CardFooter>
@@ -198,7 +202,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                     </TabsContent>
 
                     <TabsContent value="registered" className="mt-6">
-                    {registredfilter.length > 0 ? (
+                        {registredfilter.length > 0 ? (
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                                 {registredfilter.map((workshop) => (
                                     <Card key={workshop.id} className="flex flex-col overflow-hidden">
@@ -221,11 +225,11 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 </div>
                                                 <div className="flex items-center text-sm">
                                                     <Video className="text-muted-foreground mr-2 h-4 w-4" />
-                                                    <span><TransText en={"instructor : " + JSON.parse(workshop.instructor).en} fr={"instructeur : " +JSON.parse(workshop.instructor).fr} ar={"مُدَرِّب  : " +JSON.parse(workshop.instructor).ar} /></span>
+                                                    <span><TransText en={"instructor : " + JSON.parse(workshop.instructor).en} fr={"instructeur : " + JSON.parse(workshop.instructor).fr} ar={"مُدَرِّب  : " + JSON.parse(workshop.instructor).ar} /></span>
                                                 </div>
                                                 <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{JSON.parse(workshop.description).en}</p>
                                                 <div className="text-muted-foreground mt-2 text-xs">
-                                                <span><TransText en={"prerequisite : " + JSON.parse(workshop.prerequisite).en} fr={"prérequis : " +JSON.parse(workshop.prerequisite).fr} ar={"مُتَطَلَّب سابِق  : " +JSON.parse(workshop.prerequisite).ar} /></span>
+                                                    <span><TransText en={"prerequisite : " + JSON.parse(workshop.prerequisite).en} fr={"prérequis : " + JSON.parse(workshop.prerequisite).fr} ar={"مُتَطَلَّب سابِق  : " + JSON.parse(workshop.prerequisite).ar} /></span>
 
                                                 </div>
                                                 <div className="mt-2 flex items-center justify-between text-sm">
@@ -244,7 +248,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                     <Button
                                                         className="flex-1"
                                                         onClick={() => handleRegisterClick(workshop)}
-                                                        // disabled={workshop.enrolled >= workshop.capacity}
+                                                    // disabled={workshop.enrolled >= workshop.capacity}
                                                     >
                                                         <TransText en="Register" fr="s’inscrire" ar="تسجيل" />
                                                     </Button>
@@ -252,23 +256,23 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                             ) : (
                                                 <>
 
-                                                        <TransText en=
+                                                    <TransText en=
                                                         <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).en} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             Join
                                                         </a>
 
-                                                        fr=   <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
+                                                        fr=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).fr} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             rejoindre
                                                         </a>
 
-                                                        ar= <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
+                                                        ar=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={JSON.parse(workshop.meetLink).ar} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             انضمَّ
                                                         </a>
 
-                                                         />
+                                                    />
                                                 </>
                                             )}
                                         </CardFooter>
@@ -285,7 +289,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                     </TabsContent>
 
                     <TabsContent value="past" className="mt-6">
-                    {filter.length > 0 ? (
+                        {filter.length > 0 ? (
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                                 {filter.map((workshop) => (
                                     <Card key={workshop.id} className="flex flex-col overflow-hidden">
@@ -308,11 +312,11 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 </div>
                                                 <div className="flex items-center text-sm">
                                                     <Video className="text-muted-foreground mr-2 h-4 w-4" />
-                                                    <span><TransText en={"instructor : " + JSON.parse(workshop.instructor).en} fr={"instructeur : " +JSON.parse(workshop.instructor).fr} ar={"مُدَرِّب  : " +JSON.parse(workshop.instructor).ar} /></span>
+                                                    <span><TransText en={"instructor : " + JSON.parse(workshop.instructor).en} fr={"instructeur : " + JSON.parse(workshop.instructor).fr} ar={"مُدَرِّب  : " + JSON.parse(workshop.instructor).ar} /></span>
                                                 </div>
                                                 <p className="text-muted-foreground mt-2 line-clamp-3 text-sm">{JSON.parse(workshop.description).en}</p>
                                                 <div className="text-muted-foreground mt-2 text-xs">
-                                                <span><TransText en={"prerequisite : " + JSON.parse(workshop.prerequisite).en} fr={"prérequis : " +JSON.parse(workshop.prerequisite).fr} ar={"مُتَطَلَّب سابِق  : " +JSON.parse(workshop.prerequisite).ar} /></span>
+                                                    <span><TransText en={"prerequisite : " + JSON.parse(workshop.prerequisite).en} fr={"prérequis : " + JSON.parse(workshop.prerequisite).fr} ar={"مُتَطَلَّب سابِق  : " + JSON.parse(workshop.prerequisite).ar} /></span>
 
                                                 </div>
                                                 <div className="mt-2 flex items-center justify-between text-sm">
@@ -325,9 +329,9 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                             </div>
                                         </CardContent>
                                         <CardFooter>
-                                        <Button className="flex-1">
-                                             <TransText en="passed" fr="s’inscrire" ar="تسجيل" />
-                                        </Button>
+                                            <Button className="flex-1">
+                                                <TransText en="passed" fr="s’inscrire" ar="تسجيل" />
+                                            </Button>
 
                                         </CardFooter>
                                     </Card>
@@ -373,7 +377,7 @@ export default function WorkshopsPage({ workshops, chapters }) {
                     )}
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setRegistrationDialogOpen(false)}>
-                        <TransText en="Cancel" fr="Annuler" ar="إلغاء" />
+                            <TransText en="Cancel" fr="Annuler" ar="إلغاء" />
                         </Button>
                         <Button
                             onClick={() => {
