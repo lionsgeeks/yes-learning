@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('news_letters', function (Blueprint $table) {
+        Schema::create('scheduled_newsletters', function (Blueprint $table) {
             $table->id();
-            $table->text('subject');
+            $table->string('subject');
             $table->text('content');
+            $table->json('courses')->nullable(); 
+            $table->enum('recipient_type', ['all', 'active', 'inactive', 'courses']);
+            $table->timestamp('schedule_date');
             $table->timestamps();
         });
+
     }
 
     /**
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('news_letters');
+        Schema::dropIfExists('scheduled_newsletters');
     }
 };

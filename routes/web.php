@@ -40,6 +40,13 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
 
 
 
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/newsletter', [App\Http\Controllers\NewsletterController::class, 'index'])->name('admin.newsletter.index');
+    Route::post('/admin/newsletter/send', [App\Http\Controllers\NewsletterController::class, 'send'])->name('admin.newsletter.send');
+    Route::post('/admin/newsletter/schedule', [App\Http\Controllers\NewsletterController::class, 'schedule'])->name('admin.newsletter.schedule');
+});
+
+
 require __DIR__ . '/settings.php';
 require __DIR__ . '/dashboard.php';
 require __DIR__ . '/achievment.php';

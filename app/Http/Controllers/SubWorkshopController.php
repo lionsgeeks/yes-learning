@@ -119,9 +119,10 @@ class SubWorkshopController extends Controller
 
         $meetLinks = json_decode($sub->meetLink);
         $meetLink = $meetLinks->$language ?? null;
-
-
-            Mail::to($email)->send(new MeetingNotification($email, $meetLink , $language));
+        $date = $sub->date;
+        $time = $sub->time;
+     
+            Mail::to($email)->send(new MeetingNotification($email, $meetLink , $language , $date , $time));
 
     }
     }
