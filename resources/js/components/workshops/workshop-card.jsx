@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { DeleteWorkshopDialog } from "@/components/workshops/delete-workshop-dialog";
 import { CreateWorkshopModal } from "@/components/workshops/create-workshop-modal"
 import { useState } from "react";
-
+import { Link } from '@inertiajs/react';
 export function WorkshopCard({ workshop, courses }) {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -37,16 +37,10 @@ export function WorkshopCard({ workshop, courses }) {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            {/* <DropdownMenuItem
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    setIsEditModalOpen(true);
-                                }}
-                            >
-                                Edit Workshop
-                            </DropdownMenuItem> */}
-                            <DropdownMenuItem
+                        <DropdownMenuItem>
+                        <Link href={`/admin/workshops/${workshop.id}`}>Edit Workshop</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
                                 className="text-destructive"
                                 onClick={(e) => {
                                     e.preventDefault();

@@ -169,26 +169,26 @@ const NewsletterPage = ({ courses }) => {
                       )}
                     </div>
                   </CardContent>
-                  <CardFooter className="flex justify-between">
-                    <Button
+                  <CardFooter className="flex justify-end">
+                    {/* <Button
                       variant="outline"
                       onClick={() => setShowPreview(!showPreview)}
                     >
                       <Eye className="mr-2 h-4 w-4" />
                       {showPreview ? "Hide Preview" : "Preview"}
-                    </Button>
+                    </Button> */}
                     <div className="flex gap-2">
                       <Popover>
-                        <PopoverTrigger asChild>
+                        {/* <PopoverTrigger asChild>
                           <Button variant="outline">
                             <Clock className="mr-2 h-4 w-4" />
                             Schedule
                           </Button>
-                        </PopoverTrigger>
+                        </PopoverTrigger> */}
                         <PopoverContent className="w-auto p-4" align="end">
                           <div className="space-y-2">
                             <Input
-                              type="date"
+                              type="datetime-local"
                               value={data.schedule_date}
                               onChange={(e) =>
                                 setData("schedule_date", e.target.value)
@@ -245,9 +245,9 @@ const NewsletterPage = ({ courses }) => {
                         <div key={course.id} className="flex items-center gap-2">
                           <Checkbox
                             id={`course-${course.id}`}
-                            checked={data.courses.includes(course.id)}
+                            checked={data.courses.includes(course)}
                             onCheckedChange={() =>
-                              handleCourseToggle(course.id)
+                              handleCourseToggle(course)
                             }
                           />
                           <Label htmlFor={`course-${course.id}`}>

@@ -128,7 +128,7 @@ class SubWorkshopController extends Controller
     }
 
 
-   
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -143,18 +143,18 @@ class SubWorkshopController extends Controller
     public function update(Request $request, SubWorkshop $subWorkshop)
     {
 
-
+        // dd($request->all());
         $subWorkshop->update([
-            'name' => json_encode($request->name),
-            'description' => json_encode($request->description),
+            'name' => $request->name,
+            'description' => $request->description,
             'chapter_id' => $request->chapter_id,
             'workshop_id' => $request->workshop_id,
-            'prerequisite' => json_encode($request->prerequisite),
+            'prerequisite' => $request->prerequisite,
             'date' => $request->date,
             'time' => $request->time,
             'duration' => $request->duration,
-            'instructor' => json_encode($request->instructor),
-            'meetLink' => json_encode($request->meetLink),
+            'instructor' => $request->instructor,
+            'meetLink' => $request->meetLink,
             'allowQuestions' => $request->allowQuestions,
             'requireRegistration' => $request->requireRegistration,
             'sendNotifications' => $request->sendNotifications,

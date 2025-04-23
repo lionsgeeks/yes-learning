@@ -127,7 +127,9 @@ class WorkshopController extends Controller
     public function destroy(Workshop $workshop)
     {
         //
+        // dd();
         $workshop->delete();
-        return redirect("/admin/workshops");
+        // return redirect(route("workshops.index"));
+        return back()->with('success', 'Workshop deleted successfully!');
     }
 }

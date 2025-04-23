@@ -31,23 +31,11 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
 Route::post('/update/language', [DashboardController::class, 'updateLanguage'])->name('langugage.update');
 
 
-Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
 
-    Route::resource("newsletter" , NewsLetterController::class);
-    Route::get("/news_letter/history" , [NewsLetterController::class, 'history'])->name('newsletter.history');
-
-});
-
-
-
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/newsletter', [App\Http\Controllers\NewsletterController::class, 'index'])->name('admin.newsletter.index');
-    Route::post('/admin/newsletter/send', [App\Http\Controllers\NewsletterController::class, 'send'])->name('admin.newsletter.send');
-    Route::post('/admin/newsletter/schedule', [App\Http\Controllers\NewsletterController::class, 'schedule'])->name('admin.newsletter.schedule');
-});
 
 
 require __DIR__ . '/settings.php';
+require __DIR__ . '/newsletter.php';
 require __DIR__ . '/dashboard.php';
 require __DIR__ . '/achievment.php';
 require __DIR__ . '/auth.php';

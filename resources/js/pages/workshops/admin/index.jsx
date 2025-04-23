@@ -77,7 +77,7 @@ const AdminWorkshops = ({ workshops, courses }) => {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredWorkshops.map((workshop) => (
-              <Link key={workshop.id} href={`/admin/workshops/${workshop.id}`}>
+              <Link key={workshop.id} >
                 <WorkshopCard workshop={workshop} courses={courses} />
               </Link>
             ))}

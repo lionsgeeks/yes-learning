@@ -39,7 +39,9 @@ class NewsletterController extends Controller
 
      public function history()
      {
-         return Inertia::render('newsletter/history/index');
+         return Inertia::render('newsletter/history/index' , [
+            "newsletters"=> NewsLetter::all(),
+         ]);
      }
 
 
@@ -83,16 +85,19 @@ class NewsletterController extends Controller
 
             }
         }if ($request->recipient_type == "courses") {
+            $courses = $request->courses;
             foreach ($courses as $course) {
                 $userCourses = UserCourse::where("course_id", $course["id"])->get();
+                // dd($courses);
 
                 foreach ($userCourses as $uc) {
                     $user = User::find($uc->user_id);
                     if ($user) {
-                        // dd($user->email);
-                        $subject = $new->subject[$uc->language];
-                        $content = $new->content[$uc->language];
+                        // dd($user->language);
+                        $subject = $new->subject[$user->language];
+                        $content = $new->content[$user->language];
                         $courses = $request->courses;
+                        // dd($courses);
                         Mail::to($user->email)->send(new NEwsletterMail($subject, $content, $courses));
                     }
                 }
@@ -107,16 +112,28 @@ class NewsletterController extends Controller
      */
     public function schedule(Request $request)
     {
-        $request->validate([
-            'subject' => 'required|string|max:255',
-            'content' => 'required|string',
+
+
+        $validated =  $request->validate([
+            'subject' => 'required|array|max:255',
+            'subject.en' => 'required',
+            'subject.fr' => 'required',
+            'subject.ar' => 'required',
+            'content' => 'required|array',
+            'content.en' => 'required',
+            'content.fr' => 'required',
+            'content.ar' => 'required',
             'recipient_type' => 'required|in:all,active,inactive,courses',
-            'schedule_date' => 'required|date|after_or_equal:now',
+            'schedule_date' => 'required',
+
         ]);
 
+
+
+
         ScheduledNewsletter::create([
-            'subject' => $request->subject,
-            'content' => $request->content,
+            'content' => $validated['content'],
+            'subject' => $validated['subject'],
             'recipient_type' => $request->recipient_type,
             'courses' => $request->courses ?? [],
             'schedule_date' => $request->schedule_date,

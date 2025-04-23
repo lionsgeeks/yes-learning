@@ -10,7 +10,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import { format } from 'date-fns';
 import { Calendar, ChevronLeft, ChevronRight, Eye, Search } from 'lucide-react';
 
-const NewsletterHistoryPage = () => {
+const NewsletterHistoryPage = ({newsletters}) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedNewsletter, setSelectedNewsletter] = useState(null);
@@ -21,64 +21,66 @@ const NewsletterHistoryPage = () => {
         },
     ];
     // Mock data
-    const newsletters = [
-        {
-            id: 'nl-001',
-            subject: 'Welcome to the Spring Semester!',
-            sentDate: new Date(2025, 2, 15),
-            recipients: 1245,
-            openRate: 72.4,
-            clickRate: 45.2,
-            status: 'sent',
-        },
-        {
-            id: 'nl-002',
-            subject: 'New Courses Available - Enroll Today!',
-            sentDate: new Date(2025, 2, 8),
-            recipients: 1230,
-            openRate: 68.7,
-            clickRate: 39.5,
-            status: 'sent',
-        },
-        {
-            id: 'nl-003',
-            subject: 'Important: Platform Maintenance Notice',
-            sentDate: new Date(2025, 2, 1),
-            recipients: 1220,
-            openRate: 82.1,
-            clickRate: 12.3,
-            status: 'sent',
-        },
-        {
-            id: 'nl-004',
-            subject: 'Workshop Registration Now Open',
-            sentDate: new Date(2025, 1, 22),
-            recipients: 985,
-            openRate: 65.8,
-            clickRate: 51.2,
-            status: 'sent',
-        },
-        {
-            id: 'nl-005',
-            subject: 'Your February Learning Progress Report',
-            sentDate: new Date(2025, 1, 15),
-            recipients: 1210,
-            openRate: 59.3,
-            clickRate: 32.7,
-            status: 'sent',
-        },
-        {
-            id: 'nl-006',
-            subject: 'Summer Course Preview',
-            sentDate: new Date(2025, 3, 5),
-            recipients: 1250,
-            openRate: 0,
-            clickRate: 0,
-            status: 'scheduled',
-        },
-    ];
+    console.log(history);
 
-    const filteredNewsletters = newsletters.filter((newsletter) => newsletter.subject.toLowerCase().includes(searchQuery.toLowerCase()));
+    // const newsletters = [
+    //     {
+    //         id: 'nl-001',
+    //         subject: 'Welcome to the Spring Semester!',
+    //         sentDate: new Date(2025, 2, 15),
+    //         recipients: 1245,
+    //         openRate: 72.4,
+    //         clickRate: 45.2,
+    //         status: 'sent',
+    //     },
+    //     {
+    //         id: 'nl-002',
+    //         subject: 'New Courses Available - Enroll Today!',
+    //         sentDate: new Date(2025, 2, 8),
+    //         recipients: 1230,
+    //         openRate: 68.7,
+    //         clickRate: 39.5,
+    //         status: 'sent',
+    //     },
+    //     {
+    //         id: 'nl-003',
+    //         subject: 'Important: Platform Maintenance Notice',
+    //         sentDate: new Date(2025, 2, 1),
+    //         recipients: 1220,
+    //         openRate: 82.1,
+    //         clickRate: 12.3,
+    //         status: 'sent',
+    //     },
+    //     {
+    //         id: 'nl-004',
+    //         subject: 'Workshop Registration Now Open',
+    //         sentDate: new Date(2025, 1, 22),
+    //         recipients: 985,
+    //         openRate: 65.8,
+    //         clickRate: 51.2,
+    //         status: 'sent',
+    //     },
+    //     {
+    //         id: 'nl-005',
+    //         subject: 'Your February Learning Progress Report',
+    //         sentDate: new Date(2025, 1, 15),
+    //         recipients: 1210,
+    //         openRate: 59.3,
+    //         clickRate: 32.7,
+    //         status: 'sent',
+    //     },
+    //     {
+    //         id: 'nl-006',
+    //         subject: 'Summer Course Preview',
+    //         sentDate: new Date(2025, 3, 5),
+    //         recipients: 1250,
+    //         openRate: 0,
+    //         clickRate: 0,
+    //         status: 'scheduled',
+    //     },
+    // ];
+
+    const filteredNewsletters = newsletters.filter((newsletter) => newsletter.subject.en.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const handleViewNewsletter = (newsletter) => {
         setSelectedNewsletter(newsletter);
@@ -138,19 +140,22 @@ const NewsletterHistoryPage = () => {
                             <TableBody>
                                 {filteredNewsletters.map((newsletter) => (
                                     <TableRow key={newsletter.id}>
-                                        <TableCell className="font-medium">{newsletter.subject}</TableCell>
+                                        <TableCell className="font-medium">{newsletter.subject.en}</TableCell>
                                         <TableCell>
                                             <div className="flex items-center">
                                                 <Calendar className="text-muted-foreground mr-2 h-4 w-4" />
-                                                <p>{format(newsletter.sentDate, 'PPP')}</p>
+                                                <p>{format(newsletter.created_at, 'PPP')}</p>
                                             </div>
                                         </TableCell>
                                         {/* <TableCell>{newsletter.recipients.toLocaleString()}</TableCell>
                                         <TableCell>{newsletter.status === 'scheduled' ? '-' : `${newsletter.openRate}%`}</TableCell>
                                         <TableCell>{newsletter.status === 'scheduled' ? '-' : `${newsletter.clickRate}%`}</TableCell> */}
                                         <TableCell>
-                                            <Badge variant={newsletter.status === 'sent' ? 'default' : 'outline'}>
+                                            {/* <Badge variant={newsletter.status === 'sent' ? 'default' : 'outline'}>
                                                 {newsletter.status === 'sent' ? 'Sent' : 'Scheduled'}
+                                            </Badge> */}
+                                            <Badge>
+                                                sent
                                             </Badge>
                                         </TableCell>
                                         <TableCell className="text-right">

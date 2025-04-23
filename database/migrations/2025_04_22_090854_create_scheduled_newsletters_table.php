@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('scheduled_newsletters', function (Blueprint $table) {
             $table->id();
-            $table->string('subject');
-            $table->text('content');
-            $table->json('courses')->nullable(); 
+            $table->json('subject');
+            $table->json('content');
+            $table->json('courses')->nullable();
             $table->enum('recipient_type', ['all', 'active', 'inactive', 'courses']);
             $table->timestamp('schedule_date');
             $table->timestamps();

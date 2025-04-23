@@ -21,11 +21,11 @@ class SendScheduledNewsletters extends Command
         $scheduled = ScheduledNewsletter::where('schedule_date', '<=', $now)->get();
 
         foreach ($scheduled as $newsletter) {
-            $subject = $newsletter->subject;
-            $content = $newsletter->content;
-            $courses = json_decode($newsletter->courses, true);
+            $subject = $newsletter->subject["en"];
+            $content = $newsletter->content["en"];
+            $courses = $newsletter->courses;
             $recipientType = $newsletter->recipient_type;
-
+            // dd($subject["en"]);
             $users = User::all();
 
             if ($recipientType === 'all') {

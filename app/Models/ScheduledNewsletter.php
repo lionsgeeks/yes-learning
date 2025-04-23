@@ -15,6 +15,8 @@ class ScheduledNewsletter extends Model
         'schedule_date',
     ];
     protected $casts = [
+        'subject' => 'array',
+        'content' => 'array',
         'courses' => 'array',
         'schedule_date' => 'datetime',
     ];
