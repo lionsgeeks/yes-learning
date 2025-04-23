@@ -27,24 +27,33 @@
   <div role="article" aria-roledescription="email" aria-label lang="en"> </div>
 </body>
 </html>
-<table style="width: 100%; background-color: #f9f9f9; font-family: Arial, sans-serif;" cellpadding="0" cellspacing="0" role="presentation"></table>
-<tr>
-  <td style="padding: 20px;"></td>
-  <table style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" cellpadding="0" cellspacing="0" role="presentation">
-    <tr>
-      <td style="padding: 20px; text-align: center; background-color: #4CAF50; border-top-left-radius: 8px; border-top-right-radius: 8px;">
-        <h1 style="margin: 0; font-size: 24px; color: #ffffff;">Your Credentials</h1>
-      </td>
-    </tr>
-    <tr>
-      <td style="padding: 20px; color: #333333; line-height: 1.6;">
-        <p style="margin: 10px 0; font-size: 16px; font-weight: bold;">Your password to access the platform is: <span style="color: #4CAF50;">{{ $randomPassword }}</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td style="padding: 20px; text-align: center; background-color: #f1f1f1; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
-        <p style="margin: 0; font-size: 14px; color: #777777;">Thank you for being with us!</p>
-      </td>
-    </tr>
-  </table>
-</tr>
+<table style="width: 100%; background-color: #f3f4f6; font-family: 'Helvetica Neue', Arial, sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
+  <tr>
+    <td style="padding: 20px;">
+      <table style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+          <td style="padding: 20px; text-align: center; background-color: #2563eb; color: #ffffff;">
+            <h1 style="margin: 0; font-size: 28px; font-weight: bold;">Your Credentials</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 20px; color: #333333; line-height: 1.8; font-size: 16px;">
+            <p style="margin: 0 0 15px;">Hello,</p>
+            <p style="margin: 0 0 15px;">Your password to access the platform is:</p>
+            <p style="margin: 0; font-size: 18px; font-weight: bold; color: #2563eb;">{{ $randomPassword }}</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 20px; text-align: center;">
+            <a href="https://learning.youthempowermentsummit.africa/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #2563eb; color: #ffffff; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 6px;">Access the Platform</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 20px; text-align: center; background-color: #f9fafb; color: #555555; font-size: 14px;">
+            <p style="margin: 0;">Thank you for being with us!</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

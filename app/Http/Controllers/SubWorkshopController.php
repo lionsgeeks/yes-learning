@@ -116,9 +116,9 @@ class SubWorkshopController extends Controller
         $email = $user->email;
         // $email = "aymenboujjar12@gmail.com";
         $language = $user->language;
-
-        $meetLinks = json_decode($sub->meetLink);
-        $meetLink = $meetLinks->$language ?? null;
+        $meetLinks = $sub->meetLink;
+        $meetLink = $meetLinks[$language] ?? null;
+        // dd($meetLink);
         $date = $sub->date;
         $time = $sub->time;
 
