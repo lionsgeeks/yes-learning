@@ -159,7 +159,11 @@ class ChapterController extends Controller
      */
     public function update(Request $request, Chapter $chapter)
     {
+        // dd($request);
         $request->validate([
+            'title' => 'required|array',
+            'description' => 'required|array',
+            'estimated_duration' => 'required|array',
             'content' => 'required|array',
             'content.en' => 'sometimes|array',
             'content.ar' => 'sometimes|array',
@@ -192,6 +196,9 @@ class ChapterController extends Controller
         }
 
         $chapter->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'estimated_duration' => $request->estimated_duration,
             'content' => $request->content
         ]);
     }
@@ -233,7 +240,6 @@ class ChapterController extends Controller
         $content[$lang][0]['blocks'][] = $block;
         $chapter->content = $content;
         $chapter->save();
-        
     }
 
     // public function deleteBlock(Chapter $chapter)

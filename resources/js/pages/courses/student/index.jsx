@@ -12,6 +12,7 @@ import TransText from "@/components/TransText"
 
 const Course = () => {
     const { courses, auth } = usePage().props
+    console.log(courses);
     const breadcrumbs = [{ title: "Courses", href: `/courses`, },];
     const [search, setSearch] = useState("");
     const [label, setLabel] = useState("");
@@ -65,27 +66,6 @@ const Course = () => {
                                     ar="دوراتي"
                                 />
                             </TabsTrigger>
-                            {/* <TabsTrigger value="featured">
-                                <TransText
-                                    en="Featured"
-                                    fr="En vedette"
-                                    ar="مميزة"
-                                />
-                            </TabsTrigger>
-                            <TabsTrigger value="popular">
-                                <TransText
-                                    en="Popular"
-                                    fr="Populaires"
-                                    ar="الأكثر شهرة"
-                                />
-                            </TabsTrigger>
-                            <TabsTrigger value="new">
-                                <TransText
-                                    en="New"
-                                    fr="Nouveaux"
-                                    ar="جديدة"
-                                />
-                            </TabsTrigger> */}
 
                         </TabsList>
 
@@ -147,26 +127,6 @@ const Course = () => {
                         >
                             {filteredCourses
                                 .filter((course) => course.enrolled)
-                                .map((course) => (
-                                    <CourseCard key={course.id} course={course} />
-                                ))}
-                        </div>
-                    </TabsContent>
-
-                    <TabsContent value="featured" className="mt-0">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {courses
-                                .filter((course) => course.featured)
-                                .map((course) => (
-                                    <CourseCard key={course.id} course={course} />
-                                ))}
-                        </div>
-                    </TabsContent>
-
-                    <TabsContent value="popular" className="mt-0">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {courses
-                                .filter((course) => course.popular)
                                 .map((course) => (
                                     <CourseCard key={course.id} course={course} />
                                 ))}
