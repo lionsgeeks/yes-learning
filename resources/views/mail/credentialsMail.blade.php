@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-<h1>your Password :{{ $randomPassword }}</h1>
+<p>hello {{ $username }} this is your Password :{{ $randomPassword }} and your email is {{ $userEmail }}</p>
+
 </body>
 </html>

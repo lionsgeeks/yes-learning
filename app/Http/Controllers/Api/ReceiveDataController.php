@@ -29,18 +29,34 @@ class ReceiveDataController extends Controller
         //
     }
 
+    public function FormsData(Request $request)
+    {
+        $request->validate(['forms' => 'required']);
+        $data = $request->all();
+        foreach ($data['forms'] as $user) {
+            $userData = User::create([
+                'name' => $user['name_organization'],
+                'email' => $user['email_representative'],
+                'password' => 'password'
+            ]);
+            Mail::to('chafikidrissisara@gmail.com')->queue(new CredentialsMailer($userData->password, $userData->name, $userData->email));
+
+        }
+        return response()->json(['message' => 'Users created successfully']);        
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // Log::info('DATA RECEIVED FROM YES BACKEND:', $request->all());
-        
+        Log::info('DATA RECEIVED FROM YES BACKEND:', $request->all());
+
         $request->validate([
             'email' => 'required',
             'name' => 'required'
         ]);
-        
+
         $password = 'password'; //* to be changed 
 
 
@@ -51,17 +67,16 @@ class ReceiveDataController extends Controller
             'password' => $password, //* to be changed 
         ]);
 
-        
-        
+
+
         //^ need more to send email to user with his credentials 
-        
-        Mail::to('chafikidrissisara@gmail.com')->send(new CredentialsMailer($password));
+
+        Mail::to('chafikidrissisara@gmail.com')->send(new CredentialsMailer($password, $user->email, $user->name));
 
         return response()->json([
             'message' => 'Data received successfully',
             'received_data' => $request->all(),
         ]);
-
     }
 
     /**

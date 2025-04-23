@@ -10,4 +10,4 @@ Route::get('/user', function (Request $request) {
 
 // * the recieved data coming from yes backend
 Route::post('/receive-data', [ReceiveDataController::class, 'store']);
-// Route::get('/get-data', [ReceiveDataController::class, 'index']);
+Route::post('/selected-ngo', [ReceiveDataController::class, 'FormsData']);
