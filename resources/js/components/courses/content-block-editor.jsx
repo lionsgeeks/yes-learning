@@ -13,7 +13,7 @@ import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } 
 import { CSS } from '@dnd-kit/utilities';
 import { useForm, usePage } from '@inertiajs/react';
 import { TabsContent } from '@radix-ui/react-tabs';
-import { AlignLeft, BarChart, File, GripVertical, ImageIcon, List, Presentation, Share, Table, Trash2, Video } from 'lucide-react';
+import { AlignLeft, BarChart, ExternalLink, File, GripVertical, ImageIcon, List, Presentation, Share, Table, Trash2, Video } from 'lucide-react';
 import { ChartBlockEditor } from './content-blocks/chart-block';
 import { FileBlockEditor } from './content-blocks/file-block';
 import { ImageBlockEditor } from './content-blocks/image-block';
@@ -289,7 +289,7 @@ function SortableBlock({ block, activeBlockId, setActiveBlockId, removeBlock, re
                 <div className="flex-1 font-medium">{block.content.title || `${block.type.charAt(0).toUpperCase() + block.type.slice(1)} Block`}</div>
                 {url.includes('edit') && (
                     <Button variant="ghost" onClick={() => handleShareBlock(block)}>
-                        <Share className="h-4 w-4" />
+                        <ExternalLink className="h-4 w-4" />
                     </Button>
                 )}
                 <Button variant="ghost" size="icon" onClick={() => setActiveBlockId(activeBlockId === block.id ? null : block.id)}>
