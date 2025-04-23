@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class CredentialsMailer extends Mailable
+class CredentialsMailer extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -18,9 +18,14 @@ class CredentialsMailer extends Mailable
      * Create a new message instance.
      */
     public $randomPassword;
-    public function __construct($randomPassword)
+    public $username;
+    public $userEmail;
+    public function __construct($randomPassword, $username, $userEmail)
     {
         $this->randomPassword = $randomPassword;
+        $this->username = $username;
+        $this->userEmail = $userEmail;
+
         Log::info('hiiii');
     }
 
