@@ -1,38 +1,5 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\NewsLetterController;
-use App\Models\Course;
-use Illuminate\Container\Attributes\Auth as AttributesAuth;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
-Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
-
-    Route::get('/steps', function () {
-        $user = Auth::user();
-        // dd($user);
-        if (!$user->language) {
-            $courses = Course::all();
-            return Inertia::render('auth/steps', compact('courses'));
-        } else {
-            return redirect()->route('dashboard');
-        }
-    })->name('auth.steps');
-
-    Route::post('/stepss', [DashboardController::class, 'steps'])->name('stepss');
-
-});
-
-Route::post('/update/language', [DashboardController::class, 'updateLanguage'])->name('langugage.update');
-
-
-
-
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/newsletter.php';
@@ -43,3 +10,4 @@ require __DIR__ . '/workshops.php';
 require __DIR__ . '/courses.php';
 require __DIR__ . '/library.php';
 require __DIR__ . '/quiz.php';
+require __DIR__ . '/global.php';
