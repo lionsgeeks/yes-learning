@@ -34,7 +34,7 @@ Route::post('/update/language', [DashboardController::class, 'updateLanguage'])-
 Route::get('/unzip', function () {
     $zip = new \ZipArchive;
     $zipPath = public_path('build.zip'); 
-    $extractTo = public_path('build');    
+    $extractTo = public_path();    
 
     if (!file_exists($zipPath)) {
         return 'Zip file not found.';
