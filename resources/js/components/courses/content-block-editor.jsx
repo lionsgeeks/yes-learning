@@ -3,14 +3,17 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-
+import { useForm, usePage } from '@inertiajs/react';
 import { TabsContent } from '@radix-ui/react-tabs';
-import { AlignLeft, BarChart, File, GripVertical, ImageIcon, List, Presentation, Table, Trash2, Video } from 'lucide-react';
+import { AlignLeft, BarChart, File, GripVertical, ImageIcon, List, Presentation, Share, Table, Trash2, Video } from 'lucide-react';
 import { ChartBlockEditor } from './content-blocks/chart-block';
 import { FileBlockEditor } from './content-blocks/file-block';
 import { ImageBlockEditor } from './content-blocks/image-block';
@@ -18,11 +21,14 @@ import { ListBlockEditor } from './content-blocks/list-block';
 import { TableBlockEditor } from './content-blocks/table-block';
 import { TextBlockEditor } from './content-blocks/text-block';
 import { VideoBlockEditor } from './content-blocks/video-block';
-
-export function ContentBlockEditor({ blocks, onBlocksChange, lang }) {
-
+export function ContentBlockEditor({ blocks, onBlocksChange, lang, courses }) {
+    const { post, setData } = useForm({
+        chapter_id: '',
+        language: lang,
+        block: '',
+    });
     const [activeBlockId, setActiveBlockId] = useState(null);
-
+    console.log(courses);
     const addBlock = (type) => {
         const newBlock = {
             id: `block-${Date.now()}`,
@@ -57,6 +63,10 @@ export function ContentBlockEditor({ blocks, onBlocksChange, lang }) {
             onBlocksChange(reorderedBlocks);
         }
     };
+    const [shareDialog, setShareDialog] = useState(false);
+    const [blockToShare, setBlockToShare] = useState(null);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const [selectedChapter, setSelectedChapter] = useState(null);
 
     const getDefaultContentForType = (type) => {
         switch (type) {
@@ -100,6 +110,45 @@ export function ContentBlockEditor({ blocks, onBlocksChange, lang }) {
         }
     };
 
+    console.log('selected course : ', selectedCourse);
+    const handleShareBlock = (block) => {
+        setShareDialog(true);
+        setBlockToShare(block);
+        console.log('block : ', block);
+    };
+    useEffect(() => {
+        setData({
+            chapter_id: selectedChapter,
+            language: lang,
+            block: blockToShare,
+        });
+    }, [selectedChapter, blockToShare, lang]);
+    const handleShareSubmit = async () => {
+        setData({
+            chapter_id: selectedChapter,
+            language: lang,
+            block: blockToShare,
+        });
+        post(route('chapter.share'), {
+            onFinish: () => {
+                setShareDialog(false);
+            },
+        });
+        // const response = await fetch('/api/blocks/share', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         Authorization: `Bearer ${yourAuthToken}`, // Add your auth token
+        //     },
+        //     body: JSON.stringify({
+        //         blockData: blockToShare,
+        //         chapterId: selectedChapter, // You'll need to add this state
+        //         courseId: selectedCourse?._id,
+        //     }),
+        // });
+
+        // console.log('Block shared successfully:');
+    };
     return (
         <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="space-y-4">
             <div className="flex flex-col space-y-4">
@@ -120,6 +169,7 @@ export function ContentBlockEditor({ blocks, onBlocksChange, lang }) {
                                         setActiveBlockId={setActiveBlockId}
                                         removeBlock={removeBlock}
                                         renderBlockEditor={renderBlockEditor}
+                                        handleShareBlock={handleShareBlock}
                                     />
                                 ))
                             )}
@@ -168,12 +218,63 @@ export function ContentBlockEditor({ blocks, onBlocksChange, lang }) {
                     </TabsContent>
                 </Tabs>
             </div>
+            <Dialog open={shareDialog} onOpenChange={setShareDialog}>
+                {/* <DialogTrigger asChild>
+                    <Button variant="outline">Share Block</Button>
+                </DialogTrigger> */}
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Share block</DialogTitle>
+                    </DialogHeader>
+                    <Label>Choose Course :</Label>
+                    <Select onValueChange={setSelectedCourse}>
+                        <SelectTrigger className="">
+                            <SelectValue placeholder="Select a course" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Courses</SelectLabel>
+                                {courses?.map((course, index) => (
+                                    <SelectItem key={index} value={course}>
+                                        {course.name.en}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    <Label>Choose Chapter :</Label>
+                    <Select onValueChange={setSelectedChapter}>
+                        <SelectTrigger className="">
+                            <SelectValue placeholder="Select a chapter" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Chapters</SelectLabel>
+                                {selectedCourse?.chapters?.map((course, index) => (
+                                    <SelectItem key={index} value={course.id}>
+                                        {course.title.en}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    <DialogFooter>
+                        <Button type="button" variant="outline" onClick={() => setShareDialog(false)}>
+                            Cancel
+                        </Button>
+                        <Button type="button" onClick={handleShareSubmit} disabled={!selectedCourse || !selectedChapter}>
+                            Share
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
 
-function SortableBlock({ block, activeBlockId, setActiveBlockId, removeBlock, renderBlockEditor }) {
+function SortableBlock({ block, activeBlockId, setActiveBlockId, removeBlock, renderBlockEditor, handleShareBlock }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: block.id });
+    const { url } = usePage();
 
     return (
         <Card
@@ -186,6 +287,11 @@ function SortableBlock({ block, activeBlockId, setActiveBlockId, removeBlock, re
                     <GripVertical className="text-muted-foreground h-5 w-5" />
                 </div>
                 <div className="flex-1 font-medium">{block.content.title || `${block.type.charAt(0).toUpperCase() + block.type.slice(1)} Block`}</div>
+                {url.includes('edit') && (
+                    <Button variant="ghost" onClick={() => handleShareBlock(block)}>
+                        <Share className="h-4 w-4" />
+                    </Button>
+                )}
                 <Button variant="ghost" size="icon" onClick={() => setActiveBlockId(activeBlockId === block.id ? null : block.id)}>
                     {block.type === 'text' && <AlignLeft className="h-4 w-4" />}
                     {block.type === 'image' && <ImageIcon className="h-4 w-4" />}

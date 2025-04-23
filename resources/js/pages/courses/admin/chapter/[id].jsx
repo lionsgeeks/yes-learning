@@ -108,7 +108,7 @@ const ChapterPreview = () => {
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
-                <ContentBlockEditor blocks={data.content[lang]?.[0]?.blocks || []} onBlocksChange={handleBlocksChange} />
+                <ContentBlockEditor blocks={data.content[lang]?.[0]?.blocks || []} onBlocksChange={handleBlocksChange} courses={courses} lang={lang} />
                 <Button onClick={handleSubmit}>Save Chapter</Button>
             </div>
         </AppLayout>

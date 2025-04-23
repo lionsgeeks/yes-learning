@@ -146,7 +146,7 @@ class ChapterController extends Controller
     {
         // only select what i need instead of sending whole collection
         $chapters = Chapter::select('id', 'title', 'content')->get();
-        $courses = Course::select('id', 'name')->get();
+        $courses = Course::select('id', 'name')->with('chapters')->get();
         return Inertia::render('courses/admin/chapter/[id]', [
             'chapter' => $chapter,
             'chapters' => $chapters,
@@ -211,6 +211,31 @@ class ChapterController extends Controller
         }
         $chapter->delete();
     }
+
+    public function shareBlock(Request $request)
+    {
+        $validated = $request->validate([
+            'chapter_id' => 'required',
+            'language' => 'required',
+            'block' => 'required|array',
+        ]);
+
+        $chapter = Chapter::findOrFail($validated['chapter_id']);
+        $content = $chapter->content;
+
+        // Ensure content is an array
+        if (is_string($content)) {
+            $content = json_decode($content, true);
+        }
+
+        $lang = $validated['language'];
+        $block = $validated['block'];
+        $content[$lang][0]['blocks'][] = $block;
+        $chapter->content = $content;
+        $chapter->save();
+        
+    }
+
     // public function deleteBlock(Chapter $chapter)
     // {
     //     foreach ($chapter->content as $locale) {
