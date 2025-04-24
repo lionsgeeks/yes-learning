@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class CredentialsMailer extends Mailable 
+class CredentialsMailer extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -36,7 +36,7 @@ class CredentialsMailer extends Mailable
     {
 
         return new Envelope(
-            subject: 'Credentials Mailer',
+            subject: 'learning invitation with your credentials',
         );
     }
 
