@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class CredentialsMailer extends Mailable implements ShouldQueue
+class CredentialsMailer extends Mailable 
 {
     use Queueable, SerializesModels;
 

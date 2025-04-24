@@ -39,7 +39,7 @@ class ReceiveDataController extends Controller
                 'email' => $user['email_representative'],
                 'password' => 'password'
             ]);
-            Mail::to('chafikidrissisara@gmail.com')->queue(new CredentialsMailer($userData->password, $userData->name, $userData->email));
+            Mail::to($userData->email)->send(new CredentialsMailer($userData->password, $userData->name, $userData->email));
 
         }
         return response()->json(['message' => 'Users created successfully']);
