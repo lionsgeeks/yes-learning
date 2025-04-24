@@ -67,7 +67,7 @@ class ReceiveDataController extends Controller
             'email' => $request->email,
             'password' => $password, //* to be changed
         ]);
-
+ 
 
         //^ need more to send email to user with his credentials
 
