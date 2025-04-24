@@ -34,6 +34,7 @@ class CredentialsMailer extends Mailable implements ShouldQueue
      */
     public function envelope(): Envelope
     {
+
         return new Envelope(
             subject: 'Credentials Mailer',
         );
@@ -44,6 +45,8 @@ class CredentialsMailer extends Mailable implements ShouldQueue
      */
     public function content(): Content
     {
+        Log::info('salama');
+
         return new Content(
             view: 'maizzlMails.credentialsmail',
         );

@@ -32,7 +32,7 @@
       <p style="font-size: 16px; margin: 10px 0;"><strong>Time:</strong> {{ $time }}</p>
       <p style="font-size: 16px;">You can join the meeting using the link below:</p>
       <p style="text-align: center; margin: 20px 0;"></p>
-      <a href="{{ $meetLink }}" target="_blank" style="background-color: #007BFF; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">Join Meeting</a>
+      <a href="{{ $meetLinks }}" target="_blank" style="background-color: #007BFF; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">Join Meeting</a>
       <p></p>
       <p style="font-size: 14px; color: #555;">Thank you!</p>
     </div>

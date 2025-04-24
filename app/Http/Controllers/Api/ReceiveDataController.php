@@ -42,7 +42,7 @@ class ReceiveDataController extends Controller
             Mail::to('chafikidrissisara@gmail.com')->queue(new CredentialsMailer($userData->password, $userData->name, $userData->email));
 
         }
-        return response()->json(['message' => 'Users created successfully']);        
+        return response()->json(['message' => 'Users created successfully']);
     }
 
     /**
@@ -57,21 +57,20 @@ class ReceiveDataController extends Controller
             'name' => 'required'
         ]);
 
-        $password = 'password'; //* to be changed 
+        $password = 'password'; //* to be changed
 
 
         //* store recieved data to user table
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $password, //* to be changed 
+            'password' => $password, //* to be changed
         ]);
 
 
+        //^ need more to send email to user with his credentials
 
-        //^ need more to send email to user with his credentials 
-
-        Mail::to('chafikidrissisara@gmail.com')->send(new CredentialsMailer($password, $user->email, $user->name));
+        Mail::to('aymenboujjar12@gmail.com')->send(new CredentialsMailer($password, $user->email, $user->name));
 
         return response()->json([
             'message' => 'Data received successfully',
