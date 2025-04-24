@@ -70,7 +70,7 @@ class ReceiveDataController extends Controller
 
         //^ need more to send email to user with his credentials
 
-        Mail::to('aymenboujjar12@gmail.com')->send(new CredentialsMailer($password, $user->email, $user->name));
+        Mail::to($user->email)->send(new CredentialsMailer($password, $user->email, $user->name));
 
         return response()->json([
             'message' => 'Data received successfully',
