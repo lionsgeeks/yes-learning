@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
@@ -23,13 +24,15 @@ class RoleMiddleware
 
         // Get the authenticated user
         $user = Auth::user();
-
+        // dd($user->role);
         if ($role === 'admin' && $user->role !== 'admin') {
-            abort(403, 'Unauthorized: Admins only.');
+            // abort(403, 'Unauthorized: Admins only.');
+            return redirect()->route('dashboard');
         }
 
         if ($role === 'user' && $user->role === 'admin') {
-            abort(403, 'Unauthorized: Users only.');
+            // abort(403, 'Unauthorized: Users only.');
+            return redirect()->route('adminDashboard');
         }
 
         return $next($request);
