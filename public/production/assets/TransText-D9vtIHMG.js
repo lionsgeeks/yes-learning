@@ -1,0 +1,1 @@
+import{K as t}from"./app-xf9yeTlC.js";const u=e=>{var r;const s=t(),{auth:n}=s.props,o=["ar","fr","en"],a=(r=n==null?void 0:n.user)==null?void 0:r.language,g=o.includes(a)?a:"fr";return e[g]||e.fr};export{u as T};

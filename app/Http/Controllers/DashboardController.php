@@ -21,6 +21,7 @@ class DashboardController extends Controller
         $quizzes = Quiz::where('published', 1)->get();
         $userQuiz = QuizUser::where('user_id', Auth::id())->get();
         $user = Auth::user();
+        $libraries = Library::all();
         return Inertia::render("dashboard/dashboard", [
             "courses" => DB::table('courses')->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
                 ->where('user_courses.user_id', Auth::id())
@@ -32,7 +33,8 @@ class DashboardController extends Controller
                     return $course;
                 }),
             "quizzes" => $quizzes,
-            "userQuiz" => $userQuiz
+            "userQuiz" => $userQuiz,
+            'libraries' => $libraries,
         ]);
     }
 

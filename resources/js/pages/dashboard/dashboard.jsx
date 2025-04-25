@@ -17,7 +17,7 @@ const breadcrumbs = [
 ];
 
 export default function Dashboard() {
-    const { courses, quizzes, userQuiz, auth } = usePage().props;
+    const { courses, quizzes, userQuiz, libraries, auth } = usePage().props;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -39,7 +39,7 @@ export default function Dashboard() {
                         >
                             <img className="h-[65%] w-full object-cover" src={'/storage/' + course.image} alt="" />
                             <div className="flex-col gap-y-2 p-2">
-                                <h1 className='truncate'>
+                                <h1 className="truncate">
                                     <TransText {...JSON.parse(course.name)} />
                                 </h1>
                                 <p>
@@ -126,24 +126,18 @@ export default function Dashboard() {
 
                         <TabsContent value="library" className="mt-6">
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                                {[1, 2, 3, 4, 5, 6].map((module) => (
+                                {libraries.map((module) => (
                                     <Card key={module}>
                                         <CardHeader className="pb-2">
-                                            <CardTitle className="text-lg">Module {module}</CardTitle>
-                                            <CardDescription>{module <= 2 ? 'Completed' : module <= 3 ? 'In Progress' : 'Locked'}</CardDescription>
+                                            <CardTitle className="text-lg">Module {module.title[auth.user.language]}</CardTitle>
+                                            {/* <CardDescription>{module <= 2 /? 'Completed' : module <= 3 ? 'In Progress' : 'Locked'}</CardDescription> */}
                                         </CardHeader>
                                         <CardContent>
                                             <Link
-                                                href={`/module/${module}`}
+                                                href={`/ngo/library/${module.id}`}
                                                 className={`flex items-center ${module > 3 ? 'text-muted-foreground cursor-not-allowed' : 'text-primary hover:underline'}`}
                                             >
-                                                {module <= 3 ? (
-                                                    <>
-                                                        View Module <ChevronRight className="ml-1 h-4 w-4" />
-                                                    </>
-                                                ) : (
-                                                    'Complete previous modules to unlock'
-                                                )}
+                                                View Module <ChevronRight className="ml-1 h-4 w-4" />
                                             </Link>
                                         </CardContent>
                                     </Card>
