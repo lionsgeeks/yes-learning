@@ -26,15 +26,18 @@
 <body style="margin: 0; width: 100%; padding: 0; -webkit-font-smoothing: antialiased; word-break: break-word">
   <div role="article" aria-roledescription="email" aria-label lang="en">
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <p style="font-size: 18px; font-weight: bold;">Hello,</p>
-      <p style="font-size: 16px;">This is a friendly reminder about your upcoming meeting. Here are the details:</p>
-      <p style="font-size: 16px; margin: 10px 0;"><strong>Date:</strong> {{ $date }}</p>
-      <p style="font-size: 16px; margin: 10px 0;"><strong>Time:</strong> {{ $time }}</p>
-      <p style="font-size: 16px;">You can join the meeting using the link below:</p>
-      <p style="text-align: center; margin: 20px 0;"></p>
-      <a href="{{ $meetLinks }}" target="_blank" style="background-color: #007BFF; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">Join Meeting</a>
-      <p></p>
-      <p style="font-size: 14px; color: #555;">Thank you!</p>
+      <p style="font-size: 18px; font-weight: bold;">Dear Sir/Madam, {{ $name }}.</p>
+      <p style="font-size: 16px;">As part of the YES Africa training program, we are pleased to invite you to take part in the upcoming workshop entitled:</p>
+      <p style="font-size: 16px; margin: 10px 0;">🎓 <strong>Workshop title:</strong> {{ $subworkshoptitle["en"] }}</p>
+      <p style="font-size: 16px; margin: 10px 0;">📅 <strong>Date:</strong> {{ $date }}</p>
+      <p style="font-size: 16px; margin: 10px 0;">🕙 <strong>Time:</strong> {{ $time }} (GMT+1)</p>
+      <p style="font-size: 16px;">🔗 <strong>Session link:</strong></p>
+      <p style="text-align: center; margin: 20px 0;">
+        <a href="{{ $meetLink }}" target="_blank" style="background-color: #007BFF; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">Join Meeting</a>
+      </p>
+      <p style="font-size: 16px;">Your participation is essential to strengthen your organization and prepare for the YES Africa Summit.</p>
+      <p style="font-size: 14px; color: #555;">Warm regards,</p>
+      <p style="font-size: 14px; color: #555;">The YES Africa Coordination Team</p>
     </div>
   </div>
 </body>

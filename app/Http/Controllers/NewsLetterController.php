@@ -70,7 +70,8 @@ class NewsletterController extends Controller
 
         // dd($content);
 
-        $users = User::all();
+        $users = User::where('role', '!=', 'admin')->get();
+        // dd($users);
 
 
 
@@ -82,6 +83,7 @@ class NewsletterController extends Controller
                 $courses = $request->courses;
 
                 Mail::to($recipient['email'])->send(new NEwsletterMail($subject, $content , $courses));
+                // Mail::to("aymenboujjar12@gmail.com")->send(new NEwsletterMail($subject, $content , $courses));
 
             }
         }if ($request->recipient_type == "courses") {

@@ -114,15 +114,19 @@ class SubWorkshopController extends Controller
 
     foreach ($sub->users as $user) {
         $email = $user->email;
+        $name = $user->name;
         // $email = "aymenboujjar12@gmail.com";
         $language = $user->language;
         $meetLinks = $sub->meetLink;
         $meetLink = $meetLinks[$language] ?? null;
         // dd($meetLink);
+        $subworkshoptitle = $sub;
+        // dd($name);
+        // dd($subworkshoptitle);
         $date = $sub->date;
         $time = $sub->time;
 
-            Mail::to($email)->send(new MeetingNotification($email, $meetLink , $language , $date , $time));
+            Mail::to($email)->send(new MeetingNotification($email, $meetLink , $language , $date , $time , $name , $subworkshoptitle));
 
     }
     }
