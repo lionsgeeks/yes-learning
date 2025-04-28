@@ -23,7 +23,7 @@ class CourseController extends Controller
         $userId = Auth::id(); // hna khdit l id  ta3 l auth user
         $userLang = Auth::user()->language;
         return Inertia::render("courses/student/index", [
-            "courses" => Course::with("users:id")->get()->map(function ($course) use ($userId, $userLang) { // mappit 3la ga3 l courses  o 3ayat m3ahom 3la l users  o 3ayat ghi 3la l id dyal l user  li
+            "courses" => Course::with("users:id")->where('published', true)->get()->map(function ($course) use ($userId, $userLang) { // mappit 3la ga3 l courses  o 3ayat m3ahom 3la l users  o 3ayat ghi 3la l id dyal l user  li
                 //an7tajo bach n9arn  wach m enrolli fl course to avoid loading data li mam7tajhach
                 $course->name = $course->name[$userLang];
                 $course->description = $course->description[$userLang];
