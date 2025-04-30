@@ -14,7 +14,8 @@ class MeetingNotification extends Mailable
     public $language;
     public $date;
     public $time;
-
+    public $name;
+    public $subworkshoptitle;
     /**
      * Create a new message instance.
      *
@@ -22,13 +23,15 @@ class MeetingNotification extends Mailable
      * @param string $meetLink
      * @param string $language
      */
-    public function __construct($email, $meetLink, $language , $date , $time)
+    public function __construct($email, $meetLink, $language , $date , $time , $name ,$subworkshoptitle )
     {
         $this->email = $email;
         $this->meetLink = $meetLink;
         $this->language = $language;
         $this->date = $date;
         $this->time = $time;
+        $this->name = $name;
+        $this->subworkshoptitle = $subworkshoptitle->name;
     }
 
     /**
@@ -38,6 +41,8 @@ class MeetingNotification extends Mailable
      */
     public function build()
     {
+
+        // dd( $this->meetLink);
         if ($this->language == 'en') {
             return $this->view('maizzlMails.meetlinken')
                 ->with([
@@ -45,8 +50,13 @@ class MeetingNotification extends Mailable
                     'language' => $this->language,
                     'date' => $this->date,
                     'time' => $this->time,
+                    'name' => $this->name,
+                    'subworkshoptitle' => $this->subworkshoptitle,
                 ])
+
             ;
+
+
         } elseif ($this->language == 'fr') {
             return $this->view('maizzlMails.meetlinkfr')
                 ->with([
@@ -54,15 +64,26 @@ class MeetingNotification extends Mailable
                     'language' => $this->language,
                     'date' => $this->date,
                     'time' => $this->time,
+                    'name' => $this->name,
+                    'subworkshoptitle' => $this->subworkshoptitle,
                 ])
             ;
         } elseif ($this->language == 'ar') {
             return $this->view('maizzlMails.meetlinkar')
-                ->with([
+            ->with([
+                // dd($this->subworkshoptitle["ar"] ,
+                // $this->meetLink,
+                // $this->language,
+                // $this->date,
+                // $this->time,
+                // $this->name,
+                // ),
                     'meetLink' => $this->meetLink,
                     'language' => $this->language,
                     'date' => $this->date,
                     'time' => $this->time,
+                    'name' => $this->name,
+                    'subworkshoptitle' => $this->subworkshoptitle["ar"],
                 ])
             ;
         }

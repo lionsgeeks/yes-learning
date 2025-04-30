@@ -14,6 +14,8 @@ export default function Welcome() {
                 <div className="container flex h-20 items-center justify-between px-6 md:px-8">
                     <div className="flex items-center gap-3">
                         <img width={100} src="https://youthempowermentsummit.africa/assets/yeslogo-CWn7tdd7.png" alt="" />
+                        {/* <img width={70} src="https://youthempowermentsummit.africa/assets/Jadaralogo-DzOG7S5N.png" alt="" />
+                        <img width={70} className="bg-tra" src="https://youthempowermentsummit.africa/assets/pan-BL8bqcUX.jpeg" alt="" /> */}
                     </div>
                     <nav className="hidden md:flex gap-8">
                         <Link href="#features" className="text-sm font-medium hover:text-beta text-alpha transition-colors">
@@ -361,6 +363,7 @@ export default function Welcome() {
                         </div>
                         <p className="text-sm text-gray-500 max-w-xs">
                             Empowering NGOs across Africa through education and capacity building.
+                            by jadara fondation and Pan-African Youth Union
                         </p>
                     </div>
                     <div className="flex flex-col gap-3 md:flex-row md:gap-8">

@@ -25,16 +25,19 @@
 </head>
 <body style="margin: 0; width: 100%; padding: 0; -webkit-font-smoothing: antialiased; word-break: break-word">
   <div role="article" aria-roledescription="email" aria-label lang="en">
-    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <p style="font-size: 18px; font-weight: bold;">Hello,</p>
-      <p style="font-size: 16px;">This is a friendly reminder about your upcoming meeting. Here are the details:</p>
-      <p style="font-size: 16px; margin: 10px 0;"><strong>Date:</strong> {{ $date }}</p>
-      <p style="font-size: 16px; margin: 10px 0;"><strong>Time:</strong> {{ $time }}</p>
-      <p style="font-size: 16px;">You can join the meeting using the link below:</p>
-      <p style="text-align: center; margin: 20px 0;"></p>
-      <a href="{{ $meetLinks }}" target="_blank" style="background-color: #007BFF; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">Join Meeting</a>
-      <p></p>
-      <p style="font-size: 14px; color: #555;">Thank you!</p>
+    <div dir="rtl" style="font-family: 'Arial', sans-serif; line-height: 1.8; color: #333; text-align: right;">
+      <p style="font-size: 18px; font-weight: bold;">السيد/السيدة {{ $name }} المحترم،</p>
+      <p style="font-size: 16px;">يسرّنا دعوتكم للمشاركة في ورشة العمل القادمة ضمن برنامج YES Africa التدريبي، والتي تحمل العنوان التالي:</p>
+      <p style="font-size: 16px; margin: 10px 0;">🎓 <strong>عنوان الورشة:</strong> {{ $subworkshoptitle["ar"] }}</p>
+      <p style="font-size: 16px; margin: 10px 0;">📅 <strong>التاريخ:</strong> {{ $date }}</p>
+      <p style="font-size: 16px; margin: 10px 0;">🕙 <strong>الوقت:</strong> {{ $time }} (بتوقيت GMT+1)</p>
+      <p style="font-size: 16px;">🔗 <strong>رابط الجلسة:</strong></p>
+      <p style="text-align: center; margin: 20px 0;">
+        <a href="{{ $meetLink }}" target="_blank" style="background-color: #007BFF; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">انضم إلى الجلسة</a>
+      </p>
+      <p style="font-size: 16px;">مشاركتكم ضرورية لتعزيز مؤسستكم والاستعداد لقمة YES Africa.</p>
+      <p style="font-size: 14px; color: #555;">مع أطيب التحيات،</p>
+      <p style="font-size: 14px; color: #555;">فريق تنسيق YES Africa</p>
     </div>
   </div>
 </body>
