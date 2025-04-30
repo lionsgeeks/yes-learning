@@ -10,6 +10,7 @@ import AdminDiscussionsTable from "@/components/discussions/admin-discussions-ta
 import { Doughnut, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from "chart.js";
 import TransText from "@/components/TransText"
+import TruncateText from "@/components/TruncateText"
 import { useEffect, useState } from "react";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
@@ -161,17 +162,19 @@ export default function AdminDashboardPage() {
                             <Card className="lg:col-span-4">
                                 <CardHeader>
                                     <CardTitle>User Engagement</CardTitle>
-                                    <CardDescription>Daily active users over the last 30 days</CardDescription>
+                                    <CardDescription>Users Quiz Scores</CardDescription>
                                 </CardHeader>
                                 <CardContent className="h-[300px] overflow-auto">
                                     {
                                         quizzes.length > 0 ? (
                                             quizzes.map((quiz, index) => (
-                                                <div key={index}>
+                                                <div key={index} className={`py-3 px-2 border rounded ${index % 2 == 0 && "bg-gray-600/10"}`}>
                                                     <p className="w-full text-justify tracking-wide mb-2">
-                                                        <span className="font-bold">{quiz.user.name}</span> passed the quiz <span className="font-bold">
-                                                            <TransText {...JSON.parse(quiz.quiz.title)} />
-                                                        </span> with a score of <span className="font-bold">{Math.round(quiz.score)}</span>
+                                                        <span className="font-bold">
+                                                            <TruncateText text={quiz.user.name} length="25" />
+                                                        </span> passed <span className="font-bold">
+                                                            <TruncateText text={JSON.parse(quiz.quiz.title).en} length="25" />
+                                                        </span> with a score of <span className="font-bold text-alpha">{Math.round(quiz.score)}%</span>
                                                     </p>
                                                 </div>
                                             ))
@@ -211,7 +214,7 @@ export default function AdminDashboardPage() {
                                     </Button>
                                     <Button variant="outline" className="w-full justify-between" asChild>
                                         <Link href="/admin/create/library">
-                                            Upload Library Session (TODO)
+                                            Upload Library Session
                                             <ArrowUpRight className="h-4 w-4" />
                                         </Link>
                                     </Button>
@@ -237,7 +240,7 @@ export default function AdminDashboardPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-4">
-                                        {users.map((user, i) => (
+                                        {users.slice(0,4).map((user, i) => (
                                             <div key={i} className="flex items-center gap-3">
                                                 <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                                                     <Users className="h-4 w-4 text-muted-foreground" />

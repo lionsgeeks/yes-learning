@@ -57,7 +57,7 @@ class DashboardController extends Controller
         });
 
 
-        $users = User::where('role', null)->latest()->take(4)->get()->map(function ($user) {
+        $users = User::where('role', null)->latest()->get()->map(function ($user) {
             return [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -68,7 +68,7 @@ class DashboardController extends Controller
                 'courses' => $user->courses->count()
             ];
         });
-        $quizzes = QuizUser::with('user', 'quiz')->get();
+        $quizzes = QuizUser::with('user', 'quiz')->latest()->get();
 
 
         return Inertia::render("dashboard/adminDashboard", [
