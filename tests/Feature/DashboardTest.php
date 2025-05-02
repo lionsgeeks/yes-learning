@@ -19,6 +19,12 @@ class DashboardTest extends TestCase
     {
         $this->actingAs($user = User::factory()->create());
 
-        $this->get('/dashboard')->assertOk();
+        if ($user->language) {
+            $this->get('/dashboard')->assertOk();
+        } else {
+            $this->get('/steps')->assertOk();
+        }
+
+
     }
 }
