@@ -4,13 +4,13 @@ use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'verified', "role:user"])->group(function () {
+Route::middleware(['auth', 'verified', "role:user" ,"steps"])->group(function () {
     Route::resource("course", CourseController::class);
     Route::put("enroll/{course}" , [CourseController::class , "enroll"])->name("course.enroll");
     Route::post("/chapter/read" , [ChapterController::class, 'readChapters'])->name('chapter.read');
-    
-    
-    
+
+
+
 });
 
 

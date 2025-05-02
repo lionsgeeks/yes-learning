@@ -65,18 +65,26 @@ const { data, setData, post, processing, errors, reset } = useForm({
 
 
     const handleNext = () => {
-        if (step === 1) {
+        if (step === 1 ) {
+
             setStep(2)
         } else {
             // console.log(`Selected language: ${selectedLanguage}, Selected courses: ${selectedcourses.join(", ")}`)
-            post(route('stepss'), {
-                onSuccess: () => {
-                    router.visit('dashboard')
-                },
-                onError: (errors) => {
-                    console.error("Form submission error:", errors)
-                },
-            });
+            if (!selectedLanguage) {
+                alert("Please select a language")
+                return
+
+            }else{
+                post(route('stepss'), {
+                    onSuccess: () => {
+                        router.visit('dashboard')
+                    },
+                    onError: (errors) => {
+                        console.error("Form submission error:", errors)
+                    },
+                });
+
+            }
 
         }
     }

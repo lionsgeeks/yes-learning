@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
-Route::middleware(['auth', 'verified', "role:user"])->group(function () {
+Route::middleware(['auth', 'verified', "role:user" ,"steps"])->group(function () {
     Route::resource("quiz", QuizController::class);
 
     Route::post('/store/score', [QuizController::class, 'storeScore'])->name('store.score');

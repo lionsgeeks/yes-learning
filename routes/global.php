@@ -24,6 +24,8 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     })->name('auth.steps');
 
     Route::post('/stepss', [DashboardController::class, 'steps'])->name('stepss');
+    Route::get('/set-language', [DashboardController::class, 'setLanguage'])->name('set.language');
+
 
 });
 
@@ -33,8 +35,8 @@ Route::post('/update/language', [DashboardController::class, 'updateLanguage'])-
 
 Route::get('/unzip', function () {
     $zip = new \ZipArchive;
-    $zipPath = public_path('build.zip'); 
-    $extractTo = public_path();    
+    $zipPath = public_path('build.zip');
+    $extractTo = public_path();
 
     if (!file_exists($zipPath)) {
         return 'Zip file not found.';

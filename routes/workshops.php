@@ -4,7 +4,7 @@ use App\Http\Controllers\SubWorkshopController;
 use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'verified', "role:user"])->group(function () {
+Route::middleware(['auth', 'verified', "role:user" ,"steps"])->group(function () {
     Route::get('/workshop', [WorkshopController::class, 'studentIndex'])->name('student.workshops');
     Route::put("participate/{subWorkshop}" , [SubWorkshopController::class , "enroll"])->name("subWorkshop.enroll");
 

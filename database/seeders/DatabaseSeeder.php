@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'jadara',
             'email' => 'ngo@youthempowermentsummit.africa',
             'role' => NULL,
-            "language" =>null,
+            "language" =>"en",
             'password' => Hash::make('yesafrica'),
-        ]); 
+        ]);
     }
 }
