@@ -99,6 +99,15 @@ class DashboardController extends Controller
         return back();
     }
 
+    public function setLanguage()
+    {
+        // dd(User::where('language', null)->get());
+        User::where('language', null)->update([
+            'language' => 'en'
+        ]);
+        return back();
+    }
+
 
     public function updateLanguage(Request $request)
     {

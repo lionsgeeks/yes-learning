@@ -101,8 +101,10 @@ class SubWorkshopController extends Controller
     public function enroll(SubWorkshop $subWorkshop)
     {
 
+        // dd($subWorkshop);    
         $subWorkshop->users()->toggle(Auth::id()); //  b7al toggle ta3 javascript
 
+        // dd($subWorkshop);
         return redirect("/workshop");
     }
 

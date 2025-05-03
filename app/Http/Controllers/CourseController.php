@@ -6,11 +6,13 @@ use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Quiz;
 use App\Models\SubWorkshop;
+use App\Models\UserSubWorkshop;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use ReflectionClass;
 
 class CourseController extends Controller
 {
@@ -36,6 +38,7 @@ class CourseController extends Controller
                 });
                 unset($course->users); // hna 9bel mansift data  unlinkit l relation bach matmchich l  front  ( makayn lach  tmchi 7it lgharad  howa  n9ad kolchi  fl backend)
 
+                
                 return $course; //  akhiran  had l3ayba o l3ziz 3la amimto 3mro maytkhas
             })
         ]);
@@ -112,6 +115,21 @@ class CourseController extends Controller
     {
         $lang = Auth::user()->language;
         $quizId = $course->quiz()?->first()?->id;
+        $workshops = Workshop::where('course_id', $course->id)->first();
+
+        $subworkshops = SubWorkshop::where('workshop_id', $workshops->id)->get();
+
+        foreach ($subworkshops as $sub) {
+            UserSubWorkshop::updateOrCreate(
+                [
+                    'user_id' => Auth::id(),
+                    'sub_workshop_id' => $sub->id,
+                ],
+            );
+        }
+
+
+
 
         return Inertia::render("courses/student/[id]", [
             "course" => [
@@ -256,7 +274,8 @@ class CourseController extends Controller
 
 
         foreach ($allSubworkshops as $onesub) {
-             $subworkshopcontroller->enroll($onesub);
+
+            $subworkshopcontroller->enroll($onesub);
         }
 
 
