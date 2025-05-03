@@ -38,7 +38,7 @@ class CourseController extends Controller
                 });
                 unset($course->users); // hna 9bel mansift data  unlinkit l relation bach matmchich l  front  ( makayn lach  tmchi 7it lgharad  howa  n9ad kolchi  fl backend)
 
-                
+
                 return $course; //  akhiran  had l3ayba o l3ziz 3la amimto 3mro maytkhas
             })
         ]);
@@ -117,16 +117,20 @@ class CourseController extends Controller
         $quizId = $course->quiz()?->first()?->id;
         $workshops = Workshop::where('course_id', $course->id)->first();
 
-        $subworkshops = SubWorkshop::where('workshop_id', $workshops->id)->get();
+        if ($workshops) {
 
-        foreach ($subworkshops as $sub) {
-            UserSubWorkshop::updateOrCreate(
-                [
-                    'user_id' => Auth::id(),
-                    'sub_workshop_id' => $sub->id,
-                ],
-            );
-        }
+            $subworkshops = SubWorkshop::where('workshop_id', $workshops->id)->get();
+
+            foreach ($subworkshops as $sub) {
+                UserSubWorkshop::updateOrCreate(
+                    [
+                        'user_id' => Auth::id(),
+                        'sub_workshop_id' => $sub->id,
+                    ],
+                );
+            }
+        };
+
 
 
 
