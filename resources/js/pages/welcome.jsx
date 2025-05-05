@@ -1,60 +1,60 @@
 import { Button } from '@/components/ui/button';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { ArrowRight, BookOpen, CheckCircle, Globe, Users } from 'lucide-react';
-import africa50 from '../../../public/assets/images/sponsors/Africa_50.jpg';
-import cnuced from '../../../public/assets/images/sponsors/cnuced.jpeg';
-import iom from '../../../public/assets/images/sponsors/iom.jpeg';
-import jadara from '../../../public/assets/images/sponsors/Jadaralogo.png';
-import oit from '../../../public/assets/images/sponsors/oit.jpeg';
-import onusida from '../../../public/assets/images/sponsors/onusida.jpeg';
-import pan from '../../../public/assets/images/sponsors/pan.jpeg';
-import unfpa from '../../../public/assets/images/sponsors/unfpa.jpeg';
-import kamlin from '../../../public/assets/images/sponsors/kamlin.jpeg';
-import lionsgeek from '../../../public/assets/images/sponsors/lionsgeek.png';
-import iecd from '../../../public/assets/images/sponsors/iecd.png';
-import yeslearning from '../../../public/assets/images/yes-learning.png';
+// import africa50 from '../../../public/assets/images/sponsors/Africa_50.jpg';
+// import cnuced from '../../../public/assets/images/sponsors/cnuced.jpeg';
+// import iom from '../../../public/assets/images/sponsors/iom.jpeg';
+// import jadara from '../../../public/assets/images/sponsors/Jadaralogo.png';
+// import oit from '../../../public/assets/images/sponsors/oit.jpeg';
+// import onusida from '../../../public/assets/images/sponsors/onusida.jpeg';
+// import pan from '../../../public/assets/images/sponsors/pan.jpeg';
+// import unfpa from '../../../public/assets/images/sponsors/unfpa.jpeg';
+// import kamlin from '../../../public/assets/images/sponsors/kamlin.jpeg';
+// import lionsgeek from '../../../public/assets/images/sponsors/lionsgeek.png';
+// import iecd from '../../../public/assets/images/sponsors/iecd.png';
+// import yeslearning from '../../../public/assets/images/yes-learning.png';
 export default function Welcome() {
     const { auth } = usePage().props;
     console.log(auth);
     const sponsors = [
         {
-            img: africa50,
+            img: "Africa_50.jpg",
             name: 'Africa 50',
         },
         {
-            img: cnuced,
+            img: "cnuced.jpeg",
             name: 'Cnuced',
         },
         {
-            img: iom,
+            img: "iom.jpeg",
             name: 'IOM',
         },
 
         {
-            img: oit,
+            img: 'oit.jpeg',
             name: 'OIT',
         },
         {
-            img: onusida,
+            img: "onusida.jpeg",
             name: 'Onusida',
         },
 
         {
-            img: unfpa,
+            img: "unfpa.jpeg",
             name: 'UNFPA',
         },
     ];
     const technicalPartners = [
         {
-            img: kamlin,
+            img: "kamlin.jpeg",
             name: 'Kamlin',
         },
         {
-            img: lionsgeek,
+            img: "lionsgeek.png",
             name: 'Lions Geek',
         },
         {
-            img: iecd,
+            img: "iecd.png",
             name: 'IECD',
         },
     ];
@@ -64,7 +64,7 @@ export default function Welcome() {
             <header className="/80 sticky top-0 z-10 bg-white/30 backdrop-blur-md">
                 <div className="container flex h-20 items-center justify-between px-6 md:px-8">
                     <div className="flex items-center gap-3">
-                        <img width={140} src={yeslearning} alt="" />
+                        <img width={140} src={`/assets/images/yes-learning.png`}alt="" />
                     </div>
                     <nav className="hidden gap-8 md:flex">
                         <Link href="#features" className="hover:text-beta text-alpha text-sm font-medium transition-colors">
@@ -297,7 +297,7 @@ export default function Welcome() {
                         </div>
                         <div className="flex flex-col lg:flex-row  justify-between">
                             <div className="flex w-full lg:w-[50%] justify-center">
-                                <img className="" src={jadara} alt="" />
+                                <img className="" src={`/assets/images/sponsors/Jadaralogo.png}`} alt="" />
                             </div>
                             <div className="w-full lg:w-[50%] text-left">
                                 <h3 className="text-2xl font-bold">Jadara Foundation :</h3>
@@ -331,7 +331,7 @@ export default function Welcome() {
                                 </p>
                             </div>
                             <div className="flex w-full lg:w-[50%] justify-center">
-                                <img className="" src={pan} alt="" />
+                                <img className="" src={`/assets/images/sponsors/pan.jpeg`} alt="" />
                             </div>
                         </div>
                     </div>
@@ -344,7 +344,7 @@ export default function Welcome() {
                         <div className="flex flex-wrap justify-between w-full">
                             {sponsors.map((sponsor, index) => (
                                 <div key={index} className="flex justify-center">
-                                    <img className="aspect-square w-36 object-contain" src={sponsor.img} alt={sponsor.name} />
+                                    <img className="aspect-square w-36 object-contain" src={`/assets/images/sponsors/${sponsor.img}`} />
                                 </div>
                             ))}
                         </div>
@@ -354,9 +354,9 @@ export default function Welcome() {
                             <h2 className="text-3xl font-bold tracking-tighter text-[#295da6] sm:text-4xl md:text-5xl"> Technical Partners </h2>
                         </div>
                         <div className="flex flex-wrap justify-center gap-16">
-                            {technicalPartners.map((sponsor, index) => (
+                            {technicalPartners.map((partner, index) => (
                                 <div key={index} className="flex justify-center">
-                                    <img className="aspect-square w-36 object-contain" src={sponsor.img} alt={sponsor.name} />
+                                    <img className="aspect-square w-36 object-contain" src={`/assets/images/sponsors/${partner.img}`} />
                                 </div>
                             ))}
                         </div>
@@ -464,7 +464,7 @@ export default function Welcome() {
                 <div className="container flex flex-col gap-8 px-6 py-12 md:flex-row md:items-center md:justify-between md:px-8 md:py-16">
                     <div className="flex flex-col gap-3">
                         <div className="flex items-center gap-3">
-                            <img width={140} src={yeslearning} alt="yes-learning logo" />
+                            <img width={140} src="/assets/images/yes-learning.png" alt="yes-learning logo" />
                         </div>
                         <p className="max-w-xs text-sm text-gray-500">
                             Empowering NGOs across Africa through education and capacity building. by jadara fondation and Pan-African Youth Union
