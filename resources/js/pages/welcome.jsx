@@ -477,7 +477,7 @@ export default function Welcome() {
                         <Link href="#" className="text-sm transition-colors hover:text-[#295da6]">
                             Terms of Service
                         </Link>
-                        <a href="https://youthempowermentsummit.africa/contact" target='_blank' className="text-sm transition-colors hover:text-[#295da6]">
+                        <a   href="https://youthempowermentsummit.africa/contact" target='_blank' className="text-sm transition-colors hover:text-[#295da6]">
                             Contact
                         </a>
                     </div>

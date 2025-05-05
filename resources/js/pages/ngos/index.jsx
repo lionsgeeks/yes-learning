@@ -3,7 +3,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { Head, usePage, router } from '@inertiajs/react';
 import axios from 'axios';
-import africa_50 from '@/assets/africa_50.png';
 
 const NGOsTable = () => {
     const { ngos } = usePage().props;
