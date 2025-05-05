@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('link')->nullable();
+            $table->string('language');
             $table->string('coach');
             $table->foreignId('library_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();

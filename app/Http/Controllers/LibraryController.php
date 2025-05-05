@@ -56,6 +56,7 @@ class LibraryController extends Controller
             Sublibrary::create([
                 'title' => $library->title[$value],
                 'coach' => $subworkshop->instructor[$value],
+                'language' => $value,
                 'library_id' => $library->id
             ]);
         }
@@ -81,8 +82,11 @@ class LibraryController extends Controller
     public function showLibrary(Library $library)
     {
         // dd($library);
+        $library->load(['sublibraries' => function ($query) {
+            $query->where('language', Auth::user()->language);
+        }]);
         return Inertia::render('libraries/student/subLibraries', [
-            'library' => $library->load('sublibraries')
+            'library' => $library,
         ]);
     }
 

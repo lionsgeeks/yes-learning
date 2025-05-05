@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { SharedData, type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { Award, BadgeCheck, BookAIcon, BookOpen, Folder, LayoutGrid, LibraryBig, MailPlus, Workflow } from 'lucide-react';
+import { Award, BadgeCheck, BookAIcon, BookOpen, Building2, Folder, LayoutGrid, LibraryBig, MailPlus, Workflow } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const userItem: NavItem[] = [
@@ -41,6 +41,11 @@ const adminItems: NavItem[] = [
     //     url: '/admin/quiz',
     //     icon: LayoutGrid
     // },
+    {
+        title: 'Ngos',
+        url: '/admin/ngos',
+        icon: Building2,
+    },
     {
         title: 'Courses',
         url: '/admin/courses',

@@ -10,6 +10,7 @@ class Sublibrary extends Model
         'title',
         'link',
         'coach',
+        'language',
         'library_id',
     ];
     public function library()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Achivement;
 use App\Models\Quiz;
 use App\Models\QuizUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -42,9 +43,11 @@ class AchivementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Achivement $achivement)
+    public function showNgos()
     {
-        //
+        return Inertia::render('ngos/index', [
+            'ngos' => User::where('role', '!=', 'admin')->orWhereNull('role')->paginate(15),
+        ]);
     }
 
     /**
