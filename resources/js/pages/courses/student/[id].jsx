@@ -35,7 +35,7 @@ const CourseDetails = () => {
         chapters?.forEach((chapter) => {
             chapter.content?.forEach((cnt) => {
                 cnt.blocks?.forEach((block) => {
-                    if (block.type === 'document') {
+                    if (block?.type === 'document') {
                         console.log('document block', block);
                         const document = block.content;
                         docs.push(document);
@@ -85,7 +85,7 @@ const CourseDetails = () => {
                 {
                     label: 'Dataset',
                     data: content.data?.map((point) => point.value),
-                    backgroundColor: content.type === 'pie' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
+                    backgroundColor: content?.type === 'pie' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1,
                 },
@@ -96,7 +96,7 @@ const CourseDetails = () => {
             plugins: {
                 title: {
                     display: true,
-                    text: content.title || 'Chart Preview',
+                    text: content?.title || 'Chart Preview',
                 },
             },
         };
@@ -105,9 +105,9 @@ const CourseDetails = () => {
                 <div className="h-full w-full">
                     <div className="flex h-full items-center justify-center">
                         <div className="">
-                            {block.content.type === 'bar' && <Bar data={chartData} options={chartOptions} />}
-                            {block.content.type === 'line' && <Line data={chartData} options={chartOptions} />}
-                            {block.content.type === 'pie' && <Pie data={chartData} options={chartOptions} />}
+                            {block.content?.type === 'bar' && <Bar data={chartData} options={chartOptions} />}
+                            {block.content?.type === 'line' && <Line data={chartData} options={chartOptions} />}
+                            {block.content?.type === 'pie' && <Pie data={chartData} options={chartOptions} />}
                         </div>
                     </div>
                 </div>
@@ -203,7 +203,7 @@ const CourseDetails = () => {
                                                         <span
                                                             className={`w-[80%] ${index + 1 === currentSubModuleId ? '' : 'text-muted-foreground'}`}
                                                         >
-                                                            {subModule.title}
+                                                            {subModule?.title}
                                                         </span>
                                                     </div>
                                                     <div className="flex items-center gap-2">
@@ -243,7 +243,7 @@ const CourseDetails = () => {
 
                                         <TabsContent value="content" className="space-y-4">
                                             <div dir={auth.user.language === 'ar' ? 'rtl' : 'ltr'} className="flex items-center justify-between">
-                                                <h2 className="text-xl font-medium">{chapters[0].title} </h2>
+                                                <h2 className="text-xl font-medium">{chapters[0]?.title} </h2>
                                                 {/* <Button variant="outline" size="sm">
                                                 <PlusCircle className="mr-1 h-4 w-4" />
                                                 Save to Bookmarks
@@ -251,8 +251,8 @@ const CourseDetails = () => {
                                             </div>
 
                                             <div dir={auth.user.language === 'ar' ? 'rtl' : 'ltr'} className="prose max-w-none">
-                                                {chapters.flatMap((chapter, chapterIndex) =>
-                                                    chapter.content.flatMap((content, contentIndex) =>
+                                                {chapters?.flatMap((chapter, chapterIndex) =>
+                                                    chapter.content?.flatMap((content, contentIndex) =>
                                                         content.blocks?.map(
                                                             (block, blockIndex) =>
                                                                 chapterIndex + 1 === currentSubModuleId && (
@@ -261,19 +261,19 @@ const CourseDetails = () => {
                                                                         className="rounded-md p-4"
                                                                     >
                                                                         {/* Block Title */}
-                                                                        {block.content.title && (
-                                                                            <h3 className="mb-2 font-medium">{block.content.title}</h3>
+                                                                        {block.content?.title && (
+                                                                            <h3 className="mb-2 font-medium">{block.content?.title}</h3>
                                                                         )}
 
                                                                         {/* Text Block */}
-                                                                        {block.type === 'text' && block.content.body && (
+                                                                        {block?.type === 'text' && block.content.body && (
                                                                             <div className="prose max-w-none">
                                                                                 <p>{block.content.body}</p>
                                                                             </div>
                                                                         )}
 
                                                                         {/* Image Block */}
-                                                                        {block.type === 'image' && (
+                                                                        {block?.type === 'image' && (
                                                                             <div className="space-y-2">
                                                                                 <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
                                                                                     {/* <div className="text-muted-foreground">Image Preview</div> */}
@@ -292,7 +292,7 @@ const CourseDetails = () => {
                                                                         )}
 
                                                                         {/* Video Block */}
-                                                                        {block.type === 'video' && block.content.url && (
+                                                                        {block?.type === 'video' && block.content.url && (
                                                                             <div className="space-y-2">
                                                                                 <div className="bg-muted flex aspect-video items-center justify-center rounded-md">
                                                                                     <iframe
@@ -315,23 +315,23 @@ const CourseDetails = () => {
                                                                         )}
 
                                                                         {/* List Block */}
-                                                                        {block.type === 'list' && (
+                                                                        {block?.type === 'list' && (
                                                                             <div>
-                                                                                {block.content.type === 'bullet' ? (
+                                                                                {block.content?.type === 'bullet' ? (
                                                                                     <ul className="list-disc space-y-1 pl-5">
-                                                                                        {(block.content.items || ['Sample item'])?.map((item, i) => (
+                                                                                        {(block.content?.items || ['Sample item'])?.map((item, i) => (
                                                                                             <li key={i}>{item}</li>
                                                                                         ))}
                                                                                     </ul>
-                                                                                ) : block.content.type === 'numbered' ? (
+                                                                                ) : block.content?.type === 'numbered' ? (
                                                                                     <ol className="list-decimal space-y-1 pl-5">
-                                                                                        {(block.content.items || ['Sample item'])?.map((item, i) => (
+                                                                                        {(block.content?.items || ['Sample item'])?.map((item, i) => (
                                                                                             <li key={i}>{item}</li>
                                                                                         ))}
                                                                                     </ol>
                                                                                 ) : (
                                                                                     <div className="space-y-2">
-                                                                                        {(block.content.items || ['Sample item'])?.map((item, i) => (
+                                                                                        {(block.content?.items || ['Sample item'])?.map((item, i) => (
                                                                                             <div key={i} className="flex items-center">
                                                                                                 <CheckCircle className="text-primary mr-2 h-4 w-4" />
                                                                                                 <span>{item}</span>
@@ -343,7 +343,7 @@ const CourseDetails = () => {
                                                                         )}
 
                                                                         {/* Table Block */}
-                                                                        {block.type === 'table' && (
+                                                                        {block?.type === 'table' && (
                                                                             <div className="overflow-x-auto">
                                                                                 <table className="w-full border-collapse">
                                                                                     <thead>
@@ -381,17 +381,17 @@ const CourseDetails = () => {
                                                                         )}
 
                                                                         {/* Chart Block */}
-                                                                        {block.type === 'chart' && renderChart(block)}
+                                                                        {block?.type === 'chart' && renderChart(block)}
 
                                                                         {/* document block */}
-                                                                        {block.type === 'document' && (
+                                                                        {block?.type === 'document' && (
                                                                             <div className="space-y-2">
                                                                                 <div className="overflow-hidden rounded-md border">
                                                                                     <div className="bg-muted/30 flex items-center justify-between border-b p-3">
                                                                                         <div className="flex items-center">
                                                                                             <FileText className="text-primary mr-2 h-5 w-5" />
                                                                                             <div className="font-medium">
-                                                                                                <span>{block.content.title || 'PDF Document'}</span>
+                                                                                                <span>{block.content?.title || 'PDF Document'}</span>
                                                                                             </div>
                                                                                         </div>
                                                                                         <a
@@ -568,7 +568,7 @@ const CourseDetails = () => {
                                                         </div>
                                                         <div>
                                                             <div className="text-sm font-medium">
-                                                                <TruncateText text={attachment.title} length={8} />
+                                                                <TruncateText text={attachment?.title} length={8} />
                                                             </div>
                                                         </div>
                                                     </div>

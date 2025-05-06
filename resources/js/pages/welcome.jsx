@@ -18,15 +18,15 @@ export default function Welcome() {
     console.log(auth);
     const sponsors = [
         {
-            img: "Africa_50.jpg",
+            img: 'Africa_50.jpg',
             name: 'Africa 50',
         },
         {
-            img: "cnuced.jpeg",
+            img: 'cnuced.jpeg',
             name: 'Cnuced',
         },
         {
-            img: "iom.jpeg",
+            img: 'iom.jpeg',
             name: 'IOM',
         },
 
@@ -35,26 +35,26 @@ export default function Welcome() {
             name: 'OIT',
         },
         {
-            img: "onusida.jpeg",
+            img: 'onusida.jpeg',
             name: 'Onusida',
         },
 
         {
-            img: "unfpa.jpeg",
+            img: 'unfpa.jpeg',
             name: 'UNFPA',
         },
     ];
     const technicalPartners = [
         {
-            img: "kamlin.jpeg",
+            img: 'kamlin.jpeg',
             name: 'Kamlin',
         },
         {
-            img: "lionsgeek.png",
+            img: 'lionsgeek.png',
             name: 'Lions Geek',
         },
         {
-            img: "iecd.png",
+            img: 'iecd.png',
             name: 'IECD',
         },
     ];
@@ -64,7 +64,7 @@ export default function Welcome() {
             <header className="/80 sticky top-0 z-10 bg-white/30 backdrop-blur-md">
                 <div className="container flex h-20 items-center justify-between px-6 md:px-8">
                     <div className="flex items-center gap-3">
-                        <img width={140} src={`/assets/images/yes-learning.png`}alt="" />
+                        <img width={140} src={`/assets/images/yes-learning.png`} alt="" />
                     </div>
                     <nav className="hidden gap-8 md:flex">
                         <Link href="#features" className="hover:text-beta text-alpha text-sm font-medium transition-colors">
@@ -283,21 +283,25 @@ export default function Welcome() {
                         </div>
                     </div>
                 </section>
-                <section className="w-full px-10 py-16 md:py-28 lg:py-20">
+                <section className="w-full px-10 py-16 md:py-28 lg:py-2">
                     <div className="flex flex-col items-center justify-center space-y-16 text-center">
                         <div className="space-y-3">
                             <div className="inline-block rounded-lg bg-[#295da6]/10 px-4 py-1.5 text-sm font-medium text-[#295da6]">
                                 Platform Organizers
                             </div>
-                            <h2 className="text-3xl font-bold tracking-tighter text-[#295da6] sm:text-4xl md:text-5xl">About Organizers</h2>
-                            <p className="max-w-[900px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                            <h2 className="text-3xl font-bold tracking-tighter text-[#295da6] sm:text-4xl md:text-5xl">Co-Organized</h2>
+                            <div className='flex gap-5 flex-col-reverse lg:flex-row  justify-between py-2'>
+                                <img className="" src="/assets/images/sponsors/Jadaralogo.png" alt="" />
+                                <img className="" src={`/assets/images/sponsors/pan.jpeg`} alt="" />
+                            </div>
+                            {/* <p className="max-w-[900px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                                 Yes Learning platform is the result of a collaborative effort between the Jadara Foundation and Pan Africa, united in
                                 their mission to empower youth through accessible education.
-                            </p>
+                            </p> */}
                         </div>
-                        <div className="flex flex-col lg:flex-row  justify-between">
+                        {/* <div className="flex flex-col lg:flex-row  justify-between">
                             <div className="flex w-full lg:w-[50%] justify-center">
-                                <img className="" src={`/assets/images/sponsors/Jadaralogo.png}`} alt="" />
+                                <img className="" src="/assets/images/sponsors/Jadaralogo.png" alt="" />
                             </div>
                             <div className="w-full lg:w-[50%] text-left">
                                 <h3 className="text-2xl font-bold">Jadara Foundation :</h3>
@@ -333,25 +337,25 @@ export default function Welcome() {
                             <div className="flex w-full lg:w-[50%] justify-center">
                                 <img className="" src={`/assets/images/sponsors/pan.jpeg`} alt="" />
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </section>
-                <section id="sponsors" className="w-full py-16 md:py-28 lg:py-20 flex flex-col gap-16 px-10">
-                    <div className="flex flex-col items-center justify-center space-y-16 text-center">
-                        <div className="space-y-3">
+                <section id="sponsors" className="flex w-full flex-col gap-16 px-10 py-16 md:py-28 lg:py-20">
+                    {/* <div className="flex flex-col items-center justify-center space-y-16 text-center"> */}
+                        {/* <div className="space-y-3">
                             <h2 className="text-3xl font-bold tracking-tighter text-[#295da6] sm:text-4xl md:text-5xl">Partners </h2>
                         </div>
-                        <div className="flex flex-wrap justify-between w-full">
+                        <div className="flex w-full flex-wrap justify-between">
                             {sponsors.map((sponsor, index) => (
                                 <div key={index} className="flex justify-center">
                                     <img className="aspect-square w-36 object-contain" src={`/assets/images/sponsors/${sponsor.img}`} />
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                     <div className="flex flex-col items-center justify-center space-y-16 text-center">
                         <div className="space-y-3">
-                            <h2 className="text-3xl font-bold tracking-tighter text-[#295da6] sm:text-4xl md:text-5xl"> Technical Partners </h2>
+                            <h2 className="text-3xl font-bold tracking-tighter text-[#295da6] sm:text-4xl md:text-5xl"> Co-produced </h2>
                         </div>
                         <div className="flex flex-wrap justify-center gap-16">
                             {technicalPartners.map((partner, index) => (
@@ -477,7 +481,11 @@ export default function Welcome() {
                         <Link href="#" className="text-sm transition-colors hover:text-[#295da6]">
                             Terms of Service
                         </Link>
-                        <a   href="https://youthempowermentsummit.africa/contact" target='_blank' className="text-sm transition-colors hover:text-[#295da6]">
+                        <a
+                            href="https://youthempowermentsummit.africa/contact"
+                            target="_blank"
+                            className="text-sm transition-colors hover:text-[#295da6]"
+                        >
                             Contact
                         </a>
                     </div>

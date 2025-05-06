@@ -130,20 +130,7 @@ class CourseController extends Controller
                 );
             }
         };
-
-
-
-
-
-        return Inertia::render("courses/student/[id]", [
-            "course" => [
-                'id' => $course->id,
-                'name' => $course->name[$lang],
-                'description' => $course->description[$lang],
-                'label' =>  $course->label[$lang],
-            ],
-            "quizId" => $quizId,
-            "chapters" => Chapter::where("course_id", $course->id)
+        $chapters = Chapter::where("course_id", $course->id)
                 ->with(['users' => function ($query) {
                     $query->select('users.id');
                 }])
@@ -152,9 +139,22 @@ class CourseController extends Controller
                     $chapter->title = $chapter->title[$lang];
                     $chapter->description = $chapter->description[$lang];
                     $chapter->estimated_duration = $chapter->estimated_duration[$lang];
-                    $chapter->content = $chapter->content[$lang];
+                    $chapter->content = $chapter->content[$lang] ?? null;
                     return $chapter;
-                })
+                });
+                // dd($chapters);
+
+
+        
+        return Inertia::render("courses/student/[id]", [
+            "course" => [
+                'id' => $course->id,
+                'name' => $course->name[$lang],
+                'description' => $course->description[$lang],
+                'label' =>  $course->label[$lang],
+            ],
+            "quizId" => $quizId,
+            "chapters" => $chapters,
 
         ]);
     }
