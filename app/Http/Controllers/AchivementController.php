@@ -40,15 +40,6 @@ class AchivementController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function showNgos()
-    {
-        return Inertia::render('ngos/index', [
-            'ngos' => User::where('role', '!=', 'admin')->orWhereNull('role')->paginate(15),
-        ]);
-    }
 
     /**
      * Update the specified resource in storage.

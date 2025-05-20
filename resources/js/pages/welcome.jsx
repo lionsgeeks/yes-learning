@@ -57,6 +57,10 @@ export default function Welcome() {
             img: 'iecd.png',
             name: 'IECD',
         },
+        {
+            img: 'mediterranée.jpg',
+            name: 'MedNC',
+        },
     ];
     return (
         <div className="flex min-h-screen flex-col bg-white lg:p-6">

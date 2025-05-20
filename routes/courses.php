@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\NgoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified', "role:user" ,"steps"])->group(function () {
@@ -21,4 +22,6 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::get("/courses/{course}" , [CourseController::class, 'adminShow'])->name('admin.courses.show');
     Route::get("courses/preview/{course}" , [CourseController::class , "preview"])->name("course.preview");
     Route::post('/share/shapter', [ChapterController::class, 'shareBlock'])->name('chapter.share');
+    Route::get('/ngos', [NgoController::class, 'index'])->name('ngos.index');
+    Route::post('/ngos/{user}/invite', [NgoController::class, 'invitedToApp'])->name('ngos.invite');
 });
