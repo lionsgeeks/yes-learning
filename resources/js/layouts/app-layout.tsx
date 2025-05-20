@@ -3,6 +3,7 @@ import { type BreadcrumbItem } from "@/types";
 import { type ReactNode } from "react";
 import AppHeaderLayout from "@/layouts/app/app-header-layout";
 import AppSidebarLayout from "@/layouts/app/app-sidebar-layout";
+import { Toaster } from "@/components/ui/sonner";
 
 interface AppLayoutProps {
     children: ReactNode;
@@ -17,6 +18,7 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
     return (
         <LayoutComponent breadcrumbs={breadcrumbs} {...props}>
             {children}
+            <Toaster/>
         </LayoutComponent>
     );
 };
