@@ -8,14 +8,14 @@ import TransText from "@/components/TransText"
 export default function AppHeaderLayout({ children, breadcrumbs }: PropsWithChildren<{ breadcrumbs?: BreadcrumbItem[] }>) {
 
     const sponsors = [
-        'Africa_50.jpg',
-        'cnuced.jpeg',
-        'iom.jpeg',
+        // 'Africa_50.jpg',
+        // 'cnuced.jpeg',
+        // 'iom.jpeg',
         'Jadaralogo.png',
-        'oit.jpeg',
-        'onusida.jpeg',
+        // 'oit.jpeg',
+        // 'onusida.jpeg',
         'pan.jpeg',
-        'unfpa.jpeg',
+        // 'unfpa.jpeg',
         'kamlin.jpeg',
         'lionsgeek.png',
         'iecd.png',
@@ -90,7 +90,7 @@ export default function AppHeaderLayout({ children, breadcrumbs }: PropsWithChil
                                 ar="شركاؤنا"
                             />
                         </h2>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-11 gap-4 justify-items-center items-center px-4">
+                        <div className="grid grid-cols-5 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-5 gap-4 justify-items-center items-center px-4">
                             {sponsors.map((filename, index) => (
                                 <img
                                     key={index}

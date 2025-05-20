@@ -145,7 +145,7 @@ class CourseController extends Controller
                 // dd($chapters);
 
 
-        
+
         return Inertia::render("courses/student/[id]", [
             "course" => [
                 'id' => $course->id,

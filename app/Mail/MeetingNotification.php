@@ -2,12 +2,13 @@
 
 namespace App\Mail;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-
-class MeetingNotification extends Mailable
+use Illuminate\Bus\Queueable;
+class MeetingNotification extends Mailable implements ShouldQueue
 {
-    use SerializesModels;
+    use Queueable, SerializesModels;
 
     public $email;
     public $meetLink;

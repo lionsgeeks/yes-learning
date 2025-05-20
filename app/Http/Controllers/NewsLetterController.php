@@ -70,7 +70,10 @@ class NewsletterController extends Controller
 
         // dd($content);
 
-        $users = User::where('role', '!=', 'admin')->get();
+        $users = User::where('role', 'user')
+             ->orWhereNull('role')
+             ->get();
+
         // dd($users);
 
 
@@ -82,8 +85,8 @@ class NewsletterController extends Controller
                 $content = $new->content[$recipient->language];
                 $courses = $request->courses;
 
-                Mail::to($recipient['email'])->send(new NEwsletterMail($subject, $content , $courses));
-                // Mail::to("aymenboujjar12@gmail.com")->send(new NEwsletterMail($subject, $content , $courses));
+                // Mail::to($recipient['email'])->queue(new NEwsletterMail($subject, $content , $courses));
+                Mail::to("aymenboujjar12@gmail.com")->send(new NEwsletterMail($subject, $content , $courses));
 
             }
         }if ($request->recipient_type == "courses") {

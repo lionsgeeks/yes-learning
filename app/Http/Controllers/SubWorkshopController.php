@@ -101,7 +101,7 @@ class SubWorkshopController extends Controller
     public function enroll(SubWorkshop $subWorkshop)
     {
 
-        // dd($subWorkshop);    
+        // dd($subWorkshop);
         $subWorkshop->users()->toggle(Auth::id()); //  b7al toggle ta3 javascript
 
         // dd($subWorkshop);
@@ -128,7 +128,7 @@ class SubWorkshopController extends Controller
         $date = $sub->date;
         $time = $sub->time;
 
-            Mail::to($email)->send(new MeetingNotification($email, $meetLink , $language , $date , $time , $name , $subworkshoptitle));
+            Mail::to($email)->queue(new MeetingNotification($email, $meetLink , $language , $date , $time , $name , $subworkshoptitle));
 
     }
     }

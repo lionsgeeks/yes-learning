@@ -25,23 +25,27 @@
 </head>
 <body style="margin: 0; width: 100%; padding: 0; -webkit-font-smoothing: antialiased; word-break: break-word">
   <div role="article" aria-roledescription="email" aria-label lang="en">
-    <table style="width: 100%; background-color: #f9f9f9; font-family: Arial, sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
+    <table style="width: 100%; background-color: #f4f4f4; font-family: Arial, sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
       <tr>
-        <td style="padding: 20px;">
-          <table style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" cellpadding="0" cellspacing="0" role="presentation">
+        <td style="padding: 30px;">
+          <table style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 6px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);" cellpadding="0" cellspacing="0" role="presentation">
             <tr>
-              <td style="padding: 20px; text-align: center; background-color: #4CAF50; border-top-left-radius: 8px; border-top-right-radius: 8px;">
-                <h1 style="margin: 0; font-size: 24px; color: #ffffff;">{{ $subject }}</h1>
+              <td style="padding: 20px 24px; text-align: left; background-color: #003366; color: #ffffff; border-top-left-radius: 6px; border-top-right-radius: 6px;">
+                <h1 style="margin: 0; font-size: 20px; font-weight: 600;">{{ $subject }}</h1>
               </td>
             </tr>
             <tr>
-              <td style="padding: 20px; color: #333333; font-size: 16px; line-height: 1.6; word-break: break-word;">
+              <td style="padding: 20px 24px; font-size: 15px; color: #333333; line-height: 1.6;">
                 {!! nl2br(e($content)) !!}
               </td>
             </tr>
             <tr>
-              <td style="padding: 20px; text-align: center; background-color: #f1f1f1; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
-                <p style="margin: 0; font-size: 14px; color: #777777;">Thank you for being with us!</p>
+              <td style="padding: 20px 24px; background-color: #f1f1f1; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; font-size: 13px; color: #555555;">
+                <p style="margin: 0;">Best regards,</p>
+                <p style="margin: 4px 0 0;">YES AFRICA</p>
+                <p style="margin: 4px 0 0;"></p>
+                <a href="https://learning.youthempowermentsummit.africa/" style="margin: 4px 0 0;" target="_blank" rel="noopener noreferrer"></a>
+                <p style="margin: 4px 0 0;">contact@youthempowermentsummit.africa</p>
               </td>
             </tr>
           </table>
