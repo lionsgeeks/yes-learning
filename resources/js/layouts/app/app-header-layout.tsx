@@ -78,7 +78,7 @@ export default function AppHeaderLayout({ children, breadcrumbs }: PropsWithChil
                             />
                         </p>
                     </div>
-                    <div className='flex justify-center gap-10'>
+                    <div className='flex justify-evenly lg:flex-row flex-col gap-10'>
                         <div className="mt-12 flex flex-col items-center justify-center">
                             <h2 className="mb-4 text-center text-lg font-semibold text-gray-700">
                                 <TransText en="Co-Organized" fr="Co-Organized" ar="تم تنظيمه بالتعاون بين" />

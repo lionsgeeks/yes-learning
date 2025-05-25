@@ -32,7 +32,7 @@ export default function Dashboard() {
                     </h1>
                 </div>
                 <div className="grid auto-rows-min gap-4 md:grid-cols-2">
-                    {courses.slice(0, 2).map((course, index) => (
+                    {courses.filter(course => ((course.completedCount / course.chapterCount) * 100 > 0) && (course.completedCount / course.chapterCount) * 100 < 100 ).slice(0, 2).map((course, index) => (
                         <div
                             key={index}
                             className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border"

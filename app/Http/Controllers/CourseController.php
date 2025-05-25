@@ -131,7 +131,7 @@ class CourseController extends Controller
             }
         };
         $chapters = Chapter::where("course_id", $course->id)
-                ->with(['users' => function ($query) {
+                            ->with(['users' => function ($query) {
                     $query->select('users.id');
                 }])
                 ->get()

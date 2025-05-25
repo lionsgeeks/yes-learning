@@ -170,17 +170,17 @@ export default function WorkshopsPage({ workshops, chapters }) {
                                                 <>
 
                                                     <TransText en=
-                                                        <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={workshop.meetLink.en} target="_blank" rel="noopener noreferrer">
+                                                        <a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"   href={`https://${workshop.meetLink.en.replace(/^https?:\/\//, '')}`} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             Join
                                                         </a>
 
-                                                        fr=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={workshop.meetLink.fr} target="_blank" rel="noopener noreferrer">
+                                                        fr=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"   href={`https://${workshop.meetLink.fr.replace(/^https?:\/\//, '')}`} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             rejoindre
                                                         </a>
 
-                                                        ar=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" href={workshop.meetLink.ar} target="_blank" rel="noopener noreferrer">
+                                                        ar=<a class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"   href={`https://${workshop.meetLink.ar.replace(/^https?:\/\//, '')}`} target="_blank" rel="noopener noreferrer">
                                                             <ExternalLink className="mr-2 h-4 w-4" />
                                                             انضمَّ
                                                         </a>

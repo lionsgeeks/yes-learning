@@ -27,7 +27,7 @@ export default function achievementTable({ quizzes, userQuiz }) {
                     quizzes?.map((quiz, i) => (
                         <>
                             <Card key={i} className={`${didQuiz(quiz.id) ? "bg-beta/10" : "opacity-40"}`}>
-                                <Link href="" className="cursor-default" >
+                                <div  className="cursor-default" >
                                     <CardContent className="p-6">
                                         <div className="text-center">
                                             <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -57,7 +57,7 @@ export default function achievementTable({ quizzes, userQuiz }) {
                                             </div>
                                         </div>
                                     </CardContent>
-                                </Link>
+                                </div>
                             </Card>
                         </>
                     ))
