@@ -1,0 +1,1 @@
+import{r as n}from"./app-DyttysuU.js";import{o as l}from"./render-CVLjfbqq.js";let f=Symbol();function m(...o){let t=n.useRef(o);n.useEffect(()=>{t.current=o},[o]);let u=l(r=>{for(let e of t.current)e!=null&&(typeof e=="function"?e(r):e.current=r)});return o.every(r=>r==null||(r==null?void 0:r[f]))?void 0:u}export{m as y};

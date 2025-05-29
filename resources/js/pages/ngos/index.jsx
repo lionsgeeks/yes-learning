@@ -26,7 +26,7 @@ const NGOsTable = () => {
 
     const handleInvite = (ngo) => {
         axios
-            .post('http://192.168.100.136:8000/api/register/participant', { name: ngo.name, email: ngo.email, role: 'ngo' })
+            .post('https://app.youthempowermentsummit.africa/api/register/participant', { name: ngo.name, email: ngo.email, role: 'ngo' })
             .then((response) => {
                 console.log(response.status);
                 // alert(`Invite sent to ${ngo.name}`);
