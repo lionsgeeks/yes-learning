@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return  $this->belongsToMany(Chapter::class, 'chapter_users');
     }
+
+    public function quizScore()
+    {
+        return $this->hasMany(QuizUser::class);
+    }
 }

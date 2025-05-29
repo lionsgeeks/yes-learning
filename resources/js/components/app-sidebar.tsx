@@ -78,9 +78,9 @@ export function AppSidebar() {
 
 
     return (
-        <Sidebar collapsible="icon" variant="inset">
-            <SidebarHeader>
-                <SidebarMenu>
+        <Sidebar collapsible="icon" variant="inset" className="bg-beta/10">
+            <SidebarHeader className='bg-beta/10'>
+                <SidebarMenu className=''>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <Link href="/dashboard" prefetch>
@@ -91,12 +91,12 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarContent>
+            <SidebarContent className='bg-beta/10'>
                 <NavMain items={auth.user.role == "admin" ? adminItems : userItem} />
             </SidebarContent>
 
 
-            <SidebarFooter>
+            <SidebarFooter className='bg-beta/10'>
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

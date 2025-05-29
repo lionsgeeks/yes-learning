@@ -11,3 +11,4 @@ require __DIR__ . '/courses.php';
 require __DIR__ . '/library.php';
 require __DIR__ . '/quiz.php';
 require __DIR__ . '/global.php';
+require __DIR__ . '/ngos.php';

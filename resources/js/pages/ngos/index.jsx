@@ -6,6 +6,14 @@ import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
+
+const breadcrumbs = [
+    {
+        title: 'NGOs',
+        href: '/ngos',
+    },
+];
+
 const NGOsTable = () => {
     const { ngos } = usePage().props;
     const [searchQuery, setSearchQuery] = useState('');
@@ -56,7 +64,7 @@ const NGOsTable = () => {
     const filteredNgos = ngos?.data.filter((ngo) => ngo.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Ngo's" />
             <div className="p-6">
                 <div className="mb-4 flex items-center justify-between">
@@ -81,7 +89,11 @@ const NGOsTable = () => {
                         <TableBody>
                             {filteredNgos.map((ngo) => (
                                 <TableRow key={ngo.id}>
-                                    <TableCell>{ngo.name}</TableCell>
+                                    <TableCell>
+                                        <a href={`/admin/ngos/${ngo.id}`} className="text-alpha hover:underline">
+                                            {ngo.name}
+                                        </a>
+                                    </TableCell>
                                     <TableCell>{ngo.email}</TableCell>
                                     <TableCell>
                                         {ngo.invitedToApp ? (

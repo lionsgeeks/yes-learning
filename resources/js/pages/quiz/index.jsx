@@ -4,11 +4,18 @@ import QuizStudentScore from '../../components/quizComponents/studentTable';
 import CreateQuizPage from '../../components/quizComponents/createQuiz';
 import { Head } from '@inertiajs/react';
 
+const breadcrumbs = [
+    {
+        title: 'Quiz',
+        href: '/quiz',
+    },
+];
+
 export default function QuizIndex() {
 
     return (
-        <AppLayout>
-        <Head title='Quiz Components' />
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title='Quiz Components' />
             <div className='grid lg:grid-cols-4 gap-3 p-6'>
 
                 {/* Quiz Creation Component */}
