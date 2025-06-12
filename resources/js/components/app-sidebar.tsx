@@ -36,13 +36,8 @@ const adminItems: NavItem[] = [
         url: '/admin/dashboard',
         icon: LayoutGrid,
     },
-    // {
-    //     title: 'Quiz Components',
-    //     url: '/admin/quiz',
-    //     icon: LayoutGrid
-    // },
     {
-        title: 'Ngos',
+        title: 'Users',
         url: '/admin/ngos',
         icon: Building2,
     },

@@ -1,6 +1,4 @@
-"use client"
-
-import React, { useState } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -60,7 +58,6 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters ,workshop 
         notificationTime: '24h',
         published: false,
     })
-// console.log(data);
 
     const nextStep = () => {
         setStep((prev) => Math.min(prev + 1, 3))
@@ -176,41 +173,6 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters ,workshop 
                                 </TabsContent>
                             ))}
                         </Tabs>
-                        {/* <div className="space-y-2">
-                            <Label htmlFor="name">Sub-Workshop Title</Label>
-                            <Input
-                                id="name"
-                                placeholder="Enter title"
-                                value={data.name}
-                                onChange={e => setData('name', e.target.value)}
-                                error={errors.name}
-                            />
-                            {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="description">Description</Label>
-                            <Textarea
-                                id="description"
-                                placeholder="Enter description"
-                                value={data.description}
-                                onChange={e => setData('description', e.target.value)}
-                                error={errors.description}
-                            />
-                            {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="prerequisite">Prerequisite</Label>
-                            <Textarea
-                                id="prerequisite"
-                                placeholder="Enter prerequisite"
-                                value={data.prerequisite}
-                                onChange={e => setData('prerequisite', e.target.value)}
-                                error={errors.prerequisite}
-                            />
-                            {errors.prerequisite && <p className="text-sm text-red-500">{errors.prerequisite}</p>}
-                        </div> */}
 
                         <div className="space-y-2">
                             <Label htmlFor="course">Associated chapter</Label>
@@ -358,7 +320,7 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters ,workshop 
                                 />
                             </div>
 
-                            {data.sendNotifications && (
+                            {/* {data.sendNotifications && (
                                 <div className="space-y-2">
                                     <Label htmlFor="notificationTime">Notification Schedule</Label>
                                     <Select
@@ -375,7 +337,7 @@ export function CreateSubWorkshopModal({ open, onOpenChange, chapters ,workshop 
                                         </SelectContent>
                                     </Select>
                                 </div>
-                            )}
+                            )} */}
 
                             <div className="flex items-center justify-between">
                                 <div className="space-y-0.5">

@@ -68,7 +68,7 @@ class DashboardController extends Controller
                 'courses' => $user->courses->count()
             ];
         });
-        $quizzes = QuizUser::with('user', 'quiz')->latest()->get();
+        $quizzes = QuizUser::with('user', 'quiz')->latest()->take(40)->get();
 
 
         return Inertia::render("dashboard/adminDashboard", [

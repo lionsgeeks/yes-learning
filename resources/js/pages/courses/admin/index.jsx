@@ -7,13 +7,19 @@ import { CourseCard } from '@/components/courses/course-card';
 import { CreateCourseModal } from '@/components/courses/create/create-course-modal';
 import { Button } from '@/components/ui/button';
 
+const breadcrumbs = [
+    {
+        title: 'Courses',
+        href: `/admin/courses`,
+    },
+];
 
 const AdminCourses = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const { courses } = usePage().props;
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={'Courses'} />
             <div className="space-y-6 p-3 lg:p-6">
                 <div className="flex items-center justify-between">
