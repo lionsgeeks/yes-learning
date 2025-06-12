@@ -96,7 +96,7 @@ export default function AppHeaderLayout({ children, breadcrumbs }: PropsWithChil
                         </div>
                         <div className="mt-12 flex flex-col items-center justify-center">
                             <h2 className="mb-4 text-center text-lg font-semibold text-gray-700">
-                                <TransText en="Co-produced" fr="Co-produced" ar=" تم إنتاجه بالتعاون مع" />
+                                <TransText en="Co-Produced" fr="Co-Produced" ar="تم إنتاجه بالتعاون مع" />
                             </h2>
                             <div className="grid grid-cols-4 items-center justify-items-center gap-6 px-4">
                                 {sponsors.map((filename, index) => (
@@ -112,7 +112,7 @@ export default function AppHeaderLayout({ children, breadcrumbs }: PropsWithChil
                     </div>
 
                     <div className="mt-6 flex justify-center gap-6 text-sm text-gray-500">
-                        <a href="#" className="hover:underline">
+                        <a href="https://youthempowermentsummit.africa/contact" className="hover:underline">
                             <TransText en="Contact Us" fr="Contactez-nous" ar="اتصل بنا" />
                         </a>
                     </div>
