@@ -20,7 +20,7 @@ export function WorkshopCard({ workshop, courses }) {
     };
 
     return (
-        <Card className="overflow-hidden pb-0 transition-all hover:shadow-md h-full flex flex-col">
+        <Card className="overflow-hidden pb-0 transition-all hover:shadow-md h-full flex flex-col cursor-auto">
             <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
                     <div>

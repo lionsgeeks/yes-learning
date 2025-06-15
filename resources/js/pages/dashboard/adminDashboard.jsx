@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import AppLayout from '@/layouts/app-layout';
 import { ArrowUpRight, BookOpen, FileText, TrendingUp, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import AdminUsersTable from "@/components/usersComponents/admin-users-table.jsx"
 import Achievement from "@/components/achievement/achievement.jsx"
 import AdminDiscussionsTable from "@/components/discussions/admin-discussions-table.jsx";
@@ -170,11 +170,14 @@ export default function AdminDashboardPage() {
                                             quizzes.map((quiz, index) => (
                                                 <div key={index} className={`py-3 px-2 border rounded ${index % 2 == 0 && "bg-gray-600/10"}`}>
                                                     <p className="w-full text-justify tracking-wide mb-2">
-                                                        <span className="font-bold">
+                                                        <button
+                                                            onClick={() => { router.visit('ngos/' + quiz.id) }}
+                                                            className="font-bold underline">
                                                             <TruncateText text={quiz.user.name} length="25" />
-                                                        </span> passed <span className="font-bold">
+                                                        </button> passed <span className="font-bold">
                                                             <TruncateText text={JSON.parse(quiz.quiz.title).en} length="25" />
-                                                        </span> with a score of <span className="font-bold text-alpha">{Math.round(quiz.score)}%</span>
+                                                        </span>
+                                                        with a score of <span className="font-bold text-alpha">{Math.round(quiz.score)}%</span>
                                                     </p>
                                                 </div>
                                             ))
@@ -240,7 +243,7 @@ export default function AdminDashboardPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-4">
-                                        {users.slice(0,4).map((user, i) => (
+                                        {users.slice(0, 4).map((user, i) => (
                                             <div key={i} className="flex items-center gap-3">
                                                 <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                                                     <Users className="h-4 w-4 text-muted-foreground" />
@@ -387,7 +390,7 @@ export default function AdminDashboardPage() {
                 title="Manage Users"
                 description="Check Students Information"
                 Users={users}
-                role={1}
+                // role={1}
                 courses={1}
                 joinDate={1}
                 showAddButton={false}

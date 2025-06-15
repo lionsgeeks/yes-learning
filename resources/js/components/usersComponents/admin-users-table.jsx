@@ -179,8 +179,8 @@ export default function AdminUsersTable({
                                     <TableHead className="w-full ">User</TableHead>
                                     {role && <TableHead className="w-full">Role</TableHead>}
                                     {/* <TableHead className="w-full">Status</TableHead> */}
-                                    {courses && <TableHead className="w-full">Subscribed Courses</TableHead>}
-                                    {joinDate && <TableHead className="w-full">Join Date</TableHead>}
+                                    {courses && <TableHead className="w-full text-center">Subscribed Courses</TableHead>}
+                                    {joinDate && <TableHead className="w-full text-center">Join Date</TableHead>}
                                     {/* <TableHead className="text-right w-full">Actions</TableHead> */}
                                 </TableRow>
                             </TableHeader>
@@ -263,8 +263,8 @@ export default function AdminUsersTable({
                                                 {user.status}
                                             </Badge>
                                         </TableCell> */}
-                                        {courses && <TableCell className="w-full">{user.courses}</TableCell>}
-                                        {joinDate && <TableCell className="w-full">{formatDate(user.created_at)}</TableCell>}
+                                        {courses && <TableCell className="w-full text-center">{user.courses}</TableCell>}
+                                        {joinDate && <TableCell className="w-full text-center">{formatDate(user.created_at)}</TableCell>}
                                         {/* <TableCell className="text-right w-full lg:flex hidden lg:items-end lg:justify-end">
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
