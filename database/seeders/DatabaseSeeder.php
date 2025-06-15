@@ -16,33 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::create([
-            'name' => 'Yes Africa',
-            'email' => 'admin@youthempowermentsummit.africa',
-            'role' => 'admin',
-            "language" =>"en",
-            'password' => Hash::make('yesafrica'),
-        ]);
-        User::create([
-            'name' => 'MEDNC',
-            'email' => 'mednc@youthempowermentsummit.africa',
-            'role' => 'admin',
-            "language" =>"en",
-            'password' => Hash::make('yesafrica'),
-        ]);
-        User::create([
-            'name' => 'Kamlin Lab',
-            'email' => 'kamlinlab@youthempowermentsummit.africa',
-            'role' => 'admin',
-            "language" =>"en",
-            'password' => Hash::make('yesafrica'),
-        ]);
-        User::create([
-            'name' => 'jadara',
-            'email' => 'ngo@youthempowermentsummit.africa',
-            'role' => NULL,
-            "language" =>"en",
-            'password' => Hash::make('yesafrica'),
-        ]);
+        
     }
 }
